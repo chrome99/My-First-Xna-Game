@@ -8,7 +8,7 @@ namespace My_first_xna_game
 {
     public class Camera
     {
-        private Map map;
+        public Map map;
         private Vector2 cellNumber(Player player)
         {
             Vector2 result;
@@ -42,19 +42,25 @@ namespace My_first_xna_game
 
         public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
         {
-            if (option == 1)
+            switch (option)
             {
+                case 0:
+                    Move(map.player1.position - cellNumber(map.player1));
+                    break;
 
-                Move(map.player1.position - cellNumber(map.player1));
-            }
-            else
-            {
-                Move(map.player2.position - cellNumber(map.player2));
-            }
-            
-            //mapRect.X += (int)map.player.position.X; 
-            //mapRect.Y += (int)map.player.position.Y;
-            map.Update(newState, oldState, gameTime);            
+                case 1:
+                    Move(map.player2.position - cellNumber(map.player2));
+                    break;
+
+                case 2:
+                    Move(map.player3.position - cellNumber(map.player3));
+                    break;
+
+                case 3:
+                    Move(map.player4.position - cellNumber(map.player4));
+                    break;
+
+            }      
         }
 
         public void Draw(SpriteBatch spriteBatch)

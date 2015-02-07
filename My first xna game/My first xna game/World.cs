@@ -23,9 +23,15 @@ namespace My_first_xna_game
 
         public override void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
         {
+            bool mapUpdated = false;
             foreach (Camera camera in cameraList)
             {
                 camera.Update(newState, oldState, gameTime);
+                if (!mapUpdated)
+                {
+                    camera.map.Update(newState, oldState, gameTime, camera);
+                    mapUpdated = true;
+                }
             }
         }
         public override void Draw(SpriteBatch spriteBatch)

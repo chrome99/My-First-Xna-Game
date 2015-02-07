@@ -97,13 +97,13 @@ namespace My_first_xna_game
             Vector2 squareOffset = new Vector2(mapRect.X % Tile.size, mapRect.Y % Tile.size);
             int offsetX = (int)squareOffset.X;
             int offsetY = (int)squareOffset.Y;
-            for (int x = screenRect.X / Tile.size; x < (screenRect.X + screenRect.Width) / Tile.size; x++)
+            for (int x = screenRect.X / Tile.size; x < (screenRect.X + screenRect.Width) / Tile.size + 1; x++)
             {
-                for (int y = screenRect.Y / Tile.size; y < (screenRect.Y + screenRect.Height) / Tile.size; y++)
+                for (int y = screenRect.Y / Tile.size; y < (screenRect.Y + screenRect.Height) / Tile.size + 1; y++)
                 {
                     int positionX = x * Tile.size - offsetX;
                     int positionY = y * Tile.size - offsetY;
-                    foreach (Layer tileID in Rows[y + firstY].Columns[x + firstX].layers)
+                    foreach (Layer tileID in Rows[(int)MathHelper.Clamp(y + firstY, 0, height)].Columns[(int)MathHelper.Clamp(x + firstX, 0, width)].layers)
                     {
                         spriteBatch.Draw(
                             tileset,

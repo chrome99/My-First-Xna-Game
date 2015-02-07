@@ -122,13 +122,15 @@ namespace My_first_xna_game
                     case 0:
                         //build map
                         TileMap tileMap = new TileMap(Game.content.Load<Texture2D>("Grassland"), TileMap.MapDesign.trees, 50, 50);
-                        map = new Map(tileMap, 1);
+                        map = new Map(tileMap);
                         map.AddObjectInstance(new ObjectInstance1(map));
-                        Camera camera1 = new Camera(new Rectangle(0, 0, 320, 480), map, 1);
-                        Camera camera2 = new Camera(new Rectangle(320, 0, 320, 480), map, 0);
+                        Camera camera1 = new Camera(new Rectangle(0, 0, 960, 540), map, 0);
+                        Camera camera2 = new Camera(new Rectangle(0, 540, 960, 540), map, 1);
+                        Camera camera3 = new Camera(new Rectangle(960, 0, 944, 540), map, 2);
+                        Camera camera4 = new Camera(new Rectangle(960, 540, 944, 540), map, 3);
 
                         //set scene to map
-                        Game.scene = new World(new List<Camera> { camera1, camera2 });
+                        Game.scene = new World(new List<Camera> { camera1, camera2, camera3, camera4 });
                         break;
 
                     case 1:

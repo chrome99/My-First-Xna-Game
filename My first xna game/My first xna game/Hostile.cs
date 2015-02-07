@@ -49,7 +49,6 @@ namespace My_first_xna_game
 
         protected override void UpdateHostile()
         {
-            UpdatePlayer();
             UpdateEnemy();
 
             //if killed
@@ -61,8 +60,6 @@ namespace My_first_xna_game
             //update timer max
             cooldownTimer.max = stats.cooldown;
         }
-
-        protected virtual void UpdatePlayer() { }
 
         protected virtual void UpdateEnemy() { }
 

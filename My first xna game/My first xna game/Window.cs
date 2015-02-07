@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace My_first_xna_game
 {
@@ -56,7 +56,7 @@ namespace My_first_xna_game
                 //draw items
                 foreach (WindowItem item in itemsList)
                 {
-                    if (item is Text || item is Picture)
+                    if (item is Text || item is Picture || item is Selector)
                     {
                         item.Draw(spriteBatch);
                     }

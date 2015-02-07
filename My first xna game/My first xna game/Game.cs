@@ -13,8 +13,15 @@ namespace My_first_xna_game
     {
         /*
          TODO:
-         * fix the player mapPosition. make the camera follow the player. and make npc's.
-         * inventory
+         * draw and update only objects within the camera, and check for collision only within the camera.
+         * screen buffer for each camera
+         * check how enemies react to four players
+         * make hud for every player
+         * fix debug and inventory position for every player
+         * npc's
+         * trade
+         * pvp
+         * pickup items
          * skills
          * equipment
          * levels (in level up you can upgrade skills or stats)
@@ -28,7 +35,6 @@ namespace My_first_xna_game
          * core collision
          * title screen and menus
          * change the "using"
-         * two players (cameras(split screen (every player has a camera?), make camera not static, window that you can insert to it cameras), enemies, debug, hud)
          * fix size in childs of gameobject
          * ini file with configuration.
          
@@ -67,15 +73,13 @@ namespace My_first_xna_game
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferHeight = 480;
-            graphics.PreferredBackBufferWidth = 640;
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.PreferredBackBufferWidth = 1920;
             Content.RootDirectory = "Content";
         }
 
         protected override void Initialize()
         {
-            //world rectangle
-            //worldRect = new Rectangle(0, 0, graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height);
 
             content = Content;
 

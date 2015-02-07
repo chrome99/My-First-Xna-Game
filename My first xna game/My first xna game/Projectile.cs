@@ -24,7 +24,7 @@ namespace My_first_xna_game
             this.source = source;
             this.maxLength = maxLength;
             direction = source.direction;
-            map.projectilesList.Add(this);
+            map.AddObject(this);
         }
 
         protected override void UpdateProjectile()

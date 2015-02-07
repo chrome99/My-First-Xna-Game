@@ -32,6 +32,8 @@ namespace My_first_xna_game
             this.layout = layout;
             this.newRow = newRow;
 
+            source.itemsList.Add(this);
+
             texture = source.texture;
             opacity = 30f;
             depth = Game.DepthToFloat(Game.Depth.windowsSelector);

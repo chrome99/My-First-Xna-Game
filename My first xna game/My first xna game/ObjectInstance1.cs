@@ -36,9 +36,9 @@ namespace My_first_xna_game
             block = new Sprite(Content.Load<Texture2D>("box1"), new Vector2(700f, 750f), Game.Depth.player, 2);
             runningSwitch = new Sprite(Content.Load<Texture2D>("brick1"), new Vector2(200f, 250f), Game.Depth.below, 2);
             runningSwitch.through = true;
-            box1 = new Sprite(Content.Load<Texture2D>("box1"), new Vector2(300f, 300f), Game.Depth.player, 2);
+            box1 = new Sprite(Content.Load<Texture2D>("box1"), new Vector2(400f, 400f), Game.Depth.player, 2);
             box1.tags.Add("box");
-            box2 = new Sprite(Content.Load<Texture2D>("box1"), new Vector2(300f, 350f), Game.Depth.player, 2);
+            box2 = new Sprite(Content.Load<Texture2D>("box1"), new Vector2(400f, 450f), Game.Depth.player, 2);
             box2.tags.Add("box");
             portal = new Sprite(Content.Load<Texture2D>("player1"), new Vector2(50f, 100f), Game.Depth.player, 2);
             portal.through = true;

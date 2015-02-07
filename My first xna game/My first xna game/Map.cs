@@ -7,15 +7,14 @@ using Microsoft.Xna.Framework.Content;
 
 namespace My_first_xna_game
 {
-    public class Map : Scene
+    public class Map
     {
         public static List<Hostile> defultTargetsList = new List<Hostile>();
         public List<GameObject> gameObjectList = new List<GameObject>();
-        public List<Projectile> projectilesList = new List<Projectile>();
         public Player player1;
         public Player player2;
-        private Debug debug1;
-        private Debug debug2;
+        public Player player3;
+        public Player player4;
         private Window hud;
         private Text hudText;
         private Picture hudPicture;
@@ -23,19 +22,22 @@ namespace My_first_xna_game
         public delegate void UpdateCollision();
         private List<UpdateCollision> UpdateInstanceCollision = new List<UpdateCollision>();
 
-        public Map(TileMap tileMap, int option)
+        public Map(TileMap tileMap)
         {
             this.tileMap = tileMap;
-            player1 = new Player(Game.content.Load<Texture2D>("starlord"), new Vector2(0f, 0f));
-            //player.cameraCenter = this;
+
+            Player.PlayerKeys player1Keys;
+            player1Keys.attack = Keys.Space;
+            player1Keys.left = Keys.A;
+            player1Keys.right = Keys.D;
+            player1Keys.up = Keys.W;
+            player1Keys.down = Keys.S;
+            player1Keys.menu = Keys.LeftControl;
+            player1Keys.run = Keys.LeftShift;
+            player1Keys.debug = Keys.F2;
+
+            player1 = new Player(Game.content.Load<Texture2D>("starlord"), new Vector2(250f, 260f), player1Keys);
             Map.defultTargetsList.Add(player1);
-            player1.keys.attack = Keys.Space;
-            player1.keys.left = Keys.A;
-            player1.keys.right = Keys.D;
-            player1.keys.up = Keys.W;
-            player1.keys.down = Keys.S;
-            player1.keys.menu = Keys.Escape;
-            player1.keys.run = Keys.LeftShift;
 
             player1.stats.maxHealth = 16;
             player1.stats.health = 16;
@@ -47,17 +49,18 @@ namespace My_first_xna_game
             player1.stats.defence = 2;
             player1.stats.agility = 1;
 
-            debug1 = new Debug(Game.content.Load<SpriteFont>("Debug1"), Color.Blue, player1, Keys.F2);
-
             //intialize player
-            player2 = new Player(Game.content.Load<Texture2D>("rocket"), new Vector2(260f, 260f));
-            player2.keys.attack = Keys.D1;
-            player2.keys.left = Keys.Left;
-            player2.keys.right = Keys.Right;
-            player2.keys.up = Keys.Up;
-            player2.keys.down = Keys.Down;
-            player2.keys.menu = Keys.Home;
-            player2.keys.run = Keys.RightShift;
+            Player.PlayerKeys player2Keys;
+            player2Keys.attack = Keys.RightControl;
+            player2Keys.left = Keys.Left;
+            player2Keys.right = Keys.Right;
+            player2Keys.up = Keys.Up;
+            player2Keys.down = Keys.Down;
+            player2Keys.menu = Keys.Back;
+            player2Keys.run = Keys.RightShift;
+            player2Keys.debug = Keys.F4;
+
+            player2 = new Player(Game.content.Load<Texture2D>("rocket"), new Vector2(300f, 260f), player2Keys);
 
             player2.stats.maxHealth = 16;
             player2.stats.health = 16;
@@ -68,8 +71,52 @@ namespace My_first_xna_game
             player2.stats.cooldown = 1000f;
             player2.stats.defence = 2;
             player2.stats.agility = 1;
-            debug2 = new Debug(Game.content.Load<SpriteFont>("Debug1"), Color.Red, player2, Keys.F4);
-            debug2.position.X = -400f;
+
+            //intialize player
+            Player.PlayerKeys player3Keys;
+            player3Keys.attack = Keys.R;
+            player3Keys.left = Keys.F;
+            player3Keys.right = Keys.H;
+            player3Keys.up = Keys.T;
+            player3Keys.down = Keys.G;
+            player3Keys.menu = Keys.B;
+            player3Keys.run = Keys.Y;
+            player3Keys.debug = Keys.F6;
+
+            player3 = new Player(Game.content.Load<Texture2D>("drax"), new Vector2(350f, 260f), player3Keys);
+
+            player3.stats.maxHealth = 16;
+            player3.stats.health = 16;
+            player3.stats.maxMana = 16;
+            player3.stats.mana = 16;
+            player3.stats.strength = 4;
+            player3.stats.knockback = 30;
+            player3.stats.cooldown = 1000f;
+            player3.stats.defence = 2;
+            player3.stats.agility = 1;
+
+            //intialize player
+            Player.PlayerKeys player4Keys;
+            player4Keys.attack = Keys.U;
+            player4Keys.left = Keys.J;
+            player4Keys.right = Keys.L;
+            player4Keys.up = Keys.I;
+            player4Keys.down = Keys.K;
+            player4Keys.menu = Keys.M;
+            player4Keys.run = Keys.O;
+            player4Keys.debug = Keys.F8;
+
+            player4 = new Player(Game.content.Load<Texture2D>("gamora"), new Vector2(400f, 260f), player4Keys);
+
+            player4.stats.maxHealth = 16;
+            player4.stats.health = 16;
+            player4.stats.maxMana = 16;
+            player4.stats.mana = 16;
+            player4.stats.strength = 4;
+            player4.stats.knockback = 30;
+            player4.stats.cooldown = 1000f;
+            player4.stats.defence = 2;
+            player4.stats.agility = 1;
 
             //bla
             hud = new Window(Game.content.Load<Texture2D>("windowskin"), new Vector2(0f, 0f), 120, 90, player1);
@@ -81,6 +128,8 @@ namespace My_first_xna_game
             //AddObject(hud);
             AddObject(player1);
             AddObject(player2);
+            AddObject(player3);
+            AddObject(player4);
 
             foreach (GameObject gameObject in gameObjectList)
             {
@@ -90,7 +139,7 @@ namespace My_first_xna_game
 
         public void AddObject(GameObject gameObject)
         {
-            gameObject.movementManager = new MovementManager(this); ;
+            gameObject.movementManager = new MovementManager(this);
             gameObjectList.Add(gameObject);
         }
 
@@ -98,27 +147,32 @@ namespace My_first_xna_game
         {
             foreach (GameObject gameObject in objectInstance.gameObjectList)
             {
-                gameObject.movementManager = new MovementManager(this); ;
+                gameObject.movementManager = new MovementManager(this);
                 gameObjectList.Add(gameObject);
             }
             UpdateInstanceCollision.Add(objectInstance.updateCollision);
         }
 
-        public override void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
+        public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime, Camera camera)
         {
             //update spritesheet drawing
             foreach (GameObject gameObject in gameObjectList)
             {
-                Sprite sprite = gameObject as Sprite;
-                if (sprite != null)
+                if (true)//camera.InCamera(gameObject))
                 {
-                    sprite.Update(gameTime);
-                }
-            }
+                    Player player = gameObject as Player;
+                    if (player != null)
+                    {
+                        player.UpdatePlayer(gameTime, newState, oldState, Game.content, this);
 
-            foreach (Projectile projectile in projectilesList)
-            {
-                //projectile.Update(gameTime);
+                    }
+                    Sprite sprite = gameObject as Sprite;
+                    if (sprite != null)
+                    {
+                        sprite.Update(gameTime);
+                    }
+                }
+
             }
 
             if (UpdateInstanceCollision != null)
@@ -129,23 +183,10 @@ namespace My_first_xna_game
                 }
             }
 
-
-            debug1.Update();
-            debug2.Update();
-
             hud.Update(gameTime);
             hudText.Update("Health " + player1.stats.health);
 
-            UpdateInput(newState, oldState, Game.content);
             UpdateTypeCollision();
-        }
-
-        private void UpdateInput(KeyboardState newState, KeyboardState oldState, ContentManager Content)
-        {
-            debug1.UpdateInput(newState, oldState);
-            debug2.UpdateInput(newState, oldState);
-            player1.UpdateInput(newState, oldState, Content, this);
-            player2.UpdateInput(newState, oldState, Content, this);
         }
 
         private void UpdateTypeCollision()
@@ -165,17 +206,21 @@ namespace My_first_xna_game
 
 
             //projectiles collision
-            foreach (Projectile projectile in projectilesList)
+            foreach (GameObject gameObject1 in gameObjectList)
             {
-                foreach (GameObject gameObject in gameObjectList)
+                Projectile projectile = gameObject1 as Projectile;
+                if (projectile != null)
                 {
-                    Enemy enemy = gameObject as Enemy;
-                    if (enemy != null)
+                    foreach (GameObject gameObject2 in gameObjectList)
                     {
-                        if (CollisionManager.GameObjectCollision(enemy, projectile))
+                        Enemy enemy = gameObject2 as Enemy;
+                        if (enemy != null)
                         {
-                            enemy.DealDamage(projectile.source);
-                            projectile.Kill();
+                            if (CollisionManager.GameObjectCollision(enemy, projectile))
+                            {
+                                enemy.DealDamage(projectile.source);
+                                projectile.Kill();
+                            }
                         }
                     }
                 }
@@ -184,6 +229,7 @@ namespace My_first_xna_game
 
         public void Draw(SpriteBatch spriteBatch, Camera camera)
         {
+            //draw gameobjects
             foreach (GameObject gameObject in gameObjectList)
             {
                 if (camera.InCamera(gameObject))
@@ -204,6 +250,8 @@ namespace My_first_xna_game
                 }
 
             }
+
+            //draw windows
             foreach (GameObject gameObject in gameObjectList)
             {
                 Window window = gameObject as Window;
@@ -212,18 +260,22 @@ namespace My_first_xna_game
                     window.Draw(spriteBatch, new Rectangle(), new Rectangle());
                 }
             }
-            foreach (Projectile projectile in projectilesList)
+
+            //draw projectiles
+            foreach (GameObject gameObject in gameObjectList)
             {
-                projectile.Draw(spriteBatch, camera.mapRect, camera.screenRect);
+                Projectile projectile = gameObject as Projectile;
+                if (projectile != null)
+                {
+                    if (camera.InCamera(projectile))
+                    {
+                        projectile.Draw(spriteBatch, camera.mapRect, camera.screenRect);
+                    }
+                }
             }
 
+            //draw tilemap
             tileMap.Draw(spriteBatch, camera.screenRect, camera.mapRect);
-            debug1.Draw(spriteBatch);
-            debug2.Draw(spriteBatch);
-            //then draw objects;
-            //and update only object in camera
-            //change position of game objects.
-            //cheack for collision only within the camera.
         }
 
         public List<GameObject> FindTag(string tagName)

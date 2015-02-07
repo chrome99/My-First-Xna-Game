@@ -7,25 +7,23 @@ using Microsoft.Xna.Framework.Content;
 
 namespace My_first_xna_game
 {
-    public class Inventory : Scene
+    public class Inventory
     {
+        public bool alive = false;
         public int spacing = 6;
         public Window window;
-        private Map map;
+        private Selector selector;
         private Player player;
         private Pack pack;
-        private Selector selector;
 
         public int margin
         {
             get { return (window.bounds.Width - (int)window.thickness.X * 2) / (Item.size + spacing); }
         }
-        private bool quitKeyReleased = false;
         private bool useKeyReleased = false;
 
-        public Inventory(Map map, Player player)
+        public Inventory(Player player)
         {
-            this.map = map;
             this.player = player;
 
             window = new Window(Game.content.Load<Texture2D>("windowskin"), Vector2.Zero, 200, 200, null);
@@ -44,7 +42,7 @@ namespace My_first_xna_game
             }
         }
 
-        public override void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
+        public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
         {
             window.Update(gameTime);
             selector.Update(newState, oldState, gameTime);
@@ -71,24 +69,12 @@ namespace My_first_xna_game
             {
                 useKeyReleased = true;
             }
-
-            if (newState.IsKeyDown(Keys.Escape) && quitKeyReleased)
-            {
-                Game.scene = map;
-
-                quitKeyReleased = false;
-            }
-            else if (!oldState.IsKeyDown(Keys.Escape))
-            {
-                quitKeyReleased = true;
-            }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
             window.Draw(spriteBatch, new Rectangle(), new Rectangle());
             selector.Draw(spriteBatch);
-            map.Draw(spriteBatch);
         }
     }
 }

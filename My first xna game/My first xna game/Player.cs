@@ -15,12 +15,14 @@ namespace My_first_xna_game
     {
         public Pack pack;
         public PlayerKeys keys;
-        //public Camera cameraCenter;
+        private Inventory inventory;
+        private Debug debug;
         private bool playerMoving = false;
         private bool playerRunning = false;
         private int relesedKeysCount;
         private bool fireballkeyReleased = false;
         private bool menuKeyReleased = false;
+
         public struct PlayerKeys
         {
             public Keys up;
@@ -30,13 +32,17 @@ namespace My_first_xna_game
             public Keys attack;
             public Keys run;
             public Keys menu;
+            public Keys debug;
         }
 
-        public Player(Texture2D texture, Vector2 position)
+        public Player(Texture2D texture, Vector2 position, PlayerKeys keys)
             : base(texture, position, MovementManager.Auto.off)
         {
+            this.keys = keys;
 
             pack = new Pack();
+            inventory = new Inventory(this);
+            debug = new Debug(Game.content.Load<SpriteFont>("Debug1"), Color.Wheat, this, keys.debug);
         }
 
         public void runningSwitch()
@@ -51,20 +57,34 @@ namespace My_first_xna_game
             }
         }
 
-        protected override void UpdatePlayer()
+        public void UpdatePlayer(GameTime gameTime, KeyboardState newState, KeyboardState oldState, ContentManager Content, Map map)
         {
-            
-        }
+            if (inventory.alive)
+            {
+                inventory.Update(newState, oldState, gameTime);
+            }
+            debug.Update();
+            debug.UpdateInput(newState, oldState);
 
-        public void UpdateInput(KeyboardState newState, KeyboardState oldState, ContentManager Content, Map map)
+            UpdateInput(newState, oldState, Content, map);
+        }
+        protected void UpdateInput(KeyboardState newState, KeyboardState oldState, ContentManager Content, Map map)
         {
             if (!alive) { return; }
+
             relesedKeysCount = 0;
 
             //update menu
             if (newState.IsKeyDown(keys.menu) && menuKeyReleased)
             {
-                Game.scene = new Inventory(map, this);
+                if (inventory.alive)
+                {
+                    inventory.alive = false;
+                }
+                else
+                {
+                    inventory.alive = true;
+                }
 
                 menuKeyReleased = false;
             }
@@ -72,6 +92,8 @@ namespace My_first_xna_game
             {
                 menuKeyReleased = true;
             }
+
+            if (inventory.alive) { return; }
 
             // -Update player speed state
             if (newState.IsKeyDown(keys.run) && enableRunning)
@@ -97,7 +119,7 @@ namespace My_first_xna_game
             //if perssed attack
             if (newState.IsKeyDown(keys.attack) && fireballkeyReleased)
             {
-                Projectile projectile = new Projectile(map ,Content.Load<Texture2D>("wolf"), 6, this, 50);
+                Projectile projectile = new Projectile(map ,Content.Load<Texture2D>("wolf"), 6, this, 60);
                 projectile.through = true;
 
                 fireballkeyReleased = false;
@@ -168,6 +190,15 @@ namespace My_first_xna_game
             {
                 movingState = MovementManager.MovingState.standing;
             }
+        }
+
+        public override void DrawPlayer(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition)
+        {
+            if (inventory.alive)
+            {
+                inventory.Draw(spriteBatch);
+            }
+            debug.Draw(spriteBatch);
         }
     }
 }
