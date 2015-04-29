@@ -55,12 +55,17 @@ namespace My_first_xna_game
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Rectangle screenPosition)
         {
             if (debugSwitch)
             {
-                spriteBatch.DrawString(font, text, new Vector2(3f, 3f), color
-                , 0f, position, 1.0f, SpriteEffects.None, Game.DepthToFloat(Game.Depth.debug));
+                //draw window
+                Vector2 drawingPosition = position;
+                drawingPosition.X = screenPosition.X + drawingPosition.X;
+                drawingPosition.Y = screenPosition.Y + drawingPosition.Y;
+
+                spriteBatch.DrawString(font, text, drawingPosition, color
+                , 0f, new Vector2(3f, 3f), 1.0f, SpriteEffects.None, Game.DepthToFloat(Game.Depth.front));
             }
         }
     }

@@ -61,6 +61,7 @@ namespace My_first_xna_game
             player2Keys.debug = Keys.F4;
 
             player2 = new Player(Game.content.Load<Texture2D>("rocket"), new Vector2(300f, 260f), player2Keys);
+            Map.defultTargetsList.Add(player2);
 
             player2.stats.maxHealth = 16;
             player2.stats.health = 16;
@@ -84,6 +85,7 @@ namespace My_first_xna_game
             player3Keys.debug = Keys.F6;
 
             player3 = new Player(Game.content.Load<Texture2D>("drax"), new Vector2(350f, 260f), player3Keys);
+            Map.defultTargetsList.Add(player3);
 
             player3.stats.maxHealth = 16;
             player3.stats.health = 16;
@@ -107,6 +109,7 @@ namespace My_first_xna_game
             player4Keys.debug = Keys.F8;
 
             player4 = new Player(Game.content.Load<Texture2D>("gamora"), new Vector2(400f, 260f), player4Keys);
+            Map.defultTargetsList.Add(player4);
 
             player4.stats.maxHealth = 16;
             player4.stats.health = 16;
@@ -122,8 +125,8 @@ namespace My_first_xna_game
             hud = new Window(Game.content.Load<Texture2D>("windowskin"), new Vector2(0f, 0f), 120, 90, player1);
             hudText = new Text(Game.content.Load<SpriteFont>("Debug1"), new Vector2(0f, 0f), Color.White, "", hud);
             hudPicture = new Picture(Game.content.Load<Texture2D>("brick1"), new Vector2(0f, 32f), hud);
-            hud.itemsList.Add(hudText);
-            hud.itemsList.Add(hudPicture);
+            hud.AddItem(hudText);
+            hud.AddItem(hudPicture);
 
             //AddObject(hud);
             AddObject(player1);
@@ -147,18 +150,17 @@ namespace My_first_xna_game
         {
             foreach (GameObject gameObject in objectInstance.gameObjectList)
             {
-                gameObject.movementManager = new MovementManager(this);
-                gameObjectList.Add(gameObject);
+                AddObject(gameObject);
             }
             UpdateInstanceCollision.Add(objectInstance.updateCollision);
         }
 
         public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime, Camera camera)
         {
-            //update spritesheet drawing
-            foreach (GameObject gameObject in gameObjectList)
+            for (int i = 0; i < gameObjectList.Count; i++ )
             {
-                if (true)//camera.InCamera(gameObject))
+                GameObject gameObject = gameObjectList[i];
+                if (camera.InCamera(gameObject))
                 {
                     Player player = gameObject as Player;
                     if (player != null)
@@ -191,8 +193,9 @@ namespace My_first_xna_game
 
         private void UpdateTypeCollision()
         {
-            foreach (GameObject gameObject in gameObjectList)
+            for (int i = 0; i < gameObjectList.Count; i++)
             {
+                GameObject gameObject = gameObjectList[i];
                 Player player = gameObject as Player;
                 if (player != null)
                 {
@@ -206,13 +209,15 @@ namespace My_first_xna_game
 
 
             //projectiles collision
-            foreach (GameObject gameObject1 in gameObjectList)
+            for (int x = 0; x < gameObjectList.Count; x++)
             {
+                GameObject gameObject1 = gameObjectList[x];
                 Projectile projectile = gameObject1 as Projectile;
                 if (projectile != null)
                 {
-                    foreach (GameObject gameObject2 in gameObjectList)
+                    for (int y = 0; y < gameObjectList.Count; y++)
                     {
+                        GameObject gameObject2 = gameObjectList[y];
                         Enemy enemy = gameObject2 as Enemy;
                         if (enemy != null)
                         {
@@ -237,6 +242,20 @@ namespace My_first_xna_game
                     Sprite sprite = gameObject as Sprite;
                     if (sprite == null)
                     {
+                        Window window = gameObject as Window;
+                        if (window != null)
+                        {
+                            if (window.offsetRect)
+                            {
+                                window.Draw(spriteBatch, camera.mapRect, camera.screenRect);
+                            }
+                            else
+                            {
+                                window.Draw(spriteBatch, new Rectangle(), camera.screenRect);
+                            }
+                            
+                        }
+
                         Spritesheet spritesheet = gameObject as Spritesheet;
                         if (spritesheet != null)
                         {
@@ -251,29 +270,6 @@ namespace My_first_xna_game
 
             }
 
-            //draw windows
-            foreach (GameObject gameObject in gameObjectList)
-            {
-                Window window = gameObject as Window;
-                if (window != null)
-                {
-                    window.Draw(spriteBatch, new Rectangle(), new Rectangle());
-                }
-            }
-
-            //draw projectiles
-            foreach (GameObject gameObject in gameObjectList)
-            {
-                Projectile projectile = gameObject as Projectile;
-                if (projectile != null)
-                {
-                    if (camera.InCamera(projectile))
-                    {
-                        projectile.Draw(spriteBatch, camera.mapRect, camera.screenRect);
-                    }
-                }
-            }
-
             //draw tilemap
             tileMap.Draw(spriteBatch, camera.screenRect, camera.mapRect);
         }
@@ -281,8 +277,9 @@ namespace My_first_xna_game
         public List<GameObject> FindTag(string tagName)
         {
             List<GameObject> result = new List<GameObject>();
-            foreach (GameObject gameObject in gameObjectList)
+            for (int i = 0; i < gameObjectList.Count; i++)
             {
+                GameObject gameObject = gameObjectList[i];
                 foreach (string tag in gameObject.tags)
                 {
                     if (tag == tagName) { result.Add(gameObject); }

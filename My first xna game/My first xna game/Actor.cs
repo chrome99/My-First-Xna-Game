@@ -13,6 +13,7 @@ namespace My_first_xna_game
 {
     public class Actor : Spritesheet
     {
+        public Pack pack = null;
         public float walkingSpeed = 2f;
         public float runningSpeed = 4f;
         public MovementManager.MovingState movingState;

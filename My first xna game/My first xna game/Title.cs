@@ -124,13 +124,13 @@ namespace My_first_xna_game
                         TileMap tileMap = new TileMap(Game.content.Load<Texture2D>("Grassland"), TileMap.MapDesign.trees, 50, 50);
                         map = new Map(tileMap);
                         map.AddObjectInstance(new ObjectInstance1(map));
-                        Camera camera1 = new Camera(new Rectangle(0, 0, 960, 540), map, 0);
-                        Camera camera2 = new Camera(new Rectangle(0, 540, 960, 540), map, 1);
-                        Camera camera3 = new Camera(new Rectangle(960, 0, 944, 540), map, 2);
-                        Camera camera4 = new Camera(new Rectangle(960, 540, 944, 540), map, 3);
+                        Camera camera1 = new Camera(new Rectangle(0, 0, 960, 540), map, map.player1);
+                        Camera camera2 = new Camera(new Rectangle(0, 540, 960, 540), map, map.player2);
+                        Camera camera3 = new Camera(new Rectangle(960, 0, 944, 540), map, map.player3);
+                        Camera camera4 = new Camera(new Rectangle(960, 540, 944, 540), map, map.player4);
 
                         //set scene to map
-                        Game.scene = new World(new List<Camera> { camera1, camera2, camera3, camera4 });
+                        Game.scene = new World(new List<Camera> { camera1});// , camera2, camera3, camera4 });
                         break;
 
                     case 1:
@@ -146,10 +146,10 @@ namespace My_first_xna_game
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            background.Draw(spriteBatch);
-            newgame.Draw(spriteBatch);
-            loadgame.Draw(spriteBatch);
-            quit.Draw(spriteBatch);
+            background.Draw(spriteBatch, new Rectangle(), new Rectangle());
+            newgame.Draw(spriteBatch, new Rectangle(), new Rectangle());
+            loadgame.Draw(spriteBatch, new Rectangle(), new Rectangle());
+            quit.Draw(spriteBatch, new Rectangle(), new Rectangle());
         }
     }
 }

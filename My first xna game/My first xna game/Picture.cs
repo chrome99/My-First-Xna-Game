@@ -10,11 +10,11 @@ namespace My_first_xna_game
         {
             if (source == null)
             {
-                return position + thickness;
+                return position;
             }
             else
             {
-                return position + thickness + source.position + source.thickness;
+                return position + source.position + source.thickness;
             }
         }
         public Rectangle? drawingRect = null;
@@ -32,11 +32,14 @@ namespace My_first_xna_game
             get { return new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height); }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenRect)
         {
             if (visible)
             {
-                spriteBatch.Draw(texture, drawingPosition(), drawingRect, Color.White * getOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
+                Vector2 newPosition = drawingPosition();
+                newPosition.X = newPosition.X + screenRect.X - offsetRect.X;
+                newPosition.Y = newPosition.Y + screenRect.Y - offsetRect.Y;
+                spriteBatch.Draw(texture, newPosition, drawingRect, Color.White * getOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
                 
             }
         }

@@ -12,29 +12,33 @@ namespace My_first_xna_game
         public bool alive = false;
         public int spacing = 6;
         public Window window;
-        private Selector selector;
-        private Player player;
-        private Pack pack;
+        protected Pack pack;
+        protected Selector selector;
+        protected Player player;
+        protected bool useKeyReleased = false;
 
         public int margin
         {
             get { return (window.bounds.Width - (int)window.thickness.X * 2) / (Item.size + spacing); }
         }
-        private bool useKeyReleased = false;
 
-        public Inventory(Player player)
+        public Inventory(Player player, bool createPack = true)
         {
             this.player = player;
 
             window = new Window(Game.content.Load<Texture2D>("windowskin"), Vector2.Zero, 200, 200, null);
             window.thickness = new Vector2(20, 20);
-            pack = player.pack;
-            pack.CreateItems(this);
-            selector = new Selector(window, window.itemsList, new Vector2(Item.size + spacing, Item.size + spacing), spacing / 2, margin);
-            selector.player = this.player;
+
+            if (createPack)
+            {
+                pack = player.pack;
+                pack.CreateItems(this);
+                selector = new Selector(window, window.itemsList, new Vector2(Item.size + spacing, Item.size + spacing), spacing / 2, margin);
+                selector.player = this.player;
+            }
         }
 
-        private void SortItems()
+        protected void SortItems()
         {
             for (int i = 0; i < pack.items.Count; i++)
             {
@@ -44,37 +48,56 @@ namespace My_first_xna_game
 
         public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
         {
+            if (!alive) { return; }
+            UpdateBuyInventory(newState, oldState, gameTime);
+
             window.Update(gameTime);
             selector.Update(newState, oldState, gameTime);
 
-            UpdateInput(newState, oldState);
+            if (selector.visible)
+            {
+                UpdateInput(newState, oldState);
+            }
         }
 
-        private void UpdateInput(KeyboardState newState, KeyboardState oldState)
+        protected virtual void UpdateBuyInventory(KeyboardState newState, KeyboardState oldState, GameTime gameTime) { }
+
+        protected void UpdateInput(KeyboardState newState, KeyboardState oldState)
         {
-            if (newState.IsKeyDown(Keys.Enter) && useKeyReleased)
+
+            if (newState.IsKeyDown(player.keys.attack) && useKeyReleased)
             {
-                pack.items[selector.currentTargetNum].function(player, player);
-                if (pack.items[selector.currentTargetNum].oneTime)
-                {
-                    pack.SubItem(pack.items[selector.currentTargetNum]);
-                    window.itemsList.Remove(selector.currentTarget);
-                    SortItems();
-                    selector.Clamp();
-                }
+                ChosenItemFunction();
 
                 useKeyReleased = false;
             }
-            else if (!oldState.IsKeyDown(Keys.Enter))
+            else if (!oldState.IsKeyDown(player.keys.attack))
             {
                 useKeyReleased = true;
             }
+
+        }
+        protected virtual void ChosenItemFunction()
+        {
+            pack.items[selector.currentTargetNum].function(player, player);
+            if (pack.items[selector.currentTargetNum].oneTime)
+            {
+                pack.SubItem(pack.items[selector.currentTargetNum]);
+                window.itemsList.Remove(selector.currentTarget);
+                SortItems();
+                selector.Clamp();
+            }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Rectangle screenPosition)
         {
-            window.Draw(spriteBatch, new Rectangle(), new Rectangle());
-            selector.Draw(spriteBatch);
+            if (!alive) { return; }
+            DrawBuyInventory(spriteBatch, screenPosition);
+
+            window.Draw(spriteBatch, new Rectangle(), screenPosition);
+            selector.Draw(spriteBatch, new Rectangle(), screenPosition);
         }
+
+        protected virtual void DrawBuyInventory(SpriteBatch spriteBatch, Rectangle screenPosition) { }
     }
 }

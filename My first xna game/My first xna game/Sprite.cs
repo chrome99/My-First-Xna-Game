@@ -46,16 +46,18 @@ namespace My_first_xna_game
         {
             if (visible)
             {
-                Vector2 drawingPosition = position;
+                Rectangle drawingPosition = bounds;
                 drawingPosition.X = screenPosition.X + drawingPosition.X - offsetRect.X;
                 drawingPosition.Y = screenPosition.Y + drawingPosition.Y - offsetRect.Y;
                 
-                spriteBatch.Draw(texture, new Rectangle((int)drawingPosition.X, (int)drawingPosition.Y, texture.Width, texture.Height), null, Color.White * getOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
+                spriteBatch.Draw(texture, drawingPosition, null, Color.White * getOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
             }
         }
 
         public override void Update(GameTime gameTime)
         {
+            /*if (updated) { return; }
+            updated = true;*/
             UpdateSpritesheet(gameTime);
 
             if (fade)

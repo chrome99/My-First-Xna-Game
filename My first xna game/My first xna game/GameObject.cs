@@ -22,6 +22,7 @@ namespace My_first_xna_game
         public MovementManager.Direction view;
         public bool alive = true;
         public MovementManager movementManager;
+        public bool updated = false;
 
         public GameObject(Vector2 position)
         {

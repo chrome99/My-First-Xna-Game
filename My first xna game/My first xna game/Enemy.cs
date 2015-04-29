@@ -14,7 +14,8 @@ namespace My_first_xna_game
     public class Enemy : Hostile
     {
         public List<Hostile> targetsList;
-        private bool hasTarget;
+        private Hostile currentTarget;
+        private bool huntMode = false;
         public int raduisSize = 5;
         public Rectangle raduis
         {
@@ -30,30 +31,42 @@ namespace My_first_xna_game
 
         protected override void UpdateEnemy()
         {
-            //update movement 
-            hasTarget = false;
-            foreach (Player target in targetsList)
+            //update movement
+            /*
+             * the enemy has two modes:
+             * search mode: the enemy is searching for a target.
+             * hunt mode: the enemy hunts his pray until, his pray dies or gets away.
+            */
+            //search mode
+
+            if (huntMode)
             {
-                if (raduis.Intersects(target.core))
+                MoveToTarget(currentTarget);
+                if (!raduis.Intersects(currentTarget.core) || !currentTarget.alive)
                 {
-                    MoveToTarget(target);
-                    hasTarget = true;
+                    huntMode = false;
                 }
             }
-            if (!hasTarget)
+            else
             {
+                int targetsNotInRaduis = 0;
                 foreach (Hostile target in targetsList)
                 {
-                    if (raduis.Intersects(target.core))
+                    if (raduis.Intersects(target.core) && target.alive)
                     {
-                        MoveToTarget(target);
-                        hasTarget = true;
+                        currentTarget = target;
+                        huntMode = true;
                     }
                     else
                     {
-                        autoMovement = MovementManager.Auto.random;
+                        targetsNotInRaduis++;
                     }
                 }
+                if (targetsNotInRaduis == targetsList.Count)
+                {
+                    huntMode = false;
+                }
+                autoMovement = MovementManager.Auto.random;
             }
 
         }

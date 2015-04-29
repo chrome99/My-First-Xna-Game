@@ -11,6 +11,7 @@ namespace My_first_xna_game
         public static Rectangle windowRect = new Rectangle(0, 0, 128, 128);
         public List<WindowItem> itemsList = new List<WindowItem>();
         public Vector2 thickness = new Vector2(10, 10);
+        public bool offsetRect = true;
         private int width;
         private int height;
         private float originalOpacity;
@@ -39,6 +40,12 @@ namespace My_first_xna_game
             get { return new Rectangle((int)position.X, (int)position.Y, width, height); }
         }
 
+        public void AddItem(WindowItem item)
+        {
+            itemsList.Add(item);
+            item.source = this;
+        }
+
         public void setCorner(Camera camera, Camera.Corner corner)
         {
             Rectangle side = camera.setSide(bounds, corner);
@@ -48,17 +55,21 @@ namespace My_first_xna_game
 
         public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition)
         {
-            if (visible)
+            if (visible && alive)
             {
                 //draw window
-                spriteBatch.Draw(texture, bounds, windowRect, Color.White * getOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
+                Rectangle drawingPosition = bounds;
+                drawingPosition.X = screenPosition.X + drawingPosition.X - offsetRect.X;
+                drawingPosition.Y = screenPosition.Y + drawingPosition.Y - offsetRect.Y;
+
+                spriteBatch.Draw(texture, drawingPosition, windowRect, Color.White * getOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
 
                 //draw items
                 foreach (WindowItem item in itemsList)
                 {
                     if (item is Text || item is Picture || item is Selector)
                     {
-                        item.Draw(spriteBatch);
+                        item.Draw(spriteBatch, offsetRect, screenPosition);
                     }
                     
                 }

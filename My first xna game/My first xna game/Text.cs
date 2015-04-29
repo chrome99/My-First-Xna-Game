@@ -29,19 +29,21 @@ namespace My_first_xna_game
             this.text = text;
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenRect)
         {
             if (visible)
             {
                 Vector2 newPosition;
                 if (source == null)
                 {
-                    newPosition = position + thickness;
+                    newPosition = position;
                 }
                 else
                 {
-                    newPosition = position + source.position + thickness;
+                    newPosition = position + source.position + source.thickness;
                 }
+                newPosition.X = newPosition.X + screenRect.X - offsetRect.X;
+                newPosition.Y = newPosition.Y + screenRect.Y - offsetRect.Y;
                 spriteBatch.DrawString(font, text, newPosition, color * getOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
             }
         }

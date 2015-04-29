@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace My_first_xna_game
 {
-    class Selector : WindowItem
+    public class Selector : WindowItem
     {
         public static Rectangle selectorRect = new Rectangle(128, 64, 32, 32);
         public WindowItem currentTarget;
@@ -31,8 +31,6 @@ namespace My_first_xna_game
             this.size = size;
             this.layout = layout;
             this.newRow = newRow;
-
-            source.itemsList.Add(this);
 
             texture = source.texture;
             opacity = 30f;
@@ -154,11 +152,14 @@ namespace My_first_xna_game
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenRect)
         {
             if (visible)
             {
-                spriteBatch.Draw(texture, bounds, selectorRect, Color.White * getOpacity, 0f, Vector2.Zero, SpriteEffects.None, depth);
+                Rectangle newPosition = bounds;
+                newPosition.X = newPosition.X + screenRect.X - offsetRect.X;
+                newPosition.X = newPosition.Y + screenRect.Y - offsetRect.Y;
+                spriteBatch.Draw(texture, newPosition, selectorRect, Color.White * getOpacity, 0f, Vector2.Zero, SpriteEffects.None, depth);
             }
         }
 

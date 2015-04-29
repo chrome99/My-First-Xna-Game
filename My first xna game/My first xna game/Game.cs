@@ -13,11 +13,6 @@ namespace My_first_xna_game
     {
         /*
          TODO:
-         * draw and update only objects within the camera, and check for collision only within the camera.
-         * screen buffer for each camera
-         * check how enemies react to four players
-         * make hud for every player
-         * fix debug and inventory position for every player
          * npc's
          * trade
          * pvp
@@ -39,19 +34,22 @@ namespace My_first_xna_game
          * ini file with configuration.
          
          BUGS:
+         * screen buffer for each camera
+         * fix debug and inventory position for every player
+         * moving things can get out of the map
+         * fix multiple updates, and check for collision only within the camera.
          * knockback when you can't realy knock back get's weird.
-         * fix moveto(player and camera and shit).
          * small one: running status gets weird when the player colides with objects. it seems like the problem is in MovementManager.
          * unreachable: boxs can't get through the tree.
          * sometimes the enemy dosent attack you even if you get into its range -  youl need to get out and then he will attack you.
          */
 
         //graphics and controls
-        GraphicsDeviceManager graphics;
+        public static GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         KeyboardState oldState;
 
-        public enum Depth { debug, windowsSelector, windowsData, windows, above, player, projectiles, below, background }
+        public enum Depth { front, windowsSelector, windowsData, windows, above, player, projectiles, below, background }
         public static float DepthToFloat(Depth type)
         {
             return (float)type / 10;

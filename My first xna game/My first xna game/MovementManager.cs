@@ -265,13 +265,13 @@ namespace My_first_xna_game
             foreach (GameObject currentGameObject in map.gameObjectList)
             {
                 if (CollisionManager.GameObjectCollision(gameObject, currentGameObject, gameObjectBounds, new Rectangle((int)currentGameObject.position.X, (int)currentGameObject.position.Y, currentGameObject.core.Width, currentGameObject.core.Height)))
+                {
+                    if (!gameObject.through && !currentGameObject.through)
                     {
-                        if (!gameObject.through && !currentGameObject.through)
-                        {
-                            return true;
-                        }
-
+                        return true;
                     }
+
+                }
 
             }
             return false;

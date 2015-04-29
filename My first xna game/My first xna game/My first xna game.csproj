@@ -18,6 +18,7 @@
     <XnaOutputType>Game</XnaOutputType>
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -30,7 +31,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="Actor.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="Choice.cs" />
     <Compile Include="CollisionManager.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="Enemy.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="Selector.cs" />
+    <Compile Include="BuyInventory.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="Spritesheet.cs" />
     <Compile Include="Text.cs" />

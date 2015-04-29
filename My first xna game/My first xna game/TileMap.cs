@@ -90,6 +90,7 @@ namespace My_first_xna_game
 
         public void Draw(SpriteBatch spriteBatch, Rectangle screenRect, Rectangle mapRect)
         {
+
             Vector2 firstSquare = new Vector2(mapRect.X / Tile.size, mapRect.Y / Tile.size);
             int firstX = (int)firstSquare.X;
             int firstY = (int)firstSquare.Y;
@@ -97,14 +98,16 @@ namespace My_first_xna_game
             Vector2 squareOffset = new Vector2(mapRect.X % Tile.size, mapRect.Y % Tile.size);
             int offsetX = (int)squareOffset.X;
             int offsetY = (int)squareOffset.Y;
-            for (int x = screenRect.X / Tile.size; x < (screenRect.X + screenRect.Width) / Tile.size + 1; x++)
+            for (int x = screenRect.X / Tile.size; x < (screenRect.X + screenRect.Width) / Tile.size; x++)
             {
-                for (int y = screenRect.Y / Tile.size; y < (screenRect.Y + screenRect.Height) / Tile.size + 1; y++)
+                for (int y = screenRect.Y / Tile.size; y < (screenRect.Y + screenRect.Height) / Tile.size; y++)
                 {
                     int positionX = x * Tile.size - offsetX;
                     int positionY = y * Tile.size - offsetY;
                     foreach (Layer tileID in Rows[(int)MathHelper.Clamp(y + firstY, 0, height)].Columns[(int)MathHelper.Clamp(x + firstX, 0, width)].layers)
                     {
+                        //RenderTarget2D renderTarger = new RenderTarget2D(Game.graphics.GraphicsDevice, screenRect.Width, screenRect.Height);
+                        //Game.graphics.GraphicsDevice.SetRenderTarget(renderTarger);
                         spriteBatch.Draw(
                             tileset,
                             new Rectangle(
@@ -115,6 +118,7 @@ namespace My_first_xna_game
                             , Vector2.Zero
                             , SpriteEffects.None
                             , tileID.depth);
+                        //Game.graphics.GraphicsDevice.SetRenderTarget(null);
                     }
                 }
             }

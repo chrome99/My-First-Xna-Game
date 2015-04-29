@@ -21,7 +21,6 @@ namespace My_first_xna_game
             get { return new Rectangle(); }
         }
         public Window source;
-        public Vector2 thickness = Vector2.Zero;
 
         public WindowItem(Window source)
         {
@@ -29,6 +28,6 @@ namespace My_first_xna_game
             depth = Game.DepthToFloat(Game.Depth.windowsData);
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch) { }
+        public virtual void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenRect) { }
     }
 }

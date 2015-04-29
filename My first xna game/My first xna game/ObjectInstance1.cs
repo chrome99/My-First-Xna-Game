@@ -10,6 +10,7 @@ namespace My_first_xna_game
     class ObjectInstance1 : ObjectInstance
     {
         private Map map;
+        private MovementManager movementManager;
         public Enemy wolf;
         public Actor npc;
         public Sprite block;
@@ -22,6 +23,8 @@ namespace My_first_xna_game
         public ObjectInstance1(Map map) : base()
         {
             this.map = map;
+            movementManager = new MovementManager(map);
+
             wolf = new Enemy(Content.Load<Texture2D>("wolf"), new Vector2(100f, 0f));
             wolf.stats.maxHealth = 16;
             wolf.stats.health = 16;
@@ -33,6 +36,10 @@ namespace My_first_xna_game
             wolf.stats.defence = 2;
             wolf.stats.agility = 1;
             npc = new Actor(Content.Load<Texture2D>("wolf"), new Vector2(500f, 500f));
+            npc.pack = new Pack();
+            npc.pack.AddItem(ItemInstance.apple);
+            npc.pack.AddItem(ItemInstance.bread);
+            npc.pack.AddItem(ItemInstance.healthPotion);
             block = new Sprite(Content.Load<Texture2D>("box1"), new Vector2(700f, 750f), Game.Depth.player, 2);
             runningSwitch = new Sprite(Content.Load<Texture2D>("brick1"), new Vector2(200f, 250f), Game.Depth.below, 2);
             runningSwitch.through = true;
@@ -45,7 +52,7 @@ namespace My_first_xna_game
             groundSwitch = new Sprite(Content.Load<Texture2D>("brick1"), new Vector2(300f, 150f), Game.Depth.below, 2);
             groundSwitch.through = true;
             updateCollision = new Map.UpdateCollision(UpdateCollision);
-            //gameObjectList.Add(npc);
+            gameObjectList.Add(npc);
             //gameObjectList.Add(wolf);
             gameObjectList.Add(block);
             gameObjectList.Add(runningSwitch);
@@ -99,6 +106,25 @@ namespace My_first_xna_game
 
         private void PlayerCollision(Player player)
         {
+            //npc and player
+            if (CollisionManager.GameObjectTouch(player, npc))
+            {
+                if (npc.collisionFunction && player.collisionFunction)
+                {
+                    movementManager.TurnActor(npc, MovementManager.OppsiteDirection(player.direction));
+                    player.Shop(npc);
+                    //movementManager.Knockback(player, MovementManager.Direction.left, 100);
+                    //player.MessageWindow(npc.bounds, "the great king wants to see you. \n no, he dosent.");
+                    player.collisionFunction = false;
+                    npc.collisionFunction = false;
+                }
+            }
+            else
+            {
+                player.collisionFunction = true;
+                npc.collisionFunction = true;
+            }
+            
             //running switch and player
             if (CollisionManager.GameObjectCollision(player, runningSwitch))
             {
@@ -135,6 +161,7 @@ namespace My_first_xna_game
                     }
                 }
             }
+             
         }
     }
 }
