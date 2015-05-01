@@ -92,12 +92,12 @@ namespace My_first_xna_game
         public void Draw(SpriteBatch spriteBatch, Rectangle screenPosition)
         {
             if (!alive) { return; }
-            DrawBuyInventory(spriteBatch, screenPosition);
+            DrawShop(spriteBatch, screenPosition);
 
             window.Draw(spriteBatch, new Rectangle(), screenPosition);
             selector.Draw(spriteBatch, new Rectangle(), screenPosition);
         }
 
-        protected virtual void DrawBuyInventory(SpriteBatch spriteBatch, Rectangle screenPosition) { }
+        protected virtual void DrawShop(SpriteBatch spriteBatch, Rectangle screenPosition) { }
     }
 }

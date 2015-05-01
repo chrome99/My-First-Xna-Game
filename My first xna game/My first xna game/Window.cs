@@ -67,7 +67,7 @@ namespace My_first_xna_game
                 //draw items
                 foreach (WindowItem item in itemsList)
                 {
-                    if (item is Text || item is Picture || item is Selector)
+                    if (item is Text || item is Picture)
                     {
                         item.Draw(spriteBatch, offsetRect, screenPosition);
                     }

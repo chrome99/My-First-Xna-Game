@@ -11,7 +11,7 @@ namespace My_first_xna_game
     {
         public static Rectangle selectorRect = new Rectangle(128, 64, 32, 32);
         public WindowItem currentTarget;
-        public int currentTargetNum = 0;
+        public int currentTargetNum;
         public Player player;
         private Texture2D texture;
         private List<WindowItem> targets;
@@ -19,10 +19,10 @@ namespace My_first_xna_game
         private int layout;
         private int newRow;
         private bool subOpactiy = false;
-        private bool upKeyReleased;
-        private bool downKeyReleased;
-        private bool leftKeyReleased;
-        private bool rightKeyReleased;
+        private bool upKeyReleased = false;
+        private bool downKeyReleased = false;
+        private bool leftKeyReleased = false;
+        private bool rightKeyReleased = false;
 
         public Selector(Window source, List<WindowItem> targets, Vector2 size, int layout, int newRow = 0)
             : base(source)
@@ -44,11 +44,20 @@ namespace My_first_xna_game
 
         public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
         {
+            /*if (currentTargetNum > 1)
+            {
+                Shop.blabla = 100;
+            }
+            else
+            {
+                Shop.blabla = 0;
+            }*/
             if (targets.Count == 0)
             {
                 visible = false;
-                return;
             }
+            if (!visible) { return; }
+
             currentTarget = targets[currentTargetNum];
             position.X = currentTarget.drawingPosition().X - layout;
             position.Y = currentTarget.drawingPosition().Y - layout;
@@ -88,7 +97,7 @@ namespace My_first_xna_game
             }
         }
 
-        public void UpdateInput(KeyboardState newState, KeyboardState oldState)
+        private void UpdateInput(KeyboardState newState, KeyboardState oldState)
         {
             if (player == null)
             {

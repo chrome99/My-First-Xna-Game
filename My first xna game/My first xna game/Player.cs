@@ -15,7 +15,7 @@ namespace My_first_xna_game
     {
         public PlayerKeys keys;
         private Inventory inventory;
-        private BuyInventory shop;
+        private Shop shop;
         private Debug debug;
         private Window msgWindow;
         private Text msgWindowText;
@@ -50,7 +50,7 @@ namespace My_first_xna_game
             msgWindowText = new Text(Game.content.Load<SpriteFont>("medival1"), Vector2.Zero, Color.White, null);
             msgWindow.Kill();
 
-            shop = new BuyInventory();
+            shop = new Shop();
         }
 
         public void runningSwitch()
@@ -91,7 +91,8 @@ namespace My_first_xna_game
 
         public void Shop(Actor merchant)
         {
-            shop = new BuyInventory(this, merchant);
+            if (shop.alive) { return; }
+            shop = new Shop(this, merchant);
             shop.alive = true;
         }
 
@@ -110,7 +111,7 @@ namespace My_first_xna_game
             //cancal things, and open menu when can
             if (newState.IsKeyDown(keys.menu) && menuKeyReleased)
             {
-                if (shop.alive && !shop.choice.alive)
+                if (shop.alive)// && !shop.choice.alive) ~~~ i don't know why i added this...
                 {
                     shop.alive = false;
                 }

@@ -131,7 +131,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="Selector.cs" />
-    <Compile Include="BuyInventory.cs" />
+    <Compile Include="Shop.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="Spritesheet.cs" />
     <Compile Include="Text.cs" />
