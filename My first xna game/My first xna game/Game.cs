@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.Content;
 
 namespace My_first_xna_game
 {
-
     public class Game : Microsoft.Xna.Framework.Game
     {
         /*
@@ -50,13 +49,14 @@ namespace My_first_xna_game
         KeyboardState oldState;
 
         public enum Depth { front, windowsSelector, windowsData, windows, above, player, projectiles, below, background }
+
         public static float DepthToFloat(Depth type)
         {
-            return (float)type / 10;
+            return (float)type / 1000;
         }
 
         //public static Rectangle worldRect;
-        public static Scene scene = new Scene();
+        public static Scene scene;
 
         //timer list
         public static List<Timer> timersList = new List<Timer>();
@@ -78,10 +78,8 @@ namespace My_first_xna_game
 
         protected override void Initialize()
         {
-
             content = Content;
-
-            scene = new Title(Game.content);
+            scene = new Title();
 
             //intialize keyboard (old) state
             oldState = Keyboard.GetState();
