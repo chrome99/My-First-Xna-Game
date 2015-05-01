@@ -7,10 +7,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace My_first_xna_game
 {
+    // TODO: Rename to DebugDisplay, DebugOSD, DebugHUD etc.
     class Debug
     {
         public Vector2 position = new Vector2(0f, 0f);
         private bool keyReleased = false;
+
+        // TODO: Bad name, doesn't say much
         private bool debugSwitch = false;
         private string text;
         private SpriteFont font;

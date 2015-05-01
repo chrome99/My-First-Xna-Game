@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace My_first_xna_game
 {
+    // TODO: WTF? What is an ObjectInstance1? this is bad.
     class ObjectInstance1 : ObjectInstance
     {
         private Map map;
@@ -98,7 +99,7 @@ namespace My_first_xna_game
                 Window window = gameObject as Window;
                 if (window == null)
                 {
-                    if (CollisionManager.GameObjectCollision(portal, gameObject)) { gameObject.reset(); }
+                    if (CollisionManager.GameObjectCollision(portal, gameObject)) { gameObject.Reset(); }
                 }
                 
             }

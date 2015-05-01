@@ -17,7 +17,11 @@ namespace My_first_xna_game
         private List<WindowItem> targets;
         private Vector2 size;
         private int layout;
+
+        // TODO: Bad name. Every Selector has a newRow? Really? Where's the oldRow? :P
         private int newRow;
+
+        // TODO: typo
         private bool subOpactiy = false;
         private bool upKeyReleased = false;
         private bool downKeyReleased = false;

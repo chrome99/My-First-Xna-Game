@@ -9,6 +9,7 @@ namespace My_first_xna_game
 {
     public class Inventory
     {
+        // TODO: Can an inventory be alive or dead? (Do we really know?)
         public bool alive = false;
         public int spacing = 6;
         public Window window;
@@ -77,6 +78,8 @@ namespace My_first_xna_game
             }
 
         }
+
+        // TODO: Bad name. What does the function do?
         protected virtual void ChosenItemFunction()
         {
             pack.items[selector.currentTargetNum].function(player, player);

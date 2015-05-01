@@ -13,6 +13,7 @@ namespace My_first_xna_game
 {
     public class Player : Hostile
     {
+        // TODO: Ambiguous name. Could be understood as keys to doors.
         public PlayerKeys keys;
         private Inventory inventory;
         private Shop shop;
@@ -21,12 +22,15 @@ namespace My_first_xna_game
         private Text msgWindowText;
         private bool playerMoving = false;
         private bool playerRunning = false;
+
+        // TODO: typo
         private int relesedKeysCount;
         private bool fireballkeyReleased = false;
         private bool menuKeyReleased = false;
 
         public struct PlayerKeys
         {
+            // TODO: Change directions to MoveUp, MoveDown to avoid confusion
             public Keys up;
             public Keys down;
             public Keys left;
@@ -53,6 +57,7 @@ namespace My_first_xna_game
             shop = new Shop();
         }
 
+        // TODO: Bad name
         public void runningSwitch()
         {
             if (enableRunning)

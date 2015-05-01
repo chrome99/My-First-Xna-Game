@@ -13,6 +13,9 @@ namespace My_first_xna_game
 {
     public class Projectile : Spritesheet
     {
+        // TODO: Destroy projectile object on hit or after a certain distance / time,
+        // maybe add a destination member
+
         public Player source;
         private int maxLength = 50;
         private int length = 0;

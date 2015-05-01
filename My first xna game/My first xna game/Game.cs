@@ -43,7 +43,7 @@ namespace My_first_xna_game
          * sometimes the enemy dosent attack you even if you get into its range -  youl need to get out and then he will attack you.
          */
 
-        //graphics and controls
+        // Graphics and controls
         public static GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         KeyboardState oldState;
@@ -55,16 +55,16 @@ namespace My_first_xna_game
             return (float)type / 1000;
         }
 
-        //public static Rectangle worldRect;
+        // public static Rectangle worldRect;
         public static Scene scene;
 
-        //timer list
+        // Timer list
         public static List<Timer> timersList = new List<Timer>();
 
-        //classes lists
+        // Class lists
         private List<GameObject> tagList = new List<GameObject>();
 
-
+        // TODO: Is this needed?
         public static ContentManager content;
 
         public Game()
@@ -74,14 +74,14 @@ namespace My_first_xna_game
             graphics.PreferredBackBufferHeight = 1080;
             graphics.PreferredBackBufferWidth = 1920;
             Content.RootDirectory = "Content";
-        }
+       } 
 
         protected override void Initialize()
         {
             content = Content;
             scene = new Title();
 
-            //intialize keyboard (old) state
+            // Initialize keyboard (old) state
             oldState = Keyboard.GetState();
 
             base.Initialize();
@@ -102,10 +102,10 @@ namespace My_first_xna_game
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            //update newState
+            // Update newState
             KeyboardState newState = Keyboard.GetState();
 
-            //Update
+            // Update
             foreach(Timer timer in timersList)
             {
                 timer.Update(gameTime);
@@ -116,7 +116,7 @@ namespace My_first_xna_game
             }
             
 
-            //update oldState
+            // Update oldState
             oldState = newState;
 
             base.Update(gameTime);

@@ -14,6 +14,8 @@ namespace My_first_xna_game
         public bool offsetRect = true;
         private int width;
         private int height;
+
+        // TODO: Bad name for a member. Original = before what? describe a state.
         private float originalOpacity;
         private float subOpacity = 50f;
         private Player player;

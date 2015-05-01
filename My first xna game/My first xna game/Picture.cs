@@ -6,6 +6,7 @@ namespace My_first_xna_game
 {
     public class Picture : WindowItem
     {
+        // TODO: A function's name should describe what it does, and should be a verb.
         public override Vector2 drawingPosition()
         {
             if (source == null)
