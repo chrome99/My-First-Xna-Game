@@ -12,7 +12,6 @@ namespace My_first_xna_game
         public static Rectangle selectorRect = new Rectangle(128, 64, 32, 32);
         public WindowItem currentTarget;
         public int currentTargetNum;
-        public int abs;
         public Player player;
         private Texture2D texture;
         private List<WindowItem> targets;
@@ -49,7 +48,6 @@ namespace My_first_xna_game
 
         public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
         {
-            Shop.blabla = "ctn: " + currentTargetNum + "\nabs: " + abs;
 
             if (targets.Count == 0)
             {
@@ -58,8 +56,8 @@ namespace My_first_xna_game
             if (!visible) { return; }
 
             currentTarget = targets[currentTargetNum];
-            position.X = currentTarget.drawingPosition().X - layout;
-            position.Y = currentTarget.drawingPosition().Y - layout;
+            position.X = currentTarget.position.X - layout;
+            position.Y = currentTarget.position.Y - layout;
 
             if (!subOpactiy)
             {
@@ -118,7 +116,7 @@ namespace My_first_xna_game
             }
 
             //left
-            /*if (newState.IsKeyDown(player.keys.left) && leftKeyReleased)
+            if (newState.IsKeyDown(player.keys.left) && leftKeyReleased)
             {
                 if (currentTargetNum > 0)
                 {
@@ -130,7 +128,7 @@ namespace My_first_xna_game
             else if (!oldState.IsKeyDown(player.keys.left))
             {
                 leftKeyReleased = true;
-            }*/
+            }
 
             //don't update up and down when (newRow == 0).
             if (newRow == 0) { return; }
@@ -165,8 +163,6 @@ namespace My_first_xna_game
             if (visible)
             {
                 Rectangle newPosition = bounds;
-                newPosition.X = newPosition.X + screenRect.X - offsetRect.X;
-                newPosition.X = newPosition.Y + screenRect.Y - offsetRect.Y;
                 spriteBatch.Draw(texture, newPosition, selectorRect, Color.White * getOpacity, 0f, Vector2.Zero, SpriteEffects.None, depth);
             }
         }

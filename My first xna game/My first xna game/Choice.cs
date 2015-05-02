@@ -18,7 +18,9 @@ namespace My_first_xna_game
         private Vector2 biggestOptionSize = Vector2.Zero;
         private double optionsRoot;
         private Vector2 windowSize;
-        private Vector2 layout;
+        private Vector2 spacing;
+        public static string blablabla;
+        private int newRow;
 
         public Choice(Player player, List<WindowItem> optionsList, Arrangement arrangement = Arrangement.square)
         {
@@ -40,8 +42,7 @@ namespace My_first_xna_game
                     biggestOptionSize.Y = option.bounds.Height;
                 }
             }
-            layout = biggestOptionSize / 4;
-            biggestOptionSize += layout;
+            spacing = biggestOptionSize / 4;
 
             //arrange options
             switch (arrangement)
@@ -50,8 +51,11 @@ namespace My_first_xna_game
                     //arrange window items
                     for (int counter = 0; counter < optionsList.Count; counter++)
                     {
-                        optionsList[counter].position = new Vector2(counter * biggestOptionSize.X, 0);
+                        optionsList[counter].position = new Vector2(counter * biggestOptionSize.X + spacing.X, 0);
                     }
+
+                    //set newRow parameter
+                    newRow = 1;
 
                     //set window size
 
@@ -61,11 +65,14 @@ namespace My_first_xna_game
                     //arrange window items
                     for (int counter = 0; counter < optionsList.Count; counter++)
                     {
-                        optionsList[counter].position = new Vector2(0, counter * biggestOptionSize.Y);
+                        optionsList[counter].position = new Vector2(0, counter * (biggestOptionSize.Y + spacing.Y));
                     }
 
+                    //set newRow parameter
+                    newRow = 0;
+
                     //set window size
-                    windowSize = new Vector2(biggestOptionSize.X * optionsList.Count, biggestOptionSize.Y * optionsList.Count);
+                    windowSize = new Vector2(biggestOptionSize.X * optionsList.Count, (biggestOptionSize.Y + spacing.Y) * optionsList.Count);
                     break;
 
                 case Arrangement.square:
@@ -74,7 +81,7 @@ namespace My_first_xna_game
                     {
                         for (int counter = 0; counter < optionsList.Count; counter++)
                         {
-                            optionsList[counter].position = new Vector2(counter % (int)optionsRoot * biggestOptionSize.X, counter / (int)optionsRoot * biggestOptionSize.Y);
+                            optionsList[counter].position = new Vector2(counter % (int)optionsRoot * (biggestOptionSize.X + spacing.X), counter / (int)optionsRoot * (biggestOptionSize.Y + spacing.Y));
                         }
                     }
                     else
@@ -82,15 +89,18 @@ namespace My_first_xna_game
                         throw new System.ArgumentException("Parameter dosen't have perfect square", "original");
                     }
 
+                    //set newRow parameter
+                    newRow = (int)optionsRoot;
+
                     //set window size
-                    windowSize = new Vector2(biggestOptionSize.X * (int)optionsRoot, biggestOptionSize.Y * (int)optionsRoot);
+                    windowSize = new Vector2((biggestOptionSize.X + spacing.X) * (int)optionsRoot, (biggestOptionSize.Y + spacing.Y) * (int)optionsRoot);
                     break;
 
             }
 
             //create window and selector
             window = new Window(Game.content.Load<Texture2D>("windowskin"), Vector2.Zero, (int)windowSize.X, (int)windowSize.Y, player);
-            selector = new Selector(window, optionsList, biggestOptionSize, 0);
+            selector = new Selector(window, optionsList, biggestOptionSize + spacing, 0, newRow);
             selector.player = player;
 
             foreach (WindowItem option in this.optionsList)
@@ -104,6 +114,13 @@ namespace My_first_xna_game
             if (!alive) { return; }
             window.Update(gameTime);
             selector.Update(newState, oldState, gameTime);
+
+            Text albalb = selector.currentTarget as Text;
+            if (albalb != null)
+            {
+                blablabla = albalb.text;
+            }
+            
 
             if (selector.visible)
             {

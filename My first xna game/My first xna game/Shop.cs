@@ -15,7 +15,6 @@ namespace My_first_xna_game
         private Text tallkText;
         private Text exitText;
         public Choice choice;
-        public static string blabla;
 
         public Shop() : base(null, false) { alive = false; }
         public Shop(Player player, Actor merchant)
