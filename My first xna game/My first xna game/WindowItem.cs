@@ -7,16 +7,14 @@ namespace My_first_xna_game
     public class WindowItem
     {
         public Vector2 position;
-        public virtual Vector2 drawingPosition() { return position; }
+        public virtual Vector2 GetDrawingPosition() { return position; }
         public bool visible = true;
         public float depth;
 
-        // TODO: Bad name. Original = before what?
-        public float originalOpacity;
+        public float originalOpacityState;
         public float opacity = 100f;
 
-        // TODO: Bad name for property.
-        protected float getOpacity
+        protected float drawingOpacity
         {
             get { return opacity / 100; }
         }

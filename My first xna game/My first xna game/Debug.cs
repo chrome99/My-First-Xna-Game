@@ -7,21 +7,20 @@ using Microsoft.Xna.Framework.Input;
 
 namespace My_first_xna_game
 {
-    // TODO: Rename to DebugDisplay, DebugOSD, DebugHUD etc.
-    class Debug
+    class DebugHUD
     {
         public Vector2 position = new Vector2(0f, 0f);
         private bool keyReleased = false;
 
-        // TODO: Bad name, doesn't say much
-        private bool debugSwitch = false;
+        // TODO: Can a Debug HUD be alive or dead?
+        private bool alive = false;
         private string text;
         private SpriteFont font;
         private Color color;
         private Player player;
         private Keys key;
 
-        public Debug(SpriteFont font, Color color, Player player, Keys key)
+        public DebugHUD(SpriteFont font, Color color, Player player, Keys key)
         {
             this.font = font;
             this.color = color;
@@ -43,13 +42,13 @@ namespace My_first_xna_game
         {
             if (newState.IsKeyDown(key) && keyReleased)
             {
-                if (debugSwitch)
+                if (alive)
                 {
-                    debugSwitch = false;
+                    alive = false;
                 }
                 else
                 {
-                    debugSwitch = true;
+                    alive = true;
                 }
                 keyReleased = false;
             }
@@ -61,7 +60,7 @@ namespace My_first_xna_game
 
         public void Draw(SpriteBatch spriteBatch, Rectangle screenPosition)
         {
-            if (debugSwitch)
+            if (alive)
             {
                 //draw window
                 Vector2 drawingPosition = position;

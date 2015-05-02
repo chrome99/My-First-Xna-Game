@@ -66,21 +66,20 @@ namespace My_first_xna_game
         protected void UpdateInput(KeyboardState newState, KeyboardState oldState)
         {
 
-            if (newState.IsKeyDown(player.keys.attack) && useKeyReleased)
+            if (newState.IsKeyDown(player.kbKeys.attack) && useKeyReleased)
             {
-                ChosenItemFunction();
+                HandleItemChoice();
 
                 useKeyReleased = false;
             }
-            else if (!oldState.IsKeyDown(player.keys.attack))
+            else if (!oldState.IsKeyDown(player.kbKeys.attack))
             {
                 useKeyReleased = true;
             }
 
         }
 
-        // TODO: Bad name. What does the function do?
-        protected virtual void ChosenItemFunction()
+        protected virtual void HandleItemChoice()
         {
             pack.items[selector.currentTargetNum].function(player, player);
             if (pack.items[selector.currentTargetNum].oneTime)

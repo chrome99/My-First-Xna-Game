@@ -15,7 +15,7 @@ namespace My_first_xna_game
         private int width;
         private int height;
 
-        // TODO: Bad name for a member. Original = before what? describe a state.
+        // TODO: Make an opacity value for each state
         private float originalOpacity;
         private float subOpacity = 50f;
         private Player player;
@@ -30,7 +30,7 @@ namespace My_first_xna_game
           
 
             originalOpacity = opacity;
-            through = true;
+            passable = true;
         }
 
         public override Rectangle bounds
@@ -123,7 +123,7 @@ namespace My_first_xna_game
                     {
                         if (item is Text || item is Picture)
                         {
-                            item.originalOpacity = item.opacity;
+                            item.originalOpacityState = item.opacity;
                             item.opacity = subOpacity;
                         }
 
@@ -137,7 +137,7 @@ namespace My_first_xna_game
                     {
                         if (item is Text || item is Picture)
                         {
-                            item.opacity = item.originalOpacity;
+                            item.opacity = item.originalOpacityState;
                         }
 
                     }

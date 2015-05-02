@@ -13,42 +13,38 @@ namespace My_first_xna_game
 {
     public class Player : Hostile
     {
-        // TODO: Ambiguous name. Could be understood as keys to doors.
-        public PlayerKeys keys;
+        public PlayerKeys kbKeys;
         private Inventory inventory;
         private Shop shop;
-        private Debug debug;
+        private DebugHUD debug;
         private Window msgWindow;
         private Text msgWindowText;
         private bool playerMoving = false;
         private bool playerRunning = false;
-
-        // TODO: typo
-        private int relesedKeysCount;
+        private int releasedKeysCount;
         private bool fireballkeyReleased = false;
         private bool menuKeyReleased = false;
 
         public struct PlayerKeys
         {
-            // TODO: Change directions to MoveUp, MoveDown to avoid confusion
-            public Keys up;
-            public Keys down;
-            public Keys left;
-            public Keys right;
+            public Keys mvUp;
+            public Keys mvDown;
+            public Keys mvLeft;
+            public Keys mvRight;
             public Keys attack;
             public Keys run;
-            public Keys menu;
-            public Keys debug;
+            public Keys opMenu;
+            public Keys opDebug;
         }
 
         public Player(Texture2D texture, Vector2 position, PlayerKeys keys)
             : base(texture, position, MovementManager.Auto.off)
         {
-            this.keys = keys;
+            this.kbKeys = keys;
 
             pack = new Pack();
             inventory = new Inventory(this);
-            debug = new Debug(Game.content.Load<SpriteFont>("Debug1"), Color.Wheat, this, keys.debug);
+            debug = new DebugHUD(Game.content.Load<SpriteFont>("Debug1"), Color.Wheat, this, keys.opDebug);
 
             msgWindow = new Window(Game.content.Load<Texture2D>("windowskin"), Vector2.Zero, 0, 0, null);
             msgWindowText = new Text(Game.content.Load<SpriteFont>("medival1"), Vector2.Zero, Color.White, null);
@@ -57,8 +53,7 @@ namespace My_first_xna_game
             shop = new Shop();
         }
 
-        // TODO: Bad name
-        public void runningSwitch()
+        public void FlipRunning()
         {
             if (enableRunning)
             {
@@ -114,7 +109,7 @@ namespace My_first_xna_game
         protected void UpdateInput(KeyboardState newState, KeyboardState oldState, ContentManager Content, Map map)
         {
             //cancal things, and open menu when can
-            if (newState.IsKeyDown(keys.menu) && menuKeyReleased)
+            if (newState.IsKeyDown(kbKeys.opMenu) && menuKeyReleased)
             {
                 if (shop.alive)// && !shop.choice.alive) ~~~ i don't know why i added this...
                 {
@@ -135,7 +130,7 @@ namespace My_first_xna_game
 
                 menuKeyReleased = false;
             }
-            else if (!oldState.IsKeyDown(keys.menu))
+            else if (!oldState.IsKeyDown(kbKeys.opMenu))
             {
                 menuKeyReleased = true;
             }
@@ -145,7 +140,7 @@ namespace My_first_xna_game
             }
 
             // -Update player speed state
-            if (newState.IsKeyDown(keys.run) && enableRunning)
+            if (newState.IsKeyDown(kbKeys.run) && enableRunning)
             {
                 playerRunning = true;
             }
@@ -157,72 +152,72 @@ namespace My_first_xna_game
             // -Update player through debug button
             if (newState.IsKeyDown(Keys.LeftControl))
             {
-                through = true;
+                passable = true;
             }
             else // reset player speed speed state
             {
-                through = false;
+                passable = false;
             }
 
 
             //if perssed attack
-            if (newState.IsKeyDown(keys.attack) && fireballkeyReleased)
+            if (newState.IsKeyDown(kbKeys.attack) && fireballkeyReleased)
             {
                 Projectile projectile = new Projectile(map ,Content.Load<Texture2D>("wolf"), 6, this, 60);
-                projectile.through = true;
+                projectile.passable = true;
 
                 fireballkeyReleased = false;
             }
-            else if (!oldState.IsKeyDown(keys.attack))
+            else if (!oldState.IsKeyDown(kbKeys.attack))
             {
                 fireballkeyReleased = true;
             }
 
-            relesedKeysCount = 0;
+            releasedKeysCount = 0;
 
             // if pressed left
-            if (newState.IsKeyDown(keys.left))
+            if (newState.IsKeyDown(kbKeys.mvLeft))
             {
                 playerMoving = movementManager.MoveActor(this, MovementManager.Direction.left, (int)speed);
                 
             }
             else
             {
-                relesedKeysCount++;
+                releasedKeysCount++;
             }
 
             // if pressed right
-            if (newState.IsKeyDown(keys.right))
+            if (newState.IsKeyDown(kbKeys.mvRight))
             {
                 playerMoving = movementManager.MoveActor(this, MovementManager.Direction.right, (int)speed);
             }
             else
             {
-                relesedKeysCount++;
+                releasedKeysCount++;
             }
 
             // if pressed up
-            if (newState.IsKeyDown(keys.up))
+            if (newState.IsKeyDown(kbKeys.mvUp))
             {
                 playerMoving = movementManager.MoveActor(this, MovementManager.Direction.up, (int)speed);
             }
             else
             {
-                relesedKeysCount++;
+                releasedKeysCount++;
             }
 
             // if pressed down
-            if (newState.IsKeyDown(keys.down))
+            if (newState.IsKeyDown(kbKeys.mvDown))
             {
                 playerMoving = movementManager.MoveActor(this, MovementManager.Direction.down, (int)speed);
             }
             else
             {
-                relesedKeysCount++;
+                releasedKeysCount++;
             }
 
             //if all four arrows relesed
-            if (relesedKeysCount >= 4)
+            if (releasedKeysCount >= 4)
             {
                 playerMoving = false;
             }

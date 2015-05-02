@@ -17,10 +17,9 @@ namespace My_first_xna_game
         public Vector2 size = new Vector2(Tile.size, Tile.size);
         public List<string> tags = new List<string>();
 
-        // TODO: Bad names for bool
-        public bool through;
-        public bool collision = true;
-        public bool collisionFunction = false;
+        public bool passable;
+        public bool canCollide = true;
+        public bool collisionHandled = false;
 
         public MovementManager.Direction view;
         public bool alive = true;
@@ -45,13 +44,13 @@ namespace My_first_xna_game
 
         public virtual void Kill()
         {
-            collision = false;
+            canCollide = false;
             alive = false;
         }
 
         public virtual void Revive()
         {
-            collision = true;
+            canCollide = true;
             alive = true;
         }
 

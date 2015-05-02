@@ -7,7 +7,7 @@ namespace My_first_xna_game
     public class Pack
     {
         public List<Item> items = new List<Item>();
-        private ItemInstance itemInstance = new ItemInstance();
+        private ItemCollection itemInstance = new ItemCollection();
 
 
         public Pack()

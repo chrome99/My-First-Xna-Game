@@ -78,14 +78,14 @@ namespace My_first_xna_game
 
         public override void Kill()
         {
-            collision = false;
+            canCollide = false;
             visible = false;
             alive = false;
         }
 
         public override void Revive()
         {
-            collision = true;
+            canCollide = true;
             visible = true;
             alive = true;
         }

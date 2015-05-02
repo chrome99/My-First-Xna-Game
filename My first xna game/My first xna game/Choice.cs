@@ -130,17 +130,17 @@ namespace My_first_xna_game
 
         protected void UpdateInput(KeyboardState newState, KeyboardState oldState)
         {
-            if (newState.IsKeyDown(player.keys.attack) && confirmKeyReleased)
+            if (newState.IsKeyDown(player.kbKeys.attack) && confirmKeyReleased)
             {
                 
                 confirmKeyReleased = false;
             }
-            else if (!oldState.IsKeyDown(player.keys.attack))
+            else if (!oldState.IsKeyDown(player.kbKeys.attack))
             {
                 confirmKeyReleased = true;
             }
 
-            if (newState.IsKeyDown(player.keys.menu) && confirmKeyReleased)
+            if (newState.IsKeyDown(player.kbKeys.opMenu) && confirmKeyReleased)
             {
                 alive = false;
             }

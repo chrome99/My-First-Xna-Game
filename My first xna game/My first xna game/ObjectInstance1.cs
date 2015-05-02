@@ -7,8 +7,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace My_first_xna_game
 {
-    // TODO: WTF? What is an ObjectInstance1? this is bad.
-    class ObjectInstance1 : ObjectInstance
+    class ObjectCollection1 : ObjectCollection
     {
         private Map map;
         private MovementManager movementManager;
@@ -21,7 +20,7 @@ namespace My_first_xna_game
         public Sprite portal;
         public Sprite groundSwitch;
 
-        public ObjectInstance1(Map map) : base()
+        public ObjectCollection1(Map map) : base()
         {
             this.map = map;
             movementManager = new MovementManager(map);
@@ -38,23 +37,23 @@ namespace My_first_xna_game
             wolf.stats.agility = 1;
             npc = new Actor(Content.Load<Texture2D>("wolf"), new Vector2(500f, 500f));
             npc.pack = new Pack();
-            npc.pack.AddItem(ItemInstance.apple);
-            npc.pack.AddItem(ItemInstance.bread);
-            npc.pack.AddItem(ItemInstance.healthPotion);
+            npc.pack.AddItem(ItemCollection.apple);
+            npc.pack.AddItem(ItemCollection.bread);
+            npc.pack.AddItem(ItemCollection.healthPotion);
             block = new Sprite(Content.Load<Texture2D>("box1"), new Vector2(700f, 750f), Game.Depth.player, 2);
             runningSwitch = new Sprite(Content.Load<Texture2D>("brick1"), new Vector2(200f, 250f), Game.Depth.below, 2);
-            runningSwitch.through = true;
+            runningSwitch.passable = true;
             box1 = new Sprite(Content.Load<Texture2D>("box1"), new Vector2(400f, 400f), Game.Depth.player, 2);
             box1.tags.Add("box");
             box2 = new Sprite(Content.Load<Texture2D>("box1"), new Vector2(400f, 450f), Game.Depth.player, 2);
             box2.tags.Add("box");
             portal = new Sprite(Content.Load<Texture2D>("player1"), new Vector2(50f, 100f), Game.Depth.player, 2);
-            portal.through = true;
+            portal.passable = true;
             groundSwitch = new Sprite(Content.Load<Texture2D>("brick1"), new Vector2(300f, 150f), Game.Depth.below, 2);
-            groundSwitch.through = true;
+            groundSwitch.passable = true;
             updateCollision = new Map.UpdateCollision(UpdateCollision);
             gameObjectList.Add(npc);
-            //gameObjectList.Add(wolf);
+            // gameObjectList.Add(wolf);
             gameObjectList.Add(block);
             gameObjectList.Add(runningSwitch);
             gameObjectList.Add(box1);
@@ -110,37 +109,37 @@ namespace My_first_xna_game
             //npc and player
             if (CollisionManager.GameObjectTouch(player, npc))
             {
-                if (npc.collisionFunction && player.collisionFunction)
+                if (npc.collisionHandled && player.collisionHandled)
                 {
-                    movementManager.TurnActor(npc, MovementManager.OppsiteDirection(player.direction));
+                    movementManager.TurnActor(npc, MovementManager.OppositeDirection(player.direction));
                     player.Shop(npc);
                     //movementManager.Knockback(player, MovementManager.Direction.left, 100);
                     //player.MessageWindow(npc.bounds, "the great king wants to see you. \n no, he dosent.");
-                    player.collisionFunction = false;
-                    npc.collisionFunction = false;
+                    player.collisionHandled = false;
+                    npc.collisionHandled = false;
                 }
             }
             else
             {
-                player.collisionFunction = true;
-                npc.collisionFunction = true;
+                player.collisionHandled = true;
+                npc.collisionHandled = true;
             }
             
             //running switch and player
             if (CollisionManager.GameObjectCollision(player, runningSwitch))
             {
-                if (runningSwitch.collisionFunction && player.collisionFunction)
+                if (runningSwitch.collisionHandled && player.collisionHandled)
                 {
-                    player.runningSwitch();
-                    player.pack.AddItem(ItemInstance.RandomItem());
-                    player.collisionFunction = false;
-                    runningSwitch.collisionFunction = false;
+                    player.FlipRunning();
+                    player.pack.AddItem(ItemCollection.RandomItem());
+                    player.collisionHandled = false;
+                    runningSwitch.collisionHandled = false;
                 }
             }
             else
             {
-                player.collisionFunction = true;
-                runningSwitch.collisionFunction = true;
+                player.collisionHandled = true;
+                runningSwitch.collisionHandled = true;
             }
             //enemy and player
             foreach (GameObject gameObject in gameObjectList)
@@ -150,15 +149,15 @@ namespace My_first_xna_game
                 {
                     if (CollisionManager.GameObjectTouch(enemy, player))
                     {
-                        if (enemy.collisionFunction)
+                        if (enemy.collisionHandled)
                         {
                             player.DealDamage(enemy);
-                            enemy.collisionFunction = false;
+                            enemy.collisionHandled = false;
                         }
                     }
                     else
                     {
-                        enemy.collisionFunction = true;
+                        enemy.collisionHandled = true;
                     }
                 }
             }

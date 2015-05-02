@@ -6,8 +6,7 @@ namespace My_first_xna_game
 {
     public class Picture : WindowItem
     {
-        // TODO: A function's name should describe what it does, and should be a verb.
-        public override Vector2 drawingPosition()
+        public override Vector2 GetDrawingPosition()
         {
             if (source == null)
             {
@@ -37,10 +36,10 @@ namespace My_first_xna_game
         {
             if (visible)
             {
-                Vector2 newPosition = drawingPosition();
+                Vector2 newPosition = GetDrawingPosition();
                 newPosition.X = newPosition.X + screenRect.X - offsetRect.X;
                 newPosition.Y = newPosition.Y + screenRect.Y - offsetRect.Y;
-                spriteBatch.Draw(texture, newPosition, drawingRect, Color.White * getOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
+                spriteBatch.Draw(texture, newPosition, drawingRect, Color.White * drawingOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
                 
             }
         }

@@ -13,19 +13,16 @@ namespace My_first_xna_game
 {
     public class Projectile : Spritesheet
     {
-        // TODO: Destroy projectile object on hit or after a certain distance / time,
-        // maybe add a destination member
-
         public Player source;
-        private int maxLength = 50;
-        private int length = 0;
+        private int pathDestination = 50;
+        private int pathTravelled = 0;
         private MovementManager.Direction direction;
 
         public Projectile(Map map, Texture2D texture, float speed, Player source, int maxLength)
             : base(texture, source.position, Game.Depth.projectiles, speed)
         {
             this.source = source;
-            this.maxLength = maxLength;
+            this.pathDestination = maxLength;
             direction = source.direction;
             map.AddObject(this);
         }
@@ -35,10 +32,12 @@ namespace My_first_xna_game
             //-update movement
             movementManager.MoveToDirection(this, this.speed, direction);
             StartAnimation(direction);
-            length++;
-            if (length == maxLength)
+            pathTravelled++;
+            if (pathTravelled == pathDestination)
             {
                 fade = true;
+                texture.Dispose();
+                // TODO: Destroy instance
             }
         }
     }

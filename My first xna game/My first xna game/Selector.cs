@@ -18,11 +18,10 @@ namespace My_first_xna_game
         private Vector2 size;
         private int layout;
 
-        // TODO: Bad name. Every Selector has a newRow? Really? Where's the oldRow? :P
-        private int newRow;
+        private int itemsInRow;
 
-        // TODO: typo
-        private bool subOpactiy = false;
+        // TODO: Remove this
+        private bool opacityMaxed = false;
         private bool upKeyReleased = false;
         private bool downKeyReleased = false;
         private bool leftKeyReleased = false;
@@ -34,7 +33,7 @@ namespace My_first_xna_game
             this.targets = targets;
             this.size = size;
             this.layout = layout;
-            this.newRow = newRow;
+            this.itemsInRow = newRow;
 
             texture = source.texture;
             opacity = 30f;
@@ -48,7 +47,6 @@ namespace My_first_xna_game
 
         public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
         {
-
             if (targets.Count == 0)
             {
                 visible = false;
@@ -59,20 +57,20 @@ namespace My_first_xna_game
             position.X = currentTarget.position.X - layout;
             position.Y = currentTarget.position.Y - layout;
 
-            if (!subOpactiy)
+            if (!opacityMaxed)
             {
                 opacity += 0.5f;
                 if (opacity >= 50f)
                 {
-                    subOpactiy = true;
+                    opacityMaxed = true;
                 }
             }
-            if (subOpactiy)
+            if (opacityMaxed)
             {
                 opacity -= 0.5f;
                 if (opacity <= 30f)
                 {
-                    subOpactiy = false;
+                    opacityMaxed = false;
                 }
             }
 
@@ -101,7 +99,7 @@ namespace My_first_xna_game
                 //use default keys
             }
             //right
-            if (newState.IsKeyDown(player.keys.right) && rightKeyReleased)
+            if (newState.IsKeyDown(player.kbKeys.mvRight) && rightKeyReleased)
             {
                 if (currentTargetNum < targets.Count - 1)
                 {
@@ -110,13 +108,13 @@ namespace My_first_xna_game
 
                 rightKeyReleased = false;
             }
-            else if (!oldState.IsKeyDown(player.keys.right))
+            else if (!oldState.IsKeyDown(player.kbKeys.mvRight))
             {
                 rightKeyReleased = true;
             }
 
             //left
-            if (newState.IsKeyDown(player.keys.left) && leftKeyReleased)
+            if (newState.IsKeyDown(player.kbKeys.mvLeft) && leftKeyReleased)
             {
                 if (currentTargetNum > 0)
                 {
@@ -125,34 +123,34 @@ namespace My_first_xna_game
 
                 leftKeyReleased = false;
             }
-            else if (!oldState.IsKeyDown(player.keys.left))
+            else if (!oldState.IsKeyDown(player.kbKeys.mvLeft))
             {
                 leftKeyReleased = true;
             }
 
             //don't update up and down when (newRow == 0).
-            if (newRow == 0) { return; }
+            if (itemsInRow == 0) { return; }
 
             //up
-            if (newState.IsKeyDown(player.keys.up) && upKeyReleased)
+            if (newState.IsKeyDown(player.kbKeys.mvUp) && upKeyReleased)
             {
-                currentTargetNum = (int)MathHelper.Clamp(currentTargetNum - newRow, 0, targets.Count - 1);
+                currentTargetNum = (int)MathHelper.Clamp(currentTargetNum - itemsInRow, 0, targets.Count - 1);
 
                 upKeyReleased = false;
             }
-            else if (!oldState.IsKeyDown(player.keys.up))
+            else if (!oldState.IsKeyDown(player.kbKeys.mvUp))
             {
                 upKeyReleased = true;
             }
 
             //down
-            if (newState.IsKeyDown(player.keys.down) && downKeyReleased)
+            if (newState.IsKeyDown(player.kbKeys.mvDown) && downKeyReleased)
             {
-                currentTargetNum = (int)MathHelper.Clamp(currentTargetNum + newRow, 0, targets.Count - 1);
+                currentTargetNum = (int)MathHelper.Clamp(currentTargetNum + itemsInRow, 0, targets.Count - 1);
 
                 downKeyReleased = false;
             }
-            else if (!oldState.IsKeyDown(player.keys.down))
+            else if (!oldState.IsKeyDown(player.kbKeys.mvDown))
             {
                 downKeyReleased = true;
             }
@@ -163,7 +161,7 @@ namespace My_first_xna_game
             if (visible)
             {
                 Rectangle newPosition = bounds;
-                spriteBatch.Draw(texture, newPosition, selectorRect, Color.White * getOpacity, 0f, Vector2.Zero, SpriteEffects.None, depth);
+                spriteBatch.Draw(texture, newPosition, selectorRect, Color.White * drawingOpacity, 0f, Vector2.Zero, SpriteEffects.None, depth);
             }
         }
 

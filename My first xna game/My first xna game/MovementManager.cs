@@ -56,8 +56,7 @@ namespace My_first_xna_game
             return result;
         }
 
-        // TODO: typo
-        public static Direction OppsiteDirection(Direction direction)
+        public static Direction OppositeDirection(Direction direction)
         {
             switch (direction)
             {
@@ -267,7 +266,7 @@ namespace My_first_xna_game
             {
                 if (CollisionManager.GameObjectCollision(gameObject, currentGameObject, gameObjectBounds, new Rectangle((int)currentGameObject.position.X, (int)currentGameObject.position.Y, currentGameObject.core.Width, currentGameObject.core.Height)))
                 {
-                    if (!gameObject.through && !currentGameObject.through)
+                    if (!gameObject.passable && !currentGameObject.passable)
                     {
                         return true;
                     }

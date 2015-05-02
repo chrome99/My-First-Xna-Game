@@ -7,7 +7,7 @@ namespace My_first_xna_game
     {
         public static bool GameObjectCollision(GameObject gameObject1, GameObject gameObject2)
         {
-            if (!gameObject1.collision || !gameObject2.collision)
+            if (!gameObject1.canCollide || !gameObject2.canCollide)
             { return false; }
             if (gameObject1.Equals(gameObject2))
             { return false; }
@@ -24,7 +24,7 @@ namespace My_first_xna_game
 
         public static bool GameObjectCollision(GameObject gameObject1, GameObject gameObject2, Rectangle gameObject1bounds, Rectangle gameObject2bounds)
         {
-            if (!gameObject1.collision || !gameObject2.collision)
+            if (!gameObject1.canCollide || !gameObject2.canCollide)
             { return false; }
             if (gameObject1.Equals(gameObject2))
             { return false; }
@@ -43,7 +43,7 @@ namespace My_first_xna_game
         {
             int thickness = (int)touchingGameObject.speed;
 
-            if (!touchingGameObject.collision || !touchedGameObject.collision)
+            if (!touchingGameObject.canCollide || !touchedGameObject.canCollide)
             { return false; }
             if (touchingGameObject.Equals(touchedGameObject))
             { return false; }

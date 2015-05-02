@@ -16,12 +16,11 @@ namespace My_first_xna_game
         public List<Hostile> targetsList;
         private Hostile currentTarget;
         private bool huntMode = false;
+        public int radiusSize = 5;
 
-        /// TODO: typo
-        public int raduisSize = 5;
         public Rectangle raduis
         {
-            get { return new Rectangle((int)position.X - raduisSize * Tile.size, (int)position.Y - raduisSize * Tile.size, bounds.Width + raduisSize * Tile.size * 2, bounds.Height + raduisSize * Tile.size * 2); }
+            get { return new Rectangle((int)position.X - radiusSize * Tile.size, (int)position.Y - radiusSize * Tile.size, bounds.Width + radiusSize * Tile.size * 2, bounds.Height + radiusSize * Tile.size * 2); }
         }
 
         public Enemy(Texture2D texture, Vector2 position)
@@ -73,15 +72,6 @@ namespace My_first_xna_game
 
         }
         private void MoveToTarget(Hostile target)
-        {
-            autoMovement = MovementManager.Auto.off;
-            direction = MovementManager.DirectionToGameObject(this, target);
-            movementManager.MoveActor(this, direction, (int)speed);
-        }
-
-        // TODO: MoveToTarget(Hostile target) and MoveToTarget(Player target) do the same thing.
-        // Because Player inherits Hostile, this function is not needed.
-        private void MoveToTarget(Player target)
         {
             autoMovement = MovementManager.Auto.off;
             direction = MovementManager.DirectionToGameObject(this, target);

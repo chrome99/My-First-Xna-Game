@@ -44,7 +44,7 @@ namespace My_first_xna_game
                 }
                 newPosition.X = newPosition.X + screenRect.X - offsetRect.X;
                 newPosition.Y = newPosition.Y + screenRect.Y - offsetRect.Y;
-                spriteBatch.DrawString(font, text, newPosition, color * getOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
+                spriteBatch.DrawString(font, text, newPosition, color * drawingOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
             }
         }
     }

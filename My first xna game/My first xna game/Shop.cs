@@ -37,8 +37,7 @@ namespace My_first_xna_game
             choice.Update(newState, oldState, gameTime);
         }
 
-        // TODO: Bad name
-        protected override void ChosenItemFunction()
+        protected override void HandleItemChoice()
         {
             //choice.alive = true;
         }
