@@ -14,7 +14,7 @@ namespace My_first_xna_game
          TODO:
          * npc's
          * trade
-         * pvp
+         * pvp menu
          * pickup items
          * skills
          * equipment
@@ -33,10 +33,10 @@ namespace My_first_xna_game
          * ini file with configuration.
          
          BUGS:
+         * what if one camera shows one map, and other camera shows other map?
          * screen buffer for each camera
          * fix debug and inventory position for every player
          * moving things can get out of the map
-         * fix multiple updates, and check for collision only within the camera.
          * knockback when you can't realy knock back get's weird.
          * small one: running status gets weird when the player colides with objects. it seems like the problem is in MovementManager.
          * unreachable: boxs can't get through the tree.

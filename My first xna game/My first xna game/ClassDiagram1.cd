@@ -1,0 +1,284 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="My_first_xna_game.Actor">
+    <Position X="9.75" Y="17" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAQAAABAoAAAAAAEAAAAAIAAAAIEAAQYAIAAAAA=</HashCode>
+      <FileName>Actor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Camera" Collapsed="true">
+    <Position X="18" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAAAIAAIggAAAAAQAAAAAACAAIBAQAAAAAAAAA=</HashCode>
+      <FileName>Camera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Choice" Collapsed="true">
+    <Position X="19.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAACAIAAAAggAAAAQEAAABAAAAAQJAAAQAACAAEA=</HashCode>
+      <FileName>Choice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.CollisionManager" Collapsed="true">
+    <Position X="21.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>CollisionManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.DebugHUD" Collapsed="true">
+    <Position X="23.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAYAAAAAAAAAAgAAAAAUIAAABAAAAACJAAAAAAAAAAA=</HashCode>
+      <FileName>Debug.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Enemy">
+    <Position X="8.75" Y="25.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAEAAAAAAAAAAAAAIAAAABAAIAAAAAAAAAEAAAI=</HashCode>
+      <FileName>Enemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Game" Collapsed="true">
+    <Position X="25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AARCEEAAAAgAAwAAAAAAAIEAAAAAAAiAAAAAAAAAAQQ=</HashCode>
+      <FileName>Game.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.GameObject">
+    <Position X="12" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAQEAABgAAAIBQIAAAJAAAAAEAAQBCAEgAAAA=</HashCode>
+      <FileName>GameObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Hostile">
+    <Position X="9.75" Y="21.75" Width="1.5" />
+    <NestedTypes>
+      <Struct Name="My_first_xna_game.Hostile.Stats" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Hostile.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AQgAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAI=</HashCode>
+      <FileName>Hostile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Inventory">
+    <Position X="0.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAACAIAEAAgAAAAAUAAAABQAAYAAJCAAAAAAAAEA=</HashCode>
+      <FileName>Inventory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Item" Collapsed="true">
+    <Position X="18" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAACIAAAAAAAoAACAAAAAAAAAAgAQAAAAAAAAA=</HashCode>
+      <FileName>Item.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.ItemCollection" Collapsed="true">
+    <Position X="19.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MAAAAgAAEAAQMAAAEEABAQAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>ItemInstance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Map" Collapsed="true">
+    <Position X="23.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>4BQAAAgBAAAAAwAAAAQAAIADBAAAAAAAAAIAQAAAAAA=</HashCode>
+      <FileName>Map.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.MapCell" Collapsed="true">
+    <Position X="25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>MapCell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Layer" Collapsed="true">
+    <Position X="21.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAQQAAAAAAAAAAAAAAAAAAAAgAAAAAAIAAAABA=</HashCode>
+      <FileName>MapCell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.MovementManager" Collapsed="true">
+    <Position X="19.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAECAAABAAAAgAABAAgAAAAAAIQAEAAgAgAAJAAAA=</HashCode>
+      <FileName>MovementManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.ObjectCollection">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAABAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>ObjectInstance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.ObjectCollection1">
+    <Position X="9.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEEgAAICAgQAAAAAgAAAAAAAAAAAAAAEQAAgABAA=</HashCode>
+      <FileName>ObjectInstance1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Pack">
+    <Position X="21.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAoAAAAAgAQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pack.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Picture">
+    <Position X="5.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAgAAAAAAAAAAAAAAAkAAAAACAAAAAAA=</HashCode>
+      <FileName>Picture.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Player">
+    <Position X="11" Y="25.5" Width="1.5" />
+    <NestedTypes>
+      <Struct Name="My_first_xna_game.Player.PlayerKeys" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Player.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAiEAAAAAACwEAIAAACAAAACgAIAAQEgAIA=</HashCode>
+      <FileName>Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Program" Collapsed="true">
+    <Position X="23.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Projectile">
+    <Position X="13.25" Y="17" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAIAAAAAAEAAIAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Projectile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Scene">
+    <Position X="6.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scene.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Selector">
+    <Position X="3" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQAAABAQEAAggAAIAQAAAAABAAIgABAABCCAAQAAE=</HashCode>
+      <FileName>Selector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Shop">
+    <Position X="0.5" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAACAAgAAABAAAIAAAAQAAACIAAQAAAAAA=</HashCode>
+      <FileName>Shop.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Sprite">
+    <Position X="12" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAQAEAAAgAAQAAQAAAAMAQAAwAAAAACKAAAABA=</HashCode>
+      <FileName>Sprite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Spritesheet">
+    <Position X="11" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAACAAAAgAggYAQAAEIACAIACAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Spritesheet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Text">
+    <Position X="0.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAgAAAAAAAAAAAAAAAACIAAACAAAAAAA=</HashCode>
+      <FileName>Text.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Tile" Collapsed="true">
+    <Position X="25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Tile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.TileMap">
+    <Position X="18" Y="3.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="My_first_xna_game.TileMap.MapDesign" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>TileMap.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAkQASAAAIAAAAAAAAAAQIAAAAAAIAAA=</HashCode>
+      <FileName>TileMap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.MapRow" Collapsed="true">
+    <Position X="18" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>TileMap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Timer">
+    <Position X="19.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAECAAAAAAAAAABAAAAAAAAAAAAAEAIAAAAAAAAAA=</HashCode>
+      <FileName>Timer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Title">
+    <Position X="7.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAAQAAAAgAAAAAQAAAAAAAAABABQAAFAAAAIAA=</HashCode>
+      <FileName>Title.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.Window">
+    <Position X="15.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUBAAEAAAAAAgQAQGAAAAAAoAAAAAQBCAACAAAAACA=</HashCode>
+      <FileName>Window.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.WindowItem">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAgAgIAAQAAIAAAAAAAAAAAAAACKAAAABA=</HashCode>
+      <FileName>WindowItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="My_first_xna_game.World">
+    <Position X="5.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>World.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

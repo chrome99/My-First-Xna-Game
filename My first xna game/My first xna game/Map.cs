@@ -155,12 +155,12 @@ namespace My_first_xna_game
             UpdateInstanceCollision.Add(objectInstance.updateCollision);
         }
 
-        public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime, Camera camera)
+        public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
         {
             for (int i = 0; i < gameObjectList.Count; i++ )
             {
                 GameObject gameObject = gameObjectList[i];
-                if (camera.InCamera(gameObject))
+                if (true)//camera.InCamera(gameObject))
                 {
                     Player player = gameObject as Player;
                     if (player != null)
@@ -176,6 +176,7 @@ namespace My_first_xna_game
                 }
 
             }
+             
 
             if (UpdateInstanceCollision != null)
             {
@@ -189,6 +190,7 @@ namespace My_first_xna_game
             hudText.Update("Health " + player1.stats.health);
 
             UpdateTypeCollision();
+            
         }
 
         private void UpdateTypeCollision()
@@ -209,21 +211,34 @@ namespace My_first_xna_game
 
 
             //projectiles collision
-            for (int x = 0; x < gameObjectList.Count; x++)
+            foreach (GameObject gameObject1 in gameObjectList)
             {
-                GameObject gameObject1 = gameObjectList[x];
                 Projectile projectile = gameObject1 as Projectile;
                 if (projectile != null)
                 {
-                    for (int y = 0; y < gameObjectList.Count; y++)
+                    //enemy collision
+                    foreach (GameObject gameObject2 in gameObjectList)
                     {
-                        GameObject gameObject2 = gameObjectList[y];
                         Enemy enemy = gameObject2 as Enemy;
                         if (enemy != null)
                         {
                             if (CollisionManager.GameObjectCollision(enemy, projectile))
                             {
                                 enemy.DealDamage(projectile.source);
+                                projectile.Kill();
+                            }
+                        }
+                    }
+
+                    //player collision (pvp!)
+                    foreach (GameObject gameObject2 in gameObjectList)
+                    {
+                        Player player = gameObject2 as Player;
+                        if (player != null && player != projectile.source)
+                        {
+                            if (CollisionManager.GameObjectCollision(player, projectile))
+                            {
+                                player.DealDamage(projectile.source);
                                 projectile.Kill();
                             }
                         }

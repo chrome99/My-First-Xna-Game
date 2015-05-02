@@ -25,9 +25,9 @@ namespace My_first_xna_game
         {
             foreach (Camera camera in cameraList)
             {
-                camera.Update(newState, oldState, gameTime);
-                camera.map.Update(newState, oldState, gameTime, camera);
+                camera.Update(newState, oldState, gameTime);                
             }
+            cameraList[0].map.Update(newState, oldState, gameTime);
         }
         public override void Draw(SpriteBatch spriteBatch)
         {

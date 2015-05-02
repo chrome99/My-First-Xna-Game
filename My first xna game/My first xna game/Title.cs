@@ -130,7 +130,7 @@ namespace My_first_xna_game
                         Camera camera4 = new Camera(new Rectangle(960, 540, 944, 540), map, map.player4);
 
                         //set scene to map
-                        Game.scene = new World(new List<Camera> { camera1});// , camera2, camera3, camera4 });
+                        Game.scene = new World(new List<Camera> { camera1 , camera2, camera3, camera4 });
                         break;
 
                     case 1:
