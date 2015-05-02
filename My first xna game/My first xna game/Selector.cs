@@ -12,6 +12,7 @@ namespace My_first_xna_game
         public static Rectangle selectorRect = new Rectangle(128, 64, 32, 32);
         public WindowItem currentTarget;
         public int currentTargetNum;
+        public int abs;
         public Player player;
         private Texture2D texture;
         private List<WindowItem> targets;
@@ -44,14 +45,8 @@ namespace My_first_xna_game
 
         public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
         {
-            /*if (currentTargetNum > 1)
-            {
-                Shop.blabla = 100;
-            }
-            else
-            {
-                Shop.blabla = 0;
-            }*/
+            Shop.blabla = "ctn: " + currentTargetNum + "\nabs: " + abs;
+
             if (targets.Count == 0)
             {
                 visible = false;
@@ -119,7 +114,7 @@ namespace My_first_xna_game
             }
 
             //left
-            if (newState.IsKeyDown(player.keys.left) && leftKeyReleased)
+            /*if (newState.IsKeyDown(player.keys.left) && leftKeyReleased)
             {
                 if (currentTargetNum > 0)
                 {
@@ -131,7 +126,7 @@ namespace My_first_xna_game
             else if (!oldState.IsKeyDown(player.keys.left))
             {
                 leftKeyReleased = true;
-            }
+            }*/
 
             //don't update up and down when (newRow == 0).
             if (newRow == 0) { return; }

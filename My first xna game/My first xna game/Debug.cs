@@ -32,7 +32,7 @@ namespace My_first_xna_game
                 "\nX:" + player.position.X / Tile.size +
                 "\nY: " + player.position.Y / Tile.size +
                 "\nMovement: " + player.movingState +
-                //"\n blabla: " + Shop.blabla +
+                "\n blabla: " + Shop.blabla +
                 "\nDirection: " + player.direction;
         }
 
