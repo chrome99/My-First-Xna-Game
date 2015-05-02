@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 
 namespace My_first_xna_game
 {
+    // TODO: Classes should not have 'Instance' in their names
     class ItemInstance
     {
         public static Item apple = new Item(169, useApple, 5, 0.5f, true);

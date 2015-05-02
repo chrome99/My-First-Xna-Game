@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.Content;
 
 namespace My_first_xna_game
 {
-
     public class Game : Microsoft.Xna.Framework.Game
     {
         /*
@@ -44,27 +43,28 @@ namespace My_first_xna_game
          * sometimes the enemy dosent attack you even if you get into its range -  youl need to get out and then he will attack you.
          */
 
-        //graphics and controls
+        // Graphics and controls
         public static GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         KeyboardState oldState;
 
         public enum Depth { front, windowsSelector, windowsData, windows, above, player, projectiles, below, background }
+
         public static float DepthToFloat(Depth type)
         {
-            return (float)type / 10;
+            return (float)type / 1000;
         }
 
-        //public static Rectangle worldRect;
-        public static Scene scene = new Scene();
+        // public static Rectangle worldRect;
+        public static Scene scene;
 
-        //timer list
+        // Timer list
         public static List<Timer> timersList = new List<Timer>();
 
-        //classes lists
+        // Class lists
         private List<GameObject> tagList = new List<GameObject>();
 
-
+        // TODO: Is this needed?
         public static ContentManager content;
 
         public Game()
@@ -74,16 +74,14 @@ namespace My_first_xna_game
             graphics.PreferredBackBufferHeight = 1080;
             graphics.PreferredBackBufferWidth = 1920;
             Content.RootDirectory = "Content";
-        }
+       } 
 
         protected override void Initialize()
         {
-
             content = Content;
+            scene = new Title();
 
-            scene = new Title(Game.content);
-
-            //intialize keyboard (old) state
+            // Initialize keyboard (old) state
             oldState = Keyboard.GetState();
 
             base.Initialize();
@@ -104,10 +102,10 @@ namespace My_first_xna_game
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            //update newState
+            // Update newState
             KeyboardState newState = Keyboard.GetState();
 
-            //Update
+            // Update
             foreach(Timer timer in timersList)
             {
                 timer.Update(gameTime);
@@ -118,7 +116,7 @@ namespace My_first_xna_game
             }
             
 
-            //update oldState
+            // Update oldState
             oldState = newState;
 
             base.Update(gameTime);

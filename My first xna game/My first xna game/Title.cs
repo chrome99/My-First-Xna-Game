@@ -19,14 +19,14 @@ namespace My_first_xna_game
         bool keyDownReleased;
         bool keyUpReleased;
 
-        public Title(ContentManager Content)
+        public Title()
         {
-            background = new Picture(Content.Load<Texture2D>("title"), Vector2.Zero, null);
+            background = new Picture(Game.content.Load<Texture2D>("title"), Vector2.Zero, null);
             background.depth = Game.DepthToFloat(Game.Depth.background);
-            newgame = new Text(Content.Load<SpriteFont>("medival1"), new Vector2(50f, 300f), Color.BurlyWood, "New Game");
-            loadgame = new Text(Content.Load<SpriteFont>("medival1"), new Vector2(50f, 350f), Color.BurlyWood, "Continue");
+            newgame = new Text(Game.content.Load<SpriteFont>("medival1"), new Vector2(50f, 300f), Color.BurlyWood, "New Game");
+            loadgame = new Text(Game.content.Load<SpriteFont>("medival1"), new Vector2(50f, 350f), Color.BurlyWood, "Continue");
             loadgame.opacity = 50;
-            quit = new Text(Content.Load<SpriteFont>("medival1"), new Vector2(50f, 400f), Color.BurlyWood, "Quit");
+            quit = new Text(Game.content.Load<SpriteFont>("medival1"), new Vector2(50f, 400f), Color.BurlyWood, "Quit");
         }
         public override void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
         {

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace My_first_xna_game
 {
+    // TODO: A class definition should never have the word "Instance" in it's name
     public class ObjectInstance
     {
         public Map.UpdateCollision updateCollision;

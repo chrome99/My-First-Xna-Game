@@ -56,6 +56,7 @@ namespace My_first_xna_game
             return result;
         }
 
+        // TODO: typo
         public static Direction OppsiteDirection(Direction direction)
         {
             switch (direction)
@@ -75,7 +76,7 @@ namespace My_first_xna_game
             return 0;
         }
 
-        public static bool isMoving(MovingState gameObject)
+        public static bool IsMoving(MovingState gameObject)
         {
             if (gameObject == MovingState.walking || gameObject == MovingState.running)
             {

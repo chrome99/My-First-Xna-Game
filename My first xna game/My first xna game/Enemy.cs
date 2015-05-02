@@ -16,6 +16,8 @@ namespace My_first_xna_game
         public List<Hostile> targetsList;
         private Hostile currentTarget;
         private bool huntMode = false;
+
+        /// TODO: typo
         public int raduisSize = 5;
         public Rectangle raduis
         {
@@ -76,6 +78,9 @@ namespace My_first_xna_game
             direction = MovementManager.DirectionToGameObject(this, target);
             movementManager.MoveActor(this, direction, (int)speed);
         }
+
+        // TODO: MoveToTarget(Hostile target) and MoveToTarget(Player target) do the same thing.
+        // Because Player inherits Hostile, this function is not needed.
         private void MoveToTarget(Player target)
         {
             autoMovement = MovementManager.Auto.off;

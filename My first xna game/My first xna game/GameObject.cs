@@ -16,9 +16,12 @@ namespace My_first_xna_game
         public Vector2 position;
         public Vector2 size = new Vector2(Tile.size, Tile.size);
         public List<string> tags = new List<string>();
+
+        // TODO: Bad names for bool
         public bool through;
         public bool collision = true;
         public bool collisionFunction = false;
+
         public MovementManager.Direction view;
         public bool alive = true;
         public MovementManager movementManager;
@@ -55,7 +58,7 @@ namespace My_first_xna_game
         public virtual void Update(GameTime gameTime) { }
         public virtual void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition) { }
 
-        public void reset()
+        public void Reset()
         {
             movementManager.MoveTo(this, new Vector2(10 * 32, 30 * 32));
         }
