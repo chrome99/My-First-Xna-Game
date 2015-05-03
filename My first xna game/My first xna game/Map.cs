@@ -48,6 +48,7 @@ namespace My_first_xna_game
             player1.stats.cooldown = 1000f;
             player1.stats.defence = 2;
             player1.stats.agility = 1;
+            player1.gold = 25;
 
             //intialize player
             Player.PlayerKeys player2Keys;
@@ -72,6 +73,7 @@ namespace My_first_xna_game
             player2.stats.cooldown = 1000f;
             player2.stats.defence = 2;
             player2.stats.agility = 1;
+            player2.gold = 25;
 
             //intialize player
             Player.PlayerKeys player3Keys;
@@ -96,6 +98,7 @@ namespace My_first_xna_game
             player3.stats.cooldown = 1000f;
             player3.stats.defence = 2;
             player3.stats.agility = 1;
+            player3.gold = 25;
 
             //intialize player
             Player.PlayerKeys player4Keys;
@@ -120,6 +123,9 @@ namespace My_first_xna_game
             player4.stats.cooldown = 1000f;
             player4.stats.defence = 2;
             player4.stats.agility = 1;
+            player4.gold = 25;
+
+            player4.pack.AddItem(ItemCollection.apple);
 
             //bla
             hud = new Window(Game.content.Load<Texture2D>("windowskin"), new Vector2(0f, 0f), 120, 90, player1);
@@ -160,19 +166,10 @@ namespace My_first_xna_game
             for (int i = 0; i < gameObjectList.Count; i++ )
             {
                 GameObject gameObject = gameObjectList[i];
-                if (true)//camera.InCamera(gameObject))
+                Sprite sprite = gameObject as Sprite;
+                if (sprite != null)
                 {
-                    Player player = gameObject as Player;
-                    if (player != null)
-                    {
-                        player.UpdatePlayer(gameTime, newState, oldState, Game.content, this);
-
-                    }
-                    Sprite sprite = gameObject as Sprite;
-                    if (sprite != null)
-                    {
-                        sprite.Update(gameTime);
-                    }
+                    sprite.Update(gameTime);
                 }
 
             }

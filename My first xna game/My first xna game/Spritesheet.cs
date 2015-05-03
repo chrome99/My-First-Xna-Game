@@ -41,16 +41,12 @@ namespace My_first_xna_game
         {
             if (visible)
             {
-                DrawPlayer(spriteBatch, offsetRect, screenPosition);
-
                 Rectangle drawingRect = bounds;
                 drawingRect.X = screenPosition.X + drawingRect.X - offsetRect.X;
                 drawingRect.Y = screenPosition.Y + drawingRect.Y - offsetRect.Y;
                 spriteBatch.Draw(texture, drawingRect, rect, Color.White * getOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
             }
         }
-
-        public virtual void DrawPlayer(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition) { }
 
         public override void UpdateSpritesheet(GameTime gameTime)
         {
@@ -76,11 +72,13 @@ namespace My_first_xna_game
                     }
                 }
             }
+
+            UpdatePlayer(gameTime);
             
         }
 
         protected virtual void UpdateProjectile() { }
-
+        protected virtual void UpdatePlayer(GameTime gameTime) { }
         protected virtual void UpdateActor() { }
 
         public void StartAnimation(MovementManager.Direction Direction, bool animation = true)

@@ -44,7 +44,8 @@ namespace My_first_xna_game
         public Hostile(Texture2D texture, Vector2 position, MovementManager.Auto autoMovement = MovementManager.Auto.off)
             : base(texture, position, autoMovement)
         {
-
+            //update timer max
+            cooldownTimer.max = stats.cooldown;
         }
 
         protected override void UpdateHostile()
@@ -56,12 +57,10 @@ namespace My_first_xna_game
             {
                 Kill();
             }
-
-            //update timer max
-            cooldownTimer.max = stats.cooldown;
         }
 
         protected virtual void UpdateEnemy() { }
+        protected virtual void UpdatePlayer() { }
 
         public void DealDamage(Hostile source)
         {

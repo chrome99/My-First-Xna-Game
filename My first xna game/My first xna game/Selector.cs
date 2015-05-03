@@ -160,8 +160,22 @@ namespace My_first_xna_game
         {
             if (visible)
             {
-                Rectangle newPosition = bounds;
-                spriteBatch.Draw(texture, newPosition, selectorRect, Color.White * drawingOpacity, 0f, Vector2.Zero, SpriteEffects.None, depth);
+                Vector2 newPositionVec;
+                if (source == null)
+                {
+                    newPositionVec = position;
+                }
+                else
+                {
+                    newPositionVec = position + source.position;
+                }
+                newPositionVec.X = newPositionVec.X + screenRect.X - offsetRect.X;
+                newPositionVec.Y = newPositionVec.Y + screenRect.Y - offsetRect.Y;
+                Rectangle newPositionRect = bounds;
+                newPositionRect.X = (int)newPositionVec.X;
+                newPositionRect.Y = (int)newPositionVec.Y;
+
+                spriteBatch.Draw(texture, newPositionRect, selectorRect, Color.White * drawingOpacity, 0f, Vector2.Zero, SpriteEffects.None, depth);
             }
         }
 

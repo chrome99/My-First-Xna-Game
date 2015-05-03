@@ -12,7 +12,7 @@ namespace My_first_xna_game
         public Rectangle mapRect;
         public Rectangle screenRect;
         public enum Corner {topLeft, topRight, bottomLeft, bottomRight}
-        private Player player;
+        public Player player;
 
         public Camera(Rectangle screenRect, Map map, Player player)
         {
@@ -38,6 +38,7 @@ namespace My_first_xna_game
         public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
         {
             Move(player.position - cellNumber(player));
+            player.UpdateMapParameters(map, newState, oldState);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -45,6 +46,7 @@ namespace My_first_xna_game
             if (player.alive)
             {
                 map.Draw(spriteBatch, this);
+                player.DrawPlayerItems(spriteBatch, mapRect, screenRect);
             }
             else
             {

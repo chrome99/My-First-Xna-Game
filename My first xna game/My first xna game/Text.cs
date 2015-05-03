@@ -6,9 +6,10 @@ namespace My_first_xna_game
 {
     public class Text : WindowItem
     {
-        private SpriteFont font;
+        public bool changeToRed = false;
         public string text;
         public Color color;
+        private SpriteFont font;
 
         public Text(SpriteFont font, Vector2 position, Color color, string text, Window source = null)
             : base(source)
@@ -26,7 +27,37 @@ namespace My_first_xna_game
 
         public void Update(string text)
         {
-            this.text = text;
+            if (text != null)
+            {
+                this.text = text;
+            }
+
+            //change to red effect
+            if (changeToRed)
+            {
+                if (color.R > 200 && color.G < 50 && color.B < 50)
+                {
+                    color = new Color(255, 0, 0);
+                    changeToRed = false;
+                }
+                else
+                {
+                    if (color.R != 255)
+                    {
+                        color.R += 25;
+                    }
+
+                    if (color.G != 0)
+                    {
+                        color.G -= 25;
+                    }
+
+                    if (color.B != 0)
+                    {
+                        color.B -= 25;
+                    }
+                }
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenRect)

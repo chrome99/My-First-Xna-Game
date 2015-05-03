@@ -12,15 +12,15 @@ namespace My_first_xna_game
     {
         /*
          TODO:
-         * npc's
+         * conversation with npc
          * trade
          * pvp menu
          * pickup items
-         * skills
          * equipment
+         * skills
          * levels (in level up you can upgrade skills or stats)
          * map editor
-         * round raduis, and test what happens with two targets at the same time
+         * round raduis for enemies, and test what happens with two targets at the same time
          * better AI for enemies
          * real HUD
          * little fighter world(set speed for X and for Y (or divide X by 2 for Y), set spritesheets, set maps(background, camera that only scrolls right and left, tiles drawing, player fence / limit))
@@ -33,6 +33,8 @@ namespace My_first_xna_game
          * ini file with configuration.
          
          BUGS:
+         * fix collision handeling
+         * when the player's quits shop he is stuck until he presse's menu key
          * what if one camera shows one map, and other camera shows other map?
          * screen buffer for each camera
          * fix debug and inventory position for every player
@@ -48,7 +50,7 @@ namespace My_first_xna_game
         SpriteBatch spriteBatch;
         KeyboardState oldState;
 
-        public enum Depth { front, windowsSelector, windowsData, windows, above, player, projectiles, below, background }
+        public enum Depth { front, windowsSelector, windowsDataFront, windowsData, windows, above, player, projectiles, below, background }
 
         public static float DepthToFloat(Depth type)
         {

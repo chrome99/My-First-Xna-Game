@@ -32,6 +32,31 @@ namespace My_first_xna_game
             originalOpacity = opacity;
             passable = true;
         }
+        public static Vector2 GetWindowAbove(Rectangle positionBounds, Window window)
+        {
+            //set center
+            Vector2 newPosition;
+            newPosition.X = positionBounds.X + positionBounds.Width / 2 - window.bounds.Width / 2;
+            newPosition.Y = positionBounds.Y + positionBounds.Height / 2 - window.bounds.Height / 2;
+
+            //set above
+            newPosition.Y = newPosition.Y - positionBounds.Height / 2 - window.bounds.Height / 2;
+
+            return newPosition;
+        }
+
+        public void SetWindowAbove(Rectangle positionBounds)
+        {
+            //set center
+            Vector2 newPosition;
+            newPosition.X = positionBounds.X + positionBounds.Width / 2 - bounds.Width / 2;
+            newPosition.Y = positionBounds.Y + positionBounds.Height / 2 - bounds.Height / 2;
+
+            //set above
+            newPosition.Y = newPosition.Y - positionBounds.Height / 2 - bounds.Height / 2;
+
+            position = newPosition;
+        }
 
         public override Rectangle bounds
         {

@@ -12,17 +12,16 @@ namespace My_first_xna_game
         private List<WindowItem> optionsList;
         public bool alive = true;
         private Player player;
-        private Selector selector;
+        public Selector selector;
         public Window window;
         private bool confirmKeyReleased = false;
         private Vector2 biggestOptionSize = Vector2.Zero;
         private double optionsRoot;
         private Vector2 windowSize;
         private Vector2 spacing;
-        public static string blablabla;
         private int newRow;
 
-        public Choice(Player player, List<WindowItem> optionsList, Arrangement arrangement = Arrangement.square)
+        public Choice(Rectangle sourcePosition, Player player, List<WindowItem> optionsList, Arrangement arrangement = Arrangement.square)
         {
             //intialize variables
             this.optionsList = optionsList;
@@ -100,6 +99,7 @@ namespace My_first_xna_game
 
             //create window and selector
             window = new Window(Game.content.Load<Texture2D>("windowskin"), Vector2.Zero, (int)windowSize.X, (int)windowSize.Y, player);
+            window.SetWindowAbove(sourcePosition);
             selector = new Selector(window, optionsList, biggestOptionSize + spacing, 0, newRow);
             selector.player = player;
 
@@ -114,12 +114,6 @@ namespace My_first_xna_game
             if (!alive) { return; }
             window.Update(gameTime);
             selector.Update(newState, oldState, gameTime);
-
-            Text albalb = selector.currentTarget as Text;
-            if (albalb != null)
-            {
-                blablabla = albalb.text;
-            }
             
 
             if (selector.visible)
@@ -130,16 +124,6 @@ namespace My_first_xna_game
 
         protected void UpdateInput(KeyboardState newState, KeyboardState oldState)
         {
-            if (newState.IsKeyDown(player.kbKeys.attack) && confirmKeyReleased)
-            {
-                
-                confirmKeyReleased = false;
-            }
-            else if (!oldState.IsKeyDown(player.kbKeys.attack))
-            {
-                confirmKeyReleased = true;
-            }
-
             if (newState.IsKeyDown(player.kbKeys.opMenu) && confirmKeyReleased)
             {
                 alive = false;
@@ -151,10 +135,10 @@ namespace My_first_xna_game
             if (!alive) { return; }
             foreach(WindowItem option in optionsList)
             {
-                option.Draw(spriteBatch, new Rectangle(), screenRect);
+                option.Draw(spriteBatch, offsetRect, screenRect);
             }
-            selector.Draw(spriteBatch, new Rectangle(), screenRect);
-            window.Draw(spriteBatch, new Rectangle(), screenRect);
+            selector.Draw(spriteBatch, offsetRect, screenRect);
+            window.Draw(spriteBatch, offsetRect, screenRect);
         }
     }
 }

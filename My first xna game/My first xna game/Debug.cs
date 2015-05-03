@@ -14,7 +14,7 @@ namespace My_first_xna_game
 
         // TODO: Can a Debug HUD be alive or dead?
         private bool alive = false;
-        private string text;
+        private string text = "";
         private SpriteFont font;
         private Color color;
         private Player player;
@@ -30,11 +30,12 @@ namespace My_first_xna_game
 
         public void Update()
         {
+            if (!alive) { return; }
             text =
+                "Gold: " + player.gold +
                 "\nX:" + player.position.X / Tile.size +
                 "\nY: " + player.position.Y / Tile.size +
                 "\nMovement: " + player.movingState +
-                "\nblabla: " + Choice.blablabla + 
                 "\nDirection: " + player.direction;
         }
 

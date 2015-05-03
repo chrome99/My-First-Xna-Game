@@ -12,18 +12,18 @@ namespace My_first_xna_game
         public delegate void UsingFunction(Hostile source, GameObject target);
         public int iconID;
         public UsingFunction function;
-        public bool oneTime;
+        public bool wasted;
         public Picture icon;
         public int price;
         public float weight;
 
-        public Item(int iconID, UsingFunction function, int price, float weight, bool oneTime)
+        public Item(int iconID, UsingFunction function, int price, float weight, bool wasted)
         {
             this.iconID = iconID;
             this.function = function;
             this.price = price;
             this.weight = weight;
-            this.oneTime = oneTime;
+            this.wasted = wasted;
         }
     }
 }

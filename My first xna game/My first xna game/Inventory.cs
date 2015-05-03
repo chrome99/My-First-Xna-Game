@@ -17,6 +17,8 @@ namespace My_first_xna_game
         protected Selector selector;
         protected Player player;
         protected bool useKeyReleased = false;
+        //private Vector2 savedWindowPosition; //effects
+        //private bool positionMaxed = false; //effects
 
         public int margin
         {
@@ -32,11 +34,23 @@ namespace My_first_xna_game
 
             if (createPack)
             {
-                pack = player.pack;
-                pack.CreateItems(this);
-                selector = new Selector(window, window.itemsList, new Vector2(Item.size + spacing, Item.size + spacing), spacing / 2, margin);
-                selector.player = this.player;
+                CreatePack(player);
             }
+        }
+
+        protected void CreatePack(Actor sourcePack)
+        {
+            pack = sourcePack.pack;
+            pack.CreateItems(this);
+            selector = new Selector(window, window.itemsList, new Vector2(Item.size + spacing, Item.size + spacing), spacing / 2, margin);
+            selector.player = this.player;
+        }
+
+        public void Revive()
+        {
+            window.SetWindowAbove(player.bounds);
+            //savedWindowPosition = window.position; //effects
+            alive = true;
         }
 
         protected void SortItems()
@@ -50,10 +64,30 @@ namespace My_first_xna_game
         public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
         {
             if (!alive) { return; }
-            UpdateBuyInventory(newState, oldState, gameTime);
+
+            UpdateBuyInventory();
 
             window.Update(gameTime);
             selector.Update(newState, oldState, gameTime);
+
+            //window speical effects
+            /*
+            if (!positionMaxed)
+            {
+                window.position.Y += 0.25f;
+                if (window.position.Y >= savedWindowPosition.Y + 5f)
+                {
+                    positionMaxed = true;
+                }
+            }
+            if (positionMaxed)
+            {
+                window.position.Y -= 0.25f;
+                if (window.position.Y <= savedWindowPosition.Y)
+                {
+                    positionMaxed = false;
+                }
+            }*/
 
             if (selector.visible)
             {
@@ -61,7 +95,7 @@ namespace My_first_xna_game
             }
         }
 
-        protected virtual void UpdateBuyInventory(KeyboardState newState, KeyboardState oldState, GameTime gameTime) { }
+        protected virtual void UpdateBuyInventory() { }
 
         protected void UpdateInput(KeyboardState newState, KeyboardState oldState)
         {
@@ -82,7 +116,7 @@ namespace My_first_xna_game
         protected virtual void HandleItemChoice()
         {
             pack.items[selector.currentTargetNum].function(player, player);
-            if (pack.items[selector.currentTargetNum].oneTime)
+            if (pack.items[selector.currentTargetNum].wasted)
             {
                 pack.SubItem(pack.items[selector.currentTargetNum]);
                 window.itemsList.Remove(selector.currentTarget);
@@ -91,15 +125,16 @@ namespace My_first_xna_game
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, Rectangle screenPosition)
+        public void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition)
         {
             if (!alive) { return; }
-            DrawShop(spriteBatch, screenPosition);
 
-            window.Draw(spriteBatch, new Rectangle(), screenPosition);
-            selector.Draw(spriteBatch, new Rectangle(), screenPosition);
+            DrawBuyInventory(spriteBatch, offsetRect, screenPosition);
+
+            window.Draw(spriteBatch, offsetRect, screenPosition);
+            selector.Draw(spriteBatch, offsetRect, screenPosition);
         }
 
-        protected virtual void DrawShop(SpriteBatch spriteBatch, Rectangle screenPosition) { }
+        public virtual void DrawBuyInventory(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition) { }
     }
 }

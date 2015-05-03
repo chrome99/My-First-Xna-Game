@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actor.cs" />
+    <Compile Include="BuyInventory.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Choice.cs" />
     <Compile Include="CollisionManager.cs" />
@@ -122,8 +123,8 @@
     <Compile Include="Map.cs" />
     <Compile Include="MapCell.cs" />
     <Compile Include="MovementManager.cs" />
-    <Compile Include="ObjectInstance1.cs" />
-    <Compile Include="ObjectInstance.cs" />
+    <Compile Include="ObjectCollection1.cs" />
+    <Compile Include="ObjectCollection.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Projectile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

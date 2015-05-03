@@ -41,7 +41,7 @@ namespace My_first_xna_game
 
         public static bool GameObjectTouch(Sprite touchingGameObject, GameObject touchedGameObject)
         {
-            int thickness = (int)touchingGameObject.speed;
+            int thickness = (int)touchingGameObject.speed + 1;
 
             if (!touchingGameObject.canCollide || !touchedGameObject.canCollide)
             { return false; }

@@ -14,6 +14,7 @@ namespace My_first_xna_game
     public class Player : Hostile
     {
         public PlayerKeys kbKeys;
+        public int gold;
         private Inventory inventory;
         private Shop shop;
         private DebugHUD debug;
@@ -24,6 +25,9 @@ namespace My_first_xna_game
         private int releasedKeysCount;
         private bool fireballkeyReleased = false;
         private bool menuKeyReleased = false;
+        private Map map;
+        private KeyboardState newState;
+        private KeyboardState oldState;
 
         public struct PlayerKeys
         {
@@ -51,6 +55,13 @@ namespace My_first_xna_game
             msgWindow.Kill();
 
             shop = new Shop();
+        }
+
+        public void UpdateMapParameters(Map map, KeyboardState newState, KeyboardState oldState)
+        {
+            this.map = map;
+            this.newState = newState;
+            this.oldState = oldState;
         }
 
         public void FlipRunning()
@@ -96,23 +107,32 @@ namespace My_first_xna_game
             shop.alive = true;
         }
 
-        public void UpdatePlayer(GameTime gameTime, KeyboardState newState, KeyboardState oldState, ContentManager Content, Map map)
+        protected override void UpdatePlayer(GameTime gameTime)
         {
+            //TODO: is this being updated the number of players?
             inventory.Update(newState, oldState, gameTime);
             shop.Update(newState, oldState, gameTime);
             debug.Update();
             debug.UpdateInput(newState, oldState);
             msgWindow.Update(gameTime);
 
-            UpdateInput(newState, oldState, Content, map);
+            UpdateInput();
         }
-        protected void UpdateInput(KeyboardState newState, KeyboardState oldState, ContentManager Content, Map map)
+
+        protected void UpdateInput()
         {
             //cancal things, and open menu when can
             if (newState.IsKeyDown(kbKeys.opMenu) && menuKeyReleased)
             {
-                if (shop.alive)// && !shop.choice.alive) ~~~ i don't know why i added this...
+                if (shop.alive)
                 {
+                    if (shop.buyInventory.alive)
+                    {
+                        shop.buyInventory.alive = false;
+                        shop.choice.alive = true;
+                        menuKeyReleased = false;
+                        return;
+                    }
                     shop.alive = false;
                 }
                 else if (msgWindow.alive)
@@ -125,7 +145,7 @@ namespace My_first_xna_game
                 }
                 else
                 {
-                    inventory.alive = true;
+                    inventory.Revive();
                 }
 
                 menuKeyReleased = false;
@@ -163,7 +183,7 @@ namespace My_first_xna_game
             //if perssed attack
             if (newState.IsKeyDown(kbKeys.attack) && fireballkeyReleased)
             {
-                Projectile projectile = new Projectile(map ,Content.Load<Texture2D>("wolf"), 6, this, 60);
+                Projectile projectile = new Projectile(map, Game.content.Load<Texture2D>("wolf"), 6, this, 60);
                 projectile.passable = true;
 
                 fireballkeyReleased = false;
@@ -239,13 +259,12 @@ namespace My_first_xna_game
             }
         }
 
-        public override void DrawPlayer(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition)
+        public void DrawPlayerItems(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition)
         {
-            inventory.Draw(spriteBatch, screenPosition);
-            shop.Draw(spriteBatch, screenPosition);
+            inventory.Draw(spriteBatch, offsetRect, screenPosition);
+            shop.Draw(spriteBatch, offsetRect, screenPosition);
             debug.Draw(spriteBatch, screenPosition);
             msgWindow.Draw(spriteBatch, offsetRect, screenPosition);
-
         }
     }
 }

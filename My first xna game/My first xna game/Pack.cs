@@ -28,7 +28,7 @@ namespace My_first_xna_game
 
         public void AddItem(Item item)
         {
-            items.Add(new Item(item.iconID, item.function, item.price, item.weight, item.oneTime));
+            items.Add(new Item(item.iconID, item.function, item.price, item.weight, item.wasted));
         }
 
         public bool SubItem(Item item)

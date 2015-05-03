@@ -10,7 +10,6 @@ namespace My_first_xna_game
         public virtual Vector2 GetDrawingPosition() { return position; }
         public bool visible = true;
         public float depth;
-
         public float originalOpacityState;
         public float opacity = 100f;
 

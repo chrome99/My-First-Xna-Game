@@ -7,44 +7,84 @@ using Microsoft.Xna.Framework.Content;
 
 namespace My_first_xna_game
 {
-    class Shop : Inventory
+    class Shop// : Inventory
     {
-        private Actor merchant;
+        public bool alive;
+        public BuyInventory buyInventory;
+        public Choice choice;
         private Text buyText;
         private Text sellText;
         private Text tallkText;
         private Text exitText;
-        public Choice choice;
+        private Player player;
+        private Actor merchant;
+        private bool confirmKeyReleased = false;
 
-        public Shop() : base(null, false) { alive = false; }
+        public Shop() { }
+
         public Shop(Player player, Actor merchant)
-            : base(player, true)
         {
+            this.player = player;
             this.merchant = merchant;
 
-            window.visible = false;
-            selector.visible = false;
-            window.position = merchant.position;
+            //intialize Buy Inventory
+            buyInventory = new BuyInventory(player, merchant);
+            buyInventory.alive = false;
+            buyInventory.window.SetWindowAbove(merchant.bounds);
+             
+
+            //intialize Choice
             buyText = new Text(Game.content.Load<SpriteFont>("medival1"), Vector2.Zero, Color.White, "Buy");
             sellText = new Text(Game.content.Load<SpriteFont>("medival1"), Vector2.Zero, Color.White, "Sell");
             exitText = new Text(Game.content.Load<SpriteFont>("medival1"), Vector2.Zero, Color.White, "Talk");
             tallkText = new Text(Game.content.Load<SpriteFont>("medival1"), Vector2.Zero, Color.White, "Exit");
-            choice = new Choice(player, new List<WindowItem> { buyText, sellText, tallkText, exitText }, Choice.Arrangement.square);
-            //chouice should return some value to home function when the player chooses something
+            choice = new Choice(merchant.bounds, player, new List<WindowItem> { buyText, sellText, tallkText, exitText }, Choice.Arrangement.square);
         }
-        protected override void UpdateBuyInventory(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
+
+        public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
         {
+            if (!alive) { return; }
             choice.Update(newState, oldState, gameTime);
+            buyInventory.Update(newState, oldState, gameTime);
+
+            UpdateInput(newState, oldState);
         }
 
-        protected override void HandleItemChoice()
+        private void UpdateInput(KeyboardState newState, KeyboardState oldState)
         {
-            //choice.alive = true;
+            if (newState.IsKeyDown(player.kbKeys.attack) && confirmKeyReleased)
+            {
+                switch(choice.selector.currentTargetNum)
+                {
+                    case 0: //Buy
+                        choice.alive = false;
+                        buyInventory.alive = true;
+                        break;
+
+                    case 1: //Sel
+                        break;
+
+                    case 2: //Exit
+                        alive = false;
+                        break;
+
+                    case 3: //Talk
+
+                        break;
+                }
+                confirmKeyReleased = false;
+            }
+            else if (!oldState.IsKeyDown(player.kbKeys.attack))
+            {
+                confirmKeyReleased = true;
+            }
         }
 
-        protected override void DrawShop(SpriteBatch spriteBatch, Rectangle screenPosition)
+        public void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition)
         {
-            choice.Draw(spriteBatch, new Rectangle(), screenPosition);
+            if (!alive) { return; }
+            choice.Draw(spriteBatch, offsetRect, screenPosition);
+            buyInventory.Draw(spriteBatch, offsetRect, screenPosition);
         }
 
     }

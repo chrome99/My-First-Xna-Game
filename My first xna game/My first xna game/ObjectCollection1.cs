@@ -109,37 +109,37 @@ namespace My_first_xna_game
             //npc and player
             if (CollisionManager.GameObjectTouch(player, npc))
             {
-                if (npc.collisionHandled && player.collisionHandled)
+                if (!npc.collisionHandled && !player.collisionHandled)
                 {
                     movementManager.TurnActor(npc, MovementManager.OppositeDirection(player.direction));
                     player.Shop(npc);
                     //movementManager.Knockback(player, MovementManager.Direction.left, 100);
                     //player.MessageWindow(npc.bounds, "the great king wants to see you. \n no, he dosent.");
-                    player.collisionHandled = false;
-                    npc.collisionHandled = false;
+                    player.collisionHandled = true;
+                    npc.collisionHandled = true;
                 }
             }
             else
             {
-                player.collisionHandled = true;
-                npc.collisionHandled = true;
+                player.collisionHandled = false;
+                npc.collisionHandled = false;
             }
             
             //running switch and player
             if (CollisionManager.GameObjectCollision(player, runningSwitch))
             {
-                if (runningSwitch.collisionHandled && player.collisionHandled)
+                if (!runningSwitch.collisionHandled && !player.collisionHandled)
                 {
                     player.FlipRunning();
                     player.pack.AddItem(ItemCollection.RandomItem());
-                    player.collisionHandled = false;
-                    runningSwitch.collisionHandled = false;
+                    player.collisionHandled = true;
+                    runningSwitch.collisionHandled = true;
                 }
             }
             else
             {
-                player.collisionHandled = true;
-                runningSwitch.collisionHandled = true;
+                player.collisionHandled = false;
+                runningSwitch.collisionHandled = false;
             }
             //enemy and player
             foreach (GameObject gameObject in gameObjectList)
@@ -149,15 +149,15 @@ namespace My_first_xna_game
                 {
                     if (CollisionManager.GameObjectTouch(enemy, player))
                     {
-                        if (enemy.collisionHandled)
+                        if (!enemy.collisionHandled)
                         {
                             player.DealDamage(enemy);
-                            enemy.collisionHandled = false;
+                            enemy.collisionHandled = true;
                         }
                     }
                     else
                     {
-                        enemy.collisionHandled = true;
+                        enemy.collisionHandled = false;
                     }
                 }
             }
