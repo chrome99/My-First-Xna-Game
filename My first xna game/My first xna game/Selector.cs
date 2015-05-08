@@ -167,7 +167,7 @@ namespace My_first_xna_game
                 }
                 else
                 {
-                    newPositionVec = position + source.position;
+                    newPositionVec = position + source.position + source.thickness;
                 }
                 newPositionVec.X = newPositionVec.X + screenRect.X - offsetRect.X;
                 newPositionVec.Y = newPositionVec.Y + screenRect.Y - offsetRect.Y;

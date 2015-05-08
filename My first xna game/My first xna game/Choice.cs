@@ -100,7 +100,7 @@ namespace My_first_xna_game
             //create window and selector
             window = new Window(Game.content.Load<Texture2D>("windowskin"), Vector2.Zero, (int)windowSize.X, (int)windowSize.Y, player);
             window.SetWindowAbove(sourcePosition);
-            selector = new Selector(window, optionsList, biggestOptionSize + spacing, 0, newRow);
+            selector = new Selector(window, optionsList, biggestOptionSize, 0, newRow);
             selector.player = player;
 
             foreach (WindowItem option in this.optionsList)

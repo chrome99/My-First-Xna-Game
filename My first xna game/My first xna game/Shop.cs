@@ -11,6 +11,7 @@ namespace My_first_xna_game
     {
         public bool alive;
         public BuyInventory buyInventory;
+        public SellInventory sellInventory;
         public Choice choice;
         private Text buyText;
         private Text sellText;
@@ -31,7 +32,11 @@ namespace My_first_xna_game
             buyInventory = new BuyInventory(player, merchant);
             buyInventory.alive = false;
             buyInventory.window.SetWindowAbove(merchant.bounds);
-             
+
+            //intialize Sell Inventory
+            sellInventory = new SellInventory(player, merchant);
+            sellInventory.alive = false;
+            sellInventory.window.SetWindowAbove(player.bounds);
 
             //intialize Choice
             buyText = new Text(Game.content.Load<SpriteFont>("medival1"), Vector2.Zero, Color.White, "Buy");
@@ -46,6 +51,7 @@ namespace My_first_xna_game
             if (!alive) { return; }
             choice.Update(newState, oldState, gameTime);
             buyInventory.Update(newState, oldState, gameTime);
+            sellInventory.Update(newState, oldState, gameTime);
 
             UpdateInput(newState, oldState);
         }
@@ -62,6 +68,8 @@ namespace My_first_xna_game
                         break;
 
                     case 1: //Sel
+                        choice.alive = false;
+                        sellInventory.alive = true;
                         break;
 
                     case 2: //Exit
@@ -85,6 +93,7 @@ namespace My_first_xna_game
             if (!alive) { return; }
             choice.Draw(spriteBatch, offsetRect, screenPosition);
             buyInventory.Draw(spriteBatch, offsetRect, screenPosition);
+            sellInventory.Draw(spriteBatch, offsetRect, screenPosition);
         }
 
     }

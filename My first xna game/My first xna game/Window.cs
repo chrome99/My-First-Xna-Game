@@ -90,7 +90,7 @@ namespace My_first_xna_game
                 drawingPosition.Y = screenPosition.Y + drawingPosition.Y - offsetRect.Y;
 
                 spriteBatch.Draw(texture, drawingPosition, windowRect, Color.White * getOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
-
+                int a = itemsList.Count;
                 //draw items
                 foreach (WindowItem item in itemsList)
                 {

@@ -15,6 +15,7 @@ namespace My_first_xna_game
     {
         public PlayerKeys kbKeys;
         public int gold;
+        public int maxGold = 100;
         private Inventory inventory;
         private Shop shop;
         private DebugHUD debug;
@@ -47,7 +48,7 @@ namespace My_first_xna_game
             this.kbKeys = keys;
 
             pack = new Pack();
-            inventory = new Inventory(this);
+            inventory = new Inventory(this, false);
             debug = new DebugHUD(Game.content.Load<SpriteFont>("Debug1"), Color.Wheat, this, keys.opDebug);
 
             msgWindow = new Window(Game.content.Load<Texture2D>("windowskin"), Vector2.Zero, 0, 0, null);
@@ -133,6 +134,13 @@ namespace My_first_xna_game
                         menuKeyReleased = false;
                         return;
                     }
+                    if (shop.sellInventory.alive)
+                    {
+                        shop.sellInventory.alive = false;
+                        shop.choice.alive = true;
+                        menuKeyReleased = false;
+                        return;
+                    }
                     shop.alive = false;
                 }
                 else if (msgWindow.alive)
@@ -141,7 +149,7 @@ namespace My_first_xna_game
                 }
                 else if (inventory.alive)
                 {
-                    inventory.alive = false;
+                    inventory.Kill();
                 }
                 else
                 {

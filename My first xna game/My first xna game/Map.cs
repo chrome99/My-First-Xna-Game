@@ -49,6 +49,8 @@ namespace My_first_xna_game
             player1.stats.defence = 2;
             player1.stats.agility = 1;
             player1.gold = 25;
+            player1.pack.AddItem(ItemCollection.apple);
+            player1.pack.AddItem(ItemCollection.bread);
 
             //intialize player
             Player.PlayerKeys player2Keys;
@@ -125,7 +127,6 @@ namespace My_first_xna_game
             player4.stats.agility = 1;
             player4.gold = 25;
 
-            player4.pack.AddItem(ItemCollection.apple);
 
             //bla
             hud = new Window(Game.content.Load<Texture2D>("windowskin"), new Vector2(0f, 0f), 120, 90, player1);

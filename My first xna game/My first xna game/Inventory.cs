@@ -42,15 +42,33 @@ namespace My_first_xna_game
         {
             pack = sourcePack.pack;
             pack.CreateItems(this);
+            SortItems();
             selector = new Selector(window, window.itemsList, new Vector2(Item.size + spacing, Item.size + spacing), spacing / 2, margin);
             selector.player = this.player;
+        }
+
+        protected void DeletePack()
+        {
+            for (int counter = 0; counter < pack.items.Count; counter++ )
+            {
+                pack.items[counter] = null;
+            }
+            //pack.items = new List<Item>();
+            selector = null;
         }
 
         public void Revive()
         {
             window.SetWindowAbove(player.bounds);
+            CreatePack(player);
             //savedWindowPosition = window.position; //effects
             alive = true;
+        }
+
+        public void Kill()
+        {
+            //DeletePack();
+            alive = false;
         }
 
         protected void SortItems()
@@ -66,6 +84,7 @@ namespace My_first_xna_game
             if (!alive) { return; }
 
             UpdateBuyInventory();
+            UpdateSellInventory();
 
             window.Update(gameTime);
             selector.Update(newState, oldState, gameTime);
@@ -96,6 +115,7 @@ namespace My_first_xna_game
         }
 
         protected virtual void UpdateBuyInventory() { }
+        protected virtual void UpdateSellInventory() { }
 
         protected void UpdateInput(KeyboardState newState, KeyboardState oldState)
         {
@@ -130,11 +150,13 @@ namespace My_first_xna_game
             if (!alive) { return; }
 
             DrawBuyInventory(spriteBatch, offsetRect, screenPosition);
+            DrawSellInventory(spriteBatch, offsetRect, screenPosition);
 
             window.Draw(spriteBatch, offsetRect, screenPosition);
             selector.Draw(spriteBatch, offsetRect, screenPosition);
         }
 
         public virtual void DrawBuyInventory(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition) { }
+        public virtual void DrawSellInventory(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition) { }
     }
 }

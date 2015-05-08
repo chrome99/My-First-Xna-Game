@@ -6,10 +6,14 @@ namespace My_first_xna_game
 {
     public class Text : WindowItem
     {
-        public bool changeToRed = false;
         public string text;
         public Color color;
         private SpriteFont font;
+        private bool changeColor;
+        private bool returnToOriginalColor;
+        private Color originalColorState;
+        private Color newColor;
+        private Timer changeColorTimer;
 
         public Text(SpriteFont font, Vector2 position, Color color, string text, Window source = null)
             : base(source)
@@ -33,31 +37,82 @@ namespace My_first_xna_game
             }
 
             //change to red effect
-            if (changeToRed)
+            if (changeColor)
             {
-                if (color.R > 200 && color.G < 50 && color.B < 50)
+                if (ChangeColor(newColor))
                 {
-                    color = new Color(255, 0, 0);
-                    changeToRed = false;
+                    changeColorTimer.timerSwitch = true;
+                    changeColor = false;
                 }
-                else
+
+            }
+
+            if (changeColorTimer != null)
+            {
+                if (changeColorTimer.result)
                 {
-                    if (color.R != 255)
-                    {
-                        color.R += 25;
-                    }
-
-                    if (color.G != 0)
-                    {
-                        color.G -= 25;
-                    }
-
-                    if (color.B != 0)
-                    {
-                        color.B -= 25;
-                    }
+                    returnToOriginalColor = true;
+                    changeColorTimer = null;
                 }
             }
+
+            if (returnToOriginalColor)
+            {
+                if (ChangeColor(originalColorState))
+                {
+                    returnToOriginalColor = false;
+                }
+            }
+        }
+
+        private bool ChangeColor(Color newColor)
+        {
+            if ((color.R > newColor.R - 25 && color.R < newColor.R + 25) &&
+                (color.G > newColor.G - 25 && color.G < newColor.G + 25) &&
+                (color.B > newColor.B - 25 && color.B < newColor.B + 25))
+            {
+                color = newColor;
+                return true;
+            }
+            else
+            {
+                if (color.R > newColor.R)
+                {
+                    color.R -= 25;
+                }
+                else if (color.R < newColor.R)
+                {
+                    color.R += 25;
+                }
+
+                if (color.G > newColor.G)
+                {
+                    color.G -= 25;
+                }
+                else if (color.G < newColor.G)
+                {
+                    color.G += 25;
+                }
+
+                if (color.B > newColor.B)
+                {
+                    color.B -= 25;
+                }
+                else if (color.B < newColor.B)
+                {
+                    color.B += 25;
+                }
+                return false;
+            }
+        }
+
+        public void ChangeColorEffect(Color newColor, float time)
+        {
+            if (changeColor || changeColorTimer != null || returnToOriginalColor) { return; }
+            changeColorTimer = new Timer(time, false);
+            originalColorState = color;
+            this.newColor = newColor;
+            changeColor = true;
         }
 
         public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenRect)
