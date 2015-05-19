@@ -3,8 +3,10 @@ using Microsoft.Xna.Framework;
 
 namespace My_first_xna_game
 {
-    class CollisionManager
+    public class CollisionManager
     {
+        public delegate void CollisionFunction(GameObject gameObject);
+
         public static bool GameObjectCollision(GameObject gameObject1, GameObject gameObject2)
         {
             if (!gameObject1.canCollide || !gameObject2.canCollide)

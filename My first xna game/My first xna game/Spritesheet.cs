@@ -48,7 +48,7 @@ namespace My_first_xna_game
             }
         }
 
-        public override void UpdateSpritesheet(GameTime gameTime)
+        protected override void UpdateSpritesheet(GameTime gameTime)
         {
             if (!alive) { return; }
             UpdateProjectile();

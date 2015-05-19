@@ -63,7 +63,7 @@ namespace My_first_xna_game
             }
         }
 
-        public override void DrawBuyInventory(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition)
+        protected override void DrawBuyInventory(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition)
         {
             foreach(Text price in priceTexts)
             {

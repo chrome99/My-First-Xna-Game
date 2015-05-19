@@ -54,7 +54,7 @@ namespace My_first_xna_game
             }
         }
 
-        public override void Update(GameTime gameTime)
+        protected override void UpdateSprite(GameTime gameTime)
         {
             /*if (updated) { return; }
             updated = true;*/
@@ -74,7 +74,7 @@ namespace My_first_xna_game
             }
         }
 
-        public virtual void UpdateSpritesheet(GameTime gameTime) { }
+        protected virtual void UpdateSpritesheet(GameTime gameTime) { }
 
         public override void Kill()
         {

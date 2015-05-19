@@ -19,8 +19,6 @@ namespace My_first_xna_game
         private Text hudText;
         private Picture hudPicture;
         public TileMap tileMap;
-        public delegate void UpdateCollision();
-        private List<UpdateCollision> UpdateInstanceCollision = new List<UpdateCollision>();
 
         public Map(TileMap tileMap)
         {
@@ -49,8 +47,9 @@ namespace My_first_xna_game
             player1.stats.defence = 2;
             player1.stats.agility = 1;
             player1.gold = 25;
-            player1.pack.AddItem(ItemCollection.apple);
-            player1.pack.AddItem(ItemCollection.bread);
+
+            player1.pack.AddItem(new List<Item> { ItemCollection.apple, ItemCollection.apple, ItemCollection.apple, ItemCollection.apple, ItemCollection.apple });
+
 
             //intialize player
             Player.PlayerKeys player2Keys;
@@ -159,7 +158,6 @@ namespace My_first_xna_game
             {
                 AddObject(gameObject);
             }
-            UpdateInstanceCollision.Add(objectInstance.updateCollision);
         }
 
         public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
@@ -176,13 +174,7 @@ namespace My_first_xna_game
             }
              
 
-            if (UpdateInstanceCollision != null)
-            {
-                foreach (UpdateCollision colisionFunction in UpdateInstanceCollision)
-                {
-                    colisionFunction();
-                }
-            }
+            
 
             hud.Update(gameTime);
             hudText.Update("Health " + player1.stats.health);
@@ -193,10 +185,10 @@ namespace My_first_xna_game
 
         private void UpdateTypeCollision()
         {
-            for (int i = 0; i < gameObjectList.Count; i++)
+            //player collision
+            foreach(GameObject gameObject1 in gameObjectList)
             {
-                GameObject gameObject = gameObjectList[i];
-                Player player = gameObject as Player;
+                Player player = gameObject1 as Player;
                 if (player != null)
                 {
                     //boxs collision
@@ -204,10 +196,23 @@ namespace My_first_xna_game
                     {
                         if (CollisionManager.GameObjectTouch(player, boxs)) { player.push(boxs); }
                     }
+
+                    //enemies collision //TODO: what does this do?
+                    foreach (GameObject gameObject2 in gameObjectList)
+                    {
+                        Enemy enemy = gameObject2 as Enemy;
+                        if (enemy != null)
+                        {
+                            if (CollisionManager.GameObjectTouch(enemy, player))
+                            {
+                                player.DealDamage(enemy);
+                            }
+                        }
+                    }
                 }
             }
 
-
+            
             //projectiles collision
             foreach (GameObject gameObject1 in gameObjectList)
             {

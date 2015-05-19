@@ -29,6 +29,7 @@ namespace My_first_xna_game
         private Map map;
         private KeyboardState newState;
         private KeyboardState oldState;
+        public List<int> collisionsList = new List<int>();
 
         public struct PlayerKeys
         {
@@ -92,8 +93,7 @@ namespace My_first_xna_game
             //set above
             newPosition.Y = newPosition.Y - position.Height / 2 - windowSize.Y / 2 - 10;
 
-            msgWindow = new Window(msgWindow.texture, newPosition, (int)windowSize.X, (int)windowSize.Y, null);
-            msgWindow.opacity = 75;
+            msgWindow = new Window(msgWindow.texture, newPosition, (int)windowSize.X, (int)windowSize.Y, this);
             msgWindowText.position += Vector2.Zero;
             msgWindow.thickness = new Vector2(10f, 0f);
             msgWindow.AddItem(msgWindowText);
@@ -176,17 +176,6 @@ namespace My_first_xna_game
             {
                 playerRunning = false;
             }
-
-            // -Update player through debug button
-            if (newState.IsKeyDown(Keys.LeftControl))
-            {
-                passable = true;
-            }
-            else // reset player speed speed state
-            {
-                passable = false;
-            }
-
 
             //if perssed attack
             if (newState.IsKeyDown(kbKeys.attack) && fireballkeyReleased)

@@ -13,13 +13,14 @@ namespace My_first_xna_game
 {
     public class GameObject
     {
+
         public Vector2 position;
         public Vector2 size = new Vector2(Tile.size, Tile.size);
         public List<string> tags = new List<string>();
 
         public bool passable;
         public bool canCollide = true;
-        public bool collisionHandled = false;
+        public CollisionManager.CollisionFunction collisionFunction;
 
         public MovementManager.Direction view;
         public bool alive = true;
@@ -29,7 +30,6 @@ namespace My_first_xna_game
         public GameObject(Vector2 position)
         {
             this.position = position;
-            
         }
 
         public virtual Rectangle bounds
@@ -40,6 +40,18 @@ namespace My_first_xna_game
         public virtual Rectangle core
         {
             get { return new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y); }
+        }
+
+        public int GetID(List<GameObject> gameObjectList)
+        {
+            for (int counter = 0; counter < gameObjectList.Count; counter++)
+            {
+                if (gameObjectList[counter].Equals(this))
+                {
+                    return counter;
+                }
+            }
+            throw new System.ArgumentException("Parameter wasn't found.", "original");
         }
 
         public virtual void Kill()
@@ -54,7 +66,18 @@ namespace My_first_xna_game
             alive = true;
         }
 
-        public virtual void Update(GameTime gameTime) { }
+        public void Update(GameTime gameTime)
+        {
+            UpdateSprite(gameTime);
+
+            if (collisionFunction != null)
+            {
+                collisionFunction(this);
+            }
+        }
+
+        protected virtual void UpdateSprite(GameTime gameTime) { }
+
         public virtual void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition) { }
 
         public void Reset()

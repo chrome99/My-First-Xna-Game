@@ -11,14 +11,14 @@ namespace My_first_xna_game
     {
         private Map map;
         private MovementManager movementManager;
-        public Enemy wolf;
-        public Actor npc;
-        public Sprite block;
-        public Sprite runningSwitch;
-        public Sprite box1;
-        public Sprite box2;
-        public Sprite portal;
-        public Sprite groundSwitch;
+        private Enemy wolf;
+        private Actor npc;
+        private Sprite block;
+        private Sprite runningSwitch;
+        private Sprite box1;
+        private Sprite box2;
+        private Sprite portal;
+        private Sprite groundSwitch;
 
         public ObjectCollection1(Map map) : base()
         {
@@ -35,25 +35,37 @@ namespace My_first_xna_game
             wolf.stats.cooldown = 750f;
             wolf.stats.defence = 2;
             wolf.stats.agility = 1;
+
             npc = new Actor(Content.Load<Texture2D>("wolf"), new Vector2(500f, 500f));
             npc.pack = new Pack();
             npc.pack.AddItem(ItemCollection.apple);
             npc.pack.AddItem(ItemCollection.bread);
             npc.pack.AddItem(ItemCollection.healthPotion);
+            npc.collisionFunction = UpdateNpcCollision;
+
             block = new Sprite(Content.Load<Texture2D>("box1"), new Vector2(700f, 750f), Game.Depth.player, 2);
+
             runningSwitch = new Sprite(Content.Load<Texture2D>("brick1"), new Vector2(200f, 250f), Game.Depth.below, 2);
             runningSwitch.passable = true;
+            runningSwitch.collisionFunction = UpdateRunningSwitchCollision;
+
             box1 = new Sprite(Content.Load<Texture2D>("box1"), new Vector2(400f, 400f), Game.Depth.player, 2);
             box1.tags.Add("box");
+
             box2 = new Sprite(Content.Load<Texture2D>("box1"), new Vector2(400f, 450f), Game.Depth.player, 2);
             box2.tags.Add("box");
+
             portal = new Sprite(Content.Load<Texture2D>("player1"), new Vector2(50f, 100f), Game.Depth.player, 2);
             portal.passable = true;
+            portal.collisionFunction = UpdatePortalCollision;
+
             groundSwitch = new Sprite(Content.Load<Texture2D>("brick1"), new Vector2(300f, 150f), Game.Depth.below, 2);
             groundSwitch.passable = true;
-            updateCollision = new Map.UpdateCollision(UpdateCollision);
+            groundSwitch.collisionFunction = UpdateGroundSwitchCollision;
+
+
             gameObjectList.Add(npc);
-            // gameObjectList.Add(wolf);
+            //gameObjectList.Add(wolf);
             gameObjectList.Add(block);
             gameObjectList.Add(runningSwitch);
             gameObjectList.Add(box1);
@@ -62,19 +74,22 @@ namespace My_first_xna_game
             gameObjectList.Add(groundSwitch);
         }
 
-        private void UpdateCollision()
+
+        private void UpdatePortalCollision(GameObject portal)
         {
-            //player collision
             foreach (GameObject gameObject in map.gameObjectList)
             {
-                Player player = gameObject as Player;
-                if (player != null)
+                Window window = gameObject as Window;
+                if (window == null)
                 {
-                    PlayerCollision(player);
+                    if (CollisionManager.GameObjectCollision(portal, gameObject)) { gameObject.Reset(); }
                 }
-            }
 
-            //boxs collision
+            }
+        }
+
+        private void UpdateGroundSwitchCollision(GameObject groundSwitch)
+        {
             bool blockKilled = false;
             foreach (GameObject boxs in map.FindTag("box"))
             {
@@ -91,77 +106,66 @@ namespace My_first_xna_game
                     }
                 }
             }
-
-            //portal collision
-            foreach (GameObject gameObject in map.gameObjectList)
-            {
-                Window window = gameObject as Window;
-                if (window == null)
-                {
-                    if (CollisionManager.GameObjectCollision(portal, gameObject)) { gameObject.Reset(); }
-                }
-                
-            }
         }
 
-        private void PlayerCollision(Player player)
+
+        private void UpdateNpcCollision(GameObject gameObject1)
         {
-            //npc and player
-            if (CollisionManager.GameObjectTouch(player, npc))
+            //TODO: fix npc2
+
+            Actor npc2 = gameObject1 as Actor;
+            foreach (GameObject gameObject2 in map.gameObjectList)
             {
-                if (!npc.collisionHandled && !player.collisionHandled)
+                Player player = gameObject2 as Player;
+                if (player != null)
                 {
-                    movementManager.TurnActor(npc, MovementManager.OppositeDirection(player.direction));
-                    player.Shop(npc);
-                    //movementManager.Knockback(player, MovementManager.Direction.left, 100);
-                    //player.MessageWindow(npc.bounds, "the great king wants to see you. \n no, he dosent.");
-                    player.collisionHandled = true;
-                    npc.collisionHandled = true;
-                }
-            }
-            else
-            {
-                player.collisionHandled = false;
-                npc.collisionHandled = false;
-            }
-            
-            //running switch and player
-            if (CollisionManager.GameObjectCollision(player, runningSwitch))
-            {
-                if (!runningSwitch.collisionHandled && !player.collisionHandled)
-                {
-                    player.FlipRunning();
-                    player.pack.AddItem(ItemCollection.RandomItem());
-                    player.collisionHandled = true;
-                    runningSwitch.collisionHandled = true;
-                }
-            }
-            else
-            {
-                player.collisionHandled = false;
-                runningSwitch.collisionHandled = false;
-            }
-            //enemy and player
-            foreach (GameObject gameObject in gameObjectList)
-            {
-                Enemy enemy = gameObject as Enemy;
-                if (enemy != null)
-                {
-                    if (CollisionManager.GameObjectTouch(enemy, player))
+                    int collisionID = npc2.GetID(map.gameObjectList);
+                    //npc and player
+                    if (CollisionManager.GameObjectTouch(player, npc2))
                     {
-                        if (!enemy.collisionHandled)
+                        if (!player.collisionsList.Contains(collisionID))
                         {
-                            player.DealDamage(enemy);
-                            enemy.collisionHandled = true;
+                            movementManager.TurnActor(npc2, MovementManager.OppositeDirection(player.direction));
+                            player.Shop(npc);
+                            //movementManager.Knockback(player, MovementManager.Direction.left, 100);
+                            //player.MessageWindow(npc2.bounds, "the great king wants to see you. \n no, he dosent.");
+                            //player.MessageWindow(npc2.bounds, "the king wants to see you. \n no, he dosent.");
+                            player.collisionsList.Add(collisionID);
                         }
                     }
                     else
                     {
-                        enemy.collisionHandled = false;
+                        player.collisionsList.Remove(collisionID);
                     }
                 }
             }
-             
+        }
+
+
+        private void UpdateRunningSwitchCollision(GameObject runningSwitch)
+        {
+            //running switch and player
+            foreach (GameObject gameObject in map.gameObjectList)
+            {
+                Player player = gameObject as Player;
+                if (player != null)
+                {
+                    int collisionID = runningSwitch.GetID(map.gameObjectList);
+                    if (CollisionManager.GameObjectCollision(player, runningSwitch))
+                    {
+                        if (!player.collisionsList.Contains(collisionID))//!runningSwitch.collisionHandled && 
+                        {
+                            player.FlipRunning();
+                            player.pack.AddItem(ItemCollection.RandomItem());
+                            player.collisionsList.Add(collisionID);
+                        }
+                    }
+                    else
+                    {
+                        player.collisionsList.Remove(collisionID);
+                    }
+                }
+            }
         }
     }
 }

@@ -138,8 +138,8 @@ namespace My_first_xna_game
             pack.items[selector.currentTargetNum].function(player, player);
             if (pack.items[selector.currentTargetNum].wasted)
             {
+                window.itemsList.Remove(pack.items[selector.currentTargetNum].icon);
                 pack.SubItem(pack.items[selector.currentTargetNum]);
-                window.itemsList.Remove(selector.currentTarget);
                 SortItems();
                 selector.Clamp();
             }
@@ -156,7 +156,7 @@ namespace My_first_xna_game
             selector.Draw(spriteBatch, offsetRect, screenPosition);
         }
 
-        public virtual void DrawBuyInventory(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition) { }
-        public virtual void DrawSellInventory(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition) { }
+        protected virtual void DrawBuyInventory(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition) { }
+        protected virtual void DrawSellInventory(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition) { }
     }
 }

@@ -12,6 +12,8 @@ namespace My_first_xna_game
     {
         /*
          TODO:
+         * amount in stores
+         * talk in stores
          * conversation with npc
          * trade
          * pvp menu
@@ -28,13 +30,16 @@ namespace My_first_xna_game
          * better debug (and hide it when the player is beneth it)
          * core collision
          * title screen and menus
-         * change the "using"
          * fix size in childs of gameobject
          * ini file with configuration.
+         * command line
          
          BUGS:
-         * fix collision handeling
-         * when the player's quits shop he is stuck until he presse's menu key
+         * fix the inventory bug
+         * when two players are at the same shop
+         * inventory and windows at the edge of the map
+         * fix the "using"
+         * fix public classes
          * what if one camera shows one map, and other camera shows other map?
          * screen buffer for each camera
          * fix debug and inventory position for every player

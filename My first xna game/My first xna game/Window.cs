@@ -103,7 +103,7 @@ namespace My_first_xna_game
             }
         }
 
-        public override void Update(GameTime gameTime)
+        protected override void UpdateSprite(GameTime gameTime)
         {
             //fade
             if (fade)
@@ -142,17 +142,21 @@ namespace My_first_xna_game
             {
                 if (bounds.Intersects(player.bounds) && !playerCollision) //i've choosen precisely bounds over core.
                 {
-                    originalOpacity = opacity;
-                    opacity = subOpacity;
                     foreach (WindowItem item in itemsList)
                     {
                         if (item is Text || item is Picture)
                         {
-                            item.originalOpacityState = item.opacity;
-                            item.opacity = subOpacity;
+                            if (item.opacity != subOpacity)
+                            {
+                                item.originalOpacityState = item.opacity;
+                                item.opacity = subOpacity;
+                            }
+
                         }
 
                     }
+                    originalOpacity = opacity;
+                    opacity = subOpacity;
                     playerCollision = true;
                 }
                 else if (!bounds.Intersects(player.bounds) && playerCollision)

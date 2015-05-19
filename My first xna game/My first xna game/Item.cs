@@ -16,6 +16,7 @@ namespace My_first_xna_game
         public Picture icon;
         public int price;
         public float weight;
+        public int amount = 1;
 
         public Item(int iconID, UsingFunction function, int price, float weight, bool wasted)
         {
