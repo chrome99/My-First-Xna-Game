@@ -16,8 +16,8 @@ namespace My_first_xna_game
         public PlayerKeys kbKeys;
         public int gold;
         public int maxGold = 100;
-        private Inventory inventory;
         private Shop shop;
+        private Menu menu;
         private DebugHUD debug;
         private Window msgWindow;
         private Text msgWindowText;
@@ -43,15 +43,38 @@ namespace My_first_xna_game
             public Keys opDebug;
         }
 
+        /*public enum PauseState { game, inventory, shop, buyInventory, sellInventory, msgWindow }
+        public PauseState pauseState
+        {
+            get
+            {
+                if (inventory.alive)
+                {
+                    return PauseState.inventory;
+                }
+                if (shop.alive)
+                {
+                    return PauseState.shop;
+                }
+                if (msgWindow.alive)
+                {
+                    return PauseState.msgWindow;
+                }
+                else
+                {
+                    return PauseState.game;
+                }
+            }
+        }*/
+
         public Player(Texture2D texture, Vector2 position, PlayerKeys keys)
             : base(texture, position, MovementManager.Auto.off)
         {
             this.kbKeys = keys;
 
             pack = new Pack();
-            inventory = new Inventory(this, false);
             debug = new DebugHUD(Game.content.Load<SpriteFont>("Debug1"), Color.Wheat, this, keys.opDebug);
-
+            menu = new Menu(this);
             msgWindow = new Window(Game.content.Load<Texture2D>("windowskin"), Vector2.Zero, 0, 0, null);
             msgWindowText = new Text(Game.content.Load<SpriteFont>("medival1"), Vector2.Zero, Color.White, null);
             msgWindow.Kill();
@@ -111,8 +134,8 @@ namespace My_first_xna_game
         protected override void UpdatePlayer(GameTime gameTime)
         {
             //TODO: is this being updated the number of players?
-            inventory.Update(newState, oldState, gameTime);
             shop.Update(newState, oldState, gameTime);
+            menu.Update(newState, oldState, gameTime);
             debug.Update();
             debug.UpdateInput(newState, oldState);
             msgWindow.Update(gameTime);
@@ -127,33 +150,15 @@ namespace My_first_xna_game
             {
                 if (shop.alive)
                 {
-                    if (shop.buyInventory.alive)
-                    {
-                        shop.buyInventory.alive = false;
-                        shop.choice.alive = true;
-                        menuKeyReleased = false;
-                        return;
-                    }
-                    if (shop.sellInventory.alive)
-                    {
-                        shop.sellInventory.alive = false;
-                        shop.choice.alive = true;
-                        menuKeyReleased = false;
-                        return;
-                    }
-                    shop.alive = false;
+                    shop.HandleMenuButtonPress();
                 }
                 else if (msgWindow.alive)
                 {
                     msgWindow.alive = false;
                 }
-                else if (inventory.alive)
-                {
-                    inventory.Kill();
-                }
                 else
                 {
-                    inventory.Revive();
+                    menu.HandleMenuButtonPress();
                 }
 
                 menuKeyReleased = false;
@@ -162,7 +167,7 @@ namespace My_first_xna_game
             {
                 menuKeyReleased = true;
             }
-            if (inventory.alive || shop.alive || msgWindow.alive)
+            if (shop.alive || msgWindow.alive || menu.alive)
             {
                 return;
             }
@@ -256,11 +261,16 @@ namespace My_first_xna_game
             }
         }
 
+        public Vector2 getMerchantPosition()
+        {
+            return shop.getMerchantPosition();
+        }
+
         public void DrawPlayerItems(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition)
         {
-            inventory.Draw(spriteBatch, offsetRect, screenPosition);
             shop.Draw(spriteBatch, offsetRect, screenPosition);
             debug.Draw(spriteBatch, screenPosition);
+            menu.Draw(spriteBatch, offsetRect, screenPosition);
             msgWindow.Draw(spriteBatch, offsetRect, screenPosition);
         }
     }

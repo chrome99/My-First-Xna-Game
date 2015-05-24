@@ -13,6 +13,16 @@ namespace My_first_xna_game
 {
     public class Hostile : Actor
     {
+        public struct Equipment
+        {
+            public Armor head;
+            public Armor rightHand;
+            public Armor leftHand;
+            public Armor chest;
+            public Armor legs;
+            public Armor shoes;
+        }
+
         public struct Stats
         {
             public int health;
@@ -25,20 +35,14 @@ namespace My_first_xna_game
             public int defence;
             public int agility;
 
-            /*Stats(int health, int maxHealth, int mana, int maxMana, int strength, int knockback, int defence, int agility)
+            /*public Stats(int health, int maxHealth)
             {
-                this.health = health;
-                this.maxHealth = maxHealth;
-                this.mana = mana;
-                this.maxMana = maxMana;
-                this.strength = strength;
-                this.knockback = knockback;
-                this.defence = defence;
-                this.agility = agility;
+
             }*/
         }
         public bool enableRunning = true;
         public Stats stats;
+        public Equipment equipment;
         public Timer cooldownTimer = new Timer(0f, false);
 
         public Hostile(Texture2D texture, Vector2 position, MovementManager.Auto autoMovement = MovementManager.Auto.off)
@@ -71,6 +75,85 @@ namespace My_first_xna_game
                 cooldownTimer.timerSwitch = true;
                 cooldownTimer.counter = 0f;
             }
+        }
+
+        public void Equip(Armor armor)
+        {
+
+
+            switch (armor.armorType)
+            {
+                case Armor.ArmorType.chest:
+                    subArmorStats(equipment.chest);
+                    equipment.chest = armor;
+                    break;
+
+                case Armor.ArmorType.head:
+                    subArmorStats(equipment.head);
+                    equipment.head = armor;
+                    break;
+
+                case Armor.ArmorType.twoHanded:
+                    equipment.leftHand = armor;
+                    equipment.rightHand = ItemCollection.occupiedArmor;
+                    break;
+
+                case Armor.ArmorType.oneHanded:
+                    if (equipment.leftHand == null)
+                    {
+                        subArmorStats(equipment.leftHand);
+                        equipment.leftHand = armor;
+                    }
+                    else if (equipment.rightHand == null)
+                    {
+                        subArmorStats(equipment.rightHand);
+                        equipment.rightHand = armor;
+                    }
+                    else
+                    {
+                        subArmorStats(equipment.leftHand);
+                        equipment.leftHand = armor;
+                    }
+                    break;
+
+                case Armor.ArmorType.shoes:
+                    subArmorStats(equipment.shoes);
+                    equipment.shoes = armor;
+                    break;
+
+                case Armor.ArmorType.legs:
+                    subArmorStats(equipment.legs);
+                    equipment.legs = armor;
+                    break;
+            }
+            addArmorStats(armor);
+        }
+
+        private void addArmorStats(Armor armor)
+        {
+            stats.health += armor.changeStats.health;
+            stats.maxHealth += armor.changeStats.maxHealth;
+            stats.mana += armor.changeStats.mana;
+            stats.maxMana += armor.changeStats.maxMana;
+            stats.strength += armor.changeStats.strength;
+            stats.knockback += armor.changeStats.knockback;
+            stats.cooldown += armor.changeStats.cooldown;
+            stats.defence += armor.changeStats.defence;
+            stats.agility += armor.changeStats.agility;
+        }
+
+        private void subArmorStats(Armor armor)
+        {
+            if (armor == null) { return; }
+            stats.health -= armor.changeStats.health;
+            stats.maxHealth -= armor.changeStats.maxHealth;
+            stats.mana -= armor.changeStats.mana;
+            stats.maxMana -= armor.changeStats.maxMana;
+            stats.strength -= armor.changeStats.strength;
+            stats.knockback -= armor.changeStats.knockback;
+            stats.cooldown -= armor.changeStats.cooldown;
+            stats.defence -= armor.changeStats.defence;
+            stats.agility -= armor.changeStats.agility;
         }
     }
 }

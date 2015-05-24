@@ -12,6 +12,7 @@ namespace My_first_xna_game
         public float depth;
         public float originalOpacityState;
         public float opacity = 100f;
+        public bool sourceCanDrawThis = true; //TODO: SRSLY?
 
         protected float drawingOpacity
         {

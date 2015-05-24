@@ -25,7 +25,7 @@ namespace My_first_xna_game
         {
             foreach (Camera camera in cameraList)
             {
-                camera.Update(newState, oldState, gameTime);                
+                camera.Update();                
             }
             cameraList[0].map.Update(newState, oldState, gameTime);
         }

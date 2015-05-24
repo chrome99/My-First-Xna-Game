@@ -12,13 +12,13 @@ namespace My_first_xna_game
     {
         /*
          TODO:
+         * equipment
          * amount in stores
          * talk in stores
+         * durabillity in armor and swords
          * conversation with npc
          * trade
          * pvp menu
-         * pickup items
-         * equipment
          * skills
          * levels (in level up you can upgrade skills or stats)
          * map editor
@@ -35,7 +35,8 @@ namespace My_first_xna_game
          * command line
          
          BUGS:
-         * fix the inventory bug
+         * selector in inventory is visible for a second
+         * when you are in menu and somone hits you
          * when two players are at the same shop
          * inventory and windows at the edge of the map
          * fix the "using"
@@ -52,6 +53,7 @@ namespace My_first_xna_game
 
         // Graphics and controls
         public static GraphicsDeviceManager graphics;
+        public static bool endGame = false;
         SpriteBatch spriteBatch;
         KeyboardState oldState;
 
@@ -109,6 +111,12 @@ namespace My_first_xna_game
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            //if exit
+            if (endGame)
+            {
+                Exit();
+            }
+
             // Update newState
             KeyboardState newState = Keyboard.GetState();
 
@@ -141,13 +149,6 @@ namespace My_first_xna_game
             
             spriteBatch.End();
             base.Draw(gameTime);
-        }
-
-        
-        
-        void Quit()
-        {
-            this.Exit();
         }
     }
 }

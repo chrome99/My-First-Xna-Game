@@ -8,6 +8,7 @@ namespace My_first_xna_game
     public class Item
     {
         public static int size = 24;
+        public static int itemsInRow = 16;
         public static Texture2D IconSet = Game.content.Load<Texture2D>("IconSet1");
         public delegate void UsingFunction(Hostile source, GameObject target);
         public int iconID;
@@ -25,6 +26,11 @@ namespace My_first_xna_game
             this.price = price;
             this.weight = weight;
             this.wasted = wasted;
+        }
+
+        public Rectangle getRect()
+        {
+            return new Rectangle(iconID % Item.itemsInRow * Item.size, iconID / Item.itemsInRow * Item.size, Item.size, Item.size);
         }
     }
 }

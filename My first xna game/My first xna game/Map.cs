@@ -15,9 +15,6 @@ namespace My_first_xna_game
         public Player player2;
         public Player player3;
         public Player player4;
-        private Window hud;
-        private Text hudText;
-        private Picture hudPicture;
         public TileMap tileMap;
 
         public Map(TileMap tileMap)
@@ -48,7 +45,7 @@ namespace My_first_xna_game
             player1.stats.agility = 1;
             player1.gold = 25;
 
-            player1.pack.AddItem(new List<Item> { ItemCollection.apple, ItemCollection.apple, ItemCollection.apple, ItemCollection.apple, ItemCollection.apple });
+            player1.pack.AddItem(new List<Item> { ItemCollection.apple, ItemCollection.apple, ItemCollection.apple });
 
 
             //intialize player
@@ -126,15 +123,9 @@ namespace My_first_xna_game
             player4.stats.agility = 1;
             player4.gold = 25;
 
+            //add players to PlayerManager
+            PlayerManager.playersList = new List<Player> { player1, player2, player3, player4 };
 
-            //bla
-            hud = new Window(Game.content.Load<Texture2D>("windowskin"), new Vector2(0f, 0f), 120, 90, player1);
-            hudText = new Text(Game.content.Load<SpriteFont>("Debug1"), new Vector2(0f, 0f), Color.White, "", hud);
-            hudPicture = new Picture(Game.content.Load<Texture2D>("brick1"), new Vector2(0f, 32f), hud);
-            hud.AddItem(hudText);
-            hud.AddItem(hudPicture);
-
-            //AddObject(hud);
             AddObject(player1);
             AddObject(player2);
             AddObject(player3);
@@ -162,6 +153,7 @@ namespace My_first_xna_game
 
         public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
         {
+            //update GameObjects
             for (int i = 0; i < gameObjectList.Count; i++ )
             {
                 GameObject gameObject = gameObjectList[i];
@@ -172,13 +164,11 @@ namespace My_first_xna_game
                 }
 
             }
-             
 
-            
+            //update Player Manager (he updates players details on the map)
+            PlayerManager.UpdatePlayersMapParameters(this, newState, oldState);
 
-            hud.Update(gameTime);
-            hudText.Update("Health " + player1.stats.health);
-
+            //update general collision
             UpdateTypeCollision();
             
         }

@@ -20,15 +20,17 @@ namespace My_first_xna_game
         
         public override Rectangle bounds
         {
-            get { return new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height); }
+            get { return new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y); }
         }
 
         public override Rectangle core
         {
-            get { return new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height); }
+            get { return new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y); }
         }
 
-        public Sprite(Texture2D texture, Vector2 position, Game.Depth depth, float speed = 2f)
+        Rectangle drawingCoordinates;
+
+        public Sprite(Texture2D texture, Vector2 position, Game.Depth depth, float speed = 2f, Rectangle drawingCoordinates = new Rectangle())
             : base(position)
         {
             //intialize variables
@@ -36,21 +38,37 @@ namespace My_first_xna_game
             this.position = position;
             this.depth = depth;
             this.speed = speed;
+            this.drawingCoordinates = drawingCoordinates;
 
             //intialize size
-            size.X = this.texture.Width;
-            size.Y = this.texture.Height;
+            if (drawingCoordinates.Equals(new Rectangle()))
+            {
+                size.X = this.texture.Width;
+                size.Y = this.texture.Height;
+            }
+            else
+            {
+                size.X = drawingCoordinates.Width;
+                size.Y = drawingCoordinates.Height;
+            }
         }
         
         public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition)
         {
             if (visible)
             {
-                Rectangle drawingPosition = bounds;
-                drawingPosition.X = screenPosition.X + drawingPosition.X - offsetRect.X;
-                drawingPosition.Y = screenPosition.Y + drawingPosition.Y - offsetRect.Y;
-                
-                spriteBatch.Draw(texture, drawingPosition, null, Color.White * getOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
+                Rectangle drawingRect = bounds;
+                drawingRect.X = screenPosition.X + drawingRect.X - offsetRect.X;
+                drawingRect.Y = screenPosition.Y + drawingRect.Y - offsetRect.Y;
+
+                if (drawingCoordinates.Equals(new Rectangle()))
+                {
+                    spriteBatch.Draw(texture, drawingRect, null, Color.White * getOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
+                }
+                else
+                {
+                    spriteBatch.Draw(texture, drawingRect, drawingCoordinates, Color.White * getOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
+                }
             }
         }
 

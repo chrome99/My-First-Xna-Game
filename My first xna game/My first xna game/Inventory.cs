@@ -14,9 +14,10 @@ namespace My_first_xna_game
         public int spacing = 6;
         public Window window;
         protected Pack pack;
-        protected Selector selector;
+        public Selector selector; //TODO PRIVATE
         protected Player player;
         protected bool useKeyReleased = false;
+        protected Actor sourcePack;
         //private Vector2 savedWindowPosition; //effects
         //private bool positionMaxed = false; //effects
 
@@ -25,57 +26,63 @@ namespace My_first_xna_game
             get { return (window.bounds.Width - (int)window.thickness.X * 2) / (Item.size + spacing); }
         }
 
-        public Inventory(Player player, bool createPack = true)
+        public Inventory(Player player, bool createWindowItems = true)
         {
             this.player = player;
 
             window = new Window(Game.content.Load<Texture2D>("windowskin"), Vector2.Zero, 200, 200, null);
             window.thickness = new Vector2(20, 20);
 
-            if (createPack)
+            if (createWindowItems)
             {
-                CreatePack(player);
+                sourcePack = player;
+                CreateWindowItems();
             }
         }
 
-        protected void CreatePack(Actor sourcePack)
+        protected void CreateWindowItems()
         {
             pack = sourcePack.pack;
+            pack.representation = this;
             pack.CreateItems(this);
             SortItems();
             selector = new Selector(window, window.itemsList, new Vector2(Item.size + spacing, Item.size + spacing), spacing / 2, margin);
             selector.player = this.player;
         }
 
-        protected void DeletePack()
+        protected void DeleteWindowItems()
         {
-            for (int counter = 0; counter < pack.items.Count; counter++ )
+            for (int counter = 0; counter < window.itemsList.Count; )
             {
-                pack.items[counter] = null;
+                RemoveWindowItem(window.itemsList[counter], false);
             }
-            //pack.items = new List<Item>();
-            selector = null;
         }
 
         public void Revive()
         {
-            window.SetWindowAbove(player.bounds);
-            CreatePack(player);
+            window.SetWindowAbove(sourcePack.bounds);
+            DeleteWindowItems();
+            CreateWindowItems();
+            ShopInventory shopInventory = this as ShopInventory;
+            if (shopInventory != null)
+            {
+                shopInventory.DeletePriceTexts();
+                shopInventory.CreatePriceTexts();
+            }
             //savedWindowPosition = window.position; //effects
             alive = true;
         }
 
         public void Kill()
         {
-            //DeletePack();
             alive = false;
         }
 
         protected void SortItems()
         {
-            for (int i = 0; i < pack.items.Count; i++)
+            for (int counter = 0; counter < window.itemsList.Count; counter++)
             {
-                pack.items[i].icon.position = new Vector2(i % margin * (Item.size + spacing), i / margin * (Item.size + spacing));
+                window.itemsList[counter].position = new Vector2(counter % margin * (Item.size + spacing), counter / margin * (Item.size + spacing));
             }
         }
 
@@ -84,7 +91,7 @@ namespace My_first_xna_game
             if (!alive) { return; }
 
             UpdateBuyInventory();
-            UpdateSellInventory();
+            UpdateShopInventory();
 
             window.Update(gameTime);
             selector.Update(newState, oldState, gameTime);
@@ -115,7 +122,7 @@ namespace My_first_xna_game
         }
 
         protected virtual void UpdateBuyInventory() { }
-        protected virtual void UpdateSellInventory() { }
+        protected virtual void UpdateShopInventory() { }
 
         protected void UpdateInput(KeyboardState newState, KeyboardState oldState)
         {
@@ -135,11 +142,21 @@ namespace My_first_xna_game
 
         protected virtual void HandleItemChoice()
         {
-            pack.items[selector.currentTargetNum].function(player, player);
-            if (pack.items[selector.currentTargetNum].wasted)
+            Item currentItem = pack.items[selector.currentTargetNum];
+            currentItem.function(player, player);
+            if (currentItem.wasted)
             {
-                window.itemsList.Remove(pack.items[selector.currentTargetNum].icon);
-                pack.SubItem(pack.items[selector.currentTargetNum]);
+                pack.SubItem(currentItem);
+            }
+        }
+
+        public void RemoveWindowItem(WindowItem windowItem, bool sort = true)
+        {
+            window.itemsList.Remove(windowItem);
+            windowItem = null;
+
+            if (sort)
+            {
                 SortItems();
                 selector.Clamp();
             }
@@ -150,13 +167,13 @@ namespace My_first_xna_game
             if (!alive) { return; }
 
             DrawBuyInventory(spriteBatch, offsetRect, screenPosition);
-            DrawSellInventory(spriteBatch, offsetRect, screenPosition);
+            DrawShopInventory(spriteBatch, offsetRect, screenPosition);
 
             window.Draw(spriteBatch, offsetRect, screenPosition);
             selector.Draw(spriteBatch, offsetRect, screenPosition);
         }
 
         protected virtual void DrawBuyInventory(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition) { }
-        protected virtual void DrawSellInventory(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition) { }
+        protected virtual void DrawShopInventory(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition) { }
     }
 }

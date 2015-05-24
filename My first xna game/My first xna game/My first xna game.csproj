@@ -108,8 +108,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actor.cs" />
-    <Compile Include="SellInventory.cs" />
-    <Compile Include="BuyInventory.cs" />
+    <Compile Include="Armor.cs" />
+    <Compile Include="Menu.cs" />
+    <Compile Include="PlayerManager.cs" />
+    <Compile Include="ShopInventory.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Choice.cs" />
     <Compile Include="CollisionManager.cs" />
@@ -119,7 +121,7 @@
     <Compile Include="Hostile.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="Item.cs" />
-    <Compile Include="ItemInstance.cs" />
+    <Compile Include="ItemCollection.cs" />
     <Compile Include="Pack.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="MapCell.cs" />

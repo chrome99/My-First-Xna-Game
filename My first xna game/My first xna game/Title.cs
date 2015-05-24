@@ -11,13 +11,13 @@ namespace My_first_xna_game
     {
         //scene title
         public static Map map;
-        Picture background;
-        Text newgame;
-        Text loadgame;
-        Text quit;
-        int title = 0;
-        bool keyDownReleased;
-        bool keyUpReleased;
+        private Picture background;
+        private Text newgame;
+        private Text loadgame;
+        private Text quit;
+        private int title = 0;
+        private bool keyDownReleased;
+        private bool keyUpReleased;
 
         public Title()
         {
@@ -124,10 +124,10 @@ namespace My_first_xna_game
                         TileMap tileMap = new TileMap(Game.content.Load<Texture2D>("Grassland"), TileMap.MapDesign.trees, 50, 50);
                         map = new Map(tileMap);
                         map.AddObjectInstance(new ObjectCollection1(map));
-                        Camera camera1 = new Camera(new Rectangle(0, 0, 960, 540), map, map.player1);
-                        Camera camera2 = new Camera(new Rectangle(0, 540, 960, 540), map, map.player2);
-                        Camera camera3 = new Camera(new Rectangle(960, 0, 944, 540), map, map.player3);
-                        Camera camera4 = new Camera(new Rectangle(960, 540, 944, 540), map, map.player4);
+                        Camera camera1 = new Camera(new Rectangle(0, 0, 960, 540), map, map.player1, map.player1);
+                        Camera camera2 = new Camera(new Rectangle(0, 540, 960, 540), map, map.player2, map.player2);
+                        Camera camera3 = new Camera(new Rectangle(960, 0, 944, 540), map, map.player3, map.player3);
+                        Camera camera4 = new Camera(new Rectangle(960, 540, 944, 540), map, map.player4, map.player4);
 
                         //set scene to map
                         Game.scene = new World(new List<Camera> { camera1 , camera2, camera3, camera4 });
@@ -138,7 +138,7 @@ namespace My_first_xna_game
                         break;
 
                     case 2:
-                        //game.Quit();
+                        Game.endGame = true;
                         break;
                 }
             }

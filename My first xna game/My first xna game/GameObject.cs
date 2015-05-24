@@ -21,7 +21,7 @@ namespace My_first_xna_game
         public bool passable;
         public bool canCollide = true;
         public CollisionManager.CollisionFunction collisionFunction;
-
+        public Item[] collisionParameters = new Item[10];
         public MovementManager.Direction view;
         public bool alive = true;
         public MovementManager movementManager;

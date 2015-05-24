@@ -7,18 +7,18 @@ using Microsoft.Xna.Framework.Content;
 
 namespace My_first_xna_game
 {
-    class Shop// : Inventory
+    public class Shop// : Inventory todo: private
     {
         public bool alive;
-        public BuyInventory buyInventory;
-        public SellInventory sellInventory;
+        private ShopInventory buyInventory;
+        private ShopInventory sellInventory;
         public Choice choice;
         private Text buyText;
         private Text sellText;
         private Text tallkText;
         private Text exitText;
         private Player player;
-        private Actor merchant;
+        public Actor merchant; // todo: private
         private bool confirmKeyReleased = false;
 
         public Shop() { }
@@ -29,13 +29,13 @@ namespace My_first_xna_game
             this.merchant = merchant;
 
             //intialize Buy Inventory
-            buyInventory = new BuyInventory(player, merchant);
-            buyInventory.alive = false;
+            buyInventory = new ShopInventory(player, merchant, false);
+            buyInventory.Kill();
             buyInventory.window.SetWindowAbove(merchant.bounds);
 
             //intialize Sell Inventory
-            sellInventory = new SellInventory(player, merchant);
-            sellInventory.alive = false;
+            sellInventory = new ShopInventory(player, merchant, true);
+            sellInventory.Kill();
             sellInventory.window.SetWindowAbove(player.bounds);
 
             //intialize Choice
@@ -43,7 +43,7 @@ namespace My_first_xna_game
             sellText = new Text(Game.content.Load<SpriteFont>("medival1"), Vector2.Zero, Color.White, "Sell");
             exitText = new Text(Game.content.Load<SpriteFont>("medival1"), Vector2.Zero, Color.White, "Talk");
             tallkText = new Text(Game.content.Load<SpriteFont>("medival1"), Vector2.Zero, Color.White, "Exit");
-            choice = new Choice(merchant.bounds, player, new List<WindowItem> { buyText, sellText, tallkText, exitText }, Choice.Arrangement.square);
+            choice = new Choice(merchant.bounds, player, new List<WindowItem> { buyText, sellText, tallkText, exitText }, Choice.Arrangement.square, true);
         }
 
         public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
@@ -58,18 +58,19 @@ namespace My_first_xna_game
 
         private void UpdateInput(KeyboardState newState, KeyboardState oldState)
         {
+            if (!choice.alive) { return; }
             if (newState.IsKeyDown(player.kbKeys.attack) && confirmKeyReleased)
             {
                 switch(choice.selector.currentTargetNum)
                 {
                     case 0: //Buy
                         choice.alive = false;
-                        buyInventory.alive = true;
+                        buyInventory.Revive();
                         break;
 
                     case 1: //Sel
                         choice.alive = false;
-                        sellInventory.alive = true;
+                        sellInventory.Revive();
                         break;
 
                     case 2: //Exit
@@ -86,6 +87,46 @@ namespace My_first_xna_game
             {
                 confirmKeyReleased = true;
             }
+        }
+
+        /*public void UpdateShopItems(int itemID, Player.PauseState sellOrBuy)
+        {
+            if (buyInventory.alive)
+            {
+                if (sellOrBuy == Player.PauseState.buyInventory)
+                {
+                    //do the same when both buying
+                    merchant.pack.SubItem(merchant.pack.items[itemID], false);
+                }
+                if (sellOrBuy == Player.PauseState.sellInventory)
+                {
+                    //when i am buying and he is selling do the oppsite
+                    merchant.pack.AddItem(merchant.pack.items[itemID]);//TODO: ADDING WONT WORK UNTIL YOU SET ANIMATION IN THE FUNCTION ADDITEM
+                }
+            }
+
+        }*/
+
+        public void HandleMenuButtonPress()
+        {
+            if (buyInventory.alive)
+            {
+                buyInventory.Kill();
+                choice.alive = true;
+                return;
+            }
+            if (sellInventory.alive)
+            {
+                sellInventory.Kill();
+                choice.alive = true;
+                return;
+            }
+            alive = false;
+        }
+
+        public Vector2 getMerchantPosition()
+        {
+            return merchant.position;
         }
 
         public void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition)

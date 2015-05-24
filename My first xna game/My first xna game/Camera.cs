@@ -12,14 +12,16 @@ namespace My_first_xna_game
         public Rectangle mapRect;
         public Rectangle screenRect;
         public enum Corner {topLeft, topRight, bottomLeft, bottomRight}
+        public GameObject cameraLightspot;
         public Player player;
 
-        public Camera(Rectangle screenRect, Map map, Player player)
+        public Camera(Rectangle screenRect, Map map, GameObject cameraLightspot, Player player)
         {
-            this.player = player;
+            this.cameraLightspot = cameraLightspot;
             this.screenRect = screenRect;
             this.mapRect = screenRect;
             this.map = map;
+            this.player = player;
         }
 
         public Rectangle view
@@ -27,7 +29,7 @@ namespace My_first_xna_game
             get { return new Rectangle((int)mapRect.X, (int)mapRect.Y, mapRect.X + screenRect.Width, mapRect.Y + screenRect.Height); }
         }
 
-        private Vector2 cellNumber(Player player)
+        private Vector2 cellNumber(GameObject player)
         {
             Vector2 result;
             result.X = screenRect.Width / 2 - player.bounds.Width / 2;
@@ -35,10 +37,9 @@ namespace My_first_xna_game
             return result;
         }
 
-        public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
+        public void Update()
         {
-            Move(player.position - cellNumber(player));
-            player.UpdateMapParameters(map, newState, oldState);
+            Move(cameraLightspot.position - cellNumber(cameraLightspot));
         }
 
         public void Draw(SpriteBatch spriteBatch)

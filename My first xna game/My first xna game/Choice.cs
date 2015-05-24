@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace My_first_xna_game
 {
-    class Choice
+    public class Choice//todo: private
     {
         public enum Arrangement { line, column, square }
         private List<WindowItem> optionsList;
@@ -21,11 +21,12 @@ namespace My_first_xna_game
         private Vector2 spacing;
         private int newRow;
 
-        public Choice(Rectangle sourcePosition, Player player, List<WindowItem> optionsList, Arrangement arrangement = Arrangement.square)
+        public Choice(Rectangle sourcePosition, Player player, List<WindowItem> optionsList, Arrangement arrangement = Arrangement.square, bool playerCollision = false)
         {
             //intialize variables
             this.optionsList = optionsList;
             this.player = player;
+
             optionsRoot = Math.Sqrt(optionsList.Count + 1);
             foreach(WindowItem option in optionsList) 
             {
@@ -57,7 +58,7 @@ namespace My_first_xna_game
                     newRow = 1;
 
                     //set window size
-
+                    windowSize = new Vector2((biggestOptionSize.X + spacing.X) * optionsList.Count, biggestOptionSize.Y + spacing.Y);
                     break;
 
                 case Arrangement.column:
@@ -71,7 +72,7 @@ namespace My_first_xna_game
                     newRow = 0;
 
                     //set window size
-                    windowSize = new Vector2(biggestOptionSize.X * optionsList.Count, (biggestOptionSize.Y + spacing.Y) * optionsList.Count);
+                    windowSize = new Vector2(biggestOptionSize.X + spacing.X, (biggestOptionSize.Y + spacing.Y) * optionsList.Count);
                     break;
 
                 case Arrangement.square:
@@ -98,8 +99,19 @@ namespace My_first_xna_game
             }
 
             //create window and selector
-            window = new Window(Game.content.Load<Texture2D>("windowskin"), Vector2.Zero, (int)windowSize.X, (int)windowSize.Y, player);
+            Player windowPlayer;
+            if (playerCollision)
+            {
+                windowPlayer = player;
+            }
+            else
+            {
+                windowPlayer = null;
+            }
+            window = new Window(Game.content.Load<Texture2D>("windowskin"), Vector2.Zero, (int)windowSize.X, (int)windowSize.Y, windowPlayer);
             window.SetWindowAbove(sourcePosition);
+
+
             selector = new Selector(window, optionsList, biggestOptionSize, 0, newRow);
             selector.player = player;
 

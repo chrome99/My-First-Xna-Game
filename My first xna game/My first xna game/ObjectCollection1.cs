@@ -9,20 +9,20 @@ namespace My_first_xna_game
 {
     class ObjectCollection1 : ObjectCollection
     {
-        private Map map;
         private MovementManager movementManager;
         private Enemy wolf;
         private Actor npc;
         private Sprite block;
+        private Sprite pickUpBread;
         private Sprite runningSwitch;
         private Sprite box1;
         private Sprite box2;
         private Sprite portal;
         private Sprite groundSwitch;
 
-        public ObjectCollection1(Map map) : base()
+        public ObjectCollection1(Map map)
+            : base(map)
         {
-            this.map = map;
             movementManager = new MovementManager(map);
 
             wolf = new Enemy(Content.Load<Texture2D>("wolf"), new Vector2(100f, 0f));
@@ -36,14 +36,16 @@ namespace My_first_xna_game
             wolf.stats.defence = 2;
             wolf.stats.agility = 1;
 
-            npc = new Actor(Content.Load<Texture2D>("wolf"), new Vector2(500f, 500f));
+            npc = new Actor(Content.Load<Texture2D>("wolf"), new Vector2(100f, 500f));
             npc.pack = new Pack();
-            npc.pack.AddItem(ItemCollection.apple);
             npc.pack.AddItem(ItemCollection.bread);
-            npc.pack.AddItem(ItemCollection.healthPotion);
+            npc.pack.AddItem(ItemCollection.bread);
+            npc.pack.AddItem(ItemCollection.bread);
             npc.collisionFunction = UpdateNpcCollision;
 
             block = new Sprite(Content.Load<Texture2D>("box1"), new Vector2(700f, 750f), Game.Depth.player, 2);
+
+            pickUpBread = CreatePickup(pickUpBread, ItemCollection.bread, new Vector2(500f, 500f));
 
             runningSwitch = new Sprite(Content.Load<Texture2D>("brick1"), new Vector2(200f, 250f), Game.Depth.below, 2);
             runningSwitch.passable = true;
@@ -67,6 +69,7 @@ namespace My_first_xna_game
             gameObjectList.Add(npc);
             //gameObjectList.Add(wolf);
             gameObjectList.Add(block);
+            gameObjectList.Add(pickUpBread);
             gameObjectList.Add(runningSwitch);
             gameObjectList.Add(box1);
             gameObjectList.Add(box2);
@@ -155,8 +158,9 @@ namespace My_first_xna_game
                     {
                         if (!player.collisionsList.Contains(collisionID))//!runningSwitch.collisionHandled && 
                         {
-                            player.FlipRunning();
-                            player.pack.AddItem(ItemCollection.RandomItem());
+                            //player.FlipRunning();
+                            //player.pack.AddItem(ItemCollection.RandomItem());
+                            player.Equip(ItemCollection.ironSword);
                             player.collisionsList.Add(collisionID);
                         }
                     }

@@ -45,6 +45,16 @@ namespace My_first_xna_game
             return newPosition;
         }
 
+        public void SetWindowCenter(Rectangle positionBounds)
+        {
+            //set center
+            Vector2 newPosition;
+            newPosition.X = positionBounds.X + positionBounds.Width / 2 - bounds.Width / 2;
+            newPosition.Y = positionBounds.Y + positionBounds.Height / 2 - bounds.Height / 2;
+
+            position = newPosition;
+        }
+
         public void SetWindowAbove(Rectangle positionBounds)
         {
             //set center
@@ -53,7 +63,7 @@ namespace My_first_xna_game
             newPosition.Y = positionBounds.Y + positionBounds.Height / 2 - bounds.Height / 2;
 
             //set above
-            newPosition.Y = newPosition.Y - positionBounds.Height / 2 - bounds.Height / 2;
+            newPosition.Y = newPosition.Y - positionBounds.Height / 2 - bounds.Height / 2 - 5;
 
             position = newPosition;
         }
@@ -90,11 +100,11 @@ namespace My_first_xna_game
                 drawingPosition.Y = screenPosition.Y + drawingPosition.Y - offsetRect.Y;
 
                 spriteBatch.Draw(texture, drawingPosition, windowRect, Color.White * getOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
-                int a = itemsList.Count;
+
                 //draw items
                 foreach (WindowItem item in itemsList)
                 {
-                    if (item is Text || item is Picture)
+                    if (item is Text || item is Picture && item.sourceCanDrawThis)
                     {
                         item.Draw(spriteBatch, offsetRect, screenPosition);
                     }
