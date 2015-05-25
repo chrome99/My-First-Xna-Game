@@ -45,8 +45,11 @@ namespace My_first_xna_game
             player1.stats.agility = 1;
             player1.gold = 25;
 
-            player1.pack.AddItem(new List<Item> { ItemCollection.apple, ItemCollection.apple, ItemCollection.apple });
-
+            player1.pack.AddItem(new List<Item> {
+                ItemCollection.goldBoots, ItemCollection.hat, ItemCollection.helmate, ItemCollection.ironBoots,
+                ItemCollection.ironChestArmor, ItemCollection.ironSword, ItemCollection.leatherShoes, ItemCollection.mask,
+                ItemCollection.shirt, ItemCollection.copperChestArmor, ItemCollection.apple, ItemCollection.apple, ItemCollection.apple
+            });
 
             //intialize player
             Player.PlayerKeys player2Keys;

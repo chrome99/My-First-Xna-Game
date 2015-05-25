@@ -12,7 +12,7 @@ namespace My_first_xna_game
         private List<WindowItem> optionsList;
         public bool alive = true;
         private Player player;
-        public Selector selector;
+        private Selector selector;
         public Window window;
         private bool confirmKeyReleased = false;
         private Vector2 biggestOptionSize = Vector2.Zero;
@@ -20,6 +20,12 @@ namespace My_first_xna_game
         private Vector2 windowSize;
         private Vector2 spacing;
         private int newRow;
+
+        public int currentTargetNum
+        {
+            get { return selector.currentTargetNum; }
+            set { selector.currentTargetNum = value; }
+        }
 
         public Choice(Rectangle sourcePosition, Player player, List<WindowItem> optionsList, Arrangement arrangement = Arrangement.square, bool playerCollision = false)
         {
@@ -55,7 +61,7 @@ namespace My_first_xna_game
                     }
 
                     //set newRow parameter
-                    newRow = 1;
+                    newRow = optionsList.Count;
 
                     //set window size
                     windowSize = new Vector2((biggestOptionSize.X + spacing.X) * optionsList.Count, biggestOptionSize.Y + spacing.Y);
@@ -69,7 +75,7 @@ namespace My_first_xna_game
                     }
 
                     //set newRow parameter
-                    newRow = 0;
+                    newRow = 1;
 
                     //set window size
                     windowSize = new Vector2(biggestOptionSize.X + spacing.X, (biggestOptionSize.Y + spacing.Y) * optionsList.Count);

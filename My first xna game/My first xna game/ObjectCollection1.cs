@@ -19,11 +19,13 @@ namespace My_first_xna_game
         private Sprite box2;
         private Sprite portal;
         private Sprite groundSwitch;
+        private ItemCollection ItemCollection;
 
         public ObjectCollection1(Map map)
             : base(map)
         {
             movementManager = new MovementManager(map);
+            ItemCollection = new ItemCollection();
 
             wolf = new Enemy(Content.Load<Texture2D>("wolf"), new Vector2(100f, 0f));
             wolf.stats.maxHealth = 16;
@@ -36,9 +38,9 @@ namespace My_first_xna_game
             wolf.stats.defence = 2;
             wolf.stats.agility = 1;
 
-            npc = new Actor(Content.Load<Texture2D>("wolf"), new Vector2(100f, 500f));
-            npc.pack = new Pack();
-            npc.pack.AddItem(ItemCollection.bread);
+            npc = new Actor(Content.Load<Texture2D>("wolf"), new Vector2(700f, 500f));
+            npc.pack = new Pack(npc);
+            npc.pack.AddItem(ItemCollection.ironChestArmor);
             npc.pack.AddItem(ItemCollection.bread);
             npc.pack.AddItem(ItemCollection.bread);
             npc.collisionFunction = UpdateNpcCollision;
@@ -46,7 +48,6 @@ namespace My_first_xna_game
             block = new Sprite(Content.Load<Texture2D>("box1"), new Vector2(700f, 750f), Game.Depth.player, 2);
 
             pickUpBread = CreatePickup(pickUpBread, ItemCollection.bread, new Vector2(500f, 500f));
-
             runningSwitch = new Sprite(Content.Load<Texture2D>("brick1"), new Vector2(200f, 250f), Game.Depth.below, 2);
             runningSwitch.passable = true;
             runningSwitch.collisionFunction = UpdateRunningSwitchCollision;
@@ -129,9 +130,9 @@ namespace My_first_xna_game
                         if (!player.collisionsList.Contains(collisionID))
                         {
                             movementManager.TurnActor(npc2, MovementManager.OppositeDirection(player.direction));
-                            player.Shop(npc);
+                            //player.Shop(npc);
                             //movementManager.Knockback(player, MovementManager.Direction.left, 100);
-                            //player.MessageWindow(npc2.bounds, "the great king wants to see you. \n no, he dosent.");
+                            player.MessageWindow(npc2.bounds, new List<string> {"the great king wants to see you. \n no, he dosent.", "asd"}, true);
                             //player.MessageWindow(npc2.bounds, "the king wants to see you. \n no, he dosent.");
                             player.collisionsList.Add(collisionID);
                         }
@@ -159,9 +160,9 @@ namespace My_first_xna_game
                         if (!player.collisionsList.Contains(collisionID))//!runningSwitch.collisionHandled && 
                         {
                             //player.FlipRunning();
-                            //player.pack.AddItem(ItemCollection.RandomItem());
-                            player.Equip(ItemCollection.ironSword);
-                            player.collisionsList.Add(collisionID);
+                            player.pack.AddItem(ItemCollection.RandomItem());
+                            //player.Equip(ItemCollection.ironSword);
+                            //player.collisionsList.Add(collisionID);
                         }
                     }
                     else

@@ -12,8 +12,6 @@ namespace My_first_xna_game
     {
         /*
          TODO:
-         * equipment
-         * amount in stores
          * talk in stores
          * durabillity in armor and swords
          * conversation with npc
@@ -35,7 +33,9 @@ namespace My_first_xna_game
          * command line
          
          BUGS:
+         * fix msgWindow intializing
          * selector in inventory is visible for a second
+         * you can see that menu reset itself for a second
          * when you are in menu and somone hits you
          * when two players are at the same shop
          * inventory and windows at the edge of the map

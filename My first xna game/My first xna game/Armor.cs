@@ -7,8 +7,7 @@ namespace My_first_xna_game
 {
     public class Armor : Item
     {
-        //new private UsingFunction function;
-        public enum ArmorType { head, oneHanded, twoHanded, chest, legs, shoes }
+        public enum ArmorType { head, oneHanded, twoHanded, body, shoes }
         public ArmorType armorType;
         public Player.Stats changeStats;
 

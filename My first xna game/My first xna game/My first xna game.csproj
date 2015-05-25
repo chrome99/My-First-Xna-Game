@@ -109,6 +109,8 @@
   <ItemGroup>
     <Compile Include="Actor.cs" />
     <Compile Include="Armor.cs" />
+    <Compile Include="ChoiceInventory.cs" />
+    <Compile Include="Equipment.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="PlayerManager.cs" />
     <Compile Include="ShopInventory.cs" />

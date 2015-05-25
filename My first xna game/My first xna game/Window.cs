@@ -12,8 +12,8 @@ namespace My_first_xna_game
         public List<WindowItem> itemsList = new List<WindowItem>();
         public Vector2 thickness = new Vector2(10, 10);
         public bool offsetRect = true;
-        private int width;
-        private int height;
+        public int width;
+        public int height;
 
         // TODO: Make an opacity value for each state
         private float originalOpacity;
@@ -32,38 +32,63 @@ namespace My_first_xna_game
             originalOpacity = opacity;
             passable = true;
         }
-        public static Vector2 GetWindowAbove(Rectangle positionBounds, Window window)
+
+        private Vector2 GetWindowCenter(Rectangle positionBounds)
         {
             //set center
-            Vector2 newPosition;
-            newPosition.X = positionBounds.X + positionBounds.Width / 2 - window.bounds.Width / 2;
-            newPosition.Y = positionBounds.Y + positionBounds.Height / 2 - window.bounds.Height / 2;
+            Vector2 result;
+            result.X = positionBounds.X + positionBounds.Width / 2 - bounds.Width / 2;
+            result.Y = positionBounds.Y + positionBounds.Height / 2 - bounds.Height / 2;
 
-            //set above
-            newPosition.Y = newPosition.Y - positionBounds.Height / 2 - window.bounds.Height / 2;
-
-            return newPosition;
+            return result;
         }
 
         public void SetWindowCenter(Rectangle positionBounds)
         {
             //set center
-            Vector2 newPosition;
-            newPosition.X = positionBounds.X + positionBounds.Width / 2 - bounds.Width / 2;
-            newPosition.Y = positionBounds.Y + positionBounds.Height / 2 - bounds.Height / 2;
-
-            position = newPosition;
+            position = GetWindowCenter(positionBounds);
         }
 
         public void SetWindowAbove(Rectangle positionBounds)
         {
             //set center
-            Vector2 newPosition;
-            newPosition.X = positionBounds.X + positionBounds.Width / 2 - bounds.Width / 2;
-            newPosition.Y = positionBounds.Y + positionBounds.Height / 2 - bounds.Height / 2;
+            Vector2 newPosition = GetWindowCenter(positionBounds);
 
             //set above
-            newPosition.Y = newPosition.Y - positionBounds.Height / 2 - bounds.Height / 2 - 5;
+            newPosition.Y = newPosition.Y - positionBounds.Height / 2 - bounds.Height / 2 - 5; //TODO: why -5?
+
+            position = newPosition;
+        }
+
+        public void SetWindowBelow(Rectangle positionBounds)
+        {
+            //set center
+            Vector2 newPosition = GetWindowCenter(positionBounds);
+
+            //set above
+            newPosition.Y = newPosition.Y + positionBounds.Height / 2 + bounds.Height / 2;
+
+            position = newPosition;
+        }
+
+        public void SetWindowLeft(Rectangle positionBounds)
+        {
+            //set center
+            Vector2 newPosition = GetWindowCenter(positionBounds);
+
+            //set above
+            newPosition.X = newPosition.X - positionBounds.Width / 2 - bounds.Width / 2;
+
+            position = newPosition;
+        }
+
+        public void SetWindowRight(Rectangle positionBounds)
+        {
+            //set center
+            Vector2 newPosition = GetWindowCenter(positionBounds);
+
+            //set above
+            newPosition.X = newPosition.X + positionBounds.Width / 2 + bounds.Width / 2;
 
             position = newPosition;
         }

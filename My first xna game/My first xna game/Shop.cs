@@ -61,7 +61,7 @@ namespace My_first_xna_game
             if (!choice.alive) { return; }
             if (newState.IsKeyDown(player.kbKeys.attack) && confirmKeyReleased)
             {
-                switch(choice.selector.currentTargetNum)
+                switch (choice.currentTargetNum)
                 {
                     case 0: //Buy
                         choice.alive = false;

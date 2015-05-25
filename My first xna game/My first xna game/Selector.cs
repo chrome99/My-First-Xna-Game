@@ -17,8 +17,8 @@ namespace My_first_xna_game
         private List<WindowItem> targets;
         private Vector2 size;
         private int layout;
-
-        private int itemsInRow;
+        public bool active = true;
+        public int itemsInRow;
 
         // TODO: Remove this
         private bool opacityMaxed = false;
@@ -27,13 +27,13 @@ namespace My_first_xna_game
         private bool leftKeyReleased = false;
         private bool rightKeyReleased = false;
 
-        public Selector(Window source, List<WindowItem> targets, Vector2 size, int layout, int newRow = 0)
+        public Selector(Window source, List<WindowItem> targets, Vector2 size, int layout, int itemsInRow = 0)
             : base(source)
         {
             this.targets = targets;
             this.size = size;
             this.layout = layout;
-            this.itemsInRow = newRow;
+            this.itemsInRow = itemsInRow;
 
             texture = source.texture;
             opacity = 30f;
@@ -74,8 +74,10 @@ namespace My_first_xna_game
                 }
             }
 
-
-            UpdateInput(newState, oldState);
+            if (active)
+            {
+                UpdateInput(newState, oldState);
+            }
         }
 
         public bool Clamp()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace My_first_xna_game
 {
@@ -8,40 +9,114 @@ namespace My_first_xna_game
     {
         public Inventory representation;
         public List<Item> items = new List<Item>();
-        private ItemCollection itemInstance = new ItemCollection();
+        private Actor source;
 
-        public Pack()
+        public Pack(Actor source)
         {
-
+            this.source = source;
         }
 
         public void CreateItems(Inventory inventory)
         {
+            Armor armor;
             for (int i = 0; i < items.Count; i++)
             {
-                items[i].icon = new Picture(Item.IconSet, new Vector2(i % inventory.margin * (Item.size + inventory.spacing), i / inventory.margin * (Item.size + inventory.spacing)), inventory.window);
-                items[i].icon.drawingRect = items[i].getRect();
-                inventory.window.AddItem(items[i].icon);
+                switch (inventory.filter)
+                {
+                    case Inventory.Filter.all:
+                        CreateItem(items[i], i, inventory);
+                        break;
+
+                    case Inventory.Filter.armor:
+                        armor = items[i] as Armor;
+                        if (armor != null)
+                        {
+                            CreateItem(items[i], i, inventory);
+                        }
+                        break;
+
+                    case Inventory.Filter.head:
+                        armor = items[i] as Armor;
+                        if (armor != null)
+                        {
+                            if (armor.armorType == Armor.ArmorType.head)
+                            {
+                                CreateItem(items[i], i, inventory);
+                            }
+                        }
+                        break;
+
+                    case Inventory.Filter.body:
+                        armor = items[i] as Armor;
+                        if (armor != null)
+                        {
+                            if (armor.armorType == Armor.ArmorType.body)
+                            {
+                                CreateItem(items[i], i, inventory);
+                            }
+                        }
+                        break;
+
+                    case Inventory.Filter.shoes:
+                        armor = items[i] as Armor;
+                        if (armor != null)
+                        {
+                            if (armor.armorType == Armor.ArmorType.shoes)
+                            {
+                                CreateItem(items[i], i, inventory);
+                            }
+                        }
+                        break;
+
+                    case Inventory.Filter.oneHanded:
+                        armor = items[i] as Armor;
+                        if (armor != null)
+                        {
+                            if (armor.armorType == Armor.ArmorType.oneHanded)
+                            {
+                                CreateItem(items[i], i, inventory);
+                            }
+                        }
+                        break;
+
+                    case Inventory.Filter.twoHanded:
+                        armor = items[i] as Armor;
+                        if (armor != null)
+                        {
+                            if (armor.armorType == Armor.ArmorType.twoHanded)
+                            {
+                                CreateItem(items[i], i, inventory);
+                            }
+                        }
+                        break;
+
+                    case Inventory.Filter.weapon:
+                        armor = items[i] as Armor;
+                        if (armor != null)
+                        {
+                            if (armor.armorType == Armor.ArmorType.oneHanded || armor.armorType == Armor.ArmorType.twoHanded)
+                            {
+                                CreateItem(items[i], i, inventory);
+                            }
+                        }
+                        break;
+                }
             }
 
         }
 
-        public Item FindIdenticalItem(Item item)
+        private void CreateItem(Item item, int i, Inventory inventory)
         {
-            //return items.Contains(item);
-            //if item already exists
-            foreach(Item identicalItem in items)
+            item.icon = new Picture(Item.IconSet, new Vector2(i % inventory.margin * (Item.size + inventory.spacing), i / inventory.margin * (Item.size + inventory.spacing)), inventory.window);
+            item.icon.drawingRect = item.getRect();
+            if (item.amount > 1)
             {
-                if (ReferenceEquals(identicalItem, item))//identicalItem.Equals((object)item))
-                {
-                    return identicalItem;
-                }
+                Text amount = new Text(Game.content.Load<SpriteFont>("small"), Vector2.Zero, new Color(255, 255, 255), items[i].amount + "X", inventory.window);
+                amount.position = new Vector2(i % inventory.margin * (Item.size + inventory.spacing), i / inventory.margin * (Item.size + inventory.spacing));
+                amount.depth = Game.DepthToFloat(Game.Depth.windowsDataFront);
+                inventory.amountTexts.Add(amount);
             }
-            return null;
-             /*
-            Item identicalItem = items.Find(sameItem => sameItem.Equals(item));
-            return identicalItem;
-            */
+            inventory.window.AddItem(item.icon);
         }
 
         public void AddItem(List<Item> itemsList)
@@ -55,30 +130,54 @@ namespace My_first_xna_game
         public void AddItem(Item item)
         {
             // if there is already a same item
-            /*Item sameItem = FindIdenticalItem(item);
+            Item sameItem = null;
+            foreach (Item identicalItem in items)
+            {
+                if (identicalItem.iconID == item.iconID)
+                {
+                    sameItem = identicalItem;
+                }
+            }
             if (sameItem != null)
             {
                 sameItem.amount++;
                 return;
-            }*/
+            }
 
-            items.Add(new Item(item.iconID, item.function, item.price, item.weight, item.wasted));
+            items.Add(item);
         }
 
-        public void SubItem(Item item, bool checkOtherPlayers = true)
+        public void SubItem(Item item)
         {
-            int result = -1;
-            if (checkOtherPlayers)
+            if (item.amount > 1)
             {
-                for (int counter = 0; counter < items.Count; counter++)
+                Text result = null;
+                foreach(Item item2 in items)
                 {
-                    if (items[counter].Equals(item))
+                    foreach (Text amount in representation.amountTexts)
                     {
-                        result = counter;
-                        break;
+                        if (item.icon.position == amount.position)
+                        {
+                            result = amount;
+                        }
                     }
                 }
+                if (result != null)
+                {
+                    if (item.amount == 2)
+                    {
+                        representation.amountTexts.Remove(result);
+                        result = null;
+                    }
+                    else
+                    {
+                        result.text = item.amount - 1 + "X";
+                    }
+                }
+                item.amount--;
+                return;
             }
+
             if (representation.alive)
             {
                 //remove price
@@ -92,33 +191,30 @@ namespace My_first_xna_game
                 representation.RemoveWindowItem(item.icon);
             }
 
+            //check if the item is equiped
+            Hostile hostile = source as Hostile;
+            if (hostile != null)
+            {
+                Armor armor = item as Armor;
+                if (armor != null)
+                {
+                    List<Armor> identicalArmorsList = new List<Armor>();
+                    foreach (Armor armor2 in hostile.equipmentList)
+                    {
+                        if (armor.iconID == armor2.iconID)
+                        {
+                            identicalArmorsList.Add(armor2);
+                        }
+                    }
+                    if (identicalArmorsList.Count == 1)
+                    {
+                        hostile.UnEquip(identicalArmorsList[0]);
+                    }
+                }
+            }
             
             //remove item
             items.Remove(item);
-            /*
-            if (checkOtherPlayers)
-            {
-                if (PlayerManager.TwoPlayersSameShop(result))
-                {
-
-                }
-                else
-                {
-                    items.Remove(item);
-                }
-            }
-            else
-            {
-                items.Remove(item);
-            }*/
-            /*if (item.amount == 1)
-            {
-                items.Remove(item);
-            }
-            else
-            {
-                item.amount--;
-            }*/
         }
     }
 }

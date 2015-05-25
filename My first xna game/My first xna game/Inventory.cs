@@ -15,20 +15,27 @@ namespace My_first_xna_game
         public Window window;
         protected Pack pack;
         public Selector selector; //TODO PRIVATE
+        public List<Text> amountTexts = new List<Text>();
         protected Player player;
         protected bool useKeyReleased = false;
         protected Actor sourcePack;
         //private Vector2 savedWindowPosition; //effects
         //private bool positionMaxed = false; //effects
+        public enum Filter { all, armor, head, body, shoes, weapon, oneHanded, twoHanded }
+        public enum Side { right, left, up, down }
+        public Filter filter;
+        private Side side;
 
         public int margin
         {
             get { return (window.bounds.Width - (int)window.thickness.X * 2) / (Item.size + spacing); }
         }
 
-        public Inventory(Player player, bool createWindowItems = true)
+        public Inventory(Player player, bool createWindowItems = true, Side side = Side.up, Filter filter = Filter.all)
         {
             this.player = player;
+            this.side = side;
+            this.filter = filter;
 
             window = new Window(Game.content.Load<Texture2D>("windowskin"), Vector2.Zero, 200, 200, null);
             window.thickness = new Vector2(20, 20);
@@ -39,6 +46,7 @@ namespace My_first_xna_game
                 CreateWindowItems();
             }
         }
+
 
         protected void CreateWindowItems()
         {
@@ -56,11 +64,39 @@ namespace My_first_xna_game
             {
                 RemoveWindowItem(window.itemsList[counter], false);
             }
+            for (int counter = 0; counter < amountTexts.Count;)
+            {
+                amountTexts[counter] = null;
+                amountTexts.Remove(amountTexts[counter]);
+            }
+        }
+
+        private void SetWindowPosition()
+        {
+            switch (side)
+            {
+                case Side.down:
+                    window.SetWindowBelow(sourcePack.bounds);
+                    break;
+
+                case Side.up:
+                    window.SetWindowAbove(sourcePack.bounds);
+                    break;
+
+                case Side.left:
+                    window.SetWindowLeft(sourcePack.bounds);
+                    break;
+
+                case Side.right:
+                    window.SetWindowRight(sourcePack.bounds);
+                    break;
+            }
         }
 
         public void Revive()
         {
-            window.SetWindowAbove(sourcePack.bounds);
+            useKeyReleased = false;
+            SetWindowPosition();
             DeleteWindowItems();
             CreateWindowItems();
             ShopInventory shopInventory = this as ShopInventory;
@@ -80,9 +116,28 @@ namespace My_first_xna_game
 
         protected void SortItems()
         {
+            //sort amount
+            List<WindowItem> result = new List<WindowItem>();
+            foreach (Text amount in amountTexts)
+            {
+                foreach (WindowItem windowItem in window.itemsList)
+                {
+                    if (windowItem.position == amount.position)
+                    {
+                        result.Add(windowItem);
+                    }
+                }
+            }
+
+            //sort window items
             for (int counter = 0; counter < window.itemsList.Count; counter++)
             {
                 window.itemsList[counter].position = new Vector2(counter % margin * (Item.size + spacing), counter / margin * (Item.size + spacing));
+                if (result.Contains(window.itemsList[counter]))
+                {
+                    int index = result.IndexOf(window.itemsList[counter]);
+                    amountTexts[index].position = window.itemsList[counter].position;
+                }
             }
         }
 
@@ -143,7 +198,10 @@ namespace My_first_xna_game
         protected virtual void HandleItemChoice()
         {
             Item currentItem = pack.items[selector.currentTargetNum];
-            currentItem.function(player, player);
+            if (currentItem.function != null)
+            {
+                currentItem.function(player, player);
+            }
             if (currentItem.wasted)
             {
                 pack.SubItem(currentItem);
@@ -171,6 +229,11 @@ namespace My_first_xna_game
 
             window.Draw(spriteBatch, offsetRect, screenPosition);
             selector.Draw(spriteBatch, offsetRect, screenPosition);
+
+            foreach (Text amount in amountTexts)
+            {
+                amount.Draw(spriteBatch, offsetRect, screenPosition);
+            }
         }
 
         protected virtual void DrawBuyInventory(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition) { }

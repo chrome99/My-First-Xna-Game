@@ -17,7 +17,7 @@ namespace My_first_xna_game
         public Picture icon;
         public int price;
         public float weight;
-        public int amount = 1;
+        public int amount;
 
         public Item(int iconID, UsingFunction function, int price, float weight, bool wasted)
         {
@@ -26,6 +26,7 @@ namespace My_first_xna_game
             this.price = price;
             this.weight = weight;
             this.wasted = wasted;
+            amount = 1;
         }
 
         public Rectangle getRect()

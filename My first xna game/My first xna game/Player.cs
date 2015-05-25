@@ -14,17 +14,27 @@ namespace My_first_xna_game
     public class Player : Hostile
     {
         public PlayerKeys kbKeys;
+
         public int gold;
         public int maxGold = 100;
+
         private Shop shop;
+
         private Menu menu;
+
         private DebugHUD debug;
+
         private Window msgWindow;
-        private Text msgWindowText;
+        private Text msgWindowCurrentText;
+        private List<string> msgWindowDialog = new List<string>();
+        private int lastTextIndex;
+        private bool canIgnoreMsg;
+
         private bool playerMoving = false;
         private bool playerRunning = false;
         private int releasedKeysCount;
         private bool fireballkeyReleased = false;
+        private bool useKeyReleased = false;
         private bool menuKeyReleased = false;
         private Map map;
         private KeyboardState newState;
@@ -72,11 +82,11 @@ namespace My_first_xna_game
         {
             this.kbKeys = keys;
 
-            pack = new Pack();
+            pack = new Pack(this);
             debug = new DebugHUD(Game.content.Load<SpriteFont>("Debug1"), Color.Wheat, this, keys.opDebug);
             menu = new Menu(this);
             msgWindow = new Window(Game.content.Load<Texture2D>("windowskin"), Vector2.Zero, 0, 0, null);
-            msgWindowText = new Text(Game.content.Load<SpriteFont>("medival1"), Vector2.Zero, Color.White, null);
+            msgWindowCurrentText = new Text(Game.content.Load<SpriteFont>("medival1"), Vector2.Zero, Color.White, null);
             msgWindow.Kill();
 
             shop = new Shop();
@@ -101,25 +111,19 @@ namespace My_first_xna_game
             }
         }
 
-        public void MessageWindow(Rectangle position, string text)
+        public void MessageWindow(Rectangle position, List<string> dialog, bool canIgnoreMsg)
         {
-            msgWindowText.text = text;
-            Vector2 windowSize = new Vector2(msgWindowText.bounds.Width + 10, msgWindowText.bounds.Height + 10);
+            this.canIgnoreMsg = canIgnoreMsg;
+            msgWindowDialog = dialog;
+            msgWindowCurrentText.text = dialog[0];
+            lastTextIndex = 0;
+            Vector2 windowSize = new Vector2(msgWindowCurrentText.bounds.Width + 10, msgWindowCurrentText.bounds.Height + 10);
 
-            //intialize new position
-            Vector2 newPosition;
-
-            //set center
-            newPosition.X = position.X + position.Width / 2 - windowSize.X / 2;
-            newPosition.Y = position.Y + position.Height / 2 - windowSize.Y / 2;
-
-            //set above
-            newPosition.Y = newPosition.Y - position.Height / 2 - windowSize.Y / 2 - 10;
-
-            msgWindow = new Window(msgWindow.texture, newPosition, (int)windowSize.X, (int)windowSize.Y, this);
-            msgWindowText.position += Vector2.Zero;
+            msgWindow = new Window(msgWindow.texture, Vector2.Zero, (int)windowSize.X, (int)windowSize.Y, this);
+            msgWindow.SetWindowAbove(bounds);
+            msgWindowCurrentText.position += Vector2.Zero;
             msgWindow.thickness = new Vector2(10f, 0f);
-            msgWindow.AddItem(msgWindowText);
+            msgWindow.AddItem(msgWindowCurrentText);
 
             msgWindow.Revive();
         }
@@ -152,9 +156,13 @@ namespace My_first_xna_game
                 {
                     shop.HandleMenuButtonPress();
                 }
-                else if (msgWindow.alive)
+                else if (msgWindow.alive )
                 {
-                    msgWindow.alive = false;
+                    if (canIgnoreMsg)
+                    {
+                        msgWindow.alive = false;
+                    }
+                    else { return; }
                 }
                 else
                 {
@@ -167,6 +175,32 @@ namespace My_first_xna_game
             {
                 menuKeyReleased = true;
             }
+
+            if (msgWindow.alive)
+            {
+                if (newState.IsKeyDown(kbKeys.attack) && useKeyReleased)
+                {
+                    lastTextIndex++;
+                    if (msgWindowDialog.Count == lastTextIndex)
+                    {
+                        msgWindow.alive = false;
+                    }
+                    else
+                    {
+                        Vector2 windowSize = new Vector2(msgWindowCurrentText.bounds.Width + 10, msgWindowCurrentText.bounds.Height + 10);
+                        msgWindow.width = (int)windowSize.X;
+                        msgWindow.height = (int)windowSize.Y;
+                        msgWindowCurrentText.text = msgWindowDialog[lastTextIndex];
+                    }
+
+                    useKeyReleased = false;
+                }
+                else if (!oldState.IsKeyDown(kbKeys.attack))
+                {
+                    useKeyReleased = true;
+                }
+            }
+
             if (shop.alive || msgWindow.alive || menu.alive)
             {
                 return;

@@ -45,11 +45,6 @@ namespace My_first_xna_game
                 return price;
             }
         }
-
-        public void SyncShops()
-        {
-
-        }
         
         public void CreatePriceTexts()
         {
@@ -87,8 +82,6 @@ namespace My_first_xna_game
         public void SubPrice(WindowItem windowItem)
         {
             int priceID = -1;
-            if (true)//window.itemsList.Contains(windowItem))
-            {
                 for (int counter = 0; counter < window.itemsList.Count; counter++)
                 {
                     if (window.itemsList[counter].Equals(windowItem))
@@ -98,8 +91,6 @@ namespace My_first_xna_game
                     }
                 }
                 SubPrice(priceTexts[priceID]);
-            }
-
         }
 
         protected override void HandleItemChoice()
@@ -110,7 +101,7 @@ namespace My_first_xna_game
                 if (player.gold + currentItem.price / 2 <= player.maxGold)
                 {
                     pack.SubItem(currentItem);
-                    merchant.pack.AddItem(currentItem);
+                    merchant.pack.AddItem(ItemCollection.CopyItem(currentItem));
                     player.gold += getPrice(currentItem.price);
                     SortPriceTexts();
                 }
@@ -124,7 +115,7 @@ namespace My_first_xna_game
                 if (player.gold - currentItem.price > 0)
                 {
                     pack.SubItem(currentItem);
-                    player.pack.AddItem(currentItem);
+                    player.pack.AddItem(ItemCollection.CopyItem(currentItem));
                     player.gold -= currentItem.price;
                     SortPriceTexts();
                 }
