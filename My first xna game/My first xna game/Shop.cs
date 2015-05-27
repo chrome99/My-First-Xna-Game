@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 
 namespace My_first_xna_game
@@ -39,10 +40,10 @@ namespace My_first_xna_game
             sellInventory.window.SetWindowAbove(player.bounds);
 
             //intialize Choice
-            buyText = new Text(Game.content.Load<SpriteFont>("medival1"), Vector2.Zero, Color.White, "Buy");
-            sellText = new Text(Game.content.Load<SpriteFont>("medival1"), Vector2.Zero, Color.White, "Sell");
-            exitText = new Text(Game.content.Load<SpriteFont>("medival1"), Vector2.Zero, Color.White, "Talk");
-            tallkText = new Text(Game.content.Load<SpriteFont>("medival1"), Vector2.Zero, Color.White, "Exit");
+            buyText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Buy");
+            sellText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Sell");
+            exitText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Talk");
+            tallkText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Exit");
             choice = new Choice(merchant.bounds, player, new List<WindowItem> { buyText, sellText, tallkText, exitText }, Choice.Arrangement.square, true);
         }
 
@@ -61,6 +62,7 @@ namespace My_first_xna_game
             if (!choice.alive) { return; }
             if (newState.IsKeyDown(player.kbKeys.attack) && confirmKeyReleased)
             {
+                Game.content.Load<SoundEffect>("Audio\\Waves\\confirm").Play();
                 switch (choice.currentTargetNum)
                 {
                     case 0: //Buy
@@ -78,7 +80,8 @@ namespace My_first_xna_game
                         break;
 
                     case 3: //Talk
-
+                        choice.alive = false;
+                        player.MessageWindow(merchant.bounds, "I've got some fine merchandise today.", true, false, ReturnToMenu);
                         break;
                 }
                 confirmKeyReleased = false;
@@ -87,6 +90,10 @@ namespace My_first_xna_game
             {
                 confirmKeyReleased = true;
             }
+        }
+        public void ReturnToMenu()
+        {
+            choice.alive = true;
         }
 
         /*public void UpdateShopItems(int itemID, Player.PauseState sellOrBuy)
@@ -109,6 +116,11 @@ namespace My_first_xna_game
 
         public void HandleMenuButtonPress()
         {
+            if (player.msgAlive)
+            {
+                return;
+            }
+            Game.content.Load<SoundEffect>("Audio\\Waves\\cancel").Play();
             if (buyInventory.alive)
             {
                 buyInventory.Kill();

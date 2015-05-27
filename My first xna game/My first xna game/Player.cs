@@ -18,27 +18,25 @@ namespace My_first_xna_game
         public int gold;
         public int maxGold = 100;
 
+        public int maxPackWeight = 30;
+        public bool maxWeightReached = false;
+
         private Shop shop;
-
         private Menu menu;
-
+        private Message msg;
         private DebugHUD debug;
-
-        private Window msgWindow;
-        private Text msgWindowCurrentText;
-        private List<string> msgWindowDialog = new List<string>();
-        private int lastTextIndex;
-        private bool canIgnoreMsg;
 
         private bool playerMoving = false;
         private bool playerRunning = false;
         private int releasedKeysCount;
+
         private bool fireballkeyReleased = false;
-        private bool useKeyReleased = false;
         private bool menuKeyReleased = false;
+
         private Map map;
         private KeyboardState newState;
         private KeyboardState oldState;
+
         public List<int> collisionsList = new List<int>();
 
         public struct PlayerKeys
@@ -51,6 +49,11 @@ namespace My_first_xna_game
             public Keys run;
             public Keys opMenu;
             public Keys opDebug;
+        }
+
+        public bool msgAlive
+        {
+            get { return msg.alive; }
         }
 
         /*public enum PauseState { game, inventory, shop, buyInventory, sellInventory, msgWindow }
@@ -83,11 +86,9 @@ namespace My_first_xna_game
             this.kbKeys = keys;
 
             pack = new Pack(this);
-            debug = new DebugHUD(Game.content.Load<SpriteFont>("Debug1"), Color.Wheat, this, keys.opDebug);
+            debug = new DebugHUD(Game.content.Load<SpriteFont>("Fonts\\Debug1"), Color.Wheat, this, keys.opDebug);
             menu = new Menu(this);
-            msgWindow = new Window(Game.content.Load<Texture2D>("windowskin"), Vector2.Zero, 0, 0, null);
-            msgWindowCurrentText = new Text(Game.content.Load<SpriteFont>("medival1"), Vector2.Zero, Color.White, null);
-            msgWindow.Kill();
+            msg = new Message(this);
 
             shop = new Shop();
         }
@@ -111,26 +112,20 @@ namespace My_first_xna_game
             }
         }
 
-        public void MessageWindow(Rectangle position, List<string> dialog, bool canIgnoreMsg)
+        public void MessageWindow(Rectangle position, List<string> dialog, bool canIgnoreMsg, bool notFromShop = true, Message.ReturnFunction returnFunction = null)
         {
-            this.canIgnoreMsg = canIgnoreMsg;
-            msgWindowDialog = dialog;
-            msgWindowCurrentText.text = dialog[0];
-            lastTextIndex = 0;
-            Vector2 windowSize = new Vector2(msgWindowCurrentText.bounds.Width + 10, msgWindowCurrentText.bounds.Height + 10);
+            msg.CreateDialog(position, dialog, canIgnoreMsg, notFromShop, returnFunction);
+        }
 
-            msgWindow = new Window(msgWindow.texture, Vector2.Zero, (int)windowSize.X, (int)windowSize.Y, this);
-            msgWindow.SetWindowAbove(bounds);
-            msgWindowCurrentText.position += Vector2.Zero;
-            msgWindow.thickness = new Vector2(10f, 0f);
-            msgWindow.AddItem(msgWindowCurrentText);
-
-            msgWindow.Revive();
+        public void MessageWindow(Rectangle position, string text, bool canIgnoreMsg, bool notFromShop = true, Message.ReturnFunction returnFunction = null)
+        {
+            msg.CreateDialog(position, text, canIgnoreMsg, notFromShop, returnFunction);
         }
 
         public void Shop(Actor merchant)
         {
             if (shop.alive) { return; }
+            Game.content.Load<SoundEffect>("Audio\\Waves\\confirm").Play();
             shop = new Shop(this, merchant);
             shop.alive = true;
         }
@@ -142,7 +137,7 @@ namespace My_first_xna_game
             menu.Update(newState, oldState, gameTime);
             debug.Update();
             debug.UpdateInput(newState, oldState);
-            msgWindow.Update(gameTime);
+            msg.Update(gameTime, newState, oldState);
 
             UpdateInput();
         }
@@ -152,17 +147,16 @@ namespace My_first_xna_game
             //cancal things, and open menu when can
             if (newState.IsKeyDown(kbKeys.opMenu) && menuKeyReleased)
             {
-                if (shop.alive)
+                if (msg.alive)
+                {
+                    if (!msg.HandleMenuButtonPress())
+                    {
+                        return;
+                    }
+                }
+                else if (shop.alive)
                 {
                     shop.HandleMenuButtonPress();
-                }
-                else if (msgWindow.alive )
-                {
-                    if (canIgnoreMsg)
-                    {
-                        msgWindow.alive = false;
-                    }
-                    else { return; }
                 }
                 else
                 {
@@ -176,32 +170,7 @@ namespace My_first_xna_game
                 menuKeyReleased = true;
             }
 
-            if (msgWindow.alive)
-            {
-                if (newState.IsKeyDown(kbKeys.attack) && useKeyReleased)
-                {
-                    lastTextIndex++;
-                    if (msgWindowDialog.Count == lastTextIndex)
-                    {
-                        msgWindow.alive = false;
-                    }
-                    else
-                    {
-                        Vector2 windowSize = new Vector2(msgWindowCurrentText.bounds.Width + 10, msgWindowCurrentText.bounds.Height + 10);
-                        msgWindow.width = (int)windowSize.X;
-                        msgWindow.height = (int)windowSize.Y;
-                        msgWindowCurrentText.text = msgWindowDialog[lastTextIndex];
-                    }
-
-                    useKeyReleased = false;
-                }
-                else if (!oldState.IsKeyDown(kbKeys.attack))
-                {
-                    useKeyReleased = true;
-                }
-            }
-
-            if (shop.alive || msgWindow.alive || menu.alive)
+            if (shop.alive || msg.alive || menu.alive)
             {
                 return;
             }
@@ -216,10 +185,21 @@ namespace My_first_xna_game
                 playerRunning = false;
             }
 
-            //if perssed attack
+            //if pressed attack
             if (newState.IsKeyDown(kbKeys.attack) && fireballkeyReleased)
             {
-                Projectile projectile = new Projectile(map, Game.content.Load<Texture2D>("wolf"), 6, this, 60);
+                for (int counter = 0; counter < equipmentList.Count; counter++)
+                {
+                    Armor armor = equipmentList[counter];
+                    if (armor.armorType == Armor.ArmorType.oneHanded || armor.armorType == Armor.ArmorType.twoHanded)
+                    {
+                        int asd = armor.Durability;
+                        armor.Durability--;
+                    }
+                }
+                Projectile projectile = new Projectile(map, Game.content.Load<Texture2D>("Textures\\Spritesheets\\wolf"),
+                    6, this, 60, Game.content.Load<SoundEffect>("Audio\\Waves\\fireball launch"),
+                    Game.content.Load<SoundEffect>("Audio\\Waves\\fireball hit"));
                 projectile.passable = true;
 
                 fireballkeyReleased = false;
@@ -305,7 +285,7 @@ namespace My_first_xna_game
             shop.Draw(spriteBatch, offsetRect, screenPosition);
             debug.Draw(spriteBatch, screenPosition);
             menu.Draw(spriteBatch, offsetRect, screenPosition);
-            msgWindow.Draw(spriteBatch, offsetRect, screenPosition);
+            msg.Draw(spriteBatch, offsetRect, screenPosition);
         }
     }
 }

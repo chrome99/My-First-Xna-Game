@@ -112,6 +112,7 @@
     <Compile Include="ChoiceInventory.cs" />
     <Compile Include="Equipment.cs" />
     <Compile Include="Menu.cs" />
+    <Compile Include="Message.cs" />
     <Compile Include="PlayerManager.cs" />
     <Compile Include="ShopInventory.cs" />
     <Compile Include="Camera.cs" />
@@ -153,11 +154,16 @@
   <ItemGroup>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
+    <Content Include="TiledSharp.csproj" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\My first xna gameContent\My first xna gameContent.contentproj">
       <Name>My_first_xna_gameContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>
+    </ProjectReference>
+    <ProjectReference Include="..\TiledSharp\TiledSharp\TiledSharp.csproj">
+      <Project>{e4130f8d-d301-4e0c-916d-489c4a23c9b1}</Project>
+      <Name>TiledSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

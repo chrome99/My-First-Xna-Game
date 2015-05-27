@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 
 namespace My_first_xna_game
@@ -13,7 +14,6 @@ namespace My_first_xna_game
         private Selector selector;
         private Player player;
         private ChoiceInventory armorInventory;
-        private ItemCollection ItemCollection;
 
         private Picture head;
         private Picture body;
@@ -29,11 +29,10 @@ namespace My_first_xna_game
         {
             this.player = player;
 
-            ItemCollection = new ItemCollection();
             armorInventory = new ChoiceInventory(player, HandleItemChoice, Inventory.Side.right);
             armorInventory.Kill();
 
-            window = new Window(Game.content.Load<Texture2D>("windowskin"), Vector2.Zero, 140, 220, null);
+            window = new Window(Game.content.Load<Texture2D>("Textures\\Windows\\windowskin"), Vector2.Zero, 140, 220, null);
             window.SetWindowLeft(player.bounds);
 
             head = new Picture(Item.IconSet, new Vector2(46, 32), window);
@@ -187,6 +186,7 @@ namespace My_first_xna_game
             {
                 if (selector.active)
                 {
+                    Game.content.Load<SoundEffect>("Audio\\Waves\\confirm").Play();
                     chosenBodyPart = selector.currentTargetNum;
                     switch (chosenBodyPart)
                     {

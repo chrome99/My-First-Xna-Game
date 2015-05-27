@@ -4,12 +4,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace My_first_xna_game
 {
     class Title : Scene
     {
-        //scene title
         public static Map map;
         private Picture background;
         private Text newgame;
@@ -21,12 +21,12 @@ namespace My_first_xna_game
 
         public Title()
         {
-            background = new Picture(Game.content.Load<Texture2D>("title"), Vector2.Zero, null);
+            background = new Picture(Game.content.Load<Texture2D>("Textures\\Pictures\\title"), Vector2.Zero, null);
             background.depth = Game.DepthToFloat(Game.Depth.background);
-            newgame = new Text(Game.content.Load<SpriteFont>("medival1"), new Vector2(50f, 300f), Color.BurlyWood, "New Game");
-            loadgame = new Text(Game.content.Load<SpriteFont>("medival1"), new Vector2(50f, 350f), Color.BurlyWood, "Continue");
+            newgame = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), new Vector2(50f, 300f), Color.BurlyWood, "New Game");
+            loadgame = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), new Vector2(50f, 350f), Color.BurlyWood, "Continue");
             loadgame.opacity = 50;
-            quit = new Text(Game.content.Load<SpriteFont>("medival1"), new Vector2(50f, 400f), Color.BurlyWood, "Quit");
+            quit = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), new Vector2(50f, 400f), Color.BurlyWood, "Quit");
         }
         public override void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
         {
@@ -92,6 +92,7 @@ namespace My_first_xna_game
             {
                 if (title < 2)
                 {
+                    Game.content.Load<SoundEffect>("Audio\\Waves\\select").Play();
                     title++;
                 }
                 keyDownReleased = false;
@@ -105,6 +106,7 @@ namespace My_first_xna_game
             {
                 if (title > 0)
                 {
+                    Game.content.Load<SoundEffect>("Audio\\Waves\\select").Play();
                     title--;
                 }
 
@@ -117,11 +119,13 @@ namespace My_first_xna_game
 
             if (newState.IsKeyDown(Keys.Enter))
             {
+                Game.content.Load<SoundEffect>("Audio\\Waves\\confirm").Play();
                 switch (title)
                 {
                     case 0:
                         //build map
-                        TileMap tileMap = new TileMap(Game.content.Load<Texture2D>("Grassland"), TileMap.MapDesign.trees, 50, 50);
+                        TileMap tileMap = new TileMap("Maps\\classic.tmx");
+                        //TileMap tileMap = new TileMap(Game.content.Load<Texture2D>("Textures\\Tilesets\\Grassland"), TileMap.MapDesign.trees, 50, 50);
                         map = new Map(tileMap);
                         map.AddObjectInstance(new ObjectCollection1(map));
                         Camera camera1 = new Camera(new Rectangle(0, 0, 960, 540), map, map.player1, map.player1);

@@ -114,7 +114,7 @@ namespace My_first_xna_game
             {
                 windowPlayer = null;
             }
-            window = new Window(Game.content.Load<Texture2D>("windowskin"), Vector2.Zero, (int)windowSize.X, (int)windowSize.Y, windowPlayer);
+            window = new Window(Game.content.Load<Texture2D>("Textures\\Windows\\windowskin"), Vector2.Zero, (int)windowSize.X, (int)windowSize.Y, windowPlayer);
             window.SetWindowAbove(sourcePosition);
 
 

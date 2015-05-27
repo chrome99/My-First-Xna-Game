@@ -13,25 +13,25 @@ namespace My_first_xna_game
         public static Item strPotion = new Item(66, useStrPotion, 12, 0.5f, true);
 
         //armor
-        public static Armor occupiedArmor = new Armor(0, 0, 0, Armor.ArmorType.oneHanded, new Hostile.Stats()); 
+        public static Armor occupiedArmor = new Armor(0, 0, 0, 0, Armor.ArmorType.oneHanded, new Hostile.Stats()); 
 
         //  head
-        public static Armor hat = new Armor(34, 35, 0.5f, Armor.ArmorType.head, new Hostile.Stats { maxHealth = 10 });
-        public static Armor mask = new Armor(39, 25, 0.5f, Armor.ArmorType.head, new Hostile.Stats { agility = 5 });
-        public static Armor helmate = new Armor(32, 20, 2, Armor.ArmorType.head, new Hostile.Stats { defence = 2 });
+        public static Armor hat = new Armor(34, 35, 0.5f, 15, Armor.ArmorType.head, new Hostile.Stats { maxHealth = 10 });
+        public static Armor mask = new Armor(39, 25, 0.5f, 30, Armor.ArmorType.head, new Hostile.Stats { agility = 5 });
+        public static Armor helmate = new Armor(32, 20, 2, 45, Armor.ArmorType.head, new Hostile.Stats { defence = 2 });
 
         //  body
-        public static Armor shirt = new Armor(45, 20, 2, Armor.ArmorType.body, new Hostile.Stats { defence = 2 });
-        public static Armor copperChestArmor = new Armor(41, 30, 4, Armor.ArmorType.body, new Hostile.Stats { defence = 5 });
-        public static Armor ironChestArmor = new Armor(40, 50, 5, Armor.ArmorType.body, new Hostile.Stats { defence = 10 });
+        public static Armor shirt = new Armor(45, 20, 2, 20, Armor.ArmorType.body, new Hostile.Stats { defence = 2 });
+        public static Armor copperChestArmor = new Armor(41, 30, 4, 30, Armor.ArmorType.body, new Hostile.Stats { defence = 5 });
+        public static Armor ironChestArmor = new Armor(40, 50, 5, 60, Armor.ArmorType.body, new Hostile.Stats { defence = 10 });
 
         //  shoes
-        public static Armor leatherShoes = new Armor(48, 20, 2, Armor.ArmorType.shoes, new Hostile.Stats { agility = 3 });
-        public static Armor ironBoots = new Armor(49, 30, 4, Armor.ArmorType.shoes, new Hostile.Stats { defence = 3, agility = 1 });
-        public static Armor goldBoots = new Armor(323, 50, 5, Armor.ArmorType.shoes, new Hostile.Stats { defence = 7, agility = -3 });
+        public static Armor leatherShoes = new Armor(48, 20, 2, 15, Armor.ArmorType.shoes, new Hostile.Stats { agility = 3 });
+        public static Armor ironBoots = new Armor(49, 30, 4, 40, Armor.ArmorType.shoes, new Hostile.Stats { defence = 3, agility = 1 });
+        public static Armor goldBoots = new Armor(323, 50, 5, 60, Armor.ArmorType.shoes, new Hostile.Stats { defence = 7, agility = -3 });
 
         // oneHanded
-        public static Armor ironSword = new Armor(2, 20, 1, Armor.ArmorType.oneHanded, new Hostile.Stats { strength = 3 });
+        public static Armor ironSword = new Armor(2, 20, 1, 10, Armor.ArmorType.oneHanded, new Hostile.Stats { strength = 3 });
 
         public static List<Item> list = new List<Item> { apple, healthPotion, manaPotion, strPotion };
 
@@ -46,7 +46,7 @@ namespace My_first_xna_game
             Armor armor = item as Armor;
             if (armor != null)
             {
-                return new Armor(armor.iconID, armor.price, armor.weight, armor.armorType, armor.changeStats);
+                return new Armor(armor.iconID, armor.price, armor.weight, armor.Durability, armor.armorType, armor.changeStats);
             }
             else
             {

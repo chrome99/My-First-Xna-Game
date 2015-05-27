@@ -27,7 +27,7 @@ namespace My_first_xna_game
             movementManager = new MovementManager(map);
             ItemCollection = new ItemCollection();
 
-            wolf = new Enemy(Content.Load<Texture2D>("wolf"), new Vector2(100f, 0f));
+            wolf = new Enemy(Content.Load<Texture2D>("Textures\\Spritesheets\\wolf"), new Vector2(1000f, 0f));
             wolf.stats.maxHealth = 16;
             wolf.stats.health = 16;
             wolf.stats.maxMana = 16;
@@ -38,31 +38,31 @@ namespace My_first_xna_game
             wolf.stats.defence = 2;
             wolf.stats.agility = 1;
 
-            npc = new Actor(Content.Load<Texture2D>("wolf"), new Vector2(700f, 500f));
+            npc = new Actor(Content.Load<Texture2D>("Textures\\Spritesheets\\wolf"), new Vector2(700f, 500f));
             npc.pack = new Pack(npc);
             npc.pack.AddItem(ItemCollection.ironChestArmor);
             npc.pack.AddItem(ItemCollection.bread);
             npc.pack.AddItem(ItemCollection.bread);
             npc.collisionFunction = UpdateNpcCollision;
 
-            block = new Sprite(Content.Load<Texture2D>("box1"), new Vector2(700f, 750f), Game.Depth.player, 2);
+            block = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(700f, 750f), Game.Depth.player, 2);
 
             pickUpBread = CreatePickup(pickUpBread, ItemCollection.bread, new Vector2(500f, 500f));
-            runningSwitch = new Sprite(Content.Load<Texture2D>("brick1"), new Vector2(200f, 250f), Game.Depth.below, 2);
+            runningSwitch = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\brick1"), new Vector2(200f, 250f), Game.Depth.below, 2);
             runningSwitch.passable = true;
             runningSwitch.collisionFunction = UpdateRunningSwitchCollision;
 
-            box1 = new Sprite(Content.Load<Texture2D>("box1"), new Vector2(400f, 400f), Game.Depth.player, 2);
+            box1 = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(400f, 400f), Game.Depth.player, 2);
             box1.tags.Add("box");
 
-            box2 = new Sprite(Content.Load<Texture2D>("box1"), new Vector2(400f, 450f), Game.Depth.player, 2);
+            box2 = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(400f, 450f), Game.Depth.player, 2);
             box2.tags.Add("box");
 
-            portal = new Sprite(Content.Load<Texture2D>("player1"), new Vector2(50f, 100f), Game.Depth.player, 2);
+            portal = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\player1"), new Vector2(50f, 100f), Game.Depth.player, 2);
             portal.passable = true;
             portal.collisionFunction = UpdatePortalCollision;
 
-            groundSwitch = new Sprite(Content.Load<Texture2D>("brick1"), new Vector2(300f, 150f), Game.Depth.below, 2);
+            groundSwitch = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\brick1"), new Vector2(300f, 150f), Game.Depth.below, 2);
             groundSwitch.passable = true;
             groundSwitch.collisionFunction = UpdateGroundSwitchCollision;
 
@@ -130,10 +130,10 @@ namespace My_first_xna_game
                         if (!player.collisionsList.Contains(collisionID))
                         {
                             movementManager.TurnActor(npc2, MovementManager.OppositeDirection(player.direction));
-                            //player.Shop(npc);
+                            player.Shop(npc);
                             //movementManager.Knockback(player, MovementManager.Direction.left, 100);
-                            player.MessageWindow(npc2.bounds, new List<string> {"the great king wants to see you. \n no, he dosent.", "asd"}, true);
-                            //player.MessageWindow(npc2.bounds, "the king wants to see you. \n no, he dosent.");
+                            //player.MessageWindow(npc2.bounds, new List<string> {"the great king wants to see you. \n no, he dosent.", "asd"}, true);
+                            //player.MessageWindow(npc2.bounds, "the king wants to see you. \n no, he dosent.", true);
                             player.collisionsList.Add(collisionID);
                         }
                     }

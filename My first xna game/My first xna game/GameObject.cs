@@ -18,7 +18,7 @@ namespace My_first_xna_game
         public Vector2 size = new Vector2(Tile.size, Tile.size);
         public List<string> tags = new List<string>();
 
-        public bool passable;
+        public bool passable = false;
         public bool canCollide = true;
         public CollisionManager.CollisionFunction collisionFunction;
         public Item[] collisionParameters = new Item[10];

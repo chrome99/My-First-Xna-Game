@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" nextobjectid="11">
+ <tileset firstgid="1" name="Grassland" tilewidth="32" tileheight="32">
+  <image source="../Textures/Tilesets/Grassland.png" trans="ff00ff" width="256" height="576"/>
+  <tile id="4">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="29">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="30">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="31">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="73">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="74">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="77">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="78">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="80">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="88">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="96">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="120">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="121">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="122">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="123">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="124">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="128">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="129">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="130">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="131">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="132">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="136">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="137">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="139">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="140">
+   <properties>
+    <property name="unPassable" value=""/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzt0bENwDAMA0F5De8/qFsXqQKKNIQvrhX40K6qLbYu6tsuq+Z1pLco/vB6x9fePyY0JHs6Gtw93Q2uFldHZ4+7oaMl1aBsTW9UtKS3qXrSmxQd6T2KjvQWRUt6AwAAAAAAAAAAAGY6sOMuSw==
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztl1lLAzEUhS++FESsTyL2ye3BtXVt3Xetu///13gGEpi5xtLMxDQp54OPIYQ2N73nllYkPBtw7R/eNybLsDPpIgKQey+K+lclnzvYerW51F+Qe2YKpvUOM5MopCH8Hk2DabpDy6wX1f5s3HJq4erDJtyC23AnekX1cM31PjyAh/Aobjm10L2YM89TeAbP4QXcg13Yi1rdeOg7lLN0C+/gPXyAJ7APB5JGztbN0zUT5Sy9wFf4Bt/hFbyGN5JGzlbk9+882wedpSU4Dx/hE3yGQ7Nn2ZVq5nzXIbF90FmyZ33AT/gFv82e5ViqmfNdh8T2QWepfJbes1xKNXO+65DoPvx11oLjtTpzvuuQ6M/a5yydOd91aNojahtFKnPe9H9FSnPuYtz7pTTnTUhpzpuQ2pwTQgghhBBCCCGEkLz5Af/iQ8o=
+  </data>
+ </layer>
+ <layer name="Tile Layer 3" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzt1MsKwkAMRuHZ+DBqFeoNvHShvv87meCmCDJMTPGI/weBwmxyprSl/L7ZtxdIog4WdbCog0UdLOpgUQdLtGOVusXnWjq60fPeZm6zsFmmbhTT0rEbPQ82vc3GZpu6UUytw++6e3N2tDnZnFM3iql1+F37e/DvYf1ydrW52dwn2KtVrcPv+lKe38Nh+nXC/v2/S6MOFnWwqINFHSzqYFEHizpY1MGiDhZ1sKiDRR0s6mBRB4t3PADcEQZ9
+  </data>
+ </layer>
+</map>

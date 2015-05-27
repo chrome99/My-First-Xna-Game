@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 
 namespace My_first_xna_game
@@ -37,7 +38,7 @@ namespace My_first_xna_game
             this.side = side;
             this.filter = filter;
 
-            window = new Window(Game.content.Load<Texture2D>("windowskin"), Vector2.Zero, 200, 200, null);
+            window = new Window(Game.content.Load<Texture2D>("Textures\\Windows\\windowskin"), Vector2.Zero, 200, 200, null);
             window.thickness = new Vector2(20, 20);
 
             if (createWindowItems)
@@ -198,10 +199,24 @@ namespace My_first_xna_game
         protected virtual void HandleItemChoice()
         {
             Item currentItem = pack.items[selector.currentTargetNum];
+
+            //sound
+            if (currentItem.function != null || currentItem.wasted)
+            {
+                Game.content.Load<SoundEffect>("Audio\\Waves\\confirm").Play();
+            }
+            else
+            {
+                Game.content.Load<SoundEffect>("Audio\\Waves\\cancel").Play();
+            }
+
+            //function
             if (currentItem.function != null)
             {
                 currentItem.function(player, player);
             }
+
+            //waste item
             if (currentItem.wasted)
             {
                 pack.SubItem(currentItem);

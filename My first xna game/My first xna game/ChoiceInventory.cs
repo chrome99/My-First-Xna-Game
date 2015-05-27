@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Microsoft.Xna.Framework.Audio;
 
 namespace My_first_xna_game
 {
@@ -18,6 +16,7 @@ namespace My_first_xna_game
 
         protected override void HandleItemChoice()
         {
+            Game.content.Load<SoundEffect>("Audio\\Waves\\confirm").Play();
             if (filter == Filter.all)
             {
                 handleItemChoice(pack.items[selector.currentTargetNum]);

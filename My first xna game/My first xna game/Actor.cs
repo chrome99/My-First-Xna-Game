@@ -20,7 +20,7 @@ namespace My_first_xna_game
         public MovementManager.Auto autoMovement;
         public MovementManager.Direction direction = MovementManager.Direction.down;
 
-        // Bad name. enableMovement is a name for a function. bool should be more like 'moving'
+        // TODO: Bad name. enableMovement is a name for a function. bool should be more like 'moving'
         public bool enableMovement = true;
         private Timer movementTimer = new Timer(10f);
         private Timer walkingTimer = new Timer(1000f);

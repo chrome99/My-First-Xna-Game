@@ -9,7 +9,7 @@ namespace My_first_xna_game
     {
         public static int size = 24;
         public static int itemsInRow = 16;
-        public static Texture2D IconSet = Game.content.Load<Texture2D>("IconSet1");
+        public static Texture2D IconSet = Game.content.Load<Texture2D>("Textures\\Icons\\IconSet1");
         public delegate void UsingFunction(Hostile source, GameObject target);
         public int iconID;
         public UsingFunction function;

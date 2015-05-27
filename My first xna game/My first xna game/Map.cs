@@ -21,6 +21,9 @@ namespace My_first_xna_game
         {
             this.tileMap = tileMap;
 
+            //add collision objects in tileMap
+            tileMap.AddCollisionObjects(gameObjectList);
+
             Player.PlayerKeys player1Keys;
             player1Keys.attack = Keys.Space;
             player1Keys.mvLeft = Keys.A;
@@ -31,7 +34,7 @@ namespace My_first_xna_game
             player1Keys.run = Keys.LeftShift;
             player1Keys.opDebug = Keys.F2;
 
-            player1 = new Player(Game.content.Load<Texture2D>("starlord"), new Vector2(250f, 260f), player1Keys);
+            player1 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\starlord"), new Vector2(250f, 260f), player1Keys);
             Map.defultTargetsList.Add(player1);
 
             player1.stats.maxHealth = 16;
@@ -62,7 +65,7 @@ namespace My_first_xna_game
             player2Keys.run = Keys.RightShift;
             player2Keys.opDebug = Keys.F4;
 
-            player2 = new Player(Game.content.Load<Texture2D>("rocket"), new Vector2(300f, 260f), player2Keys);
+            player2 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\rocket"), new Vector2(300f, 260f), player2Keys);
             Map.defultTargetsList.Add(player2);
 
             player2.stats.maxHealth = 16;
@@ -87,7 +90,7 @@ namespace My_first_xna_game
             player3Keys.run = Keys.Y;
             player3Keys.opDebug = Keys.F6;
 
-            player3 = new Player(Game.content.Load<Texture2D>("drax"), new Vector2(350f, 260f), player3Keys);
+            player3 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\drax"), new Vector2(350f, 260f), player3Keys);
             Map.defultTargetsList.Add(player3);
 
             player3.stats.maxHealth = 16;
@@ -112,7 +115,7 @@ namespace My_first_xna_game
             player4Keys.run = Keys.O;
             player4Keys.opDebug = Keys.F8;
 
-            player4 = new Player(Game.content.Load<Texture2D>("gamora"), new Vector2(400f, 260f), player4Keys);
+            player4 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\gamora"), new Vector2(400f, 260f), player4Keys);
             Map.defultTargetsList.Add(player4);
 
             player4.stats.maxHealth = 16;
@@ -220,6 +223,7 @@ namespace My_first_xna_game
                         {
                             if (CollisionManager.GameObjectCollision(enemy, projectile))
                             {
+                                projectile.PlayHitSound();
                                 enemy.DealDamage(projectile.source);
                                 projectile.Kill();
                             }
@@ -234,6 +238,7 @@ namespace My_first_xna_game
                         {
                             if (CollisionManager.GameObjectCollision(player, projectile))
                             {
+                                projectile.PlayHitSound();
                                 player.DealDamage(projectile.source);
                                 projectile.Kill();
                             }

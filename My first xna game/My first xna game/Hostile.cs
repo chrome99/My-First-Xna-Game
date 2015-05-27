@@ -71,8 +71,22 @@ namespace My_first_xna_game
         {
             if (cooldownTimer.result || cooldownTimer.counter == 0)
             {
-                stats.health -= source.stats.strength + stats.defence;
+                int newHealth = stats.health - source.stats.strength + stats.defence;
+                if (newHealth < 0)
+                {
+                    stats.health = newHealth;
+                }
+                
                 movementManager.Knockback(this, source.direction, source.stats.knockback);
+                for (int counter = 0; counter < equipmentList.Count; counter++)
+                {
+                    Armor armor = equipmentList[counter];
+                    if (armor.armorType != Armor.ArmorType.oneHanded && armor.armorType != Armor.ArmorType.twoHanded)
+                    {
+                        armor.Durability--;
+                    }
+                }
+
                 cooldownTimer.timerSwitch = true;
                 cooldownTimer.counter = 0f;
             }
@@ -162,6 +176,7 @@ namespace My_first_xna_game
                     equipment.shoes = armor;
                     break;
             }
+            armor.source = this;
             equipmentList.Add(armor);
             addArmorStats(armor);
         }

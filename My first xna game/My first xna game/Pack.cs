@@ -11,6 +11,19 @@ namespace My_first_xna_game
         public List<Item> items = new List<Item>();
         private Actor source;
 
+        public float getWeight
+        {
+            get
+            {
+                float result = 0;
+                foreach (Item item in items)
+                {
+                    result += item.weight * item.amount;
+                }
+                return result;
+            }
+        }
+
         public Pack(Actor source)
         {
             this.source = source;
@@ -111,7 +124,7 @@ namespace My_first_xna_game
             item.icon.drawingRect = item.getRect();
             if (item.amount > 1)
             {
-                Text amount = new Text(Game.content.Load<SpriteFont>("small"), Vector2.Zero, new Color(255, 255, 255), items[i].amount + "X", inventory.window);
+                Text amount = new Text(Game.content.Load<SpriteFont>("Fonts\\small"), Vector2.Zero, new Color(255, 255, 255), items[i].amount + "X", inventory.window);
                 amount.position = new Vector2(i % inventory.margin * (Item.size + inventory.spacing), i / inventory.margin * (Item.size + inventory.spacing));
                 amount.depth = Game.DepthToFloat(Game.Depth.windowsDataFront);
                 inventory.amountTexts.Add(amount);
@@ -129,6 +142,7 @@ namespace My_first_xna_game
 
         public void AddItem(Item item)
         {
+
             // if there is already a same item
             Item sameItem = null;
             foreach (Item identicalItem in items)
@@ -145,10 +159,12 @@ namespace My_first_xna_game
             }
 
             items.Add(item);
+            UpdatePlayerWeight(true);
         }
 
         public void SubItem(Item item)
         {
+
             if (item.amount > 1)
             {
                 Text result = null;
@@ -175,6 +191,7 @@ namespace My_first_xna_game
                     }
                 }
                 item.amount--;
+                UpdatePlayerWeight(false);
                 return;
             }
 
@@ -215,6 +232,37 @@ namespace My_first_xna_game
             
             //remove item
             items.Remove(item);
+            UpdatePlayerWeight(false);
+        }
+        private void UpdatePlayerWeight(bool add)
+        {
+            //update player speed by weight
+            Player player = source as Player;
+            if (player != null)
+            {
+                if (add) //add item
+                {
+                    if (!player.maxWeightReached)
+                    {
+                        if (getWeight >= player.maxPackWeight)
+                        {
+                            player.enableRunning = false;
+                            player.maxWeightReached = true;
+                        }
+                    }
+                }
+                else //sub item
+                {
+                    if (player.maxWeightReached)
+                    {
+                        if (getWeight < player.maxPackWeight)
+                        {
+                            player.enableRunning = true;
+                            player.maxWeightReached = false;
+                        }
+                    }
+                }
+            }
         }
     }
 }

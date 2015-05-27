@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 
 namespace My_first_xna_game
@@ -50,7 +51,7 @@ namespace My_first_xna_game
         {
             for (int counter = 0; counter < pack.items.Count; counter++)
             {
-                Text price = new Text(Game.content.Load<SpriteFont>("small"), Vector2.Zero, new Color(255, 215, 0), getPrice(pack.items[counter].price).ToString(), window);
+                Text price = new Text(Game.content.Load<SpriteFont>("Fonts\\small"), Vector2.Zero, new Color(255, 215, 0), getPrice(pack.items[counter].price).ToString(), window);
                 price.position = new Vector2(counter % margin * (Item.size + spacing) + Item.size / 2, counter / margin * (Item.size + spacing) + Item.size / 2);
                 price.depth = Game.DepthToFloat(Game.Depth.windowsDataFront);
                 priceTexts.Add(price);
@@ -100,6 +101,7 @@ namespace My_first_xna_game
             {
                 if (player.gold + currentItem.price / 2 <= player.maxGold)
                 {
+                    Game.content.Load<SoundEffect>("Audio\\Waves\\confirm").Play();
                     pack.SubItem(currentItem);
                     merchant.pack.AddItem(ItemCollection.CopyItem(currentItem));
                     player.gold += getPrice(currentItem.price);
@@ -107,6 +109,7 @@ namespace My_first_xna_game
                 }
                 else
                 {
+                    Game.content.Load<SoundEffect>("Audio\\Waves\\cancel").Play();
                     priceTexts[selector.currentTargetNum].ChangeColorEffect(Color.Red, 1000f);
                 }
             }
@@ -114,6 +117,7 @@ namespace My_first_xna_game
             {
                 if (player.gold - currentItem.price > 0)
                 {
+                    Game.content.Load<SoundEffect>("Audio\\Waves\\confirm").Play();
                     pack.SubItem(currentItem);
                     player.pack.AddItem(ItemCollection.CopyItem(currentItem));
                     player.gold -= currentItem.price;
@@ -121,6 +125,7 @@ namespace My_first_xna_game
                 }
                 else
                 {
+                    Game.content.Load<SoundEffect>("Audio\\Waves\\cancel").Play();
                     priceTexts[selector.currentTargetNum].ChangeColorEffect(Color.Red, 1000f);
                 }
             }

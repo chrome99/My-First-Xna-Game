@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 
 namespace My_first_xna_game
@@ -105,6 +106,7 @@ namespace My_first_xna_game
             {
                 if (currentTargetNum < targets.Count - 1)
                 {
+                    Game.content.Load<SoundEffect>("Audio\\Waves\\select").Play();
                     currentTargetNum += 1;
                 }
 
@@ -120,6 +122,7 @@ namespace My_first_xna_game
             {
                 if (currentTargetNum > 0)
                 {
+                    Game.content.Load<SoundEffect>("Audio\\Waves\\select").Play();
                     currentTargetNum -= 1;
                 }
 
@@ -136,6 +139,7 @@ namespace My_first_xna_game
             //up
             if (newState.IsKeyDown(player.kbKeys.mvUp) && upKeyReleased)
             {
+                Game.content.Load<SoundEffect>("Audio\\Waves\\select").Play();
                 currentTargetNum = (int)MathHelper.Clamp(currentTargetNum - itemsInRow, 0, targets.Count - 1);
 
                 upKeyReleased = false;
@@ -148,6 +152,7 @@ namespace My_first_xna_game
             //down
             if (newState.IsKeyDown(player.kbKeys.mvDown) && downKeyReleased)
             {
+                Game.content.Load<SoundEffect>("Audio\\Waves\\select").Play();
                 currentTargetNum = (int)MathHelper.Clamp(currentTargetNum + itemsInRow, 0, targets.Count - 1);
 
                 downKeyReleased = false;

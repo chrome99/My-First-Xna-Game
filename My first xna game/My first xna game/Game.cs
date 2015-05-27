@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
@@ -10,16 +11,8 @@ namespace My_first_xna_game
 {
     public class Game : Microsoft.Xna.Framework.Game
     {
-        /*
+        /* done conversation, talk in shop, audio, durabillity in armor and swords, item weight, map editor (last update -equipment)
          TODO:
-         * talk in stores
-         * durabillity in armor and swords
-         * conversation with npc
-         * trade
-         * pvp menu
-         * skills
-         * levels (in level up you can upgrade skills or stats)
-         * map editor
          * round raduis for enemies, and test what happens with two targets at the same time
          * better AI for enemies
          * real HUD
@@ -27,10 +20,17 @@ namespace My_first_xna_game
          * enemy type / id (bee, wolf, eater of worlds)
          * better debug (and hide it when the player is beneth it)
          * core collision
-         * title screen and menus
          * fix size in childs of gameobject
-         * ini file with configuration.
+         * options
+         * gamemodes
+         * trade
+         * pvp menu
+         * skills
+         * levels (in level up you can upgrade skills or stats)
+         * chat
          * command line
+         * push and plate sound
+         * item data(durabillity, price, weight, and more)
          
          BUGS:
          * fix msgWindow intializing
@@ -57,7 +57,7 @@ namespace My_first_xna_game
         SpriteBatch spriteBatch;
         KeyboardState oldState;
 
-        public enum Depth { front, windowsSelector, windowsDataFront, windowsData, windows, above, player, projectiles, below, background }
+        public enum Depth { front, windowsSelector, windowsDataFront, windowsData, windows, above, player, projectiles, below, background, background2, background3 }
 
         public static float DepthToFloat(Depth type)
         {

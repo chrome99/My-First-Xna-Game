@@ -51,7 +51,7 @@ namespace My_first_xna_game
             }
             else
             {
-                spriteBatch.Draw(Game.content.Load<Texture2D>("grave"), screenRect, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(Game.Depth.front));
+                spriteBatch.Draw(Game.content.Load<Texture2D>("Textures\\Pictures\\grave"), screenRect, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(Game.Depth.front));
             }
             
         }
