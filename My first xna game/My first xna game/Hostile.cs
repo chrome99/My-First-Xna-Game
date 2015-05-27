@@ -71,13 +71,22 @@ namespace My_first_xna_game
         {
             if (cooldownTimer.result || cooldownTimer.counter == 0)
             {
+                //set new health
+                int oldHealth = stats.health;
                 int newHealth = stats.health - source.stats.strength + stats.defence;
-                if (newHealth < 0)
+                if (newHealth > -1)
                 {
                     stats.health = newHealth;
                 }
-                
+                else
+                {
+                    stats.health = 0;
+                }
+
+                //knockback
                 movementManager.Knockback(this, source.direction, source.stats.knockback);
+
+                //durability
                 for (int counter = 0; counter < equipmentList.Count; counter++)
                 {
                     Armor armor = equipmentList[counter];
@@ -87,6 +96,14 @@ namespace My_first_xna_game
                     }
                 }
 
+                //update player hud
+                Player player = this as Player;
+                if (player != null)
+                {
+                    player.UpdatePlayerHUD(oldHealth - newHealth);
+                }
+
+                //timer
                 cooldownTimer.timerSwitch = true;
                 cooldownTimer.counter = 0f;
             }

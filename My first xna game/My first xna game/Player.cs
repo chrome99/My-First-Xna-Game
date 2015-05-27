@@ -25,6 +25,7 @@ namespace My_first_xna_game
         private Menu menu;
         private Message msg;
         private DebugHUD debug;
+        private HostileHUD hud;
 
         private bool playerMoving = false;
         private bool playerRunning = false;
@@ -80,15 +81,17 @@ namespace My_first_xna_game
             }
         }*/
 
-        public Player(Texture2D texture, Vector2 position, PlayerKeys keys)
+        public Player(Texture2D texture, Vector2 position, PlayerKeys keys, Stats stats)
             : base(texture, position, MovementManager.Auto.off)
         {
             this.kbKeys = keys;
+            this.stats = stats;
 
             pack = new Pack(this);
             debug = new DebugHUD(Game.content.Load<SpriteFont>("Fonts\\Debug1"), Color.Wheat, this, keys.opDebug);
             menu = new Menu(this);
             msg = new Message(this);
+            hud = new HostileHUD(this);
 
             shop = new Shop();
         }
@@ -128,6 +131,11 @@ namespace My_first_xna_game
             Game.content.Load<SoundEffect>("Audio\\Waves\\confirm").Play();
             shop = new Shop(this, merchant);
             shop.alive = true;
+        }
+
+        public void UpdatePlayerHUD(int damage)
+        {
+            hud.UpdateHearts(damage);
         }
 
         protected override void UpdatePlayer(GameTime gameTime)
@@ -286,6 +294,7 @@ namespace My_first_xna_game
             debug.Draw(spriteBatch, screenPosition);
             menu.Draw(spriteBatch, offsetRect, screenPosition);
             msg.Draw(spriteBatch, offsetRect, screenPosition);
+            hud.Draw(spriteBatch, screenPosition);
         }
     }
 }

@@ -54,6 +54,7 @@ namespace My_first_xna_game
 
             box1 = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(400f, 400f), Game.Depth.player, 2);
             box1.tags.Add("box");
+            box1.coreCollision.Y = 1;
 
             box2 = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(400f, 450f), Game.Depth.player, 2);
             box2.tags.Add("box");
@@ -68,7 +69,7 @@ namespace My_first_xna_game
 
 
             gameObjectList.Add(npc);
-            //gameObjectList.Add(wolf);
+            gameObjectList.Add(wolf);
             gameObjectList.Add(block);
             gameObjectList.Add(pickUpBread);
             gameObjectList.Add(runningSwitch);

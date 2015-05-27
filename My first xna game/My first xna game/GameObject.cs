@@ -26,6 +26,7 @@ namespace My_first_xna_game
         public bool alive = true;
         public MovementManager movementManager;
         public bool updated = false;
+        public Vector2 coreCollision = new Vector2(1, 1);
 
         public GameObject(Vector2 position)
         {
@@ -39,7 +40,14 @@ namespace My_first_xna_game
 
         public virtual Rectangle core
         {
-            get { return new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y); }
+            get
+            {
+                Rectangle result;
+                result = bounds;
+                result.Width /= (int)coreCollision.X;
+                result.Height /= (int)coreCollision.Y;
+                return result;
+            }
         }
 
         public int GetID(List<GameObject> gameObjectList)

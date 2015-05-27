@@ -23,11 +23,6 @@ namespace My_first_xna_game
             get { return new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y); }
         }
 
-        public override Rectangle core
-        {
-            get { return new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y); }
-        }
-
         Rectangle drawingCoordinates;
 
         public Sprite(Texture2D texture, Vector2 position, Game.Depth depth, float speed = 2f, Rectangle drawingCoordinates = new Rectangle())

@@ -32,11 +32,6 @@ namespace My_first_xna_game
             get { return new Rectangle((int)position.X, (int)position.Y, texture.Width / 4, texture.Height / 4); }
         }
 
-        public override Rectangle core
-        {
-            get { return new Rectangle((int)position.X, (int)position.Y, texture.Width / 4, texture.Height / 4); }
-        }
-
         public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition)
         {
             if (visible)

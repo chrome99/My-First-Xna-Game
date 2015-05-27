@@ -18,7 +18,7 @@ namespace My_first_xna_game
             }
         }
         public Rectangle? drawingRect = null;
-        private Texture2D texture;
+        public Texture2D texture;
 
         public Picture(Texture2D texture, Vector2 position, Window source)
             : base(source)

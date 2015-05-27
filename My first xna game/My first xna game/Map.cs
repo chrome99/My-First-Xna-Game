@@ -34,19 +34,21 @@ namespace My_first_xna_game
             player1Keys.run = Keys.LeftShift;
             player1Keys.opDebug = Keys.F2;
 
-            player1 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\starlord"), new Vector2(250f, 260f), player1Keys);
-            Map.defultTargetsList.Add(player1);
+            Hostile.Stats player1Stats;
+            player1Stats.maxHealth = 26;
+            player1Stats.health = 26;
+            player1Stats.maxMana = 16;
+            player1Stats.mana = 16;
+            player1Stats.strength = 4;
+            player1Stats.knockback = 30;
+            player1Stats.cooldown = 1000f;
+            player1Stats.defence = 2;
+            player1Stats.agility = 1;
 
-            player1.stats.maxHealth = 16;
-            player1.stats.health = 16;
-            player1.stats.maxMana = 16;
-            player1.stats.mana = 16;
-            player1.stats.strength = 4;
-            player1.stats.knockback = 30;
-            player1.stats.cooldown = 1000f;
-            player1.stats.defence = 2;
-            player1.stats.agility = 1;
+            player1 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\starlord"), new Vector2(250f, 260f), player1Keys, player1Stats);
+            Map.defultTargetsList.Add(player1);
             player1.gold = 25;
+
 
             player1.pack.AddItem(new List<Item> {
                 ItemCollection.goldBoots, ItemCollection.hat, ItemCollection.helmate, ItemCollection.ironBoots,
@@ -65,18 +67,19 @@ namespace My_first_xna_game
             player2Keys.run = Keys.RightShift;
             player2Keys.opDebug = Keys.F4;
 
-            player2 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\rocket"), new Vector2(300f, 260f), player2Keys);
-            Map.defultTargetsList.Add(player2);
+            Hostile.Stats player2Stats;
+            player2Stats.maxHealth = 16;
+            player2Stats.health = 16;
+            player2Stats.maxMana = 16;
+            player2Stats.mana = 16;
+            player2Stats.strength = 4;
+            player2Stats.knockback = 30;
+            player2Stats.cooldown = 1000f;
+            player2Stats.defence = 2;
+            player2Stats.agility = 1;
 
-            player2.stats.maxHealth = 16;
-            player2.stats.health = 16;
-            player2.stats.maxMana = 16;
-            player2.stats.mana = 16;
-            player2.stats.strength = 4;
-            player2.stats.knockback = 30;
-            player2.stats.cooldown = 1000f;
-            player2.stats.defence = 2;
-            player2.stats.agility = 1;
+            player2 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\rocket"), new Vector2(300f, 260f), player2Keys, player2Stats);
+            Map.defultTargetsList.Add(player2);
             player2.gold = 25;
 
             //intialize player
@@ -90,18 +93,19 @@ namespace My_first_xna_game
             player3Keys.run = Keys.Y;
             player3Keys.opDebug = Keys.F6;
 
-            player3 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\drax"), new Vector2(350f, 260f), player3Keys);
-            Map.defultTargetsList.Add(player3);
+            Hostile.Stats player3Stats;
+            player3Stats.maxHealth = 16;
+            player3Stats.health = 16;
+            player3Stats.maxMana = 16;
+            player3Stats.mana = 16;
+            player3Stats.strength = 4;
+            player3Stats.knockback = 30;
+            player3Stats.cooldown = 1000f;
+            player3Stats.defence = 2;
+            player3Stats.agility = 1;
 
-            player3.stats.maxHealth = 16;
-            player3.stats.health = 16;
-            player3.stats.maxMana = 16;
-            player3.stats.mana = 16;
-            player3.stats.strength = 4;
-            player3.stats.knockback = 30;
-            player3.stats.cooldown = 1000f;
-            player3.stats.defence = 2;
-            player3.stats.agility = 1;
+            player3 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\drax"), new Vector2(350f, 260f), player3Keys, player3Stats);
+            Map.defultTargetsList.Add(player3);
             player3.gold = 25;
 
             //intialize player
@@ -115,20 +119,26 @@ namespace My_first_xna_game
             player4Keys.run = Keys.O;
             player4Keys.opDebug = Keys.F8;
 
-            player4 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\gamora"), new Vector2(400f, 260f), player4Keys);
+            Hostile.Stats player4Stats;
+            player4Stats.maxHealth = 16;
+            player4Stats.health = 16;
+            player4Stats.maxMana = 16;
+            player4Stats.mana = 16;
+            player4Stats.strength = 4;
+            player4Stats.knockback = 30;
+            player4Stats.cooldown = 1000f;
+            player4Stats.defence = 2;
+            player4Stats.agility = 1;
+
+            player4 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\gamora"), new Vector2(400f, 260f), player4Keys, player4Stats);
             Map.defultTargetsList.Add(player4);
-
-            player4.stats.maxHealth = 16;
-            player4.stats.health = 16;
-            player4.stats.maxMana = 16;
-            player4.stats.mana = 16;
-            player4.stats.strength = 4;
-            player4.stats.knockback = 30;
-            player4.stats.cooldown = 1000f;
-            player4.stats.defence = 2;
-            player4.stats.agility = 1;
             player4.gold = 25;
-
+            
+            /*player1.coreCollision.Y = 4;
+            player2.coreCollision.Y = 4;
+            player3.coreCollision.Y = 4;
+            player4.coreCollision.Y = 4;*/
+            
             //add players to PlayerManager
             PlayerManager.playersList = new List<Player> { player1, player2, player3, player4 };
 

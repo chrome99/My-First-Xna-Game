@@ -11,16 +11,14 @@ namespace My_first_xna_game
 {
     public class Game : Microsoft.Xna.Framework.Game
     {
-        /* done conversation, talk in shop, audio, durabillity in armor and swords, item weight, map editor (last update -equipment)
+        /*
          TODO:
          * round raduis for enemies, and test what happens with two targets at the same time
          * better AI for enemies
-         * real HUD
          * little fighter world(set speed for X and for Y (or divide X by 2 for Y), set spritesheets, set maps(background, camera that only scrolls right and left, tiles drawing, player fence / limit))
          * enemy type / id (bee, wolf, eater of worlds)
          * better debug (and hide it when the player is beneth it)
          * core collision
-         * fix size in childs of gameobject
          * options
          * gamemodes
          * trade
