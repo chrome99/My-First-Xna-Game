@@ -10,14 +10,18 @@ namespace My_first_xna_game
     {
         /*
          TODO:
-         * :Fighter- bodybuilder, knight, barbarian :Roughe thief, clown: Mage
-         * bodybuilder, lost hero, clown
          * jumping
          * combos & skills
-         * round raduis for enemies, and test what happens with two targets at the same time
+         * maps passability and height
+         * animations and autotiles
+         * round raduis for enemies
          * better AI for enemies
          * enemy type / id (bee, wolf, eater of worlds)
-         * better debug (and hide it when the player is beneth it)
+         * 
+         * bloom shader
+         * 2d lighting and shadows
+         * effects
+         * better knockback
          * core collision
          * options
          * gamemodes
@@ -28,6 +32,14 @@ namespace My_first_xna_game
          * command line
          * push and plate sound
          * item data(durabillity, price, weight, and more)
+         * 
+         * LAN
+         * Best IA
+         * 
+         * :Fighter- bodybuilder, knight, barbarian :Roughe thief, clown: Mage
+         * bodybuilder, lost hero, clown
+         * building
+         * redstone
          
          BUGS:
          * fix msgWindow intializing
