@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace My_first_xna_game
@@ -115,7 +114,7 @@ namespace My_first_xna_game
             changeColor = true;
         }
 
-        public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenRect)
+        public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect)
         {
             if (visible)
             {
@@ -128,8 +127,8 @@ namespace My_first_xna_game
                 {
                     newPosition = position + source.position + source.thickness;
                 }
-                newPosition.X = newPosition.X + screenRect.X - offsetRect.X;
-                newPosition.Y = newPosition.Y + screenRect.Y - offsetRect.Y;
+                newPosition.X = newPosition.X - offsetRect.X;
+                newPosition.Y = newPosition.Y - offsetRect.Y;
                 spriteBatch.DrawString(font, text, newPosition, color * drawingOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
             }
         }

@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
@@ -13,9 +10,12 @@ namespace My_first_xna_game
     {
         /*
          TODO:
+         * :Fighter- bodybuilder, knight, barbarian :Roughe thief, clown: Mage
+         * bodybuilder, lost hero, clown
+         * jumping
+         * combos & skills
          * round raduis for enemies, and test what happens with two targets at the same time
          * better AI for enemies
-         * little fighter world(set speed for X and for Y (or divide X by 2 for Y), set spritesheets, set maps(background, camera that only scrolls right and left, tiles drawing, player fence / limit))
          * enemy type / id (bee, wolf, eater of worlds)
          * better debug (and hide it when the player is beneth it)
          * core collision
@@ -23,7 +23,6 @@ namespace My_first_xna_game
          * gamemodes
          * trade
          * pvp menu
-         * skills
          * levels (in level up you can upgrade skills or stats)
          * chat
          * command line
@@ -32,21 +31,7 @@ namespace My_first_xna_game
          
          BUGS:
          * fix msgWindow intializing
-         * selector in inventory is visible for a second
-         * you can see that menu reset itself for a second
-         * when you are in menu and somone hits you
-         * when two players are at the same shop
-         * inventory and windows at the edge of the map
-         * fix the "using"
-         * fix public classes
          * what if one camera shows one map, and other camera shows other map?
-         * screen buffer for each camera
-         * fix debug and inventory position for every player
-         * moving things can get out of the map
-         * knockback when you can't realy knock back get's weird.
-         * small one: running status gets weird when the player colides with objects. it seems like the problem is in MovementManager.
-         * unreachable: boxs can't get through the tree.
-         * sometimes the enemy dosent attack you even if you get into its range -  youl need to get out and then he will attack you.
          */
 
         // Graphics and controls
@@ -55,7 +40,7 @@ namespace My_first_xna_game
         SpriteBatch spriteBatch;
         KeyboardState oldState;
 
-        public enum Depth { front, windowsSelector, windowsDataFront, windowsData, windows, above, player, projectiles, below, background, background2, background3 }
+        public enum Depth { GUIFront, front, windowsSelector, windowsDataFront, windowsData, windows, above, jumping, player, projectiles, below, background}
 
         public static float DepthToFloat(Depth type)
         {
@@ -73,6 +58,7 @@ namespace My_first_xna_game
 
         // TODO: Is this needed?
         public static ContentManager content;
+        public static Rectangle worldRect;
 
         public Game()
         {
@@ -86,7 +72,8 @@ namespace My_first_xna_game
         protected override void Initialize()
         {
             content = Content;
-            scene = new Title();
+            worldRect = new Rectangle(0, 0, 1920, 1080);
+            scene = new Title(graphics);
 
             // Initialize keyboard (old) state
             oldState = Keyboard.GetState();
@@ -138,14 +125,12 @@ namespace My_first_xna_game
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Aqua);
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-
             if (scene != null)
             {
                 scene.Draw(spriteBatch);
             }
-            
-            spriteBatch.End();
+            //if (spriteBatch.)
+            //spriteBatch.End();
             base.Draw(gameTime);
         }
     }

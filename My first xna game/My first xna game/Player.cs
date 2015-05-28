@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 namespace My_first_xna_game
 {
@@ -57,31 +52,7 @@ namespace My_first_xna_game
             get { return msg.alive; }
         }
 
-        /*public enum PauseState { game, inventory, shop, buyInventory, sellInventory, msgWindow }
-        public PauseState pauseState
-        {
-            get
-            {
-                if (inventory.alive)
-                {
-                    return PauseState.inventory;
-                }
-                if (shop.alive)
-                {
-                    return PauseState.shop;
-                }
-                if (msgWindow.alive)
-                {
-                    return PauseState.msgWindow;
-                }
-                else
-                {
-                    return PauseState.game;
-                }
-            }
-        }*/
-
-        public Player(Texture2D texture, Vector2 position, PlayerKeys keys, Stats stats)
+        public Player(Map map, Texture2D texture, Vector2 position, PlayerKeys keys, Stats stats)
             : base(texture, position, MovementManager.Auto.off)
         {
             this.kbKeys = keys;
@@ -89,8 +60,8 @@ namespace My_first_xna_game
 
             pack = new Pack(this);
             debug = new DebugHUD(Game.content.Load<SpriteFont>("Fonts\\Debug1"), Color.Wheat, this, keys.opDebug);
-            menu = new Menu(this);
-            msg = new Message(this);
+            menu = new Menu(map, this);
+            msg = new Message(map, this);
             hud = new HostileHUD(this);
 
             shop = new Shop();
@@ -115,22 +86,42 @@ namespace My_first_xna_game
             }
         }
 
-        public void MessageWindow(Rectangle position, List<string> dialog, bool canIgnoreMsg, bool notFromShop = true, Message.ReturnFunction returnFunction = null)
+        public void HandleHit(int damage)
         {
-            msg.CreateDialog(position, dialog, canIgnoreMsg, notFromShop, returnFunction);
+            if (shop.alive)
+            {
+                shop.setPlayerWindowPosition();
+            }
+            if (menu.alive)
+            {
+                menu.setPlayerWindowPosition();
+            }
+            if (msg.alive)
+            {
+                msg.setPlayerWindowPosition();
+            }
+            UpdatePlayerHUD(damage);
         }
 
-        public void MessageWindow(Rectangle position, string text, bool canIgnoreMsg, bool notFromShop = true, Message.ReturnFunction returnFunction = null)
+        public void MessageWindow(GameObject gameObject, List<string> dialog, bool canIgnoreMsg, bool notFromShop = true, Message.ReturnFunction returnFunction = null)
         {
-            msg.CreateDialog(position, text, canIgnoreMsg, notFromShop, returnFunction);
+            msg.CreateDialog(gameObject, dialog, canIgnoreMsg, notFromShop, returnFunction);
         }
 
-        public void Shop(Actor merchant)
+        public void MessageWindow(GameObject gameObject, string text, bool canIgnoreMsg, bool notFromShop = true, Message.ReturnFunction returnFunction = null)
         {
-            if (shop.alive) { return; }
+            msg.CreateDialog(gameObject, text, canIgnoreMsg, notFromShop, returnFunction);
+        }
+
+        public bool Shop(Actor merchant)
+        {
+            if (shop.alive) { return false; }
+            if (PlayerManager.TwoPlayersSameShop(this, merchant.position)) { return false; }
+
             Game.content.Load<SoundEffect>("Audio\\Waves\\confirm").Play();
-            shop = new Shop(this, merchant);
-            shop.alive = true;
+            shop = new Shop(map, this, merchant);
+            shop.Revive();
+            return true;
         }
 
         public void UpdatePlayerHUD(int damage)
@@ -275,7 +266,7 @@ namespace My_first_xna_game
             }
             else if (playerMoving)
             {
-                movingState = MovementManager.MovingState.walking;
+                movingState = MovementManager.MovingState.walking; //srsly
             }
             else
             {
@@ -288,13 +279,13 @@ namespace My_first_xna_game
             return shop.getMerchantPosition();
         }
 
-        public void DrawPlayerItems(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition)
+        public void DrawPlayerItems(SpriteBatch spriteBatch, Rectangle offsetRect)
         {
-            shop.Draw(spriteBatch, offsetRect, screenPosition);
-            debug.Draw(spriteBatch, screenPosition);
-            menu.Draw(spriteBatch, offsetRect, screenPosition);
-            msg.Draw(spriteBatch, offsetRect, screenPosition);
-            hud.Draw(spriteBatch, screenPosition);
+            shop.Draw(spriteBatch, offsetRect);
+            debug.Draw(spriteBatch);
+            menu.Draw(spriteBatch, offsetRect);
+            msg.Draw(spriteBatch, offsetRect);
+            hud.Draw(spriteBatch);
         }
     }
 }

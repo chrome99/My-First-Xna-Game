@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
 
 namespace My_first_xna_game
 {
@@ -15,8 +12,8 @@ namespace My_first_xna_game
         private bool sellInventory;
 
         //buy inventory
-        public ShopInventory(Player player, Actor merchant, bool sellInventory)
-            : base(player, false)
+        public ShopInventory(Map map, Player player, Actor merchant, bool sellInventory)
+            : base(map, player, false)
         {
             //intialize shop state
             this.sellInventory = sellInventory;
@@ -140,11 +137,11 @@ namespace My_first_xna_game
             }
         }
 
-        protected override void DrawShopInventory(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition)
+        protected override void DrawShopInventory(SpriteBatch spriteBatch, Rectangle offsetRect)
         {
             foreach(Text price in priceTexts)
             {
-                price.Draw(spriteBatch, offsetRect, screenPosition);
+                price.Draw(spriteBatch, offsetRect);
             }
         }
     }

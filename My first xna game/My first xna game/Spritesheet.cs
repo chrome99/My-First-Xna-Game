@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 namespace My_first_xna_game
 {
@@ -32,13 +24,13 @@ namespace My_first_xna_game
             get { return new Rectangle((int)position.X, (int)position.Y, texture.Width / 4, texture.Height / 4); }
         }
 
-        public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition)
+        public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect)
         {
             if (visible)
             {
                 Rectangle drawingRect = bounds;
-                drawingRect.X = screenPosition.X + drawingRect.X - offsetRect.X;
-                drawingRect.Y = screenPosition.Y + drawingRect.Y - offsetRect.Y;
+                drawingRect.X = drawingRect.X - offsetRect.X;
+                drawingRect.Y = drawingRect.Y - offsetRect.Y;
                 spriteBatch.Draw(texture, drawingRect, rect, Color.White * getOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
             }
         }

@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
 
 namespace My_first_xna_game
 {
     public class Shop// : Inventory todo: private
     {
-        public bool alive;
+        public bool alive { get; private set; }
         private ShopInventory buyInventory;
         private ShopInventory sellInventory;
         public Choice choice;
@@ -24,27 +22,43 @@ namespace My_first_xna_game
 
         public Shop() { }
 
-        public Shop(Player player, Actor merchant)
+        public Shop(Map map, Player player, Actor merchant)
         {
             this.player = player;
             this.merchant = merchant;
 
             //intialize Buy Inventory
-            buyInventory = new ShopInventory(player, merchant, false);
+            buyInventory = new ShopInventory(map, player, merchant, false);
             buyInventory.Kill();
-            buyInventory.window.SetWindowAbove(merchant.bounds);
+            buyInventory.SetWindowPosition(Inventory.Side.up);
 
             //intialize Sell Inventory
-            sellInventory = new ShopInventory(player, merchant, true);
+            sellInventory = new ShopInventory(map, player, merchant, true);
             sellInventory.Kill();
-            sellInventory.window.SetWindowAbove(player.bounds);
+            sellInventory.SetWindowPosition(Inventory.Side.up);
 
             //intialize Choice
             buyText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Buy");
             sellText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Sell");
             exitText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Talk");
             tallkText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Exit");
-            choice = new Choice(merchant.bounds, player, new List<WindowItem> { buyText, sellText, tallkText, exitText }, Choice.Arrangement.square, true);
+            choice = new Choice(map, merchant.bounds, player, new List<WindowItem> { buyText, sellText, tallkText, exitText }, Choice.Arrangement.square, true);
+        }
+
+        public void setPlayerWindowPosition()
+        {
+            Kill();
+        }
+
+        public void Revive()
+        {
+            alive = true;
+        }
+
+        public void Kill()
+        {
+            PlayerManager.playersOnShop.Remove(player);
+            alive = false;
         }
 
         public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
@@ -76,12 +90,12 @@ namespace My_first_xna_game
                         break;
 
                     case 2: //Exit
-                        alive = false;
+                        Kill();
                         break;
 
                     case 3: //Talk
                         choice.alive = false;
-                        player.MessageWindow(merchant.bounds, "I've got some fine merchandise today.", true, false, ReturnToMenu);
+                        player.MessageWindow(merchant, "I've got some fine merchandise today.", true, false, ReturnToMenu);
                         break;
                 }
                 confirmKeyReleased = false;
@@ -133,7 +147,7 @@ namespace My_first_xna_game
                 choice.alive = true;
                 return;
             }
-            alive = false;
+            Kill();
         }
 
         public Vector2 getMerchantPosition()
@@ -141,12 +155,12 @@ namespace My_first_xna_game
             return merchant.position;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition)
+        public void Draw(SpriteBatch spriteBatch, Rectangle offsetRect)
         {
             if (!alive) { return; }
-            choice.Draw(spriteBatch, offsetRect, screenPosition);
-            buyInventory.Draw(spriteBatch, offsetRect, screenPosition);
-            sellInventory.Draw(spriteBatch, offsetRect, screenPosition);
+            choice.Draw(spriteBatch, offsetRect);
+            buyInventory.Draw(spriteBatch, offsetRect);
+            sellInventory.Draw(spriteBatch, offsetRect);
         }
 
     }

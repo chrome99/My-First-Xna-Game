@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
@@ -25,14 +23,14 @@ namespace My_first_xna_game
         private bool useKeyReleased = false;
         private int subUnEquipedOpacity = 60;
 
-        public Equipment(Player player)
+        public Equipment(Map map, Player player)
         {
             this.player = player;
 
-            armorInventory = new ChoiceInventory(player, HandleItemChoice, Inventory.Side.right);
+            armorInventory = new ChoiceInventory(map, player, HandleItemChoice, Inventory.Side.none);
             armorInventory.Kill();
 
-            window = new Window(Game.content.Load<Texture2D>("Textures\\Windows\\windowskin"), Vector2.Zero, 140, 220, null);
+            window = new Window(map, Game.content.Load<Texture2D>("Textures\\Windows\\windowskin"), Vector2.Zero, 140, 220, null);
             window.SetWindowLeft(player.bounds);
 
             head = new Picture(Item.IconSet, new Vector2(46, 32), window);
@@ -106,6 +104,15 @@ namespace My_first_xna_game
             else
             {
                 rightHand.drawingRect = player.equipment.rightHand.getRect();
+            }
+        }
+
+        public void setPlayerWindowPosition()
+        {
+            window.SetWindowLeft(player.bounds);
+            if (armorInventory.alive)
+            {
+                armorInventory.setPlayerWindowPosition();
             }
         }
 
@@ -210,6 +217,7 @@ namespace My_first_xna_game
                             armorInventory.filter = Inventory.Filter.weapon;
                             break;
                     }
+                    armorInventory.SetWindowPosition(new Vector2(window.position.X + window.width + 30, window.position.Y));
                     armorInventory.Revive();
                     selector.active = false;
                     useKeyReleased = false;
@@ -223,12 +231,12 @@ namespace My_first_xna_game
 
         }
 
-        public void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition)
+        public void Draw(SpriteBatch spriteBatch, Rectangle offsetRect)
         {
             if (!alive) { return; }
-            window.Draw(spriteBatch, offsetRect, screenPosition);
-            selector.Draw(spriteBatch, offsetRect, screenPosition);
-            armorInventory.Draw(spriteBatch, offsetRect, screenPosition);
+            window.Draw(spriteBatch, offsetRect);
+            selector.Draw(spriteBatch, offsetRect);
+            armorInventory.Draw(spriteBatch, offsetRect);
         }
     }
 }

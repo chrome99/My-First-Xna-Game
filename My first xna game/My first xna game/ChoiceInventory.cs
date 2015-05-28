@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework.Audio;
+﻿using Microsoft.Xna.Framework.Audio;
 
 namespace My_first_xna_game
 {
@@ -8,8 +7,8 @@ namespace My_first_xna_game
         public delegate void ItemChoiceFunction(Item item);
         private ItemChoiceFunction handleItemChoice;
 
-        public ChoiceInventory(Player player, ItemChoiceFunction handleItemChoice, Side side = Side.up, Filter filter = Filter.all)
-            : base(player, true, side, filter)
+        public ChoiceInventory(Map map, Player player, ItemChoiceFunction handleItemChoice, Side side = Side.up, Filter filter = Filter.all)
+            : base(map, player, true, side, filter)
         {
             this.handleItemChoice = handleItemChoice;
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -29,7 +28,7 @@ namespace My_first_xna_game
             this.source = source;
         }
 
-        public void CreateItems(Inventory inventory)
+        public void CreateItems(Inventory inventory, Window InventoryWindow)
         {
             Armor armor;
             for (int i = 0; i < items.Count; i++)
@@ -37,14 +36,14 @@ namespace My_first_xna_game
                 switch (inventory.filter)
                 {
                     case Inventory.Filter.all:
-                        CreateItem(items[i], i, inventory);
+                        CreateItem(items[i], i, inventory, InventoryWindow);
                         break;
 
                     case Inventory.Filter.armor:
                         armor = items[i] as Armor;
                         if (armor != null)
                         {
-                            CreateItem(items[i], i, inventory);
+                            CreateItem(items[i], i, inventory, InventoryWindow);
                         }
                         break;
 
@@ -54,7 +53,7 @@ namespace My_first_xna_game
                         {
                             if (armor.armorType == Armor.ArmorType.head)
                             {
-                                CreateItem(items[i], i, inventory);
+                                CreateItem(items[i], i, inventory, InventoryWindow);
                             }
                         }
                         break;
@@ -65,7 +64,7 @@ namespace My_first_xna_game
                         {
                             if (armor.armorType == Armor.ArmorType.body)
                             {
-                                CreateItem(items[i], i, inventory);
+                                CreateItem(items[i], i, inventory, InventoryWindow);
                             }
                         }
                         break;
@@ -76,7 +75,7 @@ namespace My_first_xna_game
                         {
                             if (armor.armorType == Armor.ArmorType.shoes)
                             {
-                                CreateItem(items[i], i, inventory);
+                                CreateItem(items[i], i, inventory, InventoryWindow);
                             }
                         }
                         break;
@@ -87,7 +86,7 @@ namespace My_first_xna_game
                         {
                             if (armor.armorType == Armor.ArmorType.oneHanded)
                             {
-                                CreateItem(items[i], i, inventory);
+                                CreateItem(items[i], i, inventory, InventoryWindow);
                             }
                         }
                         break;
@@ -98,7 +97,7 @@ namespace My_first_xna_game
                         {
                             if (armor.armorType == Armor.ArmorType.twoHanded)
                             {
-                                CreateItem(items[i], i, inventory);
+                                CreateItem(items[i], i, inventory, InventoryWindow);
                             }
                         }
                         break;
@@ -109,7 +108,7 @@ namespace My_first_xna_game
                         {
                             if (armor.armorType == Armor.ArmorType.oneHanded || armor.armorType == Armor.ArmorType.twoHanded)
                             {
-                                CreateItem(items[i], i, inventory);
+                                CreateItem(items[i], i, inventory, InventoryWindow);
                             }
                         }
                         break;
@@ -118,18 +117,18 @@ namespace My_first_xna_game
 
         }
 
-        private void CreateItem(Item item, int i, Inventory inventory)
+        private void CreateItem(Item item, int i, Inventory inventory, Window InventoryWindow)
         {
-            item.icon = new Picture(Item.IconSet, new Vector2(i % inventory.margin * (Item.size + inventory.spacing), i / inventory.margin * (Item.size + inventory.spacing)), inventory.window);
+            item.icon = new Picture(Item.IconSet, new Vector2(i % inventory.margin * (Item.size + inventory.spacing), i / inventory.margin * (Item.size + inventory.spacing)), InventoryWindow);
             item.icon.drawingRect = item.getRect();
             if (item.amount > 1)
             {
-                Text amount = new Text(Game.content.Load<SpriteFont>("Fonts\\small"), Vector2.Zero, new Color(255, 255, 255), items[i].amount + "X", inventory.window);
+                Text amount = new Text(Game.content.Load<SpriteFont>("Fonts\\small"), Vector2.Zero, new Color(255, 255, 255), items[i].amount + "X", InventoryWindow);
                 amount.position = new Vector2(i % inventory.margin * (Item.size + inventory.spacing), i / inventory.margin * (Item.size + inventory.spacing));
                 amount.depth = Game.DepthToFloat(Game.Depth.windowsDataFront);
                 inventory.amountTexts.Add(amount);
             }
-            inventory.window.AddItem(item.icon);
+            InventoryWindow.AddItem(item.icon);
         }
 
         public void AddItem(List<Item> itemsList)

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace My_first_xna_game
@@ -48,13 +47,13 @@ namespace My_first_xna_game
             }
         }
         
-        public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition)
+        public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect)
         {
             if (visible)
             {
                 Rectangle drawingRect = bounds;
-                drawingRect.X = screenPosition.X + drawingRect.X - offsetRect.X;
-                drawingRect.Y = screenPosition.Y + drawingRect.Y - offsetRect.Y;
+                drawingRect.X = drawingRect.X - offsetRect.X;
+                drawingRect.Y = drawingRect.Y - offsetRect.Y;
 
                 if (drawingCoordinates.Equals(new Rectangle()))
                 {

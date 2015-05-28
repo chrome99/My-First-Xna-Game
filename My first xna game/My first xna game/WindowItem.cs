@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace My_first_xna_game
@@ -30,6 +29,6 @@ namespace My_first_xna_game
             depth = Game.DepthToFloat(Game.Depth.windowsData);
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenRect) { }
+        public virtual void Draw(SpriteBatch spriteBatch, Rectangle offsetRect) { }
     }
 }

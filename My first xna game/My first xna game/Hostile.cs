@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 namespace My_first_xna_game
 {
@@ -28,29 +21,35 @@ namespace My_first_xna_game
             public int maxHealth;
             public int mana;
             public int maxMana;
+
             public int strength;
-            public int knockback;
-            public float cooldown;
             public int defence;
             public int agility;
 
-            /*public Stats(int health, int maxHealth)
-            {
-
-            }*/
+            public int knockback;
         }
+
+        private float cooldown;
+        public float Cooldown
+        {
+            get { return cooldown; }
+            set
+            {
+                cooldownTimer.max = value;
+                cooldown = value;
+            }
+        }
+
         public bool enableRunning = true;
         public Stats stats;
         public Equipment equipment;
         public List<Armor> equipmentList = new List<Armor>();
-        public Timer cooldownTimer = new Timer(0f, false);
+        private Timer cooldownTimer = new Timer(1000f, false);
 
         public Hostile(Texture2D texture, Vector2 position, MovementManager.Auto autoMovement = MovementManager.Auto.off)
             : base(texture, position, autoMovement)
         {
 
-            //update timer max
-            cooldownTimer.max = stats.cooldown;
         }
 
         protected override void UpdateHostile()
@@ -96,11 +95,11 @@ namespace My_first_xna_game
                     }
                 }
 
-                //update player hud
+                //update player hud and menu
                 Player player = this as Player;
                 if (player != null)
                 {
-                    player.UpdatePlayerHUD(oldHealth - newHealth);
+                    player.HandleHit(oldHealth - newHealth);
                 }
 
                 //timer
@@ -206,7 +205,6 @@ namespace My_first_xna_game
             stats.maxMana += armor.changeStats.maxMana;
             stats.strength += armor.changeStats.strength;
             stats.knockback += armor.changeStats.knockback;
-            stats.cooldown += armor.changeStats.cooldown;
             stats.defence += armor.changeStats.defence;
             stats.agility += armor.changeStats.agility;
         }
@@ -220,7 +218,6 @@ namespace My_first_xna_game
             stats.maxMana -= armor.changeStats.maxMana;
             stats.strength -= armor.changeStats.strength;
             stats.knockback -= armor.changeStats.knockback;
-            stats.cooldown -= armor.changeStats.cooldown;
             stats.defence -= armor.changeStats.defence;
             stats.agility -= armor.changeStats.agility;
         }

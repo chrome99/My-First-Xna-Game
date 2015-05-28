@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Content;
 
 namespace My_first_xna_game
 {
@@ -33,10 +29,10 @@ namespace My_first_xna_game
             wolf.stats.maxMana = 16;
             wolf.stats.mana = 16;
             wolf.stats.strength = 4;
-            wolf.stats.knockback = 100;
-            wolf.stats.cooldown = 750f;
+            wolf.stats.knockback = 30;
             wolf.stats.defence = 2;
             wolf.stats.agility = 1;
+            wolf.Cooldown = 750f;
 
             npc = new Actor(Content.Load<Texture2D>("Textures\\Spritesheets\\wolf"), new Vector2(700f, 500f));
             npc.pack = new Pack(npc);
@@ -130,12 +126,15 @@ namespace My_first_xna_game
                     {
                         if (!player.collisionsList.Contains(collisionID))
                         {
-                            movementManager.TurnActor(npc2, MovementManager.OppositeDirection(player.direction));
-                            player.Shop(npc);
-                            //movementManager.Knockback(player, MovementManager.Direction.left, 100);
-                            //player.MessageWindow(npc2.bounds, new List<string> {"the great king wants to see you. \n no, he dosent.", "asd"}, true);
-                            //player.MessageWindow(npc2.bounds, "the king wants to see you. \n no, he dosent.", true);
-                            player.collisionsList.Add(collisionID);
+                            if (player.Shop(npc))
+                            {
+                                movementManager.TurnActor(npc2, MovementManager.OppositeDirection(player.direction));
+                                //movementManager.Knockback(player, MovementManager.Direction.left, 100);
+                                //player.MessageWindow(npc2.bounds, new List<string> {"the great king wants to see you. \n no, he dosent.", "asd"}, true);
+                                //player.MessageWindow(npc2.bounds, "the king wants to see you. \n no, he dosent.", true);
+                                player.collisionsList.Add(collisionID);
+                            }
+                            
                         }
                     }
                     else

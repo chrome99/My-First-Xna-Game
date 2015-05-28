@@ -1,9 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.GamerServices;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-//using Microsoft.Xna.Framework.Media;
 
 namespace My_first_xna_game
 {
@@ -59,16 +56,12 @@ namespace My_first_xna_game
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, Rectangle screenPosition)
+        public void Draw(SpriteBatch spriteBatch)
         {
             if (alive)
             {
                 //draw window
-                Vector2 drawingPosition = position;
-                drawingPosition.X = screenPosition.X + drawingPosition.X;
-                drawingPosition.Y = screenPosition.Y + drawingPosition.Y;
-
-                spriteBatch.DrawString(font, text, drawingPosition, color
+                spriteBatch.DrawString(font, text, position, color
                 , 0f, new Vector2(3f, 3f), 1.0f, SpriteEffects.None, Game.DepthToFloat(Game.Depth.front));
             }
         }

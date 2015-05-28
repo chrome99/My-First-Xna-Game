@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Audio;
@@ -37,7 +36,7 @@ namespace My_first_xna_game
                     if (CollisionManager.GameObjectCollision(pickUp, player))
                     {
                             Game.content.Load<SoundEffect>("Audio\\Waves\\confirm").Play();
-                            player.pack.AddItem(pickUp.collisionParameters[0]);
+                            player.pack.AddItem(ItemCollection.CopyItem(pickUp.collisionParameters[0]));
                             pickUp.Kill();
                     }
                 }

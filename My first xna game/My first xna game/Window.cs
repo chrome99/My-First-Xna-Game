@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace My_first_xna_game
 {
@@ -21,13 +19,14 @@ namespace My_first_xna_game
         private Player player;
         private bool playerCollision = false;
 
-        public Window(Texture2D texture, Vector2 position, int width, int height, Player player = null)
+        public Window(Map map, Texture2D texture, Vector2 position, int width, int height, Player player = null)
             : base(texture, position, Game.Depth.windows, 0f)
         {
             this.width = width;
             this.height = height;
             this.player = player;
-          
+
+            map.IntializeMapVariables(this);
 
             originalOpacity = opacity;
             passable = true;
@@ -47,6 +46,7 @@ namespace My_first_xna_game
         {
             //set center
             position = GetWindowCenter(positionBounds);
+            FixOutsideCollision();
         }
 
         public void SetWindowAbove(Rectangle positionBounds)
@@ -57,7 +57,9 @@ namespace My_first_xna_game
             //set above
             newPosition.Y = newPosition.Y - positionBounds.Height / 2 - bounds.Height / 2 - 5; //TODO: why -5?
 
+            
             position = newPosition;
+            FixOutsideCollision();
         }
 
         public void SetWindowBelow(Rectangle positionBounds)
@@ -69,6 +71,7 @@ namespace My_first_xna_game
             newPosition.Y = newPosition.Y + positionBounds.Height / 2 + bounds.Height / 2;
 
             position = newPosition;
+            FixOutsideCollision();
         }
 
         public void SetWindowLeft(Rectangle positionBounds)
@@ -80,6 +83,7 @@ namespace My_first_xna_game
             newPosition.X = newPosition.X - positionBounds.Width / 2 - bounds.Width / 2;
 
             position = newPosition;
+            FixOutsideCollision();
         }
 
         public void SetWindowRight(Rectangle positionBounds)
@@ -91,6 +95,7 @@ namespace My_first_xna_game
             newPosition.X = newPosition.X + positionBounds.Width / 2 + bounds.Width / 2;
 
             position = newPosition;
+            FixOutsideCollision();
         }
 
         public override Rectangle bounds
@@ -115,14 +120,14 @@ namespace My_first_xna_game
             position.Y = side.Y;
         }
 
-        public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition)
+        public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect)
         {
             if (visible && alive)
             {
                 //draw window
                 Rectangle drawingPosition = bounds;
-                drawingPosition.X = screenPosition.X + drawingPosition.X - offsetRect.X;
-                drawingPosition.Y = screenPosition.Y + drawingPosition.Y - offsetRect.Y;
+                drawingPosition.X = drawingPosition.X - offsetRect.X;
+                drawingPosition.Y = drawingPosition.Y - offsetRect.Y;
 
                 spriteBatch.Draw(texture, drawingPosition, windowRect, Color.White * getOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
 
@@ -131,10 +136,36 @@ namespace My_first_xna_game
                 {
                     if (item is Text || item is Picture && item.sourceCanDrawThis)
                     {
-                        item.Draw(spriteBatch, offsetRect, screenPosition);
+                        item.Draw(spriteBatch, offsetRect);
                     }
                     
                 }
+            }
+        }
+        
+        private void FixOutsideCollision()
+        {
+            if (mapRect == new Rectangle()) { return; }
+            Rectangle fixedMapRect = mapRect;
+            fixedMapRect.X += bounds.X;
+            fixedMapRect.Y += bounds.Y;
+            fixedMapRect.Width -= bounds.Width;
+            fixedMapRect.Height -= bounds.Height;
+            if (position.X < fixedMapRect.X)
+            {
+                position.X = 0;
+            }
+            if (position.X > fixedMapRect.Width)
+            {
+                position.X = fixedMapRect.Width;
+            }
+            if (position.Y < fixedMapRect.Y)
+            {
+                position.Y = 0;
+            }
+            if (position.Y > fixedMapRect.Height)
+            {
+                position.Y = fixedMapRect.Height;
             }
         }
 

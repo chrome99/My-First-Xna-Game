@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -41,6 +40,12 @@ namespace My_first_xna_game
             depth = Game.DepthToFloat(Game.Depth.windowsSelector);
         }
 
+        public void Reset()
+        {
+            currentTargetNum = 0;
+            UpdateCurrentTarget();
+        }
+
         public override Rectangle bounds
         {
             get { return new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y); }
@@ -54,9 +59,7 @@ namespace My_first_xna_game
             }
             if (!visible) { return; }
 
-            currentTarget = targets[currentTargetNum];
-            position.X = currentTarget.position.X - layout;
-            position.Y = currentTarget.position.Y - layout;
+            UpdateCurrentTarget();
 
             if (!opacityMaxed)
             {
@@ -79,6 +82,13 @@ namespace My_first_xna_game
             {
                 UpdateInput(newState, oldState);
             }
+        }
+
+        private void UpdateCurrentTarget()
+        {
+            currentTarget = targets[currentTargetNum];
+            position.X = currentTarget.position.X - layout;
+            position.Y = currentTarget.position.Y - layout;
         }
 
         public bool Clamp()
@@ -163,7 +173,7 @@ namespace My_first_xna_game
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenRect)
+        public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect)
         {
             if (visible)
             {
@@ -176,8 +186,8 @@ namespace My_first_xna_game
                 {
                     newPositionVec = position + source.position + source.thickness;
                 }
-                newPositionVec.X = newPositionVec.X + screenRect.X - offsetRect.X;
-                newPositionVec.Y = newPositionVec.Y + screenRect.Y - offsetRect.Y;
+                newPositionVec.X = newPositionVec.X - offsetRect.X;
+                newPositionVec.Y = newPositionVec.Y - offsetRect.Y;
                 Rectangle newPositionRect = bounds;
                 newPositionRect.X = (int)newPositionVec.X;
                 newPositionRect.Y = (int)newPositionVec.Y;

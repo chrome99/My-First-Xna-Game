@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 namespace My_first_xna_game
 {
     public class Enemy : Hostile
     {
-        public List<Hostile> targetsList;
+        public List<Hostile> hostilesList;
         private Hostile currentTarget;
         private bool huntMode = false;
         public int radiusSize = 5;
@@ -26,7 +19,6 @@ namespace My_first_xna_game
         public Enemy(Texture2D texture, Vector2 position)
             : base(texture, position, MovementManager.Auto.off)
         {
-            this.targetsList = Map.defultTargetsList;
             movingState = MovementManager.MovingState.walking;
         }
 
@@ -34,11 +26,11 @@ namespace My_first_xna_game
         {
             //update movement
             /*
-             * the enemy has two modes:
+             * the enemy has 3 modes:
+             * chill mode: the enemy is ba chill.
              * search mode: the enemy is searching for a target.
-             * hunt mode: the enemy hunts his pray until, his pray dies or gets away.
+             * hunt mode: the enemy hunts his pray until his pray dies or runs away.
             */
-            //search mode
 
             if (huntMode)
             {
@@ -51,7 +43,7 @@ namespace My_first_xna_game
             else
             {
                 int targetsNotInRaduis = 0;
-                foreach (Hostile target in targetsList)
+                foreach (Hostile target in hostilesList)
                 {
                     if (raduis.Intersects(target.core) && target.alive)
                     {
@@ -63,7 +55,7 @@ namespace My_first_xna_game
                         targetsNotInRaduis++;
                     }
                 }
-                if (targetsNotInRaduis == targetsList.Count)
+                if (targetsNotInRaduis == hostilesList.Count)
                 {
                     huntMode = false;
                 }
@@ -73,6 +65,7 @@ namespace My_first_xna_game
         }
         private void MoveToTarget(Hostile target)
         {
+            movingState = MovementManager.MovingState.walking;
             autoMovement = MovementManager.Auto.off;
             direction = MovementManager.DirectionToGameObject(this, target);
             movementManager.MoveActor(this, direction, (int)speed);

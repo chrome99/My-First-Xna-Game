@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 namespace My_first_xna_game
 {
@@ -24,7 +17,10 @@ namespace My_first_xna_game
         public Item[] collisionParameters = new Item[10];
         public MovementManager.Direction view;
         public bool alive = true;
+
         public MovementManager movementManager;
+        public Rectangle mapRect;
+
         public bool updated = false;
         public Vector2 coreCollision = new Vector2(1, 1);
 
@@ -78,15 +74,38 @@ namespace My_first_xna_game
         {
             UpdateSprite(gameTime);
 
+            UpdateOutSideCollision();
+
             if (collisionFunction != null)
             {
                 collisionFunction(this);
             }
         }
 
+        private void UpdateOutSideCollision()
+        {
+            if (mapRect == new Rectangle()) { return; }
+            if (position.X < mapRect.X)
+            {
+                position.X = 0;
+            }
+            if (position.X > mapRect.Width)
+            {
+                position.X = mapRect.Width;
+            }
+            if (position.Y < mapRect.Y)
+            {
+                position.Y = 0;
+            }
+            if (position.Y > mapRect.Height)
+            {
+                position.Y = mapRect.Width;
+            }
+        }
+
         protected virtual void UpdateSprite(GameTime gameTime) { }
 
-        public virtual void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenPosition) { }
+        public virtual void Draw(SpriteBatch spriteBatch, Rectangle offsetRect) { }
 
         public void Reset()
         {

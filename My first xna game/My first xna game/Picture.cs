@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace My_first_xna_game
@@ -32,13 +31,13 @@ namespace My_first_xna_game
             get { return new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height); }
         }
 
-        public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenRect)
+        public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect)
         {
             if (visible)
             {
                 Vector2 newPosition = GetDrawingPosition();
-                newPosition.X = newPosition.X + screenRect.X - offsetRect.X;
-                newPosition.Y = newPosition.Y + screenRect.Y - offsetRect.Y;
+                newPosition.X = newPosition.X - offsetRect.X;
+                newPosition.Y = newPosition.Y - offsetRect.Y;
                 spriteBatch.Draw(texture, newPosition, drawingRect, Color.White * drawingOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
                 
             }

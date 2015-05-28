@@ -27,7 +27,7 @@ namespace My_first_xna_game
             set { selector.currentTargetNum = value; }
         }
 
-        public Choice(Rectangle sourcePosition, Player player, List<WindowItem> optionsList, Arrangement arrangement = Arrangement.square, bool playerCollision = false)
+        public Choice(Map map, Rectangle sourcePosition, Player player, List<WindowItem> optionsList, Arrangement arrangement = Arrangement.square, bool playerCollision = false)
         {
             //intialize variables
             this.optionsList = optionsList;
@@ -114,7 +114,7 @@ namespace My_first_xna_game
             {
                 windowPlayer = null;
             }
-            window = new Window(Game.content.Load<Texture2D>("Textures\\Windows\\windowskin"), Vector2.Zero, (int)windowSize.X, (int)windowSize.Y, windowPlayer);
+            window = new Window(map, Game.content.Load<Texture2D>("Textures\\Windows\\windowskin"), Vector2.Zero, (int)windowSize.X, (int)windowSize.Y, windowPlayer);
             window.SetWindowAbove(sourcePosition);
 
 
@@ -125,6 +125,11 @@ namespace My_first_xna_game
             {
                 window.AddItem(option);
             }
+        }
+
+        public void ResetSelector()
+        {
+            selector.Reset();
         }
 
         public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
@@ -148,15 +153,15 @@ namespace My_first_xna_game
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, Rectangle offsetRect, Rectangle screenRect)
+        public void Draw(SpriteBatch spriteBatch, Rectangle offsetRect)
         {
             if (!alive) { return; }
             foreach(WindowItem option in optionsList)
             {
-                option.Draw(spriteBatch, offsetRect, screenRect);
+                option.Draw(spriteBatch, offsetRect);
             }
-            selector.Draw(spriteBatch, offsetRect, screenRect);
-            window.Draw(spriteBatch, offsetRect, screenRect);
+            selector.Draw(spriteBatch, offsetRect);
+            window.Draw(spriteBatch, offsetRect);
         }
     }
 }

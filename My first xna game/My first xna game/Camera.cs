@@ -1,25 +1,30 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
 
 namespace My_first_xna_game
 {
     public class Camera
     {
         public Map map;
+
         public Rectangle mapRect;
         public Rectangle screenRect;
-        public enum Corner {topLeft, topRight, bottomLeft, bottomRight}
+        public Viewport viewport;
+        public Matrix transform;
+        private Vector2 scale = new Vector2(1, 1);
+
         public GameObject cameraLightspot;
         public Player player;
+
+        public enum Corner { topLeft, topRight, bottomLeft, bottomRight }
 
         public Camera(Rectangle screenRect, Map map, GameObject cameraLightspot, Player player)
         {
             this.cameraLightspot = cameraLightspot;
             this.screenRect = screenRect;
             this.mapRect = screenRect;
+            viewport = new Viewport(screenRect);
+            transform = Matrix.CreateScale(new Vector3(scale.X, scale.Y, 0)) * Matrix.CreateTranslation(new Vector3(0, 0, 0));
             this.map = map;
             this.player = player;
         }
@@ -47,11 +52,11 @@ namespace My_first_xna_game
             if (player.alive)
             {
                 map.Draw(spriteBatch, this);
-                player.DrawPlayerItems(spriteBatch, mapRect, screenRect);
+                player.DrawPlayerItems(spriteBatch, mapRect);
             }
             else
             {
-                spriteBatch.Draw(Game.content.Load<Texture2D>("Textures\\Pictures\\grave"), screenRect, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(Game.Depth.front));
+                spriteBatch.Draw(Game.content.Load<Texture2D>("Textures\\Pictures\\grave"), new Rectangle(), null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(Game.Depth.front));
             }
             
         }

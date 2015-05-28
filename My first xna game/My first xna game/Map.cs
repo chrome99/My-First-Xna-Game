@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Content;
 
 namespace My_first_xna_game
 {
     public class Map
     {
-        public static List<Hostile> defultTargetsList = new List<Hostile>();
+        public List<Hostile> hostilesList = new List<Hostile>();
         public List<GameObject> gameObjectList = new List<GameObject>();
         public Player player1;
         public Player player2;
@@ -41,12 +39,10 @@ namespace My_first_xna_game
             player1Stats.mana = 16;
             player1Stats.strength = 4;
             player1Stats.knockback = 30;
-            player1Stats.cooldown = 1000f;
             player1Stats.defence = 2;
             player1Stats.agility = 1;
 
-            player1 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\starlord"), new Vector2(250f, 260f), player1Keys, player1Stats);
-            Map.defultTargetsList.Add(player1);
+            player1 = new Player(this, Game.content.Load<Texture2D>("Textures\\Spritesheets\\starlord"), new Vector2(250f, 260f), player1Keys, player1Stats);
             player1.gold = 25;
 
 
@@ -74,12 +70,10 @@ namespace My_first_xna_game
             player2Stats.mana = 16;
             player2Stats.strength = 4;
             player2Stats.knockback = 30;
-            player2Stats.cooldown = 1000f;
             player2Stats.defence = 2;
             player2Stats.agility = 1;
 
-            player2 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\rocket"), new Vector2(300f, 260f), player2Keys, player2Stats);
-            Map.defultTargetsList.Add(player2);
+            player2 = new Player(this, Game.content.Load<Texture2D>("Textures\\Spritesheets\\rocket"), new Vector2(300f, 260f), player2Keys, player2Stats);
             player2.gold = 25;
 
             //intialize player
@@ -100,12 +94,10 @@ namespace My_first_xna_game
             player3Stats.mana = 16;
             player3Stats.strength = 4;
             player3Stats.knockback = 30;
-            player3Stats.cooldown = 1000f;
             player3Stats.defence = 2;
             player3Stats.agility = 1;
 
-            player3 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\drax"), new Vector2(350f, 260f), player3Keys, player3Stats);
-            Map.defultTargetsList.Add(player3);
+            player3 = new Player(this, Game.content.Load<Texture2D>("Textures\\Spritesheets\\drax"), new Vector2(350f, 260f), player3Keys, player3Stats);
             player3.gold = 25;
 
             //intialize player
@@ -126,12 +118,10 @@ namespace My_first_xna_game
             player4Stats.mana = 16;
             player4Stats.strength = 4;
             player4Stats.knockback = 30;
-            player4Stats.cooldown = 1000f;
             player4Stats.defence = 2;
             player4Stats.agility = 1;
 
-            player4 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\gamora"), new Vector2(400f, 260f), player4Keys, player4Stats);
-            Map.defultTargetsList.Add(player4);
+            player4 = new Player(this, Game.content.Load<Texture2D>("Textures\\Spritesheets\\gamora"), new Vector2(400f, 260f), player4Keys, player4Stats);
             player4.gold = 25;
             
             /*player1.coreCollision.Y = 4;
@@ -146,39 +136,58 @@ namespace My_first_xna_game
             AddObject(player2);
             AddObject(player3);
             AddObject(player4);
-
-            foreach (GameObject gameObject in gameObjectList)
-            {
-                gameObject.movementManager = new MovementManager(this); ;
-            }
         }
 
         public void AddObject(GameObject gameObject)
         {
-            gameObject.movementManager = new MovementManager(this);
+            //additional intializetion
+            Enemy enemy = gameObject as Enemy;
+            if (enemy != null)
+            {
+                enemy.hostilesList = hostilesList;
+            }
+            else
+            {
+                Hostile hostile = gameObject as Hostile;
+                if (hostile != null)
+                {
+                    hostilesList.Add(hostile);
+                    foreach (GameObject gameObject2 in gameObjectList)
+                    {
+                        Enemy enemy2 = gameObject2 as Enemy;
+                        if (enemy2 != null)
+                        {
+                            enemy2.hostilesList = hostilesList;
+                        }
+                    }
+                }
+            }
+
+            IntializeMapVariables(gameObject);
+
             gameObjectList.Add(gameObject);
         }
 
-        public void AddObjectInstance(ObjectCollection objectInstance)
+        public void AddObjectCollection(ObjectCollection objectCollection)
         {
-            foreach (GameObject gameObject in objectInstance.gameObjectList)
+            foreach (GameObject gameObject in objectCollection.gameObjectList)
             {
                 AddObject(gameObject);
             }
         }
 
+        public void IntializeMapVariables(GameObject gameObject)
+        {
+            gameObject.mapRect = tileMap.mapRect;
+            gameObject.movementManager = new MovementManager(this);
+        }
+
         public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
         {
             //update GameObjects
-            for (int i = 0; i < gameObjectList.Count; i++ )
+            for (int counter = 0; counter < gameObjectList.Count; counter++)
             {
-                GameObject gameObject = gameObjectList[i];
-                Sprite sprite = gameObject as Sprite;
-                if (sprite != null)
-                {
-                    sprite.Update(gameTime);
-                }
-
+                gameObjectList[counter].Update(gameTime);
             }
 
             //update Player Manager (he updates players details on the map)
@@ -273,11 +282,11 @@ namespace My_first_xna_game
                         {
                             if (window.offsetRect)
                             {
-                                window.Draw(spriteBatch, camera.mapRect, camera.screenRect);
+                                window.Draw(spriteBatch, camera.mapRect);
                             }
                             else
                             {
-                                window.Draw(spriteBatch, new Rectangle(), camera.screenRect);
+                                window.Draw(spriteBatch, new Rectangle());
                             }
                             
                         }
@@ -285,12 +294,12 @@ namespace My_first_xna_game
                         Spritesheet spritesheet = gameObject as Spritesheet;
                         if (spritesheet != null)
                         {
-                            spritesheet.Draw(spriteBatch, camera.mapRect, camera.screenRect);
+                            spritesheet.Draw(spriteBatch, camera.mapRect);
                         }
                     }
                     else
                     {
-                        sprite.Draw(spriteBatch, camera.mapRect, camera.screenRect);
+                        sprite.Draw(spriteBatch, camera.mapRect);
                     }
                 }
 
