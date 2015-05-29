@@ -112,6 +112,7 @@
     <Compile Include="ChoiceInventory.cs" />
     <Compile Include="Equipment.cs" />
     <Compile Include="HostileHUD.cs" />
+    <Compile Include="LightSource.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="PlayerManager.cs" />

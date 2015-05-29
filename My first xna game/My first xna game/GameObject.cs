@@ -17,8 +17,12 @@ namespace My_first_xna_game
         public Item[] collisionParameters = new Item[10];
         public MovementManager.Direction view;
         public bool alive = true;
-        public bool litAble = false;
-        public float lighting = 0;
+
+        private LightSource lightSource;
+        public LightSource getLightSource
+        {
+            get { return lightSource; }
+        }
 
         public MovementManager movementManager;
         public Rectangle mapRect;
@@ -70,6 +74,11 @@ namespace My_first_xna_game
         {
             canCollide = true;
             alive = true;
+        }
+
+        public void AddLight(int level, Color color)
+        {
+            lightSource = new LightSource(this, level, color);
         }
 
         public void Update(GameTime gameTime)

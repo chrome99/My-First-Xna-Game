@@ -6,12 +6,16 @@ namespace My_first_xna_game
     public class Camera
     {
         public Map map;
+        private GraphicsDeviceManager graphicsDeviceManager;
 
         public Rectangle mapRect;
         public Rectangle screenRect;
         public Viewport viewport;
+
         public Matrix transform;
         public RenderTarget2D renderTarget;
+        public Effect effect;
+        public RenderTarget2D lightsTarget;
 
         public GameObject cameraLightspot;
         public Player player;
@@ -25,10 +29,13 @@ namespace My_first_xna_game
             this.mapRect = screenRect;
             this.map = map;
             this.player = player;
+            this.graphicsDeviceManager = graphicsDeviceManager;
 
             viewport = new Viewport(screenRect);
             transform = Matrix.CreateScale(new Vector3(1, 1, 0)) * Matrix.CreateTranslation(new Vector3(0, 0, 0));
             renderTarget = new RenderTarget2D(graphicsDeviceManager.GraphicsDevice, Game.worldRect.Width, Game.worldRect.Height);
+            effect = Game.content.Load<Effect>("Effects\\FirstOne");
+            lightsTarget = new RenderTarget2D(graphicsDeviceManager.GraphicsDevice, Game.worldRect.Width, Game.worldRect.Height);
         }
 
         public Rectangle view
@@ -49,18 +56,48 @@ namespace My_first_xna_game
             Move(cameraLightspot.position - cellNumber(cameraLightspot));
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        private void draw(SpriteBatch spriteBatch)
         {
             if (player.alive)
             {
                 map.Draw(spriteBatch, this);
                 player.DrawPlayerItems(spriteBatch, mapRect);
             }
+        }
+
+        public void DrawGrave(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(Game.content.Load<Texture2D>("Textures\\Pictures\\grave"), new Rectangle(0, 0, screenRect.Width, screenRect.Height), Color.White);
+        }
+
+        public void CatchDraw(SpriteBatch spriteBatch)
+        {
+            if (player.alive)
+            {
+                //draw lights
+                graphicsDeviceManager.GraphicsDevice.SetRenderTarget(lightsTarget);
+
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+                Rectangle lightSize;
+                lightSize.Width = 500;
+                lightSize.Height = 500;
+                lightSize.X = (int)player.position.X + player.bounds.Width / 2 - lightSize.Width / 2 - mapRect.X;
+                lightSize.Y = (int)player.position.Y + player.bounds.Height / 2 - lightSize.Height / 2 - mapRect.Y;
+
+                map.DrawLights(spriteBatch, this);
+                spriteBatch.End();
+
+                //catch camera drawings
+                graphicsDeviceManager.GraphicsDevice.SetRenderTarget(renderTarget);
+
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+                draw(spriteBatch);
+                spriteBatch.End();
+            }
             else
             {
-                spriteBatch.Draw(Game.content.Load<Texture2D>("Textures\\Pictures\\grave"), new Rectangle(0, 0, screenRect.Width, screenRect.Height), Color.White);
+                renderTarget = null;
             }
-            
         }
 
 

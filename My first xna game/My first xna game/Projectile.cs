@@ -12,7 +12,7 @@ namespace My_first_xna_game
         private SoundEffect launchSound;
         private SoundEffect hitSound;
 
-        public Projectile(Map map, Texture2D texture, float speed, Player source, int pathDestination, SoundEffect launchSound, SoundEffect hitSound)
+        public Projectile(Texture2D texture, float speed, Player source, int pathDestination, SoundEffect launchSound, SoundEffect hitSound)
             : base(texture, source.position, Game.Depth.projectiles, speed)
         {
             this.source = source;
@@ -21,12 +21,16 @@ namespace My_first_xna_game
             this.hitSound = hitSound;
 
             direction = source.direction;
-            map.AddObject(this);
 
             if (launchSound != null)
             {
                 launchSound.Play();
             }
+        }
+
+        public void AddToGameObjectList(Map map)
+        {
+            map.AddObject(this);
         }
 
         public void PlayHitSound()

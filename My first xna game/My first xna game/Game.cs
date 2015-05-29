@@ -19,7 +19,7 @@ namespace My_first_xna_game
          * enemy type / id (bee, wolf, eater of worlds)
          * 
          * bloom shader
-         * 2d lighting and shadows
+         * shadows
          * effects
          * better knockback
          * core collision

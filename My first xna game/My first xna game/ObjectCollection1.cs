@@ -24,6 +24,7 @@ namespace My_first_xna_game
             ItemCollection = new ItemCollection();
 
             wolf = new Enemy(Content.Load<Texture2D>("Textures\\Spritesheets\\wolf"), new Vector2(1000f, 0f));
+            wolf.AddLight(32 * 6 * 2, Color.Red);
             wolf.stats.maxHealth = 16;
             wolf.stats.health = 16;
             wolf.stats.maxMana = 16;
@@ -35,6 +36,7 @@ namespace My_first_xna_game
             wolf.Cooldown = 750f;
 
             npc = new Actor(Content.Load<Texture2D>("Textures\\Spritesheets\\wolf"), new Vector2(700f, 500f));
+            npc.AddLight(300, Color.Yellow);
             npc.pack = new Pack(npc);
             npc.pack.AddItem(ItemCollection.ironChestArmor);
             npc.pack.AddItem(ItemCollection.bread);
@@ -56,6 +58,7 @@ namespace My_first_xna_game
             box2.tags.Add("box");
 
             portal = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\player1"), new Vector2(50f, 100f), Game.Depth.player, 2);
+            portal.AddLight(100, Color.Purple);
             portal.passable = true;
             portal.collisionFunction = UpdatePortalCollision;
 

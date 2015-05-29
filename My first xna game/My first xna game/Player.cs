@@ -196,9 +196,11 @@ namespace My_first_xna_game
                         armor.Durability--;
                     }
                 }
-                Projectile projectile = new Projectile(map, Game.content.Load<Texture2D>("Textures\\Spritesheets\\wolf"),
+                Projectile projectile = new Projectile(Game.content.Load<Texture2D>("Textures\\Spritesheets\\wolf"),
                     6, this, 60, Game.content.Load<SoundEffect>("Audio\\Waves\\fireball launch"),
                     Game.content.Load<SoundEffect>("Audio\\Waves\\fireball hit"));
+                projectile.AddLight(150, Color.Red);
+                projectile.AddToGameObjectList(map);
                 projectile.passable = true;
 
                 fireballkeyReleased = false;

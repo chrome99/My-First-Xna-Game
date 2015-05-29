@@ -7,10 +7,6 @@ namespace My_first_xna_game
 {
     class World : Scene
     {
-        //effects
-        Effect effect;
-        Texture2D light;
-        RenderTarget2D lightsTarget;
 
         public List<Camera> cameraList;
 
@@ -24,10 +20,6 @@ namespace My_first_xna_game
             : base(graphicsDeviceManager)
         {
             this.cameraList = cameraList;
-
-            effect = Game.content.Load<Effect>("Effects\\FirstOne");
-            light = Game.content.Load<Texture2D>("Textures\\Sprites\\lightmask");
-            lightsTarget = new RenderTarget2D(graphicsDeviceManager.GraphicsDevice, Game.worldRect.Width, Game.worldRect.Height);
         }
 
         public override void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
@@ -41,40 +33,32 @@ namespace My_first_xna_game
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-
-            //draw lights
-            graphicsDeviceManager.GraphicsDevice.SetRenderTarget(lightsTarget);
-
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-            spriteBatch.Draw(light, new Rectangle(cameraList[0].screenRect.Width / 2 - 500 / 2, cameraList[0].screenRect.Height / 2 - 500 / 2, 500, 500), Color.White);
-            spriteBatch.End();
-
             //draw camera
             foreach (Camera camera in cameraList)
             {
-                graphicsDeviceManager.GraphicsDevice.SetRenderTarget(camera.renderTarget);
-
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                camera.Draw(spriteBatch);
-                spriteBatch.End();
+                camera.CatchDraw(spriteBatch);
             }
-
-            
-            //map
-            graphicsDeviceManager.GraphicsDevice.SetRenderTarget(null);
-            foreach (Camera camera in cameraList)
+            foreach(Camera camera in cameraList)
             {
+                //draw camera and lighting
+                graphicsDeviceManager.GraphicsDevice.SetRenderTarget(null);
                 graphicsDeviceManager.GraphicsDevice.Viewport = camera.viewport;
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, camera.transform);
-
-                effect.Parameters["lightMask"].SetValue(lightsTarget);
-                effect.CurrentTechnique.Passes[0].Apply();
-                spriteBatch.Draw(camera.renderTarget, Vector2.Zero, Color.White);
-
+                if (camera.renderTarget != null)
+                {
+                    camera.effect.Parameters["lightMask"].SetValue(camera.lightsTarget);
+                    camera.effect.CurrentTechnique.Passes[0].Apply();
+                    spriteBatch.Draw(camera.renderTarget, Vector2.Zero, Color.White);
+                }
+                else
+                {
+                    camera.DrawGrave(spriteBatch);
+                }
                 spriteBatch.End();
             }
 
 
+            
             //split
             graphicsDeviceManager.GraphicsDevice.Viewport = new Viewport(Game.worldRect);
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
