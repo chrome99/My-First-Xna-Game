@@ -17,6 +17,8 @@ namespace My_first_xna_game
         public Item[] collisionParameters = new Item[10];
         public MovementManager.Direction view;
         public bool alive = true;
+        public bool litAble = false;
+        public float lighting = 0;
 
         public MovementManager movementManager;
         public Rectangle mapRect;

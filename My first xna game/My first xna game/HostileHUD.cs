@@ -84,8 +84,8 @@ namespace My_first_xna_game
         {
             foreach (Heart heart in heartsList)
             {
-                heart.fullHeart.Draw(spriteBatch, new Rectangle());
                 heart.emptyHeart.Draw(spriteBatch, new Rectangle());
+                heart.fullHeart.Draw(spriteBatch, new Rectangle());
             }
         }
     }

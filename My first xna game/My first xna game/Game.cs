@@ -38,11 +38,15 @@ namespace My_first_xna_game
          * 
          * :Fighter- bodybuilder, knight, barbarian :Roughe thief, clown: Mage
          * bodybuilder, lost hero, clown
+         * special potions
          * building
+         * turrets
          * redstone
          
          BUGS:
          * fix msgWindow intializing
+         * remove depth
+         * hud bug in low health
          * what if one camera shows one map, and other camera shows other map?
          */
 

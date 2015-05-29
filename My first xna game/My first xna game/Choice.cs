@@ -156,12 +156,13 @@ namespace My_first_xna_game
         public void Draw(SpriteBatch spriteBatch, Rectangle offsetRect)
         {
             if (!alive) { return; }
+
             foreach(WindowItem option in optionsList)
             {
                 option.Draw(spriteBatch, offsetRect);
             }
-            selector.Draw(spriteBatch, offsetRect);
             window.Draw(spriteBatch, offsetRect);
+            selector.Draw(spriteBatch, offsetRect);
         }
     }
 }

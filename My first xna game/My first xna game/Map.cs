@@ -7,6 +7,7 @@ namespace My_first_xna_game
 {
     public class Map
     {
+        public List<GameObject> litAbleList = new List<GameObject>();
         public List<Hostile> hostilesList = new List<Hostile>();
         public List<GameObject> gameObjectList = new List<GameObject>();
         public Player player1;
@@ -64,8 +65,8 @@ namespace My_first_xna_game
             player2Keys.opDebug = Keys.F4;
 
             Hostile.Stats player2Stats;
-            player2Stats.maxHealth = 16;
-            player2Stats.health = 16;
+            player2Stats.maxHealth = 7;
+            player2Stats.health = 7;
             player2Stats.maxMana = 16;
             player2Stats.mana = 16;
             player2Stats.strength = 4;
@@ -140,7 +141,7 @@ namespace My_first_xna_game
 
         public void AddObject(GameObject gameObject)
         {
-            //additional intializetion
+            //hostile list
             Enemy enemy = gameObject as Enemy;
             if (enemy != null)
             {
@@ -161,6 +162,12 @@ namespace My_first_xna_game
                         }
                     }
                 }
+            }
+
+            //litAble list
+            if (gameObject.litAble)
+            {
+                litAbleList.Add(gameObject);
             }
 
             IntializeMapVariables(gameObject);
@@ -269,6 +276,9 @@ namespace My_first_xna_game
 
         public void Draw(SpriteBatch spriteBatch, Camera camera)
         {
+            //draw tilemap
+            tileMap.Draw(spriteBatch, camera.screenRect, camera.mapRect);
+
             //draw gameobjects
             foreach (GameObject gameObject in gameObjectList)
             {
@@ -304,9 +314,6 @@ namespace My_first_xna_game
                 }
 
             }
-
-            //draw tilemap
-            tileMap.Draw(spriteBatch, camera.screenRect, camera.mapRect);
         }
 
         public List<GameObject> FindTag(string tagName)

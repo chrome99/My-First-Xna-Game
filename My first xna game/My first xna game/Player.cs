@@ -282,10 +282,10 @@ namespace My_first_xna_game
         public void DrawPlayerItems(SpriteBatch spriteBatch, Rectangle offsetRect)
         {
             shop.Draw(spriteBatch, offsetRect);
-            debug.Draw(spriteBatch);
             menu.Draw(spriteBatch, offsetRect);
             msg.Draw(spriteBatch, offsetRect);
             hud.Draw(spriteBatch);
+            debug.Draw(spriteBatch);
         }
     }
 }

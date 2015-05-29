@@ -278,9 +278,6 @@ namespace My_first_xna_game
         {
             if (!alive) { return; }
 
-            DrawBuyInventory(spriteBatch, offsetRect);
-            DrawShopInventory(spriteBatch, offsetRect);
-
             window.Draw(spriteBatch, offsetRect);
             selector.Draw(spriteBatch, offsetRect);
 
@@ -288,9 +285,9 @@ namespace My_first_xna_game
             {
                 amount.Draw(spriteBatch, offsetRect);
             }
-        }
 
-        protected virtual void DrawBuyInventory(SpriteBatch spriteBatch, Rectangle offsetRect) { }
+            DrawShopInventory(spriteBatch, offsetRect);
+        }
         protected virtual void DrawShopInventory(SpriteBatch spriteBatch, Rectangle offsetRect) { }
     }
 }

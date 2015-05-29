@@ -11,22 +11,24 @@ namespace My_first_xna_game
         public Rectangle screenRect;
         public Viewport viewport;
         public Matrix transform;
-        private Vector2 scale = new Vector2(1, 1);
+        public RenderTarget2D renderTarget;
 
         public GameObject cameraLightspot;
         public Player player;
 
         public enum Corner { topLeft, topRight, bottomLeft, bottomRight }
 
-        public Camera(Rectangle screenRect, Map map, GameObject cameraLightspot, Player player)
+        public Camera(GraphicsDeviceManager graphicsDeviceManager, Rectangle screenRect, Map map, GameObject cameraLightspot, Player player)
         {
             this.cameraLightspot = cameraLightspot;
             this.screenRect = screenRect;
             this.mapRect = screenRect;
-            viewport = new Viewport(screenRect);
-            transform = Matrix.CreateScale(new Vector3(scale.X, scale.Y, 0)) * Matrix.CreateTranslation(new Vector3(0, 0, 0));
             this.map = map;
             this.player = player;
+
+            viewport = new Viewport(screenRect);
+            transform = Matrix.CreateScale(new Vector3(1, 1, 0)) * Matrix.CreateTranslation(new Vector3(0, 0, 0));
+            renderTarget = new RenderTarget2D(graphicsDeviceManager.GraphicsDevice, Game.worldRect.Width, Game.worldRect.Height);
         }
 
         public Rectangle view
@@ -56,10 +58,11 @@ namespace My_first_xna_game
             }
             else
             {
-                spriteBatch.Draw(Game.content.Load<Texture2D>("Textures\\Pictures\\grave"), new Rectangle(), null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(Game.Depth.front));
+                spriteBatch.Draw(Game.content.Load<Texture2D>("Textures\\Pictures\\grave"), new Rectangle(0, 0, screenRect.Width, screenRect.Height), Color.White);
             }
             
         }
+
 
         public Rectangle setCenter(Rectangle rect)
         {
