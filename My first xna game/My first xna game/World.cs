@@ -8,18 +8,32 @@ namespace My_first_xna_game
     class World : Scene
     {
 
-        public List<Camera> cameraList;
+        private List<Camera> cameraList;
+        private List<Map> mapsList = new List<Map>();
 
         public World(GraphicsDeviceManager graphicsDeviceManager, Camera camera)
             : base(graphicsDeviceManager)
         {
             cameraList.Add(camera);
+            IntializeMapsList();
         }
 
         public World(GraphicsDeviceManager graphicsDeviceManager, List<Camera> cameraList)
             : base(graphicsDeviceManager)
         {
             this.cameraList = cameraList;
+            IntializeMapsList();
+        }
+
+        private void IntializeMapsList()
+        {
+            foreach(Camera camera in cameraList)
+            {
+                if (!mapsList.Contains(camera.map))
+                {
+                    mapsList.Add(camera.map);
+                }
+            }
         }
 
         public override void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
@@ -28,7 +42,10 @@ namespace My_first_xna_game
             {
                 camera.Update();                
             }
-            cameraList[0].map.Update(newState, oldState, gameTime);
+            foreach (Map map in mapsList)
+            {
+                map.Update(newState, oldState, gameTime);
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)

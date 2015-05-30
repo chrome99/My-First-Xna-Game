@@ -9,11 +9,11 @@ namespace My_first_xna_game
         public static List<Player> playersList;
         public static List<Player> playersOnShop = new List<Player>();
 
-        public static void UpdatePlayersMapParameters(Map map, KeyboardState newState, KeyboardState oldState)
+        public static void UpdatePlayersMapParameters(KeyboardState newState, KeyboardState oldState)
         {
             foreach (Player player in playersList)
             {
-                player.UpdateMapParameters(map, newState, oldState);
+                player.UpdateMapParameters(newState, oldState);
             }
         }
 

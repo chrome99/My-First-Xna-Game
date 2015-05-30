@@ -45,7 +45,7 @@ namespace My_first_xna_game
 
             block = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(700f, 750f), Game.Depth.player, 2);
 
-            pickUpBread = CreatePickup(pickUpBread, ItemCollection.bread, new Vector2(500f, 500f));
+            pickUpBread = CreatePickup(pickUpBread, ItemCollection.bread, new Vector2(100f, 500f));
             runningSwitch = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\brick1"), new Vector2(200f, 250f), Game.Depth.below, 2);
             runningSwitch.passable = true;
             runningSwitch.collisionFunction = UpdateRunningSwitchCollision;

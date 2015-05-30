@@ -76,9 +76,9 @@ namespace My_first_xna_game
             alive = true;
         }
 
-        public void AddLight(int level, Color color)
+        public void AddLight(int level, Color color, int opacity = 100)
         {
-            lightSource = new LightSource(this, level, color);
+            lightSource = new LightSource(this, level, opacity, color);
         }
 
         public void Update(GameTime gameTime)

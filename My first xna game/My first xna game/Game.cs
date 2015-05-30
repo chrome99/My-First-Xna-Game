@@ -10,6 +10,7 @@ namespace My_first_xna_game
     {
         /*
          TODO:
+         * change maps
          * jumping
          * defend & attack (sword)
          * combos & skills
@@ -47,7 +48,6 @@ namespace My_first_xna_game
          * fix msgWindow intializing
          * remove depth
          * hud bug in low health
-         * what if one camera shows one map, and other camera shows other map?
          */
 
         // Graphics and controls

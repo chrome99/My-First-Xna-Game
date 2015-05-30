@@ -29,7 +29,7 @@ namespace My_first_xna_game
         private bool fireballkeyReleased = false;
         private bool menuKeyReleased = false;
 
-        private Map map;
+        private  Map map;//TODO: private
         private KeyboardState newState;
         private KeyboardState oldState;
 
@@ -52,7 +52,7 @@ namespace My_first_xna_game
             get { return msg.alive; }
         }
 
-        public Player(Map map, Texture2D texture, Vector2 position, PlayerKeys keys, Stats stats)
+        public Player(Texture2D texture, Vector2 position, PlayerKeys keys, Stats stats)
             : base(texture, position, MovementManager.Auto.off)
         {
             this.kbKeys = keys;
@@ -60,16 +60,20 @@ namespace My_first_xna_game
 
             pack = new Pack(this);
             debug = new DebugHUD(Game.content.Load<SpriteFont>("Fonts\\Debug1"), Color.Wheat, this, keys.opDebug);
-            menu = new Menu(map, this);
-            msg = new Message(map, this);
             hud = new HostileHUD(this);
 
             shop = new Shop();
         }
 
-        public void UpdateMapParameters(Map map, KeyboardState newState, KeyboardState oldState)
+        public void IntializeMapParamters(Map map)
         {
             this.map = map;
+            menu = new Menu(map, this);
+            msg = new Message(map, this);
+        }
+
+        public void UpdateMapParameters(KeyboardState newState, KeyboardState oldState)
+        {
             this.newState = newState;
             this.oldState = oldState;
         }
@@ -192,7 +196,6 @@ namespace My_first_xna_game
                     Armor armor = equipmentList[counter];
                     if (armor.armorType == Armor.ArmorType.oneHanded || armor.armorType == Armor.ArmorType.twoHanded)
                     {
-                        int asd = armor.Durability;
                         armor.Durability--;
                     }
                 }

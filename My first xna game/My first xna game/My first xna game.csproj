@@ -115,6 +115,7 @@
     <Compile Include="LightSource.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Message.cs" />
+    <Compile Include="ObjectCollection2.cs" />
     <Compile Include="PlayerManager.cs" />
     <Compile Include="ShopInventory.cs" />
     <Compile Include="Camera.cs" />

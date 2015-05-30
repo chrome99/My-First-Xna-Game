@@ -7,37 +7,39 @@ namespace My_first_xna_game
     {
         private static Texture2D texture = Game.content.Load<Texture2D>("Textures\\Sprites\\lightmask");
         private GameObject source;
-        private int defaultLevel;
-        private float level;
-        private float levelAnimationDifference;
+        private int defaultRaduis;
+        private float raduis;
+        private float raduisAnimationDifference;
         private bool subbedLevel = false;
         private Color color;
+        private int opacity;
         private Rectangle lightRect
         {
             get
             {
-                Rectangle result = new Rectangle((int)source.position.X + source.bounds.Width / 2 - (int)level / 2, (int)source.position.Y + source.bounds.Width / 2 - (int)level / 2, (int)level, (int)level);
+                Rectangle result = new Rectangle((int)source.position.X + source.bounds.Width / 2 - (int)raduis / 2, (int)source.position.Y + source.bounds.Width / 2 - (int)raduis / 2, (int)raduis, (int)raduis);
                 return result;
             }
         }
 
-        public LightSource(GameObject source, int level, Color color)
+        public LightSource(GameObject source, int raduis, int opacity, Color color)
         {
             this.source = source;
-            this.level = level;
+            this.raduis = raduis;
+            this.opacity = opacity;
             this.color = color;
 
-            defaultLevel = level;
-            levelAnimationDifference = level - defaultLevel * 0.9f;
+            defaultRaduis = raduis;
+            raduisAnimationDifference = raduis - defaultRaduis * 0.9f;
         }
 
         public void Update()
         {
             if (!subbedLevel)
             {
-                if (level > defaultLevel * 0.9f)
+                if (raduis > defaultRaduis * 0.9f)
                 {
-                    level -= levelAnimationDifference / 80;
+                    raduis -= raduisAnimationDifference / 80;
                 }
                 else
                 {
@@ -46,9 +48,9 @@ namespace My_first_xna_game
             }
             else
             {
-                if (level < defaultLevel)
+                if (raduis < defaultRaduis)
                 {
-                    level += levelAnimationDifference / 80;
+                    raduis += raduisAnimationDifference / 80;
                 }
                 else
                 {
@@ -64,7 +66,7 @@ namespace My_first_xna_game
                 Rectangle drawingRect = lightRect;
                 drawingRect.X -= offsetRect.X;
                 drawingRect.Y -= offsetRect.Y;
-                spriteBatch.Draw(texture, drawingRect, color);
+                spriteBatch.Draw(texture, drawingRect, color * (opacity / 100f));
             }
         }
     }
