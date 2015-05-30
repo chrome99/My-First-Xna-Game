@@ -22,6 +22,33 @@ namespace My_first_xna_game
             tileMap.AddCollisionObjects(this);
         }
 
+        public void RemoveObject(GameObject gameObject)
+        {
+            //hostile list
+            Hostile hostile = gameObject as Hostile;
+            if (hostile != null)
+            {
+                hostilesList.Remove(hostile);
+                foreach (GameObject gameObject2 in gameObjectList)
+                {
+                    Enemy enemy = gameObject2 as Enemy;
+                    if (enemy != null)
+                    {
+                        enemy.hostilesList = hostilesList;
+                    }
+                }
+            }
+
+            IntializeMapVariables(gameObject);
+
+            if (gameObject.getLightSource != null)
+            {
+                lightsList.Remove(gameObject.getLightSource);
+            }
+
+            gameObjectList.Remove(gameObject);
+        }
+
         public void AddObject(GameObject gameObject)
         {
             //hostile list

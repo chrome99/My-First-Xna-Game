@@ -113,6 +113,7 @@
     <Compile Include="Equipment.cs" />
     <Compile Include="HostileHUD.cs" />
     <Compile Include="LightSource.cs" />
+    <Compile Include="MapCollection.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="ObjectCollection2.cs" />

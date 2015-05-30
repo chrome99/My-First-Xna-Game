@@ -81,13 +81,19 @@ namespace My_first_xna_game
 
         private void UpdatePortalCollision(GameObject portal)
         {
-            foreach (GameObject gameObject in map.gameObjectList)
+            for (int i = 0; i < map.gameObjectList.Count; i++)
             {
+                GameObject gameObject = map.gameObjectList[i];
                 Window window = gameObject as Window;
                 Sprite sprite = gameObject as Sprite;
                 if (window == null && sprite != null)
                 {
-                    if (CollisionManager.GameObjectCollision(portal, gameObject)) { sprite.Reset(); }
+                    if (CollisionManager.GameObjectCollision(portal, sprite))
+                    {
+                        MapCollection.map.RemoveObject(sprite);
+                        MapCollection.map2.AddObject(sprite);
+                        sprite.Reset();
+                    }
                 }
 
             }
