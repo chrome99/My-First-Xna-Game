@@ -127,10 +127,10 @@ namespace My_first_xna_game
                         MapCollection.map.AddObject(PlayerCollection.player3);
                         MapCollection.map.AddObject(PlayerCollection.player4);
 
-                        Camera camera1 = new Camera(graphicsDeviceManager, new Rectangle(0, 0, 960, 540), MapCollection.map, PlayerCollection.player1, PlayerCollection.player1);
-                        Camera camera2 = new Camera(graphicsDeviceManager, new Rectangle(0, 540, 960, 540), MapCollection.map2, PlayerCollection.player2, PlayerCollection.player2);
-                        Camera camera3 = new Camera(graphicsDeviceManager, new Rectangle(960, 0, 960, 540), MapCollection.map, PlayerCollection.player3, PlayerCollection.player3);
-                        Camera camera4 = new Camera(graphicsDeviceManager, new Rectangle(960, 540, 960, 540), MapCollection.map, PlayerCollection.player4, PlayerCollection.player4);
+                        Camera camera1 = new Camera(graphicsDeviceManager, new Rectangle(0, 0, 960, 540), PlayerCollection.player1, PlayerCollection.player1);
+                        Camera camera2 = new Camera(graphicsDeviceManager, new Rectangle(0, 540, 960, 540), PlayerCollection.player2, PlayerCollection.player2);
+                        Camera camera3 = new Camera(graphicsDeviceManager, new Rectangle(960, 0, 960, 540), PlayerCollection.player3, PlayerCollection.player3);
+                        Camera camera4 = new Camera(graphicsDeviceManager, new Rectangle(960, 540, 960, 540), PlayerCollection.player4, PlayerCollection.player4);
 
                         //set scene to map
                         Game.scene = new World(graphicsDeviceManager, new List<Camera> { camera1, camera2, camera3, camera4 });

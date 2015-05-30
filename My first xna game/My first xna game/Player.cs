@@ -8,6 +8,11 @@ namespace My_first_xna_game
 {
     public class Player : Hostile
     {
+        public override Rectangle bounds
+        {
+            get { return new Rectangle((int)position.X, (int)position.Y - jumpingHeight, texture.Width / 4, texture.Height / 4); }
+        }
+
         public PlayerKeys kbKeys;
 
         public int gold;
@@ -26,10 +31,19 @@ namespace My_first_xna_game
         private bool playerRunning = false;
         private int releasedKeysCount;
 
-        private bool fireballkeyReleased = false;
+        private bool attackKeyReleased = false;
+
+        private bool jumpKeyReleased = false;
+        private bool jumping = false;
+        private int jumpingHeight;
+        private int maxJumpingHeight = 64;
+        private bool maxJumpingHeightReached = false;
+
+        private bool defendKeyReleased = false;
+
         private bool menuKeyReleased = false;
 
-        private  Map map;//TODO: private
+        public  Map map;
         private KeyboardState newState;
         private KeyboardState oldState;
 
@@ -42,6 +56,8 @@ namespace My_first_xna_game
             public Keys mvLeft;
             public Keys mvRight;
             public Keys attack;
+            public Keys jump;
+            public Keys defend;
             public Keys run;
             public Keys opMenu;
             public Keys opDebug;
@@ -136,6 +152,34 @@ namespace My_first_xna_game
         protected override void UpdatePlayer(GameTime gameTime)
         {
             //TODO: is this being updated the number of players?
+            if (jumping)
+            {
+                if (maxJumpingHeightReached)
+                {
+                    if (jumpingHeight <= 0)
+                    {
+                        passable = false;
+                        maxJumpingHeightReached = false;
+                        jumping = false;
+                    }
+                    else
+                    {
+                        jumpingHeight -= maxJumpingHeight / 10;
+                    }
+                }
+                else
+                {
+                    if (jumpingHeight >= maxJumpingHeight)
+                    {
+                        maxJumpingHeightReached = true;
+                    }
+                    else
+                    {
+                        jumpingHeight += maxJumpingHeight / 10;
+                    }
+                }
+            }
+
             shop.Update(newState, oldState, gameTime);
             menu.Update(newState, oldState, gameTime);
             debug.Update();
@@ -189,7 +233,7 @@ namespace My_first_xna_game
             }
 
             //if pressed attack
-            if (newState.IsKeyDown(kbKeys.attack) && fireballkeyReleased)
+            if (newState.IsKeyDown(kbKeys.attack) && attackKeyReleased)
             {
                 for (int counter = 0; counter < equipmentList.Count; counter++)
                 {
@@ -206,12 +250,44 @@ namespace My_first_xna_game
                 projectile.AddToGameObjectList(map);
                 projectile.passable = true;
 
-                fireballkeyReleased = false;
+                attackKeyReleased = false;
             }
             else if (!oldState.IsKeyDown(kbKeys.attack))
             {
-                fireballkeyReleased = true;
+                attackKeyReleased = true;
             }
+
+            //jump
+            //if (jumping) { return; }
+            if (newState.IsKeyDown(kbKeys.jump) && jumpKeyReleased)
+            {
+                if (!jumping)
+                {
+                    Game.content.Load<SoundEffect>("Audio\\Waves\\fart").Play();
+                    passable = true;
+                    jumping = true;
+                    jumpKeyReleased = false;
+                    return;
+                }
+
+            }
+            else if (!oldState.IsKeyDown(kbKeys.jump))
+            {
+                jumpKeyReleased = true;
+            }
+
+            //defend
+            if (newState.IsKeyDown(kbKeys.defend) && defendKeyReleased)
+            {
+                Game.content.Load<SoundEffect>("Audio\\Waves\\fart").Play();
+                defendKeyReleased = false;
+            }
+            else if (!oldState.IsKeyDown(kbKeys.defend))
+            {
+                defendKeyReleased = true;
+            }
+
+            //movement
 
             releasedKeysCount = 0;
 

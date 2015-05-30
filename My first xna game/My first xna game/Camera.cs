@@ -5,7 +5,6 @@ namespace My_first_xna_game
 {
     public class Camera
     {
-        public Map map;
         private GraphicsDeviceManager graphicsDeviceManager;
 
         public Rectangle mapRect;
@@ -22,12 +21,11 @@ namespace My_first_xna_game
 
         public enum Corner { topLeft, topRight, bottomLeft, bottomRight }
 
-        public Camera(GraphicsDeviceManager graphicsDeviceManager, Rectangle screenRect, Map map, GameObject cameraLightspot, Player player)
+        public Camera(GraphicsDeviceManager graphicsDeviceManager, Rectangle screenRect, GameObject cameraLightspot, Player player)
         {
             this.cameraLightspot = cameraLightspot;
             this.screenRect = screenRect;
             this.mapRect = screenRect;
-            this.map = map;
             this.player = player;
             this.graphicsDeviceManager = graphicsDeviceManager;
 
@@ -60,7 +58,7 @@ namespace My_first_xna_game
         {
             if (player.alive)
             {
-                map.Draw(spriteBatch, this);
+                player.map.Draw(spriteBatch, this);
                 player.DrawPlayerItems(spriteBatch, mapRect);
             }
         }
@@ -84,7 +82,7 @@ namespace My_first_xna_game
                 lightSize.X = (int)player.position.X + player.bounds.Width / 2 - lightSize.Width / 2 - mapRect.X;
                 lightSize.Y = (int)player.position.Y + player.bounds.Height / 2 - lightSize.Height / 2 - mapRect.Y;
 
-                map.DrawLights(spriteBatch, this);
+                player.map.DrawLights(spriteBatch, this);
                 spriteBatch.End();
 
                 //catch camera drawings
@@ -137,8 +135,8 @@ namespace My_first_xna_game
 
         public void Move(Vector2 destination)
         {
-            mapRect.X = (int)MathHelper.Clamp(destination.X, 0, (map.tileMap.width - screenRect.Width / Tile.size) * Tile.size);//?
-            mapRect.Y = (int)MathHelper.Clamp(destination.Y, 0, (map.tileMap.height - screenRect.Height / Tile.size) * Tile.size);
+            mapRect.X = (int)MathHelper.Clamp(destination.X, 0, (player.map.tileMap.width - screenRect.Width / Tile.size) * Tile.size);//?
+            mapRect.Y = (int)MathHelper.Clamp(destination.Y, 0, (player.map.tileMap.height - screenRect.Height / Tile.size) * Tile.size);
         }
     }
 }

@@ -29,9 +29,9 @@ namespace My_first_xna_game
         {
             foreach(Camera camera in cameraList)
             {
-                if (!mapsList.Contains(camera.map))
+                if (!mapsList.Contains(camera.player.map))
                 {
-                    mapsList.Add(camera.map);
+                    mapsList.Add(camera.player.map);
                 }
             }
         }

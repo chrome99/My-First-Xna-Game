@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace My_first_xna_game
@@ -13,7 +14,7 @@ namespace My_first_xna_game
         private SoundEffect hitSound;
 
         public Projectile(Texture2D texture, float speed, Player source, int pathDestination, SoundEffect launchSound, SoundEffect hitSound)
-            : base(texture, source.position, Game.Depth.projectiles, speed)
+            : base(texture, new Vector2(), Game.Depth.projectiles, speed)
         {
             this.source = source;
             this.pathDestination = pathDestination;
@@ -21,6 +22,9 @@ namespace My_first_xna_game
             this.hitSound = hitSound;
 
             direction = source.direction;
+            position.X = source.position.X + source.bounds.Width / 2 - bounds.Width / 2;
+            position.Y = source.position.Y + source.bounds.Height / 2 - bounds.Height / 2;
+            position = MovementManager.MoveVector(position, Tile.size, direction);
 
             if (launchSound != null)
             {

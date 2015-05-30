@@ -8,9 +8,8 @@ namespace My_first_xna_game
 {
     public class Game : Microsoft.Xna.Framework.Game
     {
-        /*
+        /*players can go through portals.
          TODO:
-         * change maps
          * jumping
          * defend & attack (sword)
          * combos & skills

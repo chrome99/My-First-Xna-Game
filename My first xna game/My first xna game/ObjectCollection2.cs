@@ -16,6 +16,8 @@ namespace My_first_xna_game
         {
             Player.PlayerKeys player1Keys;
             player1Keys.attack = Keys.Space;
+            player1Keys.jump = Keys.Q;
+            player1Keys.defend = Keys.E;
             player1Keys.mvLeft = Keys.A;
             player1Keys.mvRight = Keys.D;
             player1Keys.mvUp = Keys.W;
@@ -48,6 +50,8 @@ namespace My_first_xna_game
             //intialize player
             Player.PlayerKeys player2Keys;
             player2Keys.attack = Keys.RightControl;
+            player2Keys.jump = Keys.Delete;
+            player2Keys.defend = Keys.PageDown;
             player2Keys.mvLeft = Keys.Left;
             player2Keys.mvRight = Keys.Right;
             player2Keys.mvUp = Keys.Up;
@@ -73,6 +77,8 @@ namespace My_first_xna_game
             //intialize player
             Player.PlayerKeys player3Keys;
             player3Keys.attack = Keys.R;
+            player3Keys.jump = Keys.Delete;
+            player3Keys.defend = Keys.PageDown;
             player3Keys.mvLeft = Keys.F;
             player3Keys.mvRight = Keys.H;
             player3Keys.mvUp = Keys.T;
@@ -98,6 +104,8 @@ namespace My_first_xna_game
             //intialize player
             Player.PlayerKeys player4Keys;
             player4Keys.attack = Keys.U;
+            player4Keys.jump = Keys.Delete;
+            player4Keys.defend = Keys.PageDown;
             player4Keys.mvLeft = Keys.J;
             player4Keys.mvRight = Keys.L;
             player4Keys.mvUp = Keys.I;

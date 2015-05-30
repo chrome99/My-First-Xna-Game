@@ -39,11 +39,16 @@ namespace My_first_xna_game
                 }
             }
 
-            IntializeMapVariables(gameObject);
 
             if (gameObject.getLightSource != null)
             {
                 lightsList.Remove(gameObject.getLightSource);
+            }
+
+            Player player = gameObject as Player;
+            if (player != null)
+            {
+                
             }
 
             gameObjectList.Remove(gameObject);
