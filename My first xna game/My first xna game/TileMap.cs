@@ -14,11 +14,11 @@ namespace My_first_xna_game
         public int height;
         public Rectangle mapRect;
         private Texture2D tileset;
-        private float above = Game.DepthToFloat(Game.Depth.above);
-        private float below = Game.DepthToFloat(Game.Depth.background);
+        private List<MapCell> highCells = new List<MapCell>();
+        private List<MapCell> mapCellsList = new List<MapCell>();
 
 
-        public TileMap(string path)
+        public TileMap(string path, bool debugTileset = false)
         {
             TmxMap map = new TmxMap(path);
 
@@ -64,10 +64,6 @@ namespace My_first_xna_game
                         int currentCell = y * (height) + x;
                         TmxLayerTile tmxCell = map.Layers[i].Tiles[currentCell];
 
-                        //depth
-                        float newDepth = layers.Count - layers.IndexOf(layer);
-                        cell.depth += newDepth / 1000;
-
                         //texture
                         if (tmxCell.Gid == 0)
                         {
@@ -75,12 +71,10 @@ namespace My_first_xna_game
                         }
                         cell.texture = tmxCell.Gid;
 
-                        //collision
-                        /*
                         TmxTilesetTile result = null;
                         for (int counter = 0; counter < map.Tilesets[0].Tiles.Count; counter++)
                         {
-                            if (map.Tilesets[0].Tiles[counter].Id == tmxCell.Gid)
+                            if (counter == tmxCell.Gid - 1)
                             {
                                 result = map.Tilesets[0].Tiles[counter];
                                 break;
@@ -88,42 +82,44 @@ namespace My_first_xna_game
                         }
                         if (result != null)
                         {
-                            if (result.Properties["unPassable"].Length != 0)
+                            //collision
+                            if (result.Properties["Passable"] == "X")
                             {
                                 cell.passable = false;
 
-                                GameObject collisionObject = new GameObject(new Vector2(tmxCell.X, tmxCell.Y));
-                                collisionObject.passable = false;
+                                GameObject collisionObject = new GameObject(new Vector2(tmxCell.X * Tile.size, tmxCell.Y * Tile.size));
 
-                                collisionObjectList = new List<GameObject>();
+                                if (debugTileset)
+                                {
+                                    collisionObject.AddLight(70, Color.White);
+                                }
+
                                 collisionObjectList.Add(collisionObject);
                             }
-                        }*/
+
+                            //height
+                            if (result.Properties["Height"] == "1")
+                            {
+                                cell.high = true;
+                                highCells.Add(cell);
+                            }
+                            else
+                            {
+                                mapCellsList.Add(cell);
+                            }
+                        }
                     }
                 }
             }
         }
 
-        public void AddCollisionObjects(List<GameObject> gameObjectList)
+        public void AddCollisionObjects(Map map)
         {
-            /*foreach (TmxTilesetTile tile in map.Tilesets[0].Tiles)
-            {
-                if (tile.Properties["unPassable"].Length != 0)
-                {
-                    cell.passable = false;
-
-                    GameObject collisionObject = new GameObject(new Vector2(tmxCell.X, tmxCell.Y));
-                    collisionObject.passable = false;
-
-                    collisionObjectList = new List<GameObject>();
-                    collisionObjectList.Add(collisionObject);
-                }
-            }
+            //todo: srsly? why not map do this?
             foreach (GameObject collisionObject in collisionObjectList)
             {
-                gameObjectList.Add(collisionObject);
+                map.AddObject(collisionObject);
             }
-            //collisionObjectList = null;*/
         }
 
         public Vector2 Center
@@ -134,9 +130,8 @@ namespace My_first_xna_game
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, Rectangle screenRect, Rectangle mapRect)
+        public void Draw(SpriteBatch spriteBatch, Rectangle screenRect, Rectangle mapRect, bool low)
         {
-
             Vector2 firstSquare = new Vector2(mapRect.X / Tile.size, mapRect.Y / Tile.size);
             int firstX = (int)firstSquare.X;
             int firstY = (int)firstSquare.Y;
@@ -152,9 +147,17 @@ namespace My_first_xna_game
                     {
                         int positionX = x * Tile.size - offsetX;
                         int positionY = y * Tile.size - offsetY;
-                        //foreach (Layer tileID in Rows[(int)MathHelper.Clamp(y + firstY, 0, height)].Columns[(int)MathHelper.Clamp(x + firstX, 0, width)].layers)
                         MapCell tileID = layer.Rows[(int)MathHelper.Clamp(y + firstY - 0, 0, height - 1)].Columns[(int)MathHelper.Clamp(x + firstX - 0, 0, width - 1)];
-                        if (!tileID.empty)
+                        bool heightCheck;
+                        if (low)
+                        {
+                            heightCheck = !tileID.high;
+                        }
+                        else
+                        {
+                            heightCheck = tileID.high;
+                        }
+                        if (!tileID.empty && heightCheck)
                         {
                             int tileIDX;
                             int tileIDY = tileID.texture / 8;
@@ -178,16 +181,44 @@ namespace My_first_xna_game
                                 tileset,
                                 new Rectangle(
                                     positionX, positionY, Tile.size, Tile.size),
-                                Tile.getTileRectangle(tileIDX, tileIDY),
-                                Color.White * tileID.getOpacity
-                                , 0f
-                                , Vector2.Zero
-                                , SpriteEffects.None
-                                , tileID.depth);
+                                Tile.getTileRectangle(new Vector2(tileIDX, tileIDY)),
+                                Color.White * tileID.getOpacity);
                         }
                     }
                 }
             }
         }
+
+        /*public void DrawLow(SpriteBatch spriteBatch, Rectangle screenRect, Rectangle mapRect)
+        {
+            //UpdateDrawingVariables(screenRect, mapRect);
+            foreach (MapCell cell in mapCellsList)
+            {
+                spriteBatch.Draw(
+                    tileset,
+                    new Rectangle(
+                        cell.positionX, cell.positionY, Tile.size, Tile.size),
+                    Tile.getTileRectangle(cell.tileIdPosition),
+                    Color.White * cell.getOpacity);
+            }
+        }
+
+        public void DrawHigh(SpriteBatch spriteBatch, Rectangle screenRect, Rectangle mapRect)
+        {
+            //UpdateDrawingVariables(screenRect, mapRect);
+            foreach (MapCell cell in highCells)
+            {
+                if (!cell.empty)
+                {
+                    spriteBatch.Draw(
+                        tileset,
+                        new Rectangle(
+                            cell.positionX, cell.positionY, Tile.size, Tile.size),
+                        Tile.getTileRectangle(cell.tileIdPosition),
+                        Color.White * cell.getOpacity);
+                }
+            }
+        }*/
+
     }
 }

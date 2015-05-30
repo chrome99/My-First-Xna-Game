@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace My_first_xna_game
 {
@@ -6,7 +7,7 @@ namespace My_first_xna_game
     {
         public bool empty = false;
         public int texture = 0;
-        public float depth = Game.DepthToFloat(Game.Depth.background);
+        public bool high = false;
         public List<string> tag = new List<string>();
         public bool passable = true;
         public float opacity = 100f;

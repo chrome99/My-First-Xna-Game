@@ -84,9 +84,10 @@ namespace My_first_xna_game
             foreach (GameObject gameObject in map.gameObjectList)
             {
                 Window window = gameObject as Window;
-                if (window == null)
+                Sprite sprite = gameObject as Sprite;
+                if (window == null && sprite != null)
                 {
-                    if (CollisionManager.GameObjectCollision(portal, gameObject)) { gameObject.Reset(); }
+                    if (CollisionManager.GameObjectCollision(portal, gameObject)) { sprite.Reset(); }
                 }
 
             }

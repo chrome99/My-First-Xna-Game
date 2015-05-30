@@ -21,7 +21,7 @@ namespace My_first_xna_game
             this.tileMap = tileMap;
 
             //add collision objects in tileMap
-            tileMap.AddCollisionObjects(gameObjectList);
+            tileMap.AddCollisionObjects(this);
 
             Player.PlayerKeys player1Keys;
             player1Keys.attack = Keys.Space;
@@ -200,6 +200,12 @@ namespace My_first_xna_game
                 gameObjectList[counter].Update(gameTime);
             }
 
+            //update lights
+            for (int counter = 0; counter < lightsList.Count; counter++)
+            {
+                lightsList[counter].Update();
+            }
+
             //update Player Manager (he updates players details on the map)
             PlayerManager.UpdatePlayersMapParameters(this, newState, oldState);
 
@@ -279,8 +285,8 @@ namespace My_first_xna_game
 
         public void Draw(SpriteBatch spriteBatch, Camera camera)
         {
-            //draw tilemap
-            tileMap.Draw(spriteBatch, camera.screenRect, camera.mapRect);
+            //draw tilemap (low)
+            tileMap.Draw(spriteBatch, camera.screenRect, camera.mapRect, true);
 
             //draw gameobjects
             foreach (GameObject gameObject in gameObjectList)
@@ -315,8 +321,10 @@ namespace My_first_xna_game
                         sprite.Draw(spriteBatch, camera.mapRect);
                     }
                 }
-
             }
+
+            //draw tilemap (high)
+            tileMap.Draw(spriteBatch, camera.screenRect, camera.mapRect, false);
         }
 
         public void DrawLights(SpriteBatch spriteBatch, Camera camera)

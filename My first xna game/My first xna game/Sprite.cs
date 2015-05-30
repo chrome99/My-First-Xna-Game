@@ -88,6 +88,11 @@ namespace My_first_xna_game
 
         protected virtual void UpdateSpritesheet(GameTime gameTime) { }
 
+        public void Reset()
+        {
+            movementManager.MoveTo(this, new Vector2(10 * 32, 30 * 32));
+        }
+
         public override void Kill()
         {
             canCollide = false;

@@ -123,7 +123,7 @@ namespace My_first_xna_game
                 {
                     case 0:
                         //build map
-                        TileMap tileMap = new TileMap("Maps\\classic.tmx");
+                        TileMap tileMap = new TileMap("Maps\\classic.tmx", false);
                         map = new Map(tileMap);
                         map.AddObjectCollection(new ObjectCollection1(map));
                         Camera camera1 = new Camera(graphicsDeviceManager, new Rectangle(0, 0, 960, 540), map, map.player1, map.player1);

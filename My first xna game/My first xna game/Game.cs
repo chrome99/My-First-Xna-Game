@@ -11,8 +11,8 @@ namespace My_first_xna_game
         /*
          TODO:
          * jumping
+         * defend & attack (sword)
          * combos & skills
-         * maps passability and height
          * animations and autotiles
          * round raduis for enemies
          * better AI for enemies
