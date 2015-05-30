@@ -54,11 +54,27 @@ namespace My_first_xna_game
             Move(cameraLightspot.position - cellNumber(cameraLightspot));
         }
 
-        private void draw(SpriteBatch spriteBatch)
+        private void DrawLow(SpriteBatch spriteBatch)
         {
             if (player.alive)
             {
-                player.map.Draw(spriteBatch, this);
+                player.map.Draw(spriteBatch, this, true);
+            }
+        }
+
+        public void DrawHigh(SpriteBatch spriteBatch)
+        {
+            if (player.alive)
+            {
+                player.map.Draw(spriteBatch, this, false);
+                player.DrawPlayerItems(spriteBatch, mapRect);
+            }
+        }
+
+        public void DrawWindows(SpriteBatch spriteBatch)
+        {
+            if (player.alive)
+            {
                 player.DrawPlayerItems(spriteBatch, mapRect);
             }
         }
@@ -76,12 +92,6 @@ namespace My_first_xna_game
                 graphicsDeviceManager.GraphicsDevice.SetRenderTarget(lightsTarget);
 
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-                Rectangle lightSize;
-                lightSize.Width = 500;
-                lightSize.Height = 500;
-                lightSize.X = (int)player.position.X + player.bounds.Width / 2 - lightSize.Width / 2 - mapRect.X;
-                lightSize.Y = (int)player.position.Y + player.bounds.Height / 2 - lightSize.Height / 2 - mapRect.Y;
-
                 player.map.DrawLights(spriteBatch, this);
                 spriteBatch.End();
 
@@ -89,7 +99,8 @@ namespace My_first_xna_game
                 graphicsDeviceManager.GraphicsDevice.SetRenderTarget(renderTarget);
 
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                draw(spriteBatch);
+                DrawLow(spriteBatch);
+                DrawHigh(spriteBatch);
                 spriteBatch.End();
             }
             else

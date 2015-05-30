@@ -253,7 +253,7 @@ namespace My_first_xna_game
             return newRect;
         }
 
-        private bool CollisionCheck(GameObject gameObject, Rectangle gameObjectBounds)
+        public bool CollisionCheck(GameObject gameObject, Rectangle gameObjectBounds)
         {
             foreach (GameObject currentGameObject in map.gameObjectList)
             {

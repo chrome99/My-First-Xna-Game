@@ -200,48 +200,53 @@ namespace My_first_xna_game
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, Camera camera)
+        public void Draw(SpriteBatch spriteBatch, Camera camera, bool low)
         {
-            //draw tilemap (low)
-            tileMap.Draw(spriteBatch, camera.screenRect, camera.mapRect, true);
-
-            //draw gameobjects
-            foreach (GameObject gameObject in gameObjectList)
+            if (low)
             {
-                if (camera.InCamera(gameObject))
-                {
-                    Sprite sprite = gameObject as Sprite;
-                    if (sprite == null)
-                    {
-                        Window window = gameObject as Window;
-                        if (window != null)
-                        {
-                            if (window.offsetRect)
-                            {
-                                window.Draw(spriteBatch, camera.mapRect);
-                            }
-                            else
-                            {
-                                window.Draw(spriteBatch, new Rectangle());
-                            }
-                            
-                        }
+                //draw tilemap (low)
+                tileMap.Draw(spriteBatch, camera.screenRect, camera.mapRect, true);
 
-                        Spritesheet spritesheet = gameObject as Spritesheet;
-                        if (spritesheet != null)
-                        {
-                            spritesheet.Draw(spriteBatch, camera.mapRect);
-                        }
-                    }
-                    else
+                //draw gameobjects
+                foreach (GameObject gameObject in gameObjectList)
+                {
+                    if (camera.InCamera(gameObject))
                     {
-                        sprite.Draw(spriteBatch, camera.mapRect);
+                        Sprite sprite = gameObject as Sprite;
+                        if (sprite == null)
+                        {
+                            Window window = gameObject as Window;
+                            if (window != null)
+                            {
+                                if (window.offsetRect)
+                                {
+                                    window.Draw(spriteBatch, camera.mapRect);
+                                }
+                                else
+                                {
+                                    window.Draw(spriteBatch, new Rectangle());
+                                }
+
+                            }
+
+                            Spritesheet spritesheet = gameObject as Spritesheet;
+                            if (spritesheet != null)
+                            {
+                                spritesheet.Draw(spriteBatch, camera.mapRect);
+                            }
+                        }
+                        else
+                        {
+                            sprite.Draw(spriteBatch, camera.mapRect);
+                        }
                     }
                 }
             }
-
-            //draw tilemap (high)
-            tileMap.Draw(spriteBatch, camera.screenRect, camera.mapRect, false);
+            else
+            {
+                //draw tilemap (high)
+                tileMap.Draw(spriteBatch, camera.screenRect, camera.mapRect, false);
+            }
         }
 
         public void DrawLights(SpriteBatch spriteBatch, Camera camera)

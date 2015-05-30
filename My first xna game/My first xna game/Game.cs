@@ -8,9 +8,8 @@ namespace My_first_xna_game
 {
     public class Game : Microsoft.Xna.Framework.Game
     {
-        /*players can go through portals.
+        /*
          TODO:
-         * jumping
          * defend & attack (sword)
          * combos & skills
          * animations and autotiles
@@ -44,6 +43,7 @@ namespace My_first_xna_game
          * redstone
          
          BUGS:
+         * stuck keyboard in singleplayer and multiplayer
          * fix msgWindow intializing
          * remove depth
          * hud bug in low health
