@@ -7,8 +7,12 @@ namespace My_first_xna_game
         public float max = 1f;
         public float counter = 0f;
         public bool result = false;
-        public bool timerSwitch = false;
-        private float i;
+        private bool timerSwitch = false;
+
+        public bool Counting
+        {
+            get { return timerSwitch && counter < max; }
+        }
 
         public Timer(float max, bool timerSwitch = true)
         {
@@ -18,12 +22,22 @@ namespace My_first_xna_game
             Game.timersList.Add(this);
         }
 
+        public void Active()
+        {
+            timerSwitch = true;
+        }
+
+        public void Reset(bool startCounting = true)
+        {
+            counter = 0f;
+            timerSwitch = startCounting;
+        }
+
         public void Update(GameTime gameTime)
         {
             if (timerSwitch && counter < max)
             {
                 counter += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-                i = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             }
             if (counter >= max)
             {

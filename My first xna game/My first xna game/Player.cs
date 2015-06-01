@@ -43,6 +43,10 @@ namespace My_first_xna_game
         private bool maxJumpingHeightReached = false;
 
         private bool defendKeyReleased = false;
+        public Timer defendingTimer;
+        private int defendingTime = 200;
+        public Timer defendingCooldownTimer;
+        private int defendingCoolddownTime = 500;
 
         private bool menuKeyReleased = false;
 
@@ -80,8 +84,10 @@ namespace My_first_xna_game
             pack = new Pack(this);
             debug = new DebugHUD(Game.content.Load<SpriteFont>("Fonts\\Debug1"), Color.Wheat, this, keys.opDebug);
             hud = new HostileHUD(this);
-
             shop = new Shop();
+
+            defendingTimer = new Timer(defendingTime, false);
+            defendingCooldownTimer = new Timer(defendingCoolddownTime, true);
         }
 
         public void IntializeMapParamters(Map map)
@@ -157,70 +163,10 @@ namespace My_first_xna_game
             //TODO: is this being updated the number of players?
             if (jumping)
             {
-                if (maxJumpingHeightReached)
-                {
-                    if (jumpingCounter == 0)
-                    {
-                        canCollide = true;
-                        passable = false;
-                        maxJumpingHeightReached = false;
-                        jumping = false;
-                    }
-                    else
-                    {
-                        position.Y += Tile.size / 8;
-                        switch (direction)
-                        {
-                            case MovementManager.Direction.up:
-                                position.Y -= maxJumpingHeight / 16;
-                                break;
-
-                            case MovementManager.Direction.down:
-                                position.Y += maxJumpingHeight / 16;
-                                break;
-
-                            case MovementManager.Direction.right:
-                                position.X += maxJumpingWidth / 16;
-                                break;
-
-                            case MovementManager.Direction.left:
-                                position.X -= maxJumpingWidth / 16;
-                                break;
-                        }
-                        jumpingCounter--;
-                    }
-                }
-                else
-                {
-                    if (jumpingCounter == 8)
-                    {
-                        maxJumpingHeightReached = true;
-                    }
-                    else
-                    {
-                        position.Y -= Tile.size / 8;
-                        switch (direction)
-                        {
-                            case MovementManager.Direction.up:
-                                position.Y -= maxJumpingHeight / 16;
-                                break;
-
-                            case MovementManager.Direction.down:
-                                position.Y += maxJumpingHeight / 16;
-                                break;
-
-                            case MovementManager.Direction.right:
-                                position.X += maxJumpingWidth / 16;
-                                break;
-
-                            case MovementManager.Direction.left:
-                                position.X -= maxJumpingWidth / 16;
-                                break;
-                        }
-                        jumpingCounter++;
-                    }
-                }
+                UpdateJump();
             }
+            UpdateDefend();
+
 
             shop.Update(newState, oldState, gameTime);
             menu.Update(newState, oldState, gameTime);
@@ -229,6 +175,83 @@ namespace My_first_xna_game
             msg.Update(gameTime, newState, oldState);
 
             UpdateInput();
+        }
+
+        private void UpdateJump()
+        {
+            if (maxJumpingHeightReached)
+            {
+                if (jumpingCounter == 0)
+                {
+                    canCollide = true;
+                    passable = false;
+                    maxJumpingHeightReached = false;
+                    jumping = false;
+                }
+                else
+                {
+                    position.Y += Tile.size / 8;
+                    switch (direction)
+                    {
+                        case MovementManager.Direction.up:
+                            position.Y -= maxJumpingHeight / 16;
+                            break;
+
+                        case MovementManager.Direction.down:
+                            position.Y += maxJumpingHeight / 16;
+                            break;
+
+                        case MovementManager.Direction.right:
+                            position.X += maxJumpingWidth / 16;
+                            break;
+
+                        case MovementManager.Direction.left:
+                            position.X -= maxJumpingWidth / 16;
+                            break;
+                    }
+                    jumpingCounter--;
+                }
+            }
+            else
+            {
+                if (jumpingCounter == 8)
+                {
+                    maxJumpingHeightReached = true;
+                }
+                else
+                {
+                    position.Y -= Tile.size / 8;
+                    switch (direction)
+                    {
+                        case MovementManager.Direction.up:
+                            position.Y -= maxJumpingHeight / 16;
+                            break;
+
+                        case MovementManager.Direction.down:
+                            position.Y += maxJumpingHeight / 16;
+                            break;
+
+                        case MovementManager.Direction.right:
+                            position.X += maxJumpingWidth / 16;
+                            break;
+
+                        case MovementManager.Direction.left:
+                            position.X -= maxJumpingWidth / 16;
+                            break;
+                    }
+                    jumpingCounter++;
+                }
+            }
+        }
+
+        private void UpdateDefend()
+        {
+            if (defendingTimer.result)
+            {
+                //active cooldown
+                defendingCooldownTimer.Reset();
+                defendingTimer.Reset(false);
+            }
         }
 
         protected void UpdateInput()
@@ -299,8 +322,9 @@ namespace My_first_xna_game
                 attackKeyReleased = true;
             }
 
+            if (jumping || (defendingTimer.Counting)) { return; } //srsly
+
             //jump
-            if (jumping) { return; }
             if (newState.IsKeyDown(kbKeys.jump) && jumpKeyReleased)
             {
                 if (!jumping)
@@ -339,8 +363,13 @@ namespace My_first_xna_game
             //defend
             if (newState.IsKeyDown(kbKeys.defend) && defendKeyReleased)
             {
-                Game.content.Load<SoundEffect>("Audio\\Waves\\fart").Play();
-                defendKeyReleased = false;
+                if (defendingCooldownTimer.result)
+                {
+                    Game.content.Load<SoundEffect>("Audio\\Waves\\fart").Play();
+                    defendingTimer.Active();
+                    defendingTimer.Reset();
+                    defendKeyReleased = false;
+                }
             }
             else if (!oldState.IsKeyDown(kbKeys.defend))
             {

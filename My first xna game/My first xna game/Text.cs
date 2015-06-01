@@ -40,7 +40,7 @@ namespace My_first_xna_game
             {
                 if (ChangeColor(newColor))
                 {
-                    changeColorTimer.timerSwitch = true;
+                    changeColorTimer.Active();
                     changeColor = false;
                 }
 

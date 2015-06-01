@@ -10,7 +10,7 @@ namespace My_first_xna_game
     {
         /*
          TODO:
-         * defend & attack (sword)
+         * attack (sword)
          * combos & skills
          * animations and autotiles
          * round raduis for enemies
