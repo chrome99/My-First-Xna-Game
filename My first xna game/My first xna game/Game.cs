@@ -10,7 +10,7 @@ namespace My_first_xna_game
     {
         /*
          TODO:
-         * attack (sword)
+         * defend & attack (sword)
          * combos & skills
          * animations and autotiles
          * round raduis for enemies
@@ -43,7 +43,6 @@ namespace My_first_xna_game
          * redstone
          
          BUGS:
-         * stuck keyboard in singleplayer and multiplayer
          * fix msgWindow intializing
          * remove depth
          * hud bug in low health
