@@ -72,7 +72,23 @@ namespace My_first_xna_game
             {
                 //set new health
                 int oldHealth = stats.health;
-                int newHealth = stats.health - source.stats.strength + stats.defence;
+                int newHealth;
+                Player player = this as Player;
+                if (player != null)
+                {
+                    if (player.defendingTimer.Counting)
+                    {
+                        newHealth = oldHealth;
+                    }
+                    else
+                    {
+                        newHealth = stats.health - source.stats.strength + stats.defence;
+                    }
+                }
+                else
+                {
+                    newHealth = stats.health - source.stats.strength + stats.defence;
+                }
                 if (newHealth > -1)
                 {
                     stats.health = newHealth;
@@ -96,15 +112,13 @@ namespace My_first_xna_game
                 }
 
                 //update player hud and menu
-                Player player = this as Player;
                 if (player != null)
                 {
                     player.HandleHit(oldHealth - newHealth);
                 }
 
                 //timer
-                cooldownTimer.timerSwitch = true;
-                cooldownTimer.counter = 0f;
+                cooldownTimer.Reset();
             }
         }
 
