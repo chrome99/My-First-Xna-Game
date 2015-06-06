@@ -55,7 +55,7 @@ namespace My_first_xna_game
         SpriteBatch spriteBatch;
         KeyboardState oldState;
 
-        public enum Depth { GUIFront, front, windowsSelector, windowsDataFront, windowsData, windows, above, jumping, player, projectiles, below, background}
+        public enum Depth { GUIFront, front, windowsSelector, windowsDataFront, windowsData, windows, above, jumping, player, projectiles, below, background }
 
         public static float DepthToFloat(Depth type)
         {
@@ -82,7 +82,7 @@ namespace My_first_xna_game
             graphics.PreferredBackBufferHeight = 1080;
             graphics.PreferredBackBufferWidth = 1920;
             Content.RootDirectory = "Content";
-       } 
+        }
 
         protected override void Initialize()
         {
@@ -121,7 +121,7 @@ namespace My_first_xna_game
             KeyboardState newState = Keyboard.GetState();
 
             // Update
-            foreach(Timer timer in timersList)
+            foreach (Timer timer in timersList)
             {
                 timer.Update(gameTime);
             }
@@ -129,7 +129,7 @@ namespace My_first_xna_game
             {
                 scene.Update(newState, oldState, gameTime);
             }
-            
+
 
             // Update oldState
             oldState = newState;
