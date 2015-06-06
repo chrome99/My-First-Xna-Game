@@ -76,11 +76,14 @@ namespace My_first_xna_game
                 Player player = this as Player;
                 if (player != null)
                 {
-                    /*if (player.defendingTimer.Counting) //SRSLY
+                    if (player.defendingTimer.Counting)
                     {
                         newHealth = oldHealth;
-                    }*/
-                    newHealth = stats.health - source.stats.strength + stats.defence;
+                    }
+                    else
+                    {
+                        newHealth = stats.health - source.stats.strength + stats.defence;
+                    }
                 }
                 else
                 {
