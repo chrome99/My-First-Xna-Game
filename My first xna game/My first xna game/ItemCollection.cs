@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace My_first_xna_game
 {
     class ItemCollection
     {
         public static Item apple = new Item(169, useApple, 5, 0.2f, true);
+        public static Item mine = new Item(113, useMine, 5, 0.2f, true);
         public static Item bread = new Item(170, useBread, 12, 0.2f, true);
         public static Item healthPotion = new Item(64, useHealthPotion, 12, 0.5f, true);
         public static Item manaPotion = new Item(65, useManaPotion, 12, 0.5f, true);
@@ -51,6 +53,11 @@ namespace My_first_xna_game
             {
                 return new Item(item.iconID, item.function, item.price, item.weight, item.wasted);
             }
+        }
+
+        public static void useMine(Hostile source, GameObject target)
+        {
+            Sprite mine = new Sprite(Game.content.Load<Texture2D>("IconSet1"), target.position, Game.Depth.above, 2f, ItemCollection.mine.getRect());
         }
 
         public static void useApple(Hostile source, GameObject target)

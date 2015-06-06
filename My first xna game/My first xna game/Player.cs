@@ -50,7 +50,7 @@ namespace My_first_xna_game
 
         private bool menuKeyReleased = false;
 
-        public  Map map;
+        public Map map;
         private KeyboardState newState;
         private KeyboardState oldState;
 
@@ -384,7 +384,7 @@ namespace My_first_xna_game
             if (newState.IsKeyDown(kbKeys.mvLeft))
             {
                 playerMoving = movementManager.MoveActor(this, MovementManager.Direction.left, (int)speed);
-                
+
             }
             else
             {

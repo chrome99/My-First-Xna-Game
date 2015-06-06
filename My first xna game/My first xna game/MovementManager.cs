@@ -257,7 +257,7 @@ namespace My_first_xna_game
         {
             foreach (GameObject currentGameObject in map.gameObjectList)
             {
-                if (CollisionManager.GameObjectCollision(gameObject, currentGameObject, gameObjectBounds, new Rectangle((int)currentGameObject.position.X, (int)currentGameObject.position.Y, currentGameObject.core.Width, currentGameObject.core.Height)))
+                if (CollisionManager.GameObjectCollision(gameObject, currentGameObject, gameObjectBounds, currentGameObject.core))//new Rectangle((int)currentGameObject.position.X, (int)currentGameObject.position.Y, currentGameObject.core.Width, currentGameObject.core.Height)))
                 {
                     if (!gameObject.passable && !currentGameObject.passable)
                     {

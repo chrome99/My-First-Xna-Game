@@ -57,7 +57,7 @@ namespace My_first_xna_game
             //set above
             newPosition.Y = newPosition.Y - positionBounds.Height / 2 - bounds.Height / 2 - 5; //TODO: why -5?
 
-            
+
             position = newPosition;
             FixOutsideCollision();
         }
@@ -138,11 +138,11 @@ namespace My_first_xna_game
                     {
                         item.Draw(spriteBatch, offsetRect);
                     }
-                    
+
                 }
             }
         }
-        
+
         private void FixOutsideCollision()
         {
             if (mapRect == new Rectangle()) { return; }
