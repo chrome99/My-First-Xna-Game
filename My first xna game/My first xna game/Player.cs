@@ -302,18 +302,12 @@ namespace My_first_xna_game
             {
                 for (int counter = 0; counter < equipmentList.Count; counter++)
                 {
-                    Armor armor = equipmentList[counter];
-                    if (armor.armorType == Armor.ArmorType.oneHanded || armor.armorType == Armor.ArmorType.twoHanded)
+                    Bow weapon = equipmentList[counter] as Bow;
+                    if (weapon != null)
                     {
-                        armor.Durability--;
+                        weapon.Attack(map, this);
                     }
                 }
-                Projectile projectile = new Projectile(Game.content.Load<Texture2D>("Textures\\Spritesheets\\wolf"),
-                    6, this, 60, Game.content.Load<SoundEffect>("Audio\\Waves\\fireball launch"),
-                    Game.content.Load<SoundEffect>("Audio\\Waves\\fireball hit"));
-                projectile.AddLight(150, Color.Red);
-                projectile.AddToGameObjectList(map);
-                projectile.passable = true;
 
                 attackKeyReleased = false;
             }

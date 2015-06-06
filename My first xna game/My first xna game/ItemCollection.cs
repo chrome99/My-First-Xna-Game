@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace My_first_xna_game
 {
@@ -33,8 +34,18 @@ namespace My_first_xna_game
         public static Armor ironBoots = new Armor(49, 30, 4, 40, Armor.ArmorType.shoes, new Hostile.Stats { defence = 3, agility = 1 });
         public static Armor goldBoots = new Armor(323, 50, 5, 60, Armor.ArmorType.shoes, new Hostile.Stats { defence = 7, agility = -3 });
 
-        // oneHanded
-        public static Armor ironSword = new Armor(2, 20, 1, 10, Armor.ArmorType.oneHanded, new Hostile.Stats { strength = 3 });
+        // one handed
+        public static Armor ironSword = new Armor(2, 20, 1.5f, 10, Armor.ArmorType.oneHanded, new Hostile.Stats { strength = 3 });
+
+        // two handed
+        public static Bow woodenStaff = new Bow(20, 25, 1, 25, Armor.ArmorType.twoHanded,
+            new Bow.ProjectileData {
+                texture = Game.content.Load<Texture2D>("Textures\\Spritesheets\\wolf"),
+                hitSound = Game.content.Load<SoundEffect>("Audio\\Waves\\fireball launch"),
+                launchSound = Game.content.Load<SoundEffect>("Audio\\Waves\\fireball hit"),
+                lit = true, lightLevel = 150, lightColor = Color.Red, lightOpacity = 100,
+                pathDestination = 60, speed = 6
+            }, new Hostile.Stats { strength = 3 });
 
         public static List<Item> list = new List<Item> { apple, healthPotion, manaPotion, strPotion };
 

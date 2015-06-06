@@ -151,6 +151,7 @@
     <Compile Include="TileMap.cs" />
     <Compile Include="Timer.cs" />
     <Compile Include="Title.cs" />
+    <Compile Include="Weapon.cs" />
     <Compile Include="Window.cs" />
     <Compile Include="WindowItem.cs" />
     <Compile Include="Picture.cs" />

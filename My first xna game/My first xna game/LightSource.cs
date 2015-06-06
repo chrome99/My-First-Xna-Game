@@ -33,6 +33,11 @@ namespace My_first_xna_game
             raduisAnimationDifference = raduis - defaultRaduis * 0.9f;
         }
 
+        public void SetSource(GameObject source)
+        {
+            this.source = source;
+        }
+
         public void Update()
         {
             if (!subbedLevel)
