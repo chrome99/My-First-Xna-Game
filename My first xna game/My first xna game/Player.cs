@@ -322,7 +322,7 @@ namespace My_first_xna_game
                 attackKeyReleased = true;
             }
 
-            if (jumping || (defendingTimer.Counting)) { return; } //srsly
+            if (jumping || (defendingTimer.Counting)) { return; }
 
             //jump
             if (newState.IsKeyDown(kbKeys.jump) && jumpKeyReleased)

@@ -7,7 +7,7 @@ namespace My_first_xna_game
     class ItemCollection
     {
         public static Item apple = new Item(169, useApple, 5, 0.2f, true);
-        public static Item mine = new Item(113, useMine, 5, 0.2f, true);
+        public static SpawnableItem mine = new SpawnableItem(map, 113, useMine, 5, 0.2f, true);
         public static Item bread = new Item(170, useBread, 12, 0.2f, true);
         public static Item healthPotion = new Item(64, useHealthPotion, 12, 0.5f, true);
         public static Item manaPotion = new Item(65, useManaPotion, 12, 0.5f, true);
@@ -55,12 +55,13 @@ namespace My_first_xna_game
             }
         }
 
-        public static void useMine(Hostile source, GameObject target)
+        public static void useMine(Hostile source, GameObject target, Item item)
         {
-            Sprite mine = new Sprite(Game.content.Load<Texture2D>("IconSet1"), target.position, Game.Depth.above, 2f, ItemCollection.mine.getRect());
+            SpawnableItem spawnableItem = item as SpawnableItem;
+            spawnableItem.Spawn(target.position);
         }
 
-        public static void useApple(Hostile source, GameObject target)
+        public static void useApple(Hostile source, GameObject target, Item item)
         {
             Hostile hostile = target as Hostile;
             if (hostile != null)
@@ -69,7 +70,7 @@ namespace My_first_xna_game
             }
         }
 
-        public static void useBread(Hostile source, GameObject target)
+        public static void useBread(Hostile source, GameObject target, Item item)
         {
             Hostile hostile = target as Hostile;
             if (hostile != null)
@@ -78,7 +79,7 @@ namespace My_first_xna_game
             }
         }
 
-        public static void useHealthPotion(Hostile source, GameObject target)
+        public static void useHealthPotion(Hostile source, GameObject target, Item item)
         {
             Hostile hostile = target as Hostile;
             if (hostile != null)
@@ -87,7 +88,7 @@ namespace My_first_xna_game
             }
         }
 
-        public static void useManaPotion(Hostile source, GameObject target)
+        public static void useManaPotion(Hostile source, GameObject target, Item item)
         {
             Hostile hostile = target as Hostile;
             if (hostile != null)
@@ -96,7 +97,7 @@ namespace My_first_xna_game
             }
         }
 
-        public static void useStrPotion(Hostile source, GameObject target)
+        public static void useStrPotion(Hostile source, GameObject target, Item item)
         {
             Hostile hostile = target as Hostile;
             if (hostile != null)
