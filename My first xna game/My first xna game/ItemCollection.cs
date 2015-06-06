@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace My_first_xna_game
 {
     class ItemCollection
     {
+        public static Item mine = new Item(113, useMine, 5, 0.2f, true);
+
         public static Item apple = new Item(169, useApple, 5, 0.2f, true);
-        public static SpawnableItem mine = new SpawnableItem(map, 113, useMine, 5, 0.2f, true);
         public static Item bread = new Item(170, useBread, 12, 0.2f, true);
         public static Item healthPotion = new Item(64, useHealthPotion, 12, 0.5f, true);
         public static Item manaPotion = new Item(65, useManaPotion, 12, 0.5f, true);
@@ -57,8 +59,38 @@ namespace My_first_xna_game
 
         public static void useMine(Hostile source, GameObject target, Item item)
         {
-            SpawnableItem spawnableItem = item as SpawnableItem;
-            spawnableItem.Spawn(target.position);
+            Player player = source as Player;
+            PlayerObject mine = PlayerObject.SpriteToPlayerObject(player, item.getSprite);
+
+            Vector2 newPosition;
+            newPosition.X = source.position.X + source.bounds.Width / 2 - mine.bounds.Width / 2;
+            newPosition.Y = source.position.Y + source.bounds.Height / 2 - mine.bounds.Height / 2;
+            mine.position = MovementManager.MoveVector(newPosition, Tile.size * 2, source.direction);
+
+            mine.AddLight(100, Color.Green);
+            mine.canCollide = false;
+            mine.collisionFunction = UpdateMineCollision;
+            item.Spawn(player.map, mine);
+            
+        }
+
+        private static void UpdateMineCollision(GameObject gameObject)
+        {
+            PlayerObject mine = gameObject as PlayerObject;
+
+            //mine and player
+            foreach (GameObject gameObject2 in mine.source.map.gameObjectList)
+            {
+                Hostile hostile = gameObject2 as Hostile;
+                if (hostile != null)
+                {
+                    if (CollisionManager.GameObjectCollision(hostile, mine, false) && hostile != mine.source)
+                    {
+                        hostile.DealDamage(mine.source, 20);
+                        mine.Kill();
+                    }
+                }
+            }
         }
 
         public static void useApple(Hostile source, GameObject target, Item item)

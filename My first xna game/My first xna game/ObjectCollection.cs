@@ -19,7 +19,7 @@ namespace My_first_xna_game
 
         public Sprite CreatePickup(Sprite sprite, Item item, Vector2 position)
         {
-            Sprite result = new Sprite(Item.IconSet, position, Game.Depth.below, 2f, item.getRect());
+            Sprite result = new Sprite(Item.IconSet, position, Game.Depth.below, 2f, item.getRect);
             result.AddLight(50, Color.Gold, 50);
             result.passable = true;
             result.collisionParameters[0] = item;

@@ -5,7 +5,7 @@ namespace My_first_xna_game
 {
     public class Sprite : GameObject
     {
-        public Texture2D texture { get; set; }
+        public Texture2D texture { get; private set; }
         public float speed;
         public Game.Depth depth;
         public bool visible = true;
@@ -22,7 +22,7 @@ namespace My_first_xna_game
             get { return new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y); }
         }
 
-        Rectangle drawingCoordinates;
+        public Rectangle drawingCoordinates { get; private set; }
 
         public Sprite(Texture2D texture, Vector2 position, Game.Depth depth, float speed = 2f, Rectangle drawingCoordinates = new Rectangle())
             : base(position)

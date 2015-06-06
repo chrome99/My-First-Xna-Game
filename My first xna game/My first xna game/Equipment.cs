@@ -58,52 +58,52 @@ namespace My_first_xna_game
         {
             if (player.equipment.head == null)
             {
-                head.drawingRect = ItemCollection.hat.getRect();
+                head.drawingRect = ItemCollection.hat.getRect;
                 head.opacity = subUnEquipedOpacity;
             }
             else
             {
-                head.drawingRect = player.equipment.head.getRect();
+                head.drawingRect = player.equipment.head.getRect;
             }
 
             if (player.equipment.body == null)
             {
-                body.drawingRect = ItemCollection.shirt.getRect();
+                body.drawingRect = ItemCollection.shirt.getRect;
                 body.opacity = subUnEquipedOpacity;
             }
             else
             {
-                body.drawingRect = player.equipment.body.getRect();
+                body.drawingRect = player.equipment.body.getRect;
             }
 
             if (player.equipment.shoes == null)
             {
-                shoes.drawingRect = ItemCollection.leatherShoes.getRect();
+                shoes.drawingRect = ItemCollection.leatherShoes.getRect;
                 shoes.opacity = subUnEquipedOpacity;
             }
             else
             {
-                shoes.drawingRect = player.equipment.shoes.getRect();
+                shoes.drawingRect = player.equipment.shoes.getRect;
             }
 
             if (player.equipment.leftHand == null)
             {
-                leftHand.drawingRect = ItemCollection.ironSword.getRect();
+                leftHand.drawingRect = ItemCollection.ironSword.getRect;
                 leftHand.opacity = subUnEquipedOpacity;
             }
             else
             {
-                leftHand.drawingRect = player.equipment.leftHand.getRect();
+                leftHand.drawingRect = player.equipment.leftHand.getRect;
             }
 
             if (player.equipment.rightHand == null)
             {
-                rightHand.drawingRect = ItemCollection.ironSword.getRect();
+                rightHand.drawingRect = ItemCollection.ironSword.getRect;
                 rightHand.opacity = subUnEquipedOpacity;
             }
             else
             {
-                rightHand.drawingRect = player.equipment.rightHand.getRect();
+                rightHand.drawingRect = player.equipment.rightHand.getRect;
             }
         }
 
@@ -119,7 +119,7 @@ namespace My_first_xna_game
         private void HandleItemChoice(Item item)
         {
             Picture chosenBodyPartPicture = window.itemsList[chosenBodyPart] as Picture;
-            Rectangle rect = item.getRect();
+            Rectangle rect = item.getRect;
             chosenBodyPartPicture.drawingRect = rect;
             chosenBodyPartPicture.opacity = 100;
             player.Equip(item as Armor);

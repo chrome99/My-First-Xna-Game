@@ -27,9 +27,19 @@ namespace My_first_xna_game
             amount = 1;
         }
 
-        public Rectangle getRect()
+        public Rectangle getRect
         {
-            return new Rectangle(iconID % Item.itemsInRow * Item.size, iconID / Item.itemsInRow * Item.size, Item.size, Item.size);
+            get { return new Rectangle(iconID % Item.itemsInRow * Item.size, iconID / Item.itemsInRow * Item.size, Item.size, Item.size); }
+        }
+
+        public Sprite getSprite
+        {
+            get { return new Sprite(Item.IconSet, Vector2.Zero, Game.Depth.above, 2f, getRect); }
+        }
+
+        public void Spawn(Map map, GameObject gameObject)
+        {
+            map.AddObject(gameObject);
         }
     }
 }

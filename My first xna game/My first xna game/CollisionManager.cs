@@ -6,10 +6,13 @@ namespace My_first_xna_game
     {
         public delegate void CollisionFunction(GameObject gameObject);
 
-        public static bool GameObjectCollision(GameObject gameObject1, GameObject gameObject2)
+        public static bool GameObjectCollision(GameObject gameObject1, GameObject gameObject2, bool checkCanCollide = true)
         {
-            if (!gameObject1.canCollide || !gameObject2.canCollide)
-            { return false; }
+            if (checkCanCollide)
+            {
+                if (!gameObject1.canCollide || !gameObject2.canCollide)
+                { return false; }
+            }
             if (gameObject1.Equals(gameObject2))
             { return false; }
 

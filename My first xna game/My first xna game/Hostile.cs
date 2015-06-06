@@ -66,7 +66,7 @@ namespace My_first_xna_game
         protected virtual void UpdateEnemy() { }
         protected virtual void UpdatePlayer() { }
 
-        public void DealDamage(Hostile source)
+        public void DealDamage(Hostile source, int damage = 0)
         {
             if (cooldownTimer.result || cooldownTimer.counter == 0)
             {
@@ -80,14 +80,25 @@ namespace My_first_xna_game
                     {
                         newHealth = oldHealth;
                     }
-                    else
+                    else if (damage == 0)
                     {
                         newHealth = stats.health - source.stats.strength + stats.defence;
+                    }
+                    else
+                    {
+                        newHealth = stats.health - damage + stats.defence;
                     }
                 }
                 else
                 {
-                    newHealth = stats.health - source.stats.strength + stats.defence;
+                    if (damage == 0)
+                    {
+                        newHealth = stats.health - source.stats.strength + stats.defence;
+                    }
+                    else
+                    {
+                        newHealth = stats.health - damage + stats.defence;
+                    }
                 }
                 if (newHealth > -1)
                 {

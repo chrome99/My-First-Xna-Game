@@ -120,7 +120,7 @@ namespace My_first_xna_game
         private void CreateItem(Item item, int i, Inventory inventory, Window InventoryWindow)
         {
             item.icon = new Picture(Item.IconSet, new Vector2(i % inventory.margin * (Item.size + inventory.spacing), i / inventory.margin * (Item.size + inventory.spacing)), InventoryWindow);
-            item.icon.drawingRect = item.getRect();
+            item.icon.drawingRect = item.getRect;
             if (item.amount > 1)
             {
                 Text amount = new Text(Game.content.Load<SpriteFont>("Fonts\\small"), Vector2.Zero, new Color(255, 255, 255), items[i].amount + "X", InventoryWindow);

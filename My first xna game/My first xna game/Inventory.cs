@@ -252,7 +252,7 @@ namespace My_first_xna_game
             //function
             if (currentItem.function != null)
             {
-                currentItem.function(player, player);
+                currentItem.function(player, player, currentItem);
             }
 
             //waste item
