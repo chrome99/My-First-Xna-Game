@@ -20,7 +20,7 @@ namespace My_first_xna_game
 
             for (int i = 0; i < snakes.Length; i++)
             {
-                snakes[i] = new Partical(new Rectangle(random.Next(Game.worldRect.Width), random.Next(Game.worldRect.Height), 4, 4), 1, new Color(i, 0, 0), random.Next(70) / 100f);
+                snakes[i] = new Partical(new Rectangle(random.Next(Game.worldRect.Width), random.Next(Game.worldRect.Height), 4, 4), 1, new Color(255, 150 + random.Next(50), 50 - random.Next(50)));//i, 255, i   //random.Next(70) / 100f);
                 Vector2 x = new Vector2(random.Next(Game.worldRect.Width), random.Next(Game.worldRect.Height));
                 snakes[i].destinationsList.Add(x);
                 snakes[i].destinationsList.Add(new Vector2(random.Next(Game.worldRect.Width), random.Next(Game.worldRect.Height)));

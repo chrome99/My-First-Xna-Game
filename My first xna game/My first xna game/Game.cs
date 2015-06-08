@@ -17,6 +17,18 @@ namespace My_first_xna_game
          * round raduis for enemies
          * better AI for enemies
          * 
+         * visbale dmg xp
+         * xp
+         * stats
+         * pick and throw
+         * guns
+         * homing spells
+         * vehicles
+         * 
+         * minimap
+         * ray casting
+         * speed with accelertaion
+         * 
          * enemy type / id (bee, wolf, eater of worlds)
          * 
          * bloom shader

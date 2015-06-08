@@ -17,7 +17,7 @@ namespace My_first_xna_game
         private ParticalManager particalManager;
 
         private Song music;
-        private bool shutUp = true;
+        private bool shutUp = false;
 
         private int title = 0;
         private int titleSpeed = 3;
@@ -32,12 +32,12 @@ namespace My_first_xna_game
             background = new Picture(Game.content.Load<Texture2D>("Textures\\Pictures\\title"), Vector2.Zero, null);
             background.depth = Game.DepthToFloat(Game.Depth.background);
 
-            newgame = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 550f), Color.Blue, "New Game", null, new Vector2(20, 20));
-            loadgame = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 700f), Color.Blue, "Continue", null, new Vector2(20, 20));
+            newgame = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 550f), Color.Gold, "New Game", null, new Vector2(20, 20));
+            loadgame = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 700f), Color.Gold, "Continue", null, new Vector2(20, 20));
             loadgame.opacity = 50;
-            quit = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 850f), Color.Blue, "Quit", null, new Vector2(20, 20));
+            quit = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 850f), Color.Gold, "Quit", null, new Vector2(20, 20));
 
-            particalManager = new ParticalManager(500, new Rectangle(0, 0, 1000, 1000));
+            particalManager = new ParticalManager(100, new Rectangle(0, 0, 1000, 1000));
 
             music = Game.content.Load<Song>("Audio\\Themes\\title theme");
 

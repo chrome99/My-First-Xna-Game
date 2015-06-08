@@ -40,7 +40,7 @@ namespace My_first_xna_game
             {
                 if (currentDestination == i)
                 {
-                    if (GoTo(destinationsList[i]))
+                    if (!GoTo(destinationsList[i]))
                     {
                         currentDestination++;
                     }
