@@ -70,7 +70,7 @@ namespace My_first_xna_game
                     spriteBatch.Draw(camera.renderTarget, Vector2.Zero, Color.White);
                     spriteBatch.End();
 
-                    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, camera.transform);
+                    spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, camera.transform);
                     camera.effect.Parameters["active"].SetValue(false);
                     camera.effect.CurrentTechnique.Passes[0].Apply();
                     camera.DrawWindows(spriteBatch);

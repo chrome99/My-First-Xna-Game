@@ -22,6 +22,7 @@ namespace My_first_xna_game
 
         // TODO: Remove this
         private bool opacityMaxed = false;
+
         private bool upKeyReleased = false;
         private bool downKeyReleased = false;
         private bool leftKeyReleased = false;

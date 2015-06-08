@@ -31,7 +31,7 @@ namespace My_first_xna_game
                 Rectangle drawingRect = bounds;
                 drawingRect.X = drawingRect.X - offsetRect.X;
                 drawingRect.Y = drawingRect.Y - offsetRect.Y;
-                spriteBatch.Draw(texture, drawingRect, rect, Color.White * getOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
+                spriteBatch.Draw(texture, drawingRect, rect, Color.White * drawingOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
             }
         }
 

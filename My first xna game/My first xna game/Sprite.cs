@@ -11,7 +11,7 @@ namespace My_first_xna_game
         public bool visible = true;
         public bool fade = false;
         public float opacity = 100f;
-        public float getOpacity
+        public float drawingOpacity
         {
             get { return opacity / 100; }
         }
@@ -57,11 +57,11 @@ namespace My_first_xna_game
 
                 if (drawingCoordinates.Equals(new Rectangle()))
                 {
-                    spriteBatch.Draw(texture, drawingRect, null, Color.White * getOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
+                    spriteBatch.Draw(texture, drawingRect, null, Color.White * drawingOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
                 }
                 else
                 {
-                    spriteBatch.Draw(texture, drawingRect, drawingCoordinates, Color.White * getOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
+                    spriteBatch.Draw(texture, drawingRect, drawingCoordinates, Color.White * drawingOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
                 }
             }
         }

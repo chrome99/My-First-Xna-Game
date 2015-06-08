@@ -34,6 +34,7 @@ namespace My_first_xna_game
             wolf.stats.defence = 2;
             wolf.stats.agility = 1;
             wolf.Cooldown = 750f;
+            wolf.opacity = 50;
 
             npc = new Actor(Content.Load<Texture2D>("Textures\\Spritesheets\\wolf"), new Vector2(700f, 500f));
             npc.AddLight(300, Color.Yellow);
