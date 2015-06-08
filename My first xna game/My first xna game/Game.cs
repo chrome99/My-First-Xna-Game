@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Content;
 
 namespace My_first_xna_game
@@ -43,6 +44,7 @@ namespace My_first_xna_game
          * redstone
          
          BUGS:
+         * fix drawing opacity
          * stuck keyboard in singleplayer and multiplayer
          * fix msgWindow intializing
          * remove depth
@@ -55,7 +57,7 @@ namespace My_first_xna_game
         SpriteBatch spriteBatch;
         KeyboardState oldState;
 
-        public enum Depth { GUIFront, front, windowsSelector, windowsDataFront, windowsData, windows, above, jumping, player, projectiles, below, background }
+        public enum Depth { GUIFront, front, windowsSelector, windowsDataFront, windowsData, windowDataShadow, windows, above, jumping, player, projectiles, below, background }
 
         public static float DepthToFloat(Depth type)
         {
@@ -114,6 +116,7 @@ namespace My_first_xna_game
             //if exit
             if (endGame)
             {
+                MediaPlayer.Stop();
                 Exit();
             }
 

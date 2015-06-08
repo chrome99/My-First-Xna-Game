@@ -48,7 +48,7 @@ namespace My_first_xna_game
         {
             for (int counter = 0; counter < pack.items.Count; counter++)
             {
-                Text price = new Text(Game.content.Load<SpriteFont>("Fonts\\small"), Vector2.Zero, new Color(255, 215, 0), getPrice(pack.items[counter].price).ToString(), window);
+                Text price = new Text(Game.content.Load<SpriteFont>("Fonts\\small"), Vector2.Zero, new Color(255, 215, 0), getPrice(pack.items[counter].price).ToString(), window, new Vector2(1, 2));
                 price.position = new Vector2(counter % margin * (Item.size + spacing) + Item.size / 2, counter / margin * (Item.size + spacing) + Item.size / 2);
                 price.depth = Game.DepthToFloat(Game.Depth.windowsDataFront);
                 priceTexts.Add(price);

@@ -38,10 +38,10 @@ namespace My_first_xna_game
             sellInventory.SetWindowPosition(Inventory.Side.up);
 
             //intialize Choice
-            buyText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Buy");
-            sellText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Sell");
-            exitText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Talk");
-            tallkText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Exit");
+            buyText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Buy", null, new Vector2(2, 5));
+            sellText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Sell", null, new Vector2(2, 5));
+            exitText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Talk", null, new Vector2(2, 5));
+            tallkText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Exit", null, new Vector2(2, 5));
             choice = new Choice(map, merchant.bounds, player, new List<WindowItem> { buyText, sellText, tallkText, exitText }, Choice.Arrangement.square, true);
         }
 

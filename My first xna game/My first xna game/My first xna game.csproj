@@ -147,6 +147,7 @@
     <Compile Include="Sprite.cs" />
     <Compile Include="Spritesheet.cs" />
     <Compile Include="Text.cs" />
+    <Compile Include="TextShadow.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="TileMap.cs" />
     <Compile Include="Timer.cs" />

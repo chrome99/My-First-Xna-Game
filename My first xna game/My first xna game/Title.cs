@@ -3,28 +3,36 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace My_first_xna_game
 {
     class Title : Scene
     {
+        private Song music;
         private Picture background;
         private Text newgame;
         private Text loadgame;
         private Text quit;
         private int title = 0;
+        private int titleSpeed = 3;
         private bool keyDownReleased;
         private bool keyUpReleased;
+        private bool keyConfirmReleased;
 
         public Title(GraphicsDeviceManager graphicsDeviceManager)
             : base(graphicsDeviceManager)
         {
             background = new Picture(Game.content.Load<Texture2D>("Textures\\Pictures\\title"), Vector2.Zero, null);
             background.depth = Game.DepthToFloat(Game.Depth.background);
-            newgame = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), new Vector2(50f, 300f), Color.BurlyWood, "New Game");
-            loadgame = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), new Vector2(50f, 350f), Color.BurlyWood, "Continue");
+
+            newgame = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 550f), Color.Blue, "New Game", null, new Vector2(20, 20));
+            loadgame = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 700f), Color.Blue, "Continue", null, new Vector2(20, 20));
             loadgame.opacity = 50;
-            quit = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), new Vector2(50f, 400f), Color.BurlyWood, "Quit");
+            quit = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 850f), Color.Blue, "Quit", null, new Vector2(20, 20));
+
+            music = Game.content.Load<Song>("Audio\\Themes\\title theme");
+            MediaPlayer.Play(music);
         }
         public override void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
         {
@@ -32,53 +40,53 @@ namespace My_first_xna_game
             switch (title)
             {
                 case 0:
-                    if (newgame.position.X < 80)
+                    if (newgame.position.X < 150)
                     {
-                        newgame.position.X += 2;
+                        newgame.position.X += titleSpeed;
                     }
 
-                    if (loadgame.position.X > 50)
+                    if (loadgame.position.X > 80)
                     {
-                        loadgame.position.X -= 2;
+                        loadgame.position.X -= titleSpeed;
                     }
 
-                    if (quit.position.X > 50)
+                    if (quit.position.X > 80)
                     {
-                        quit.position.X -= 2;
+                        quit.position.X -= titleSpeed;
                     }
                     break;
 
                 case 1:
-                    if (loadgame.position.X < 80)
+                    if (loadgame.position.X < 150)
                     {
-                        loadgame.position.X += 2;
+                        loadgame.position.X += titleSpeed;
                     }
 
-                    if (newgame.position.X > 50)
+                    if (newgame.position.X > 80)
                     {
-                        newgame.position.X -= 2;
+                        newgame.position.X -= titleSpeed;
                     }
 
-                    if (quit.position.X > 50)
+                    if (quit.position.X > 80)
                     {
-                        quit.position.X -= 2;
+                        quit.position.X -= titleSpeed;
                     }
                     break;
 
                 case 2:
-                    if (quit.position.X < 80)
+                    if (quit.position.X < 150)
                     {
-                        quit.position.X += 2;
+                        quit.position.X += titleSpeed;
                     }
 
-                    if (newgame.position.X > 50)
+                    if (newgame.position.X > 80)
                     {
-                        newgame.position.X -= 2;
+                        newgame.position.X -= titleSpeed;
                     }
 
-                    if (loadgame.position.X > 50)
+                    if (loadgame.position.X > 80)
                     {
-                        loadgame.position.X -= 2;
+                        loadgame.position.X -= titleSpeed;
                     }
                     break;
             }
@@ -115,12 +123,16 @@ namespace My_first_xna_game
                 keyUpReleased = true;
             }
 
-            if (newState.IsKeyDown(Keys.Enter))
+            if (newState.IsKeyDown(Keys.Enter) && keyConfirmReleased)
             {
-                Game.content.Load<SoundEffect>("Audio\\Waves\\confirm").Play();
                 switch (title)
                 {
                     case 0:
+                        Game.content.Load<SoundEffect>("Audio\\Waves\\confirm").Play();
+
+                        //stop music
+                        MediaPlayer.Stop();
+
                         //build map
                         MapCollection.map.AddObject(PlayerCollection.player1);
                         MapCollection.map2.AddObject(PlayerCollection.player2);
@@ -137,13 +149,20 @@ namespace My_first_xna_game
                         break;
 
                     case 1:
-
+                        Game.content.Load<SoundEffect>("Audio\\Waves\\cancel").Play();
                         break;
 
                     case 2:
+                        Game.content.Load<SoundEffect>("Audio\\Waves\\confirm").Play();
+
                         Game.endGame = true;
                         break;
                 }
+                keyConfirmReleased = false;
+            }
+            else if (!oldState.IsKeyDown(Keys.Enter))
+            {
+                keyConfirmReleased = true;
             }
         }
 

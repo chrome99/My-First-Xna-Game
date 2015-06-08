@@ -8,19 +8,42 @@ namespace My_first_xna_game
         public string text;
         public Color color;
         private SpriteFont font;
+        private TextShadow shadow;
+
         private bool changeColor;
         private bool returnToOriginalColor;
         private Color originalColorState;
         private Color newColor;
         private Timer changeColorTimer;
 
-        public Text(SpriteFont font, Vector2 position, Color color, string text, Window source = null)
+        public Text(SpriteFont font, Vector2 position, Color color, string text, Window source = null, Vector2 shadowPosition = new Vector2())
             : base(source)
         {
             this.position = position;
             this.font = font;
             this.color = color;
             this.text = text;
+
+            if (shadowPosition != new Vector2())
+            {
+                shadow = new TextShadow(this, shadowPosition);
+            }
+        }
+
+        private Vector2 drawingPosition(Rectangle offsetRect)
+        {
+            Vector2 newPosition;
+            if (source == null)
+            {
+                newPosition = position;
+            }
+            else
+            {
+                newPosition = position + source.position + source.thickness;
+            }
+            newPosition.X = newPosition.X - offsetRect.X;
+            newPosition.Y = newPosition.Y - offsetRect.Y;
+            return newPosition;
         }
 
         public override Rectangle bounds
@@ -118,18 +141,11 @@ namespace My_first_xna_game
         {
             if (visible)
             {
-                Vector2 newPosition;
-                if (source == null)
+                if (shadow != null)
                 {
-                    newPosition = position;
+                    shadow.Draw(spriteBatch, drawingPosition(offsetRect), font, drawingOpacity);
                 }
-                else
-                {
-                    newPosition = position + source.position + source.thickness;
-                }
-                newPosition.X = newPosition.X - offsetRect.X;
-                newPosition.Y = newPosition.Y - offsetRect.Y;
-                spriteBatch.DrawString(font, text, newPosition, color * drawingOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
+                spriteBatch.DrawString(font, text, drawingPosition(offsetRect), color * drawingOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
             }
         }
     }
