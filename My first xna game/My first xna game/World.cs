@@ -89,14 +89,14 @@ namespace My_first_xna_game
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
             //vertical line
-            spriteBatch.Draw(Game.content.Load<Texture2D>("Textures\\Windows\\black dot"),
+            spriteBatch.Draw(Game.content.Load<Texture2D>("Textures\\Sprites\\white dot"),
                 new Rectangle(Game.worldRect.Width / 2 - 1, 0, 2, Game.worldRect.Height),
-                null, Color.White);
+                null, Color.Black);
 
             //horizontal line
-            spriteBatch.Draw(Game.content.Load<Texture2D>("Textures\\Windows\\black dot"),
+            spriteBatch.Draw(Game.content.Load<Texture2D>("Textures\\Sprites\\white dot"),
                 new Rectangle(0, Game.worldRect.Height / 2 - 1, Game.worldRect.Width, 3),
-                null, Color.White);
+                null, Color.Black);
 
             spriteBatch.End();
         }

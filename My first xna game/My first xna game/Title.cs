@@ -9,13 +9,19 @@ namespace My_first_xna_game
 {
     class Title : Scene
     {
-        private Song music;
         private Picture background;
         private Text newgame;
         private Text loadgame;
         private Text quit;
+
+        private ParticalManager particalManager;
+
+        private Song music;
+        private bool shutUp = true;
+
         private int title = 0;
         private int titleSpeed = 3;
+
         private bool keyDownReleased;
         private bool keyUpReleased;
         private bool keyConfirmReleased;
@@ -31,12 +37,21 @@ namespace My_first_xna_game
             loadgame.opacity = 50;
             quit = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 850f), Color.Blue, "Quit", null, new Vector2(20, 20));
 
+            particalManager = new ParticalManager(100, new Rectangle(0, 0, 1000, 1000));
+
             music = Game.content.Load<Song>("Audio\\Themes\\title theme");
-            MediaPlayer.Play(music);
+
+            if (!shutUp)
+            {
+                MediaPlayer.Play(music);
+            }
         }
         public override void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
         {
             UpdateInput(newState, oldState);
+
+            particalManager.Update();
+
             switch (title)
             {
                 case 0:
@@ -174,6 +189,8 @@ namespace My_first_xna_game
             newgame.Draw(spriteBatch, new Rectangle());
             loadgame.Draw(spriteBatch, new Rectangle());
             quit.Draw(spriteBatch, new Rectangle());
+
+            particalManager.Draw(spriteBatch);
 
             spriteBatch.End();
         }

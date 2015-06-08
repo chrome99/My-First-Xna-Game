@@ -117,6 +117,8 @@
     <Compile Include="Menu.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="ObjectCollection2.cs" />
+    <Compile Include="Partical.cs" />
+    <Compile Include="ParticalManager.cs" />
     <Compile Include="PlayerManager.cs" />
     <Compile Include="PlayerObject.cs" />
     <Compile Include="ShopInventory.cs" />
@@ -144,6 +146,7 @@
     <Compile Include="Scene.cs" />
     <Compile Include="Selector.cs" />
     <Compile Include="Shop.cs" />
+    <Compile Include="Snake.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="Spritesheet.cs" />
     <Compile Include="Text.cs" />

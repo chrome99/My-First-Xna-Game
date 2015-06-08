@@ -16,6 +16,7 @@ namespace My_first_xna_game
          * animations and autotiles
          * round raduis for enemies
          * better AI for enemies
+         * 
          * enemy type / id (bee, wolf, eater of worlds)
          * 
          * bloom shader
