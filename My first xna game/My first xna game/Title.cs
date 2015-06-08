@@ -37,7 +37,7 @@ namespace My_first_xna_game
             loadgame.opacity = 50;
             quit = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 850f), Color.Blue, "Quit", null, new Vector2(20, 20));
 
-            particalManager = new ParticalManager(100, new Rectangle(0, 0, 1000, 1000));
+            particalManager = new ParticalManager(500, new Rectangle(0, 0, 1000, 1000));
 
             music = Game.content.Load<Song>("Audio\\Themes\\title theme");
 

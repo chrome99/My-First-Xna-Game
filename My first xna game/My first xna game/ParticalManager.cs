@@ -1,39 +1,48 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace My_first_xna_game
 {
     class ParticalManager
     {
-        private Partical[] particalsArray;
+        private Partical[] snakes;
         private Rectangle rect;
 
-        private Snake snake;
+        private Random random;
 
         public ParticalManager(int maxParticals, Rectangle rect)
         {
             this.rect = rect;
 
-            particalsArray = new Partical[maxParticals];
-            snake = new Snake(100, new Rectangle(500, 500, 1, 1));
-            snake.destinationsList.Add(new Vector2(200, 200));
-            snake.destinationsList.Add(new Vector2(300, 100));
-            snake.destinationsList.Add(new Vector2(500, 500));
+            random = new Random();
+            snakes = new Partical[maxParticals];
 
-            for (int i = 0; i < particalsArray.Length; i++)
+            for (int i = 0; i < snakes.Length; i++)
             {
-                particalsArray[i] = new Partical(new Rectangle(i * 5, i * 5, 5, 5), 1, new Color(0, 0, 255));
+                snakes[i] = new Partical(new Rectangle(random.Next(Game.worldRect.Width), random.Next(Game.worldRect.Height), 4, 4), 1, new Color(i, 0, 0), random.Next(70) / 100f);
+                Vector2 x = new Vector2(random.Next(Game.worldRect.Width), random.Next(Game.worldRect.Height));
+                snakes[i].destinationsList.Add(x);
+                snakes[i].destinationsList.Add(new Vector2(random.Next(Game.worldRect.Width), random.Next(Game.worldRect.Height)));
+                snakes[i].destinationsList.Add(new Vector2(random.Next(Game.worldRect.Width), random.Next(Game.worldRect.Height)));
             }
         }
 
         public void Update()
         {
-            snake.Update();
+            for (int i = 0; i < snakes.Length; i++)
+            {
+                snakes[i].Update();
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            snake.Draw(spriteBatch);
+            for (int i = 0; i < snakes.Length; i++)
+            {
+                snakes[i].Draw(spriteBatch);
+            }
+
             /*foreach (Partical partical in particalsArray)
             {
                 if (partical.rect.Intersects(rect))

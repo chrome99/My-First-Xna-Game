@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace My_first_xna_game
@@ -6,28 +7,44 @@ namespace My_first_xna_game
     class Partical
     {
         public delegate void ParticalUpdate();
-
-        public ParticalUpdate UpdateMovement;
         public Rectangle rect;
         public int speed;
         public Color color;
+        public float opacity;
+
+        public List<Vector2> destinationsList = new List<Vector2>();
+        public int currentDestination = 0;
 
         private Texture2D texture;
 
-        public Partical(Rectangle rect, int speed, Color color)
+        public Partical(Rectangle rect, int speed, Color color, float opacity = 1.0f)
         {
             this.rect = rect;
             this.speed = speed;
             this.color = color;
+            this.opacity = opacity;
 
             texture = Game.content.Load<Texture2D>("Textures\\Sprites\\white dot");
         }
 
         public void Update()
         {
-            if (UpdateMovement != null)
+            if (destinationsList.Count == 0) { return; }
+
+            if (currentDestination == destinationsList.Count)
             {
-                UpdateMovement();
+                currentDestination = 0;
+            }
+
+            for (int i = 0; i < destinationsList.Count; i++)
+            {
+                if (currentDestination == i)
+                {
+                    if (GoTo(destinationsList[i]))
+                    {
+                        currentDestination++;
+                    }
+                }
             }
         }
 
@@ -60,7 +77,7 @@ namespace My_first_xna_game
 
         public bool GoTo(Vector2 destination)
         {
-            if (rect.X == destination.X - rect.Width && rect.Y == destination.Y - rect.Height)
+            if (rect.X == destination.X && rect.Y == destination.Y)
             {
                 return false;
             }
@@ -69,7 +86,7 @@ namespace My_first_xna_game
             {
                 rect.X += speed;
             }
-            if (rect.X + rect.Width > destination.X)
+            if (rect.X > destination.X)
             {
                 rect.X -= speed;
             }
@@ -78,7 +95,7 @@ namespace My_first_xna_game
             {
                 rect.Y += speed;
             }
-            if (rect.Y + rect.Height > destination.Y)
+            if (rect.Y > destination.Y)
             {
                 rect.Y -= speed;
             }
@@ -109,7 +126,7 @@ namespace My_first_xna_game
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, rect, null, color);
+            spriteBatch.Draw(texture, rect, null, color * opacity);
         }
     }
 }
