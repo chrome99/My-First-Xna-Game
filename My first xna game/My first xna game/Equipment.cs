@@ -21,7 +21,7 @@ namespace My_first_xna_game
 
         private int chosenBodyPart;
         private bool useKeyReleased = false;
-        private int subUnEquipedOpacity = 60;
+        private int subUnEquipedOpacity = 30;
 
         public Equipment(Map map, Player player)
         {
@@ -56,6 +56,8 @@ namespace My_first_xna_game
 
         private void DrawTemplate()
         {
+            bool twoHandedWeapon = false;
+
             if (player.equipment.head == null)
             {
                 head.drawingRect = ItemCollection.hat.getRect;
@@ -91,19 +93,26 @@ namespace My_first_xna_game
                 leftHand.drawingRect = ItemCollection.ironSword.getRect;
                 leftHand.opacity = subUnEquipedOpacity;
             }
-            else
+            else if (player.equipment.leftHand.armorType == Armor.ArmorType.oneHanded)
             {
                 leftHand.drawingRect = player.equipment.leftHand.getRect;
             }
-
-            if (player.equipment.rightHand == null)
-            {
-                rightHand.drawingRect = ItemCollection.ironSword.getRect;
-                rightHand.opacity = subUnEquipedOpacity;
-            }
             else
             {
-                rightHand.drawingRect = player.equipment.rightHand.getRect;
+                leftHand.drawingRect = player.equipment.leftHand.getRect;
+                twoHandedWeapon = true;
+            }
+            if (!twoHandedWeapon)
+            {
+                if (player.equipment.rightHand == null)
+                {
+                    rightHand.drawingRect = ItemCollection.ironSword.getRect;
+                    rightHand.opacity = subUnEquipedOpacity;
+                }
+                else
+                {
+                    rightHand.drawingRect = player.equipment.rightHand.getRect;
+                }
             }
         }
 
@@ -119,10 +128,29 @@ namespace My_first_xna_game
         private void HandleItemChoice(Item item)
         {
             Picture chosenBodyPartPicture = window.itemsList[chosenBodyPart] as Picture;
-            Rectangle rect = item.getRect;
-            chosenBodyPartPicture.drawingRect = rect;
-            chosenBodyPartPicture.opacity = 100;
-            player.Equip(item as Armor);
+            chosenBodyPartPicture.drawingRect = item.getRect;
+            Armor armor = item as Armor;
+            if (armor.armorType == Armor.ArmorType.oneHanded)
+            {
+                if (player.leftHandOrRightHand())
+                {
+                    leftHand.opacity = 100;
+                }
+                else
+                {
+                    rightHand.opacity = 100;
+                }
+            }
+            else if (armor.armorType == Armor.ArmorType.twoHanded)
+            {
+                leftHand.opacity = 100;
+            }
+            else
+            {
+                chosenBodyPartPicture.opacity = 100;
+            }
+
+            player.Equip(armor);
         }
 
         public bool HandleMenuButtonPress()

@@ -17,7 +17,7 @@ namespace My_first_xna_game
         public static Item strPotion = new Item(66, useStrPotion, 12, 0.5f, true);
 
         //armor
-        public static Armor occupiedArmor = new Armor(0, 0, 0, 0, Armor.ArmorType.oneHanded, new Hostile.Stats()); 
+        //public static Armor occupiedArmor = new Armor(0, 0, 0, 0, Armor.ArmorType.oneHanded, new Hostile.Stats()); 
 
         //  head
         public static Armor hat = new Armor(34, 35, 0.5f, 15, Armor.ArmorType.head, new Hostile.Stats { maxHealth = 10 });

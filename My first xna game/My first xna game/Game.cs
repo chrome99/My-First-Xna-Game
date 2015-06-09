@@ -11,6 +11,7 @@ namespace My_first_xna_game
     {
         /*
          TODO:
+         * two handed and one handed weapons
          * attack (sword)
          * combos & skills
          * animations and autotiles
@@ -57,6 +58,7 @@ namespace My_first_xna_game
          * redstone
          
          BUGS:
+         * particals bug
          * fix drawing opacity
          * stuck keyboard in singleplayer and multiplayer
          * fix msgWindow intializing

@@ -187,27 +187,20 @@ namespace My_first_xna_game
                     subArmorStats(equipment.rightHand);
                     subArmorStats(equipment.leftHand);
                     equipment.leftHand = armor;
-                    equipment.rightHand = ItemCollection.occupiedArmor;
                     break;
 
                 case Armor.ArmorType.oneHanded:
-                    if (equipment.leftHand == null)
+                    if (leftHandOrRightHand())
                     {
                         equipmentList.Remove(equipment.leftHand);
                         subArmorStats(equipment.leftHand);
                         equipment.leftHand = armor;
                     }
-                    else if (equipment.rightHand == null)
+                    else
                     {
                         equipmentList.Remove(equipment.rightHand);
                         subArmorStats(equipment.rightHand);
                         equipment.rightHand = armor;
-                    }
-                    else
-                    {
-                        equipmentList.Remove(equipment.leftHand);
-                        subArmorStats(equipment.leftHand);
-                        equipment.leftHand = armor;
                     }
                     break;
 
@@ -220,6 +213,32 @@ namespace My_first_xna_game
             armor.source = this;
             equipmentList.Add(armor);
             addArmorStats(armor);
+        }
+
+        public bool leftHandOrRightHand()
+        {
+            if (equipment.leftHand != null)
+            {
+                if (equipment.leftHand.armorType == Armor.ArmorType.twoHanded)
+                {
+                    return true;
+                }
+                else
+                {
+                    if (equipment.rightHand == null)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                return true;
+            }
         }
 
         private void addArmorStats(Armor armor)
