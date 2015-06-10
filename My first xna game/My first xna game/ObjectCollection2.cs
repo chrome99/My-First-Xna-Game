@@ -42,9 +42,9 @@ namespace My_first_xna_game
 
 
             player1.pack.AddItem(new List<Item> {
-                ItemCollection.mine, ItemCollection.woodenStaff, ItemCollection.helmate, ItemCollection.ironBoots,
+                ItemCollection.mine, ItemCollection.woodenStaff, ItemCollection.ironChestArmor/*, ItemCollection.ironBoots,
                 ItemCollection.ironChestArmor, ItemCollection.ironSword, ItemCollection.leatherShoes, ItemCollection.mask,
-                ItemCollection.shirt, ItemCollection.copperChestArmor, ItemCollection.apple, ItemCollection.apple, ItemCollection.apple
+                ItemCollection.shirt, ItemCollection.copperChestArmor, ItemCollection.apple, ItemCollection.apple, ItemCollection.apple*/
             });
 
             //intialize player

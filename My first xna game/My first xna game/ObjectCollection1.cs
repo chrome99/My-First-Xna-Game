@@ -13,7 +13,7 @@ namespace My_first_xna_game
         private Sprite runningSwitch;
         private Sprite box1;
         private Sprite box2;
-        private Sprite portal;
+        private GameObject portal;
         private Sprite groundSwitch;
         private ItemCollection ItemCollection;
 
@@ -23,7 +23,7 @@ namespace My_first_xna_game
             movementManager = new MovementManager(map);
             ItemCollection = new ItemCollection();
 
-            wolf = new Enemy(Content.Load<Texture2D>("Textures\\Spritesheets\\wolf"), new Vector2(1000f, 0f));
+            wolf = new Enemy(Content.Load<Texture2D>("Textures\\Spritesheets\\wolf"), new Vector2(41 * 32, 43 * 32));
             wolf.AddLight(32 * 6 * 2, Color.Red);
             wolf.stats.maxHealth = 16;
             wolf.stats.health = 16;
@@ -35,7 +35,7 @@ namespace My_first_xna_game
             wolf.stats.agility = 1;
             wolf.Cooldown = 750f;
 
-            npc = new Actor(Content.Load<Texture2D>("Textures\\Spritesheets\\wolf"), new Vector2(700f, 500f));
+            npc = new Actor(Content.Load<Texture2D>("Textures\\Spritesheets\\mage"), new Vector2(22 * 32, 16 * 32));
             npc.AddLight(300, Color.Yellow);
             npc.pack = new Pack(npc);
             npc.pack.AddItem(ItemCollection.ironChestArmor);
@@ -43,28 +43,28 @@ namespace My_first_xna_game
             npc.pack.AddItem(ItemCollection.bread);
             npc.collisionFunction = UpdateNpcCollision;
 
-            block = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(700f, 750f), Game.Depth.player, 2);
+            block = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(37 * 32, 21 * 32), Game.Depth.player, 2);
 
-            pickUpBread = CreatePickup(pickUpBread, ItemCollection.bread, new Vector2(100f, 500f));
-            runningSwitch = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\brick1"), new Vector2(200f, 250f), Game.Depth.below, 2);
+            pickUpBread = CreatePickup(pickUpBread, ItemCollection.bread, new Vector2(11 * 32, 34 * 32));
+
+            groundSwitch = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\brick1"), new Vector2(38 * 32, 25 * 32), Game.Depth.below, 2);
+            groundSwitch.passable = true;
+            groundSwitch.collisionFunction = UpdateGroundSwitchCollision;
+
+            box1 = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(27 * 32, 25 * 32), Game.Depth.player, 2);
+            box1.tags.Add("box");
+
+            box2 = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(30 * 32, 25 * 32), Game.Depth.player, 2);
+            box2.tags.Add("box");
+
+            runningSwitch = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\brick1"), new Vector2(27 * 32, 18 * 32), Game.Depth.below, 2);
             runningSwitch.passable = true;
             runningSwitch.collisionFunction = UpdateRunningSwitchCollision;
 
-            box1 = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(400f, 400f), Game.Depth.player, 2);
-            box1.tags.Add("box");
-            box1.coreCollision.Y = 1;
-
-            box2 = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(400f, 450f), Game.Depth.player, 2);
-            box2.tags.Add("box");
-
-            portal = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\player1"), new Vector2(50f, 100f), Game.Depth.player, 2);
-            portal.AddLight(100, Color.Purple);
+            //portal = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\player1"), new Vector2(34 * 32, 22* 32), Game.Depth.player, 2);
+            portal = new GameObject(new Vector2(34 * 32, 22 * 32));
             portal.passable = true;
             portal.collisionFunction = UpdatePortalCollision;
-
-            groundSwitch = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\brick1"), new Vector2(300f, 150f), Game.Depth.below, 2);
-            groundSwitch.passable = true;
-            groundSwitch.collisionFunction = UpdateGroundSwitchCollision;
 
 
             gameObjectList.Add(npc);
@@ -72,10 +72,10 @@ namespace My_first_xna_game
             gameObjectList.Add(block);
             gameObjectList.Add(pickUpBread);
             gameObjectList.Add(runningSwitch);
+            gameObjectList.Add(groundSwitch);
             gameObjectList.Add(box1);
             gameObjectList.Add(box2);
             gameObjectList.Add(portal);
-            gameObjectList.Add(groundSwitch);
         }
 
 
@@ -167,12 +167,10 @@ namespace My_first_xna_game
                     int collisionID = runningSwitch.GetID(map.gameObjectList);
                     if (CollisionManager.GameObjectCollision(player, runningSwitch))
                     {
-                        if (!player.collisionsList.Contains(collisionID))//!runningSwitch.collisionHandled && 
+                        if (!player.collisionsList.Contains(collisionID))
                         {
-                            //player.FlipRunning();
-                            player.pack.AddItem(ItemCollection.RandomItem());
-                            //player.Equip(ItemCollection.ironSword);
-                            //player.collisionsList.Add(collisionID);
+                            player.FlipRunning();
+                            player.collisionsList.Add(collisionID);
                         }
                     }
                     else

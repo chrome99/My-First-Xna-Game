@@ -58,6 +58,9 @@ namespace My_first_xna_game
          * redstone
          
          BUGS:
+         * fix tileset drawing bug
+         * fix heal health and hud
+         * fix function GetID in GameObject
          * particals bug
          * fix drawing opacity
          * stuck keyboard in singleplayer and multiplayer
@@ -95,7 +98,7 @@ namespace My_first_xna_game
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = true;
             graphics.PreferredBackBufferHeight = 1080;
             graphics.PreferredBackBufferWidth = 1920;
             Content.RootDirectory = "Content";
