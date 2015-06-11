@@ -114,6 +114,10 @@ namespace My_first_xna_game
                     rightHand.drawingRect = player.equipment.rightHand.getRect;
                 }
             }
+            else
+            {
+                rightHand.drawingRect = new Rectangle(0, 0, 0, 0);
+            }
         }
 
         public void setPlayerWindowPosition()
@@ -128,25 +132,45 @@ namespace My_first_xna_game
         private void HandleItemChoice(Item item)
         {
             Picture chosenBodyPartPicture = window.itemsList[chosenBodyPart] as Picture;
-            chosenBodyPartPicture.drawingRect = item.getRect;
+
             Armor armor = item as Armor;
             if (armor.armorType == Armor.ArmorType.oneHanded)
             {
+                if (player.checkIfEquiped(armor) == 2 || player.checkIfEquiped(armor) == 3)
+                {
+                    return;
+                }
                 if (player.leftHandOrRightHand())
                 {
+                    leftHand.drawingRect = item.getRect;
                     leftHand.opacity = 100;
+                    rightHand.drawingRect = ItemCollection.ironSword.getRect;
+                    rightHand.opacity = subUnEquipedOpacity;
                 }
                 else
                 {
+                    if (player.checkIfEquiped(armor) == 2 || player.checkIfEquiped(armor) == 3)
+                    {
+                        return;
+                    }
+                    rightHand.drawingRect = item.getRect;
                     rightHand.opacity = 100;
                 }
             }
             else if (armor.armorType == Armor.ArmorType.twoHanded)
             {
+                if (player.checkIfEquiped(armor) == 1)
+                {
+                    return;
+                }
+                leftHand.drawingRect = item.getRect;
                 leftHand.opacity = 100;
+                rightHand.drawingRect = new Rectangle(0, 0, 0, 0);
             }
             else
             {
+                if (player.checkIfEquiped(armor) == 1) { return; }
+                chosenBodyPartPicture.drawingRect = item.getRect;
                 chosenBodyPartPicture.opacity = 100;
             }
 

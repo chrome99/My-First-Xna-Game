@@ -35,7 +35,7 @@ namespace My_first_xna_game
         public static Armor goldBoots = new Armor(323, 50, 5, 60, Armor.ArmorType.shoes, new Hostile.Stats { defence = 7, agility = -3 });
 
         // one handed
-        public static Armor ironSword = new Armor(2, 20, 1.5f, 10, Armor.ArmorType.oneHanded, new Hostile.Stats { strength = 3 });
+        public static Armor ironSword = new Armor(2, 20, 1.5f, 10, Armor.ArmorType.oneHanded, new Hostile.Stats { strength = 4 });
 
         // two handed
         public static Bow woodenStaff = new Bow(20, 25, 1, 25, Armor.ArmorType.twoHanded,

@@ -11,12 +11,12 @@ namespace My_first_xna_game
     {
         /*
          TODO:
-         * two handed and one handed weapons
          * attack (sword)
          * combos & skills
          * animations and autotiles
          * round raduis for enemies
          * better AI for enemies
+         * save game
          * 
          * visbale dmg xp
          * xp
@@ -98,7 +98,7 @@ namespace My_first_xna_game
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
             graphics.PreferredBackBufferHeight = 1080;
             graphics.PreferredBackBufferWidth = 1920;
             Content.RootDirectory = "Content";

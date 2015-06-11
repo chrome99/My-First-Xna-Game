@@ -137,8 +137,8 @@ namespace My_first_xna_game
         {
             if (equipmentList.Contains(armor))
             {
-                equipmentList.Remove(armor);
                 subArmorStats(armor);
+                equipmentList.Remove(armor);
                 switch (armor.armorType)
                 {
                     case Armor.ArmorType.body:
@@ -165,48 +165,87 @@ namespace My_first_xna_game
             }
         }
 
+        public int checkIfEquiped(Armor armor)
+        {
+            //0 is nothing, 1 is equiped or left hand, 2 is right hand, and 3 is both right and left hands
+
+            if (armor.armorType != Armor.ArmorType.oneHanded)
+            {
+                if (equipmentList.Contains(armor))
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                if (equipment.leftHand == null)
+                {
+                    if (equipment.rightHand == null)
+                    {
+                        return 0;
+                    }
+                    else
+                    {
+                        return 2;
+                    }
+                }
+                else
+                {
+                    if (equipment.rightHand == null)
+                    {
+                        return 1;
+                    }
+                    else if (equipment.leftHand.armorType != Armor.ArmorType.twoHanded)
+                    {
+                        return 3;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+            }
+        }
+
         public void Equip(Armor armor)
         {
             switch (armor.armorType)
             {
                 case Armor.ArmorType.body:
-                    subArmorStats(equipment.body);
-                    equipmentList.Remove(equipment.body);
+                    UnEquip(equipment.body);
                     equipment.body = armor;
                     break;
 
                 case Armor.ArmorType.head:
-                    subArmorStats(equipment.head);
-                    equipmentList.Remove(equipment.body);
+                    UnEquip(equipment.head);
                     equipment.head = armor;
                     break;
 
                 case Armor.ArmorType.twoHanded:
-                    equipmentList.Remove(equipment.rightHand);
-                    equipmentList.Remove(equipment.leftHand);
-                    subArmorStats(equipment.rightHand);
-                    subArmorStats(equipment.leftHand);
+                    UnEquip(equipment.leftHand);
+                    equipment.rightHand = null;
                     equipment.leftHand = armor;
                     break;
 
                 case Armor.ArmorType.oneHanded:
                     if (leftHandOrRightHand())
                     {
-                        equipmentList.Remove(equipment.leftHand);
-                        subArmorStats(equipment.leftHand);
+                        UnEquip(equipment.leftHand);
                         equipment.leftHand = armor;
                     }
                     else
                     {
-                        equipmentList.Remove(equipment.rightHand);
-                        subArmorStats(equipment.rightHand);
+                        UnEquip(equipment.rightHand);
                         equipment.rightHand = armor;
                     }
                     break;
 
                 case Armor.ArmorType.shoes:
-                    equipmentList.Remove(equipment.shoes);
-                    subArmorStats(equipment.shoes);
+                    UnEquip(equipment.shoes);
                     equipment.shoes = armor;
                     break;
             }
