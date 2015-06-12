@@ -12,6 +12,7 @@ namespace My_first_xna_game
         public List<GameObject> gameObjectList = new List<GameObject>();
         public TileMap tileMap;
         public string name;
+        public string codeName;
 
         public Map(TileMap tileMap, string name)
         {
