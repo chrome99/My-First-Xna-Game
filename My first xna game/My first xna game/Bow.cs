@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace My_first_xna_game
 {
-        [Serializable]
     public class Bow : Armor
     {
         public struct ProjectileData
@@ -21,8 +20,6 @@ namespace My_first_xna_game
             public int pathDestination;
         }
         ProjectileData projectileData;
-
-        public Bow() { }
 
         public Bow(int iconID, int price, float weight, int durability, ArmorType armorType, ProjectileData projectileData, Player.Stats changeStats)
             : base(iconID, price, weight, durability, armorType, changeStats)

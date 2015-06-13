@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,33 +11,39 @@ namespace My_first_xna_game
         public List<LightSource> lightsList = new List<LightSource>();
         public List<Hostile> hostilesList = new List<Hostile>();
         public List<GameObject> gameObjectList = new List<GameObject>();
-        [XmlIgnore]
         public TileMap tileMap;
-        [XmlIgnore]
         public string name;
 
-        public struct Data
+        public struct MapData
         {
-            public List<LightSource> lightsList;
-            public List<Hostile> hostilesList;
-            public List<GameObject> gameObjectList;
+            public List<LightSource.LightData> lightsListData;
+            //public List<Hostile> hostilesList;
+            //public List<GameObject> gameObjectList;
         }
 
-        public Data getSaveData()
+        public MapData getSaveData()
         {
-            return new Data()
+            List<LightSource.LightData> returnLightsList = new List<LightSource.LightData>();
+            foreach (LightSource lightSource in lightsList)
             {
-                lightsList = this.lightsList,
-                hostilesList = this.hostilesList,
-                gameObjectList = this.gameObjectList
+                returnLightsList.Add(lightSource.getSaveData());
+            }
+            return new MapData()
+            {
+                lightsListData = returnLightsList
+                //hostilesList = this.hostilesList,
+                //gameObjectList = this.gameObjectList
             };
         }
 
-        public void LoadData(Data data)
+        public void LoadData(MapData data)
         {
-            lightsList = data.lightsList;
-            hostilesList = data.hostilesList;
-            gameObjectList = data.gameObjectList;
+            for (int i = 0; i < lightsList.Count; i++)
+            {
+                lightsList[i].LoadData(data.lightsListData[i]);
+            }
+            //hostilesList = data.hostilesList;
+            //gameObjectList = data.gameObjectList;
         }
 
         public Map(TileMap tileMap, string name)

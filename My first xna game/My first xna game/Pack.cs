@@ -1,5 +1,4 @@
-﻿using System.Xml.Serialization;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -7,7 +6,6 @@ namespace My_first_xna_game
 {
     public class Pack
     {
-        [XmlIgnore]
         public Inventory representation;
         public List<Item> items = new List<Item>();
         private Actor source;
@@ -24,8 +22,6 @@ namespace My_first_xna_game
                 return result;
             }
         }
-
-        public Pack() { }
 
         public Pack(Actor source)
         {

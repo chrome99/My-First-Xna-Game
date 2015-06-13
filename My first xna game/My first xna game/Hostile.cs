@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace My_first_xna_game
 {
-    [XmlInclude(typeof(Player))]
-    [Serializable]
     public class Hostile : Actor
     {
         public struct Equipment
@@ -49,8 +46,6 @@ namespace My_first_xna_game
         public Equipment equipment;
         public List<Armor> equipmentList = new List<Armor>();
         private Timer cooldownTimer = new Timer(1000f, false);
-
-        public Hostile() { }
 
         public Hostile(Texture2D texture, Vector2 position, MovementManager.Auto autoMovement = MovementManager.Auto.off)
             : base(texture, position, autoMovement)

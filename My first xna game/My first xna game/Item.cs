@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Xml.Serialization;
 
 namespace My_first_xna_game
 {
@@ -11,18 +10,14 @@ namespace My_first_xna_game
         public static Texture2D IconSet = Game.content.Load<Texture2D>("Textures\\Icons\\IconSet1");
         public int iconID;
         public bool wasted;
-        [XmlIgnore]
         public Picture icon;
         public int price;
         public float weight;
         public int amount;
 
         public delegate void UsingFunction(Hostile source, GameObject target, Item item);
-
-        [XmlIgnore]
         public UsingFunction function;
 
-        public Item() { }
 
         public Item(int iconID, UsingFunction function, int price, float weight, bool wasted)
         {

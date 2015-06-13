@@ -20,8 +20,6 @@ namespace My_first_xna_game
         public int timesMoved = 0;
         private Random random = new Random();
 
-        public Actor() { }
-
         public Actor(Texture2D texture, Vector2 position, MovementManager.Auto autoMovement = MovementManager.Auto.off)
             : base(texture, position, Game.Depth.player, 0)
         {

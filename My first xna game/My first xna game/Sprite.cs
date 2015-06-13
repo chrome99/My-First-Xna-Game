@@ -24,8 +24,6 @@ namespace My_first_xna_game
 
         public Rectangle drawingCoordinates;
 
-        public Sprite() { }
-
         public Sprite(Texture2D texture, Vector2 position, Game.Depth depth, float speed = 2f, Rectangle drawingCoordinates = new Rectangle())
             : base(position)
         {

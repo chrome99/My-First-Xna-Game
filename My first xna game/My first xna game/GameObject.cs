@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -12,7 +11,6 @@ namespace My_first_xna_game
         public Vector2 size = new Vector2(Tile.size, Tile.size);
         public List<string> tags = new List<string>();
 
-        [XmlIgnore]
         public CollisionManager.CollisionFunction collisionFunction;
         public bool passable = false;
         public bool canCollide = true;
@@ -32,8 +30,6 @@ namespace My_first_xna_game
 
         public bool updated = false;
         public Vector2 coreCollision = new Vector2(1, 1);
-
-        public GameObject() { }
 
         public GameObject(Vector2 position)
         {

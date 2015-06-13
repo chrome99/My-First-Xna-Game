@@ -22,7 +22,7 @@ namespace My_first_xna_game
         [Serializable]
         public struct SaveData
         {
-            public Map.Data map;
+            public Map.MapData map;
         }
 
         private List<Camera> cameraList;
