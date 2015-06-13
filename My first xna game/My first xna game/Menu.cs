@@ -24,10 +24,8 @@ namespace My_first_xna_game
             Text returnText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Return", null, new Vector2(2, 5));
             Text inventoryText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Inventory", null, new Vector2(2, 5));
             Text equipmentText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Equipment", null, new Vector2(2, 5));
-            Text saveText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Save", null, new Vector2(2, 5));
-            Text loadText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Load", null, new Vector2(2, 5));
             Text exitText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Exit", null, new Vector2(2, 5));
-            choice = new Choice(map, player.bounds, player, new List<WindowItem> { returnText, inventoryText, equipmentText, saveText, loadText, exitText }, Choice.Arrangement.column);
+            choice = new Choice(map, player.bounds, player, new List<WindowItem> { returnText, inventoryText, equipmentText, exitText }, Choice.Arrangement.column);
         }
 
         public void Kill()
@@ -82,17 +80,7 @@ namespace My_first_xna_game
                         equipment.Revive();
                         break;
 
-                    case 3: //Save
-                        World.save = true;
-                        alive = false;
-                        break;
-
-                    case 4: //Load
-                        World.load = true;
-                        alive = false;
-                        break;
-
-                    case 5: //Exit
+                    case 3: //Exit
                         Game.endGame = true;
                         break;
                 }
