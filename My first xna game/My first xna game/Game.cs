@@ -94,7 +94,7 @@ namespace My_first_xna_game
 
         // TODO: Is this needed?
         public static ContentManager content;
-        public static Rectangle worldRect;
+        public static Rectangle worldRect = new Rectangle(0, 0, 1920, 1080);
 
         public Game()
         {
@@ -108,7 +108,6 @@ namespace My_first_xna_game
         protected override void Initialize()
         {
             content = Content;
-            worldRect = new Rectangle(0, 0, 1920, 1080);
             scene = new Title(graphics);
 
             // Initialize keyboard (old) state

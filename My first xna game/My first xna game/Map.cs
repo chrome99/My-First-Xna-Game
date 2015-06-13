@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -10,9 +12,34 @@ namespace My_first_xna_game
         public List<LightSource> lightsList = new List<LightSource>();
         public List<Hostile> hostilesList = new List<Hostile>();
         public List<GameObject> gameObjectList = new List<GameObject>();
+        [XmlIgnore]
         public TileMap tileMap;
+        [XmlIgnore]
         public string name;
-        public string codeName;
+
+        public struct Data
+        {
+            public List<LightSource> lightsList;
+            public List<Hostile> hostilesList;
+            public List<GameObject> gameObjectList;
+        }
+
+        public Data getSaveData()
+        {
+            return new Data()
+            {
+                lightsList = this.lightsList,
+                hostilesList = this.hostilesList,
+                gameObjectList = this.gameObjectList
+            };
+        }
+
+        public void LoadData(Data data)
+        {
+            lightsList = data.lightsList;
+            hostilesList = data.hostilesList;
+            gameObjectList = data.gameObjectList;
+        }
 
         public Map(TileMap tileMap, string name)
         {

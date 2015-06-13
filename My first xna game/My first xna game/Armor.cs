@@ -1,7 +1,11 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿using System;
+using System.Xml.Serialization;
+using Microsoft.Xna.Framework.Audio;
 
 namespace My_first_xna_game
 {
+    [XmlInclude(typeof(Bow))]
+    [Serializable]
     public class Armor : Item
     {
         public enum ArmorType { head, oneHanded, twoHanded, body, shoes }
@@ -26,6 +30,8 @@ namespace My_first_xna_game
                 }
             }
         }
+
+        public Armor() { }
 
         public Armor(int iconID, int price, float weight, int durability, ArmorType armorType, Player.Stats changeStats)
             : base(iconID, null, price, weight, false)

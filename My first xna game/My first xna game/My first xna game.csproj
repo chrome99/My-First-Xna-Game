@@ -110,7 +110,7 @@
     <Compile Include="Actor.cs" />
     <Compile Include="Armor.cs" />
     <Compile Include="ChoiceInventory.cs" />
-    <Compile Include="Equipment.cs" />
+    <Compile Include="EquipmentMenu.cs" />
     <Compile Include="HostileHUD.cs" />
     <Compile Include="LightSource.cs" />
     <Compile Include="MapCollection.cs" />
@@ -154,7 +154,7 @@
     <Compile Include="TileMap.cs" />
     <Compile Include="Timer.cs" />
     <Compile Include="Title.cs" />
-    <Compile Include="Weapon.cs" />
+    <Compile Include="Bow.cs" />
     <Compile Include="Window.cs" />
     <Compile Include="WindowItem.cs" />
     <Compile Include="Picture.cs" />

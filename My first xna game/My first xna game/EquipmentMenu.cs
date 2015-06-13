@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace My_first_xna_game
 {
-    class Equipment
+    class EquipmentMenu
     {
         public bool alive = false;
         private Window window;
@@ -23,7 +23,7 @@ namespace My_first_xna_game
         private bool useKeyReleased = false;
         private int subUnEquipedOpacity = 30;
 
-        public Equipment(Map map, Player player)
+        public EquipmentMenu(Map map, Player player)
         {
             this.player = player;
 

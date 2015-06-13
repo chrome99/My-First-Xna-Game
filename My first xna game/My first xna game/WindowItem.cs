@@ -21,6 +21,7 @@ namespace My_first_xna_game
         {
             get { return new Rectangle(); }
         }
+
         public Window source;
 
         public WindowItem(Window source)

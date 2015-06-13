@@ -21,6 +21,7 @@ namespace My_first_xna_game
                 return result;
             }
         }
+        public LightSource() { }
 
         public LightSource(GameObject source, int raduis, int opacity, Color color)
         {

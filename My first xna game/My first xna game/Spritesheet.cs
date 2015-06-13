@@ -12,6 +12,8 @@ namespace My_first_xna_game
         private int currentFrameX = 0;
         private int currentFrameY = 0;
 
+        public Spritesheet() { }
+
         public Spritesheet(Texture2D texture, Vector2 position, Game.Depth depth, float speed)
             : base(texture, position, depth, speed)
         {

@@ -22,8 +22,7 @@ namespace My_first_xna_game
         [Serializable]
         public struct SaveData
         {
-            public string codeName;
-            public Player.SaveData player;
+            public Map.Data map;
         }
 
         private List<Camera> cameraList;
@@ -54,7 +53,7 @@ namespace My_first_xna_game
             }
         }
 
-        private void InitiateSave()
+        public void InitiateSave()
         {
             if (true)//!Guide.IsVisible) //TODO: xbox compability
             {
@@ -68,7 +67,7 @@ namespace My_first_xna_game
             storageDevice = StorageDevice.EndShowSelector(result);
             if (storageDevice != null && storageDevice.IsConnected)
             {
-                SaveData SaveData = new SaveData() { codeName = "it worked!", player = PlayerCollection.player1.getSaveData()};
+                SaveData SaveData = new SaveData() { map = mapsList[0].getSaveData()};
                 IAsyncResult r = storageDevice.BeginOpenContainer(storageName, null, null);
                 result.AsyncWaitHandle.WaitOne();
                 StorageContainer container = storageDevice.EndOpenContainer(r);
@@ -108,8 +107,7 @@ namespace My_first_xna_game
                 container.Dispose();
 
                 //Update the game based on the save game file
-                mapsList[0].codeName = SaveData.codeName;
-                PlayerCollection.player1.LoadData(SaveData.player);
+                mapsList[0].LoadData(SaveData.map);
             }
         }
 

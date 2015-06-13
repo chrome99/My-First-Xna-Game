@@ -29,7 +29,7 @@ namespace My_first_xna_game
         {
             if (!alive) { return; }
             text =
-                "Health: " + player.stats.defence + " / " + player.equipment.rightHand +
+                "Health: " + player.gold + " / " + player.maxGold +
                 "\nX:" + player.position.X / Tile.size +
                 "\nY: " + player.position.Y / Tile.size +
                 "\nMovement: " + player.movingState +

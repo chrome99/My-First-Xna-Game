@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -6,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace My_first_xna_game
 {
+    [Serializable]
     public class Player : Hostile
     {
         public PlayerKeys kbKeys;
@@ -16,10 +19,15 @@ namespace My_first_xna_game
         public int maxPackWeight = 30;
         public bool maxWeightReached = false;
 
+        [XmlIgnore]
         private Shop shop;
+        [XmlIgnore]
         private Menu menu;
+        [XmlIgnore]
         private Message msg;
+        [XmlIgnore]
         private DebugHUD debug;
+        [XmlIgnore]
         private HostileHUD hud;
 
         private bool playerMoving = false;
@@ -42,9 +50,12 @@ namespace My_first_xna_game
         private int jumpingCounter = 0;
         private bool maxJumpingHeightReached = false;
 
+
         private bool defendKeyReleased = false;
+        [XmlIgnore]
         public Timer defendingTimer;
         private int defendingTime = 200;
+        [XmlIgnore]
         public Timer defendingCooldownTimer;
         private int defendingCoolddownTime = 500;
 
@@ -75,43 +86,7 @@ namespace My_first_xna_game
             get { return msg.alive; }
         }
 
-        public struct SaveData
-        {
-            //public Vector2 position;
-
-            //public PlayerKeys kbKeys;
-
-            public int gold;
-            public int maxGold;
-
-            public int maxPackWeight;
-            public bool maxWeightReached;
-
-            //public List<int> collisionsList;
-        }
-
-        public SaveData getSaveData()
-        {
-            return new SaveData()
-            {
-                //position = this.position,
-                gold = this.gold,
-                maxGold = this.maxGold,
-                maxPackWeight = this.maxPackWeight,
-                maxWeightReached = this.maxWeightReached
-                //collisionsList = this.collisionsList
-            };
-        }
-
-        public void LoadData(SaveData saveData)
-        {
-            //position = saveData.position;
-            gold = saveData.gold;
-            maxGold = saveData.maxGold;
-            maxPackWeight = saveData.maxPackWeight;
-            maxWeightReached = saveData.maxWeightReached;
-            //collisionsList = saveData.collisionsList;
-        }
+        public Player() { }
 
         public Player(Texture2D texture, Vector2 position, PlayerKeys keys, Stats stats)
             : base(texture, position, MovementManager.Auto.off)

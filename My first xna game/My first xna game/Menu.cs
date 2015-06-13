@@ -12,14 +12,14 @@ namespace My_first_xna_game
         public bool alive = false;
         private Player player;
         private Inventory inventory;
-        private Equipment equipment;
+        private EquipmentMenu equipment;
         private bool confirmKeyReleased = false;
 
         public Menu(Map map, Player player)
         {
             this.player = player;
             inventory = new Inventory(map, player);
-            equipment = new Equipment(map, player);
+            equipment = new EquipmentMenu(map, player);
 
             Text returnText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Return", null, new Vector2(2, 5));
             Text inventoryText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Inventory", null, new Vector2(2, 5));
