@@ -77,6 +77,53 @@ namespace My_first_xna_game
             get { return msg.alive; }
         }
 
+        public struct PlayerData
+        {
+            public int gold;
+            public int maxGold;
+            public int maxPackWeight;
+            public bool maxWeightReached;
+            public bool enableRunning;
+
+            public Vector2 position;
+
+            public List<int> collisionsList;
+
+            public Stats stats;
+
+            public string mapName;
+        }
+
+        public PlayerData getSaveData()
+        {
+            return new PlayerData()
+            {
+                gold = this.gold,
+                maxGold = this.maxGold,
+                maxPackWeight = this.maxPackWeight,
+                maxWeightReached = this.maxWeightReached,
+                enableRunning = this.enableRunning,
+                position = this.position,
+                collisionsList = this.collisionsList,
+                stats = this.stats,
+                mapName = this.map.name
+            };
+        }
+
+        public void LoadData(PlayerData data)
+        {
+            gold = data.gold;
+            maxGold = data.maxGold;
+            maxPackWeight = data.maxPackWeight;
+            maxWeightReached = data.maxWeightReached;
+            enableRunning = data.enableRunning;
+            position = data.position;
+            collisionsList = data.collisionsList;
+            stats = data.stats;
+            Map playerMap = MapCollection.mapsList.Find(x => x.name == data.mapName);
+            map = playerMap;
+        }
+
         public Player(Texture2D texture, Vector2 position, PlayerKeys keys, Stats stats)
             : base(texture, position, MovementManager.Auto.off)
         {

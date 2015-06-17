@@ -1,30 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Xml.Serialization;
-using System.IO;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
 
 namespace My_first_xna_game
 {
     public class World : Scene
     {
-        public static bool save = false;
-        public static bool load = false;
-
-        private StorageDevice storageDevice;
-        private string storageName = "myStorage";
-        private string fileName = "asd.sav";
-
-        [Serializable]
-        public struct SaveData
-        {
-            public Map.MapData map;
-        }
-
         private List<Camera> cameraList;
         private List<Map> mapsList = new List<Map>();
 
@@ -53,76 +36,8 @@ namespace My_first_xna_game
             }
         }
 
-        public void InitiateSave()
-        {
-            if (true)//!Guide.IsVisible) //TODO: xbox compability
-            {
-                storageDevice = null;
-                StorageDevice.BeginShowSelector(PlayerIndex.One, this.SaveToDevice, null);
-            }
-        }
-
-        private void SaveToDevice(IAsyncResult result)
-        {
-            storageDevice = StorageDevice.EndShowSelector(result);
-            if (storageDevice != null && storageDevice.IsConnected)
-            {
-                SaveData SaveData = new SaveData() { map = mapsList[0].getSaveData()};
-                IAsyncResult r = storageDevice.BeginOpenContainer(storageName, null, null);
-                result.AsyncWaitHandle.WaitOne();
-                StorageContainer container = storageDevice.EndOpenContainer(r);
-                if (container.FileExists(fileName))
-                    container.DeleteFile(fileName);
-                Stream stream = container.CreateFile(fileName);
-                XmlSerializer serializer = new XmlSerializer(typeof(SaveData));
-                serializer.Serialize(stream, SaveData);
-                stream.Close();
-                container.Dispose();
-                result.AsyncWaitHandle.Close();
-            }
-        }
-
-        private void InitiateLoad()
-        {
-            if (true)//!Guide.IsVisible) //TODO: xbox compability
-            {
-                storageDevice = null;
-                StorageDevice.BeginShowSelector(PlayerIndex.One, this.LoadFromDevice, null);
-            }
-        }
-
-        void LoadFromDevice(IAsyncResult result)
-        {
-            storageDevice = StorageDevice.EndShowSelector(result);
-            IAsyncResult r = storageDevice.BeginOpenContainer(storageName, null, null);
-            result.AsyncWaitHandle.WaitOne();
-            StorageContainer container = storageDevice.EndOpenContainer(r);
-            result.AsyncWaitHandle.Close();
-            if (container.FileExists(fileName))
-            {
-                Stream stream = container.OpenFile(fileName, FileMode.Open);
-                XmlSerializer serializer = new XmlSerializer(typeof(SaveData));
-                SaveData SaveData = (SaveData)serializer.Deserialize(stream);
-                stream.Close();
-                container.Dispose();
-
-                //Update the game based on the save game file
-                mapsList[0].LoadData(SaveData.map);
-            }
-        }
-
         public override void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
-        {
-            if (save)
-            {
-                save = false;
-                InitiateSave();
-            }
-            if (load)
-            {
-                load = false;
-                InitiateLoad();
-            }
+        {   
             foreach (Camera camera in cameraList)
             {
                 camera.Update();                

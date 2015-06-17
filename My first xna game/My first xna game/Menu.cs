@@ -83,12 +83,12 @@ namespace My_first_xna_game
                         break;
 
                     case 3: //Save
-                        World.save = true;
+                        Game.InitiateSave();
                         alive = false;
                         break;
 
                     case 4: //Load
-                        World.load = true;
+                        Game.InitiateLoad();
                         alive = false;
                         break;
 

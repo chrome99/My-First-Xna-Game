@@ -22,30 +22,6 @@ namespace My_first_xna_game
             }
         }
 
-        public struct LightData
-        {
-            public int raduis;
-            public int opacity;
-            public Color color;
-        }
-
-        public LightData getSaveData()
-        {
-            return new LightData()
-            {
-                raduis = (int)this.raduis,
-                opacity = this.opacity,
-                color = this.color
-            };
-        }
-
-        public void LoadData(LightData data)
-        {
-            raduis = data.raduis;
-            opacity = data.opacity;
-            color = data.color;
-        }
-
         public LightSource(GameObject source, int raduis, int opacity, Color color)
         {
             this.source = source;

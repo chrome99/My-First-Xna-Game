@@ -9,6 +9,12 @@ namespace My_first_xna_game
         public static List<Player> playersList;
         public static List<Player> playersOnShop = new List<Player>();
 
+        static PlayerManager()
+        {
+            //add players to PlayerManager
+            playersList = new List<Player> { PlayerCollection.player1, PlayerCollection.player2, PlayerCollection.player3, PlayerCollection.player4 };
+        }
+
         public static void UpdatePlayersMapParameters(KeyboardState newState, KeyboardState oldState)
         {
             foreach (Player player in playersList)

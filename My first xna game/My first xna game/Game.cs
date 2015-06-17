@@ -1,9 +1,13 @@
+using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Storage;
 
 namespace My_first_xna_game
 {
@@ -95,6 +99,16 @@ namespace My_first_xna_game
         public static ContentManager content;
         public static Rectangle worldRect = new Rectangle(0, 0, 1920, 1080);
 
+        private static StorageDevice storageDevice;
+        private static string storageName = "myStorage";
+        private static string fileName = "asd.sav";
+
+        [Serializable]
+        public struct SaveData
+        {
+            public List<Player.PlayerData> playersData;
+        }
+
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -155,6 +169,75 @@ namespace My_first_xna_game
             oldState = newState;
 
             base.Update(gameTime);
+        }
+
+        public static void InitiateSave()
+        {
+            if (true)//!Guide.IsVisible) //TODO: xbox compability
+            {
+                storageDevice = null;
+                StorageDevice.BeginShowSelector(PlayerIndex.One, SaveToDevice, null);
+            }
+        }
+
+        private static void SaveToDevice(IAsyncResult result)
+        {
+            storageDevice = StorageDevice.EndShowSelector(result);
+            if (storageDevice != null && storageDevice.IsConnected)
+            {
+                List<Player.PlayerData> playersDataToSave = new List<Player.PlayerData>();
+                foreach (Player player in PlayerManager.playersList)
+                {
+                    playersDataToSave.Add(player.getSaveData());
+                }
+                SaveData SaveData = new SaveData()
+                {
+                    playersData = playersDataToSave
+                };
+                IAsyncResult r = storageDevice.BeginOpenContainer(storageName, null, null);
+                result.AsyncWaitHandle.WaitOne();
+                StorageContainer container = storageDevice.EndOpenContainer(r);
+                if (container.FileExists(fileName))
+                    container.DeleteFile(fileName);
+                Stream stream = container.CreateFile(fileName);
+                XmlSerializer serializer = new XmlSerializer(typeof(SaveData));
+                serializer.Serialize(stream, SaveData);
+                stream.Close();
+                container.Dispose();
+                result.AsyncWaitHandle.Close();
+            }
+        }
+
+        public static void InitiateLoad()
+        {
+            if (true)//!Guide.IsVisible) //TODO: xbox compability
+            {
+                storageDevice = null;
+                StorageDevice.BeginShowSelector(PlayerIndex.One, LoadFromDevice, null);
+            }
+        }
+
+        private static void LoadFromDevice(IAsyncResult result)
+        {
+            storageDevice = StorageDevice.EndShowSelector(result);
+            IAsyncResult r = storageDevice.BeginOpenContainer(storageName, null, null);
+            result.AsyncWaitHandle.WaitOne();
+            StorageContainer container = storageDevice.EndOpenContainer(r);
+            result.AsyncWaitHandle.Close();
+            if (container.FileExists(fileName))
+            {
+                Stream stream = container.OpenFile(fileName, FileMode.Open);
+                XmlSerializer serializer = new XmlSerializer(typeof(SaveData));
+                SaveData SaveData = (SaveData)serializer.Deserialize(stream);
+                stream.Close();
+                container.Dispose();
+                //Update the game based on the save game file
+                for (int i = 0; i < PlayerManager.playersList.Count; i++)
+                {
+                    PlayerManager.playersList[i].LoadData(SaveData.playersData[i]);
+                }
+
+            }
         }
 
         protected override void Draw(GameTime gameTime)

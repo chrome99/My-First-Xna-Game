@@ -132,9 +132,6 @@ namespace My_first_xna_game
             player2.coreCollision.Y = 4;
             player3.coreCollision.Y = 4;
             player4.coreCollision.Y = 4;*/
-
-            //add players to PlayerManager
-            PlayerManager.playersList = new List<Player> { player1, player2, player3, player4 };
         }
     }
 }
