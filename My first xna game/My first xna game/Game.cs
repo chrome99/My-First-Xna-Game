@@ -61,7 +61,7 @@ namespace My_first_xna_game
          * redstone
          
          BUGS:
-         * fix height in multiple maps in 
+         * fix height in multiple maps in
          * fix tileset drawing bug
          * fix heal health and hud
          * fix function GetID in GameObject

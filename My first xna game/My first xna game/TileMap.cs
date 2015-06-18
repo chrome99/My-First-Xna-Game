@@ -68,6 +68,24 @@ namespace My_first_xna_game
                         int currentCell = y * (height) + x;
                         TmxLayerTile tmxCell = map.Layers[layersCounter].Tiles[currentCell];
 
+                        //texture and tileset
+                        if (tmxCell.Gid == 0)
+                        {
+                            cell.empty = true;
+                        }
+                        cell.texture = tmxCell.Gid;
+                        cell.tileset = tilesets[0];
+                        int tilesSoFar = map.Tilesets[0].Tiles.Count;
+                        for (int tilesetsCounter = 0; tilesetsCounter < map.Tilesets.Count - 1; tilesetsCounter++)
+                        {
+                            if (tmxCell.Gid > tilesSoFar)
+                            {
+                                cell.texture = tmxCell.Gid - tilesSoFar;
+                                cell.tileset = tilesets[tilesetsCounter + 1];
+                            }
+                            tilesSoFar += map.Tilesets[tilesetsCounter + 1].Tiles.Count;
+                        }
+
                         //tile properties
                         TmxTilesetTile tileResult = null;
                         bool breakLoop = false;
@@ -113,24 +131,6 @@ namespace My_first_xna_game
                             {
                                 mapCellsList.Add(cell);
                             }
-                        }
-
-                        //texture and tileset
-                        if (tmxCell.Gid == 0)
-                        {
-                            cell.empty = true;
-                        }
-                        cell.texture = tmxCell.Gid;
-                        cell.tileset = tilesets[0];
-                        int tilesSoFar = map.Tilesets[0].Tiles.Count;
-                        for (int tilesetsCounter = 0; tilesetsCounter < map.Tilesets.Count - 1; tilesetsCounter++)
-                        {
-                            if (tmxCell.Gid > tilesSoFar)
-                            {
-                                cell.texture = tmxCell.Gid - tilesSoFar;
-                                cell.tileset = tilesets[tilesetsCounter + 1];
-                            }
-                            tilesSoFar += map.Tilesets[tilesetsCounter + 1].Tiles.Count;
                         }
                     }
                 }
