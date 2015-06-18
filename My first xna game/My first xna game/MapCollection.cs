@@ -10,11 +10,11 @@ namespace My_first_xna_game
 
         static MapCollection()
         {
-            TileMap tileMap = new TileMap("Maps\\classic.tmx", false);
+            TileMap tileMap = new TileMap("Maps\\classic.tmx");
             map = new Map(tileMap, "classic");
             map.AddObjectCollection(new ObjectCollection1(map));
 
-            TileMap tileMap2 = new TileMap("Maps\\tower.tmx", false);
+            TileMap tileMap2 = new TileMap("Maps\\tower.tmx");
             map2 = new Map(tileMap2, "tower");
 
             mapsList.Add(map);

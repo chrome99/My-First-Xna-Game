@@ -13,7 +13,7 @@ namespace My_first_xna_game
         public int width;
         public int height;
         public Rectangle mapRect;
-        private Texture2D tileset;
+        private Texture2D[] tilesets;
         private List<MapCell> highCells = new List<MapCell>();
         private List<MapCell> mapCellsList = new List<MapCell>();
 
@@ -23,7 +23,11 @@ namespace My_first_xna_game
             TmxMap map = new TmxMap(path);
 
             // 1. intialize
-            this.tileset = Game.content.Load<Texture2D>("Textures\\Tilesets\\" + Path.GetFileNameWithoutExtension(map.Tilesets[0].Image.Source));
+            tilesets = new Texture2D[map.Tilesets.Count];
+            for (int i = 0; i < map.Tilesets.Count; i++)
+            {
+                tilesets[i] = (Game.content.Load<Texture2D>("Textures\\Tilesets\\" + Path.GetFileNameWithoutExtension(map.Tilesets[i].Image.Source)));
+            }
             this.width = map.Width; //todo: /32
             this.height = map.Height;
 
@@ -52,9 +56,9 @@ namespace My_first_xna_game
                 }
             }
             // 3. add map design
-            for (int i = 0; i < layers.Count; i++)
+            for (int layersCounter = 0; layersCounter < layers.Count; layersCounter++)
             {
-                Layer layer = layers[i];
+                Layer layer = layers[layersCounter];
                 for (int y = 0; y < height; y++)
                 {
                     MapRow row = layer.Rows[y];
@@ -62,28 +66,46 @@ namespace My_first_xna_game
                     {
                         MapCell cell = row.Columns[x];
                         int currentCell = y * (height) + x;
-                        TmxLayerTile tmxCell = map.Layers[i].Tiles[currentCell];
+                        TmxLayerTile tmxCell = map.Layers[layersCounter].Tiles[currentCell];
 
-                        //texture
+                        //texture and tileset
                         if (tmxCell.Gid == 0)
                         {
                             cell.empty = true;
                         }
                         cell.texture = tmxCell.Gid;
-
-                        TmxTilesetTile result = null;
-                        for (int counter = 0; counter < map.Tilesets[0].Tiles.Count; counter++)
+                        cell.tileset = tilesets[0];
+                        for (int tilesetsCounter = 0; tilesetsCounter < map.Tilesets.Count - 1; tilesetsCounter++)
                         {
-                            if (counter == tmxCell.Gid - 1)
+                            if (tmxCell.Gid > map.Tilesets[tilesetsCounter].Tiles.Count)
                             {
-                                result = map.Tilesets[0].Tiles[counter];
-                                break;
+                                cell.texture = tmxCell.Gid - map.Tilesets[tilesetsCounter].Tiles.Count;
+                                cell.tileset = tilesets[tilesetsCounter + 1];
                             }
                         }
-                        if (result != null)
+
+                        //tile properties
+                        TmxTilesetTile tileResult = null;
+                        bool breakLoop = false;
+
+                        for (int tilesetCounter = 0; tilesetCounter < map.Tilesets.Count; tilesetCounter++)
+                        {
+                            for (int tilesCounter = 0; tilesCounter < map.Tilesets[tilesetCounter].Tiles.Count; tilesCounter++)
+                            {
+                                if (tilesCounter == cell.texture - 1)
+                                {
+                                    tileResult = map.Tilesets[tilesetCounter].Tiles[tilesCounter];
+                                    breakLoop = true;
+                                    break;
+                                }
+                                if (breakLoop) { break; }
+                            }
+                            if (breakLoop) { break; }
+                        }
+                        if (tileResult != null)
                         {
                             //collision
-                            if (result.Properties["Passable"] == "X")
+                            if (tileResult.Properties["Passable"] == "X")
                             {
                                 cell.passable = false;
 
@@ -98,7 +120,7 @@ namespace My_first_xna_game
                             }
 
                             //height
-                            if (result.Properties["Height"] == "1")
+                            if (tileResult.Properties["Height"] == "1")
                             {
                                 cell.high = true;
                                 highCells.Add(cell);
@@ -115,7 +137,7 @@ namespace My_first_xna_game
 
         public void AddCollisionObjects(Map map)
         {
-            //todo: srsly? why not map do this?
+            //todo: srsly? why not map do this? i am rusin
             foreach (GameObject collisionObject in collisionObjectList)
             {
                 map.AddObject(collisionObject);
@@ -178,7 +200,7 @@ namespace My_first_xna_game
                                 tileIDY = tileID.texture / 8 - 1;
                             }
                             spriteBatch.Draw(
-                                tileset,
+                                tileID.tileset,
                                 new Rectangle(
                                     positionX, positionY, Tile.size, Tile.size),
                                 Tile.getTileRectangle(new Vector2(tileIDX, tileIDY)),

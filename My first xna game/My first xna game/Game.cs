@@ -20,7 +20,6 @@ namespace My_first_xna_game
          * animations and autotiles
          * round raduis for enemies
          * better AI for enemies
-         * save game
          * 
          * visbale dmg xp
          * xp

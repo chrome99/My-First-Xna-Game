@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace My_first_xna_game
 {
@@ -11,6 +12,7 @@ namespace My_first_xna_game
         public List<string> tag = new List<string>();
         public bool passable = true;
         public float opacity = 100f;
+        public Texture2D tileset;
 
         public float getOpacity
         {
