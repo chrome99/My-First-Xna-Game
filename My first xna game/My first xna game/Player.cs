@@ -121,7 +121,21 @@ namespace My_first_xna_game
             collisionsList = data.collisionsList;
             stats = data.stats;
             Map playerMap = MapCollection.mapsList.Find(x => x.name == data.mapName);
-            map = playerMap;
+            if (map != null)
+            {
+                if (map != playerMap)
+                {
+                    this.map.RemoveObject(this);
+                    playerMap.AddObject(this);
+                    map = playerMap;
+                }
+            }
+            else
+            {
+                map = playerMap;
+                map.AddObject(this);
+            }
+
         }
 
         public Player(Texture2D texture, Vector2 position, PlayerKeys keys, Stats stats)

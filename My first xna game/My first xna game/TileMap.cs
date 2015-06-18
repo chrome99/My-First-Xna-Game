@@ -68,22 +68,6 @@ namespace My_first_xna_game
                         int currentCell = y * (height) + x;
                         TmxLayerTile tmxCell = map.Layers[layersCounter].Tiles[currentCell];
 
-                        //texture and tileset
-                        if (tmxCell.Gid == 0)
-                        {
-                            cell.empty = true;
-                        }
-                        cell.texture = tmxCell.Gid;
-                        cell.tileset = tilesets[0];
-                        for (int tilesetsCounter = 0; tilesetsCounter < map.Tilesets.Count - 1; tilesetsCounter++)
-                        {
-                            if (tmxCell.Gid > map.Tilesets[tilesetsCounter].Tiles.Count)
-                            {
-                                cell.texture = tmxCell.Gid - map.Tilesets[tilesetsCounter].Tiles.Count;
-                                cell.tileset = tilesets[tilesetsCounter + 1];
-                            }
-                        }
-
                         //tile properties
                         TmxTilesetTile tileResult = null;
                         bool breakLoop = false;
@@ -130,6 +114,24 @@ namespace My_first_xna_game
                                 mapCellsList.Add(cell);
                             }
                         }
+
+                        //texture and tileset
+                        if (tmxCell.Gid == 0)
+                        {
+                            cell.empty = true;
+                        }
+                        cell.texture = tmxCell.Gid;
+                        cell.tileset = tilesets[0];
+                        int tilesSoFar = map.Tilesets[0].Tiles.Count;
+                        for (int tilesetsCounter = 0; tilesetsCounter < map.Tilesets.Count - 1; tilesetsCounter++)
+                        {
+                            if (tmxCell.Gid > tilesSoFar)
+                            {
+                                cell.texture = tmxCell.Gid - tilesSoFar;
+                                cell.tileset = tilesets[tilesetsCounter + 1];
+                            }
+                            tilesSoFar += map.Tilesets[tilesetsCounter + 1].Tiles.Count;
+                        }
                     }
                 }
             }
@@ -170,6 +172,7 @@ namespace My_first_xna_game
                         int positionX = x * Tile.size - offsetX;
                         int positionY = y * Tile.size - offsetY;
                         MapCell tileID = layer.Rows[(int)MathHelper.Clamp(y + firstY - 0, 0, height - 1)].Columns[(int)MathHelper.Clamp(x + firstX - 0, 0, width - 1)];
+                        int tilesetWidth = tileID.tileset.Width / Tile.size;
                         bool heightCheck;
                         if (low)
                         {
@@ -182,22 +185,22 @@ namespace My_first_xna_game
                         if (!tileID.empty && heightCheck)
                         {
                             int tileIDX;
-                            int tileIDY = tileID.texture / 8;
-                            if (tileID.texture < 0 || tileID.texture % 8 != 0)
+                            int tileIDY = tileID.texture / tilesetWidth;
+                            if (tileID.texture < 0 || tileID.texture % tilesetWidth != 0)
                             {
-                                tileIDX = tileID.texture % 8;
+                                tileIDX = tileID.texture % tilesetWidth;
                             }
                             else
                             {
-                                tileIDX = 8;
+                                tileIDX = tilesetWidth;
                             }
-                            if (tileID.texture != tileIDY * 8)
+                            if (tileID.texture != tileIDY * tilesetWidth)
                             {
-                                tileIDY = tileID.texture / 8;
+                                tileIDY = tileID.texture / tilesetWidth;
                             }
                             else
                             {
-                                tileIDY = tileID.texture / 8 - 1;
+                                tileIDY = tileID.texture / tilesetWidth - 1;
                             }
                             spriteBatch.Draw(
                                 tileID.tileset,
@@ -210,37 +213,5 @@ namespace My_first_xna_game
                 }
             }
         }
-
-        /*public void DrawLow(SpriteBatch spriteBatch, Rectangle screenRect, Rectangle mapRect)
-        {
-            //UpdateDrawingVariables(screenRect, mapRect);
-            foreach (MapCell cell in mapCellsList)
-            {
-                spriteBatch.Draw(
-                    tileset,
-                    new Rectangle(
-                        cell.positionX, cell.positionY, Tile.size, Tile.size),
-                    Tile.getTileRectangle(cell.tileIdPosition),
-                    Color.White * cell.getOpacity);
-            }
-        }
-
-        public void DrawHigh(SpriteBatch spriteBatch, Rectangle screenRect, Rectangle mapRect)
-        {
-            //UpdateDrawingVariables(screenRect, mapRect);
-            foreach (MapCell cell in highCells)
-            {
-                if (!cell.empty)
-                {
-                    spriteBatch.Draw(
-                        tileset,
-                        new Rectangle(
-                            cell.positionX, cell.positionY, Tile.size, Tile.size),
-                        Tile.getTileRectangle(cell.tileIdPosition),
-                        Color.White * cell.getOpacity);
-                }
-            }
-        }*/
-
     }
 }
