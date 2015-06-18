@@ -24,7 +24,6 @@ namespace My_first_xna_game
          * visbale dmg xp
          * xp
          * stats
-         * pick and throw
          * guns
          * homing spells
          * vehicles

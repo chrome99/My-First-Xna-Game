@@ -23,6 +23,8 @@ namespace My_first_xna_game
         private DebugHUD debug;
         private HostileHUD hud;
 
+        private Sprite HoldedSprite;
+
         private bool playerMoving = false;
         private bool playerRunning = false;
         private int releasedKeysCount;
@@ -178,6 +180,52 @@ namespace My_first_xna_game
             }
         }
 
+        public void HoldObject(Sprite sprite)
+        {
+            HoldedSprite = sprite;
+            map.RemoveObject(sprite);
+            map.AddObject(HoldedSprite);
+            HoldedSprite.canCollide = false;
+            HoldedSprite.position = position;
+            HoldedSprite.position.Y -= HoldedSprite.bounds.Height / 3 * 2;
+        }
+
+        public void ThrowObject()
+        {
+            Sprite originalSprite = HoldedSprite;
+
+            Vector2 newPosition;
+            newPosition.X = position.X + bounds.Width / 2 - bounds.Width / 2;
+            newPosition.Y = position.Y + bounds.Height - originalSprite.bounds.Height;
+
+            Rectangle originalSpriteCore = originalSprite.core;
+            originalSpriteCore.X = (int)MovementManager.MoveVector(newPosition, Tile.size * 2, direction).X;
+            originalSpriteCore.Y = (int)MovementManager.MoveVector(newPosition, Tile.size * 2, direction).Y;
+            originalSprite.canCollide = true;
+            bool passable = originalSprite.passable;
+            originalSprite.passable = false;
+            if (!movementManager.CollisionCheck(originalSprite, originalSpriteCore))
+            {
+                DiscardObject();
+
+                originalSprite.position.X = originalSpriteCore.X;
+                originalSprite.position.Y = originalSpriteCore.Y;
+                map.AddObject(originalSprite);
+            }
+            originalSprite.passable = passable;
+        }
+
+        public void DiscardObject()
+        {
+            map.RemoveObject(HoldedSprite);
+            HoldedSprite = null;
+        }
+
+        public bool canInteract()
+        {
+            return HoldedSprite == null;
+        }
+
         public void HandleHit(int damage)
         {
             if (shop.alive)
@@ -230,6 +278,11 @@ namespace My_first_xna_game
             }
             UpdateDefend();
 
+            if (HoldedSprite != null)
+            {
+                HoldedSprite.position.X = position.X;
+                HoldedSprite.position.Y = position.Y - HoldedSprite.bounds.Height / 3 * 2;
+            }
 
             shop.Update(newState, oldState, gameTime);
             menu.Update(newState, oldState, gameTime);
@@ -363,12 +416,19 @@ namespace My_first_xna_game
             //if pressed attack
             if (newState.IsKeyDown(kbKeys.attack) && attackKeyReleased)
             {
-                for (int counter = 0; counter < equipmentList.Count; counter++)
+                if (HoldedSprite != null)
                 {
-                    Bow weapon = equipmentList[counter] as Bow;
-                    if (weapon != null)
+                    ThrowObject();
+                }
+                else
+                {
+                    for (int counter = 0; counter < equipmentList.Count; counter++)
                     {
-                        weapon.Attack(map, this);
+                        Bow weapon = equipmentList[counter] as Bow;
+                        if (weapon != null)
+                        {
+                            weapon.Attack(map, this);
+                        }
                     }
                 }
 
@@ -504,6 +564,14 @@ namespace My_first_xna_game
         public Vector2 getMerchantPosition()
         {
             return shop.getMerchantPosition();
+        }
+
+        public override void DrawPlayer(SpriteBatch spriteBatch, Rectangle offsetRect)
+        {
+            if (HoldedSprite != null)
+            {
+                HoldedSprite.Draw(spriteBatch, offsetRect);
+            }
         }
 
         public void DrawPlayerItems(SpriteBatch spriteBatch, Rectangle offsetRect)

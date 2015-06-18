@@ -140,10 +140,10 @@ namespace My_first_xna_game
                 Player player = gameObject1 as Player;
                 if (player != null)
                 {
-                    //boxs collision
-                    foreach (GameObject boxs in FindTag("box"))
+                    //boxes collision
+                    foreach (GameObject boxes in FindTag("box"))
                     {
-                        if (CollisionManager.GameObjectTouch(player, boxs)) { player.push(boxs); }
+                        if (CollisionManager.GameObjectTouch(player, boxes)) { player.push(boxes); }
                     }
 
                     //enemies collision //TODO: what does this do?

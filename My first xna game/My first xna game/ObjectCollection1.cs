@@ -9,6 +9,7 @@ namespace My_first_xna_game
         private Enemy wolf;
         private Actor npc;
         private Sprite block;
+        private Sprite holdBox;
         private Sprite pickUpBread;
         private Sprite runningSwitch;
         private Sprite box1;
@@ -45,6 +46,10 @@ namespace My_first_xna_game
 
             block = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(37 * 32, 21 * 32), Game.Depth.player, 2);
 
+            holdBox = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(40 * 32, 21 * 32), Game.Depth.player, 2);
+            holdBox.passable = true;
+            holdBox.collisionFunction = UpdateHoldBoxCollision;
+
             pickUpBread = CreatePickup(pickUpBread, ItemCollection.bread, new Vector2(11 * 32, 34 * 32));
 
             groundSwitch = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\brick1"), new Vector2(38 * 32, 25 * 32), Game.Depth.below, 2);
@@ -70,6 +75,7 @@ namespace My_first_xna_game
             gameObjectList.Add(npc);
             gameObjectList.Add(wolf);
             gameObjectList.Add(block);
+            gameObjectList.Add(holdBox);
             gameObjectList.Add(pickUpBread);
             gameObjectList.Add(runningSwitch);
             gameObjectList.Add(groundSwitch);
@@ -78,6 +84,20 @@ namespace My_first_xna_game
             gameObjectList.Add(portal);
         }
 
+        private void UpdateHoldBoxCollision(GameObject HoldBox)
+        {
+            for (int i = 0; i < map.gameObjectList.Count; i++)
+            {
+                Player player = map.gameObjectList[i] as Player;
+                if (player != null)
+                {
+                    if (CollisionManager.GameObjectCollision(holdBox, player))
+                    {
+                        player.HoldObject(holdBox);
+                    }
+                }
+            }
+        }
 
         private void UpdatePortalCollision(GameObject portal)
         {
@@ -102,11 +122,11 @@ namespace My_first_xna_game
         private void UpdateGroundSwitchCollision(GameObject groundSwitch)
         {
             bool blockKilled = false;
-            foreach (GameObject boxs in map.FindTag("box"))
+            foreach (GameObject boxes in map.FindTag("box"))
             {
                 if (!blockKilled)
                 {
-                    if (CollisionManager.GameObjectCollision(boxs, groundSwitch))
+                    if (CollisionManager.GameObjectCollision(boxes, groundSwitch))
                     {
                         block.Kill();
                         blockKilled = true;
@@ -136,15 +156,17 @@ namespace My_first_xna_game
                     {
                         if (!player.collisionsList.Contains(collisionID))
                         {
-                            if (player.Shop(npc))
+                            if (player.canInteract())
                             {
-                                movementManager.TurnActor(npc2, MovementManager.OppositeDirection(player.direction));
-                                //movementManager.Knockback(player, MovementManager.Direction.left, 100);
-                                //player.MessageWindow(npc2.bounds, new List<string> {"the great king wants to see you. \n no, he dosent.", "asd"}, true);
-                                //player.MessageWindow(npc2.bounds, "the king wants to see you. \n no, he dosent.", true);
-                                player.collisionsList.Add(collisionID);
+                                if (player.Shop(npc))
+                                {
+                                    movementManager.TurnActor(npc2, MovementManager.OppositeDirection(player.direction));
+                                    //movementManager.Knockback(player, MovementManager.Direction.left, 100);
+                                    //player.MessageWindow(npc2.bounds, new List<string> {"the great king wants to see you. \n no, he dosent.", "asd"}, true);
+                                    //player.MessageWindow(npc2.bounds, "the king wants to see you. \n no, he dosent.", true);
+                                    player.collisionsList.Add(collisionID);
+                                }
                             }
-                            
                         }
                     }
                     else
