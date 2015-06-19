@@ -9,7 +9,7 @@ namespace My_first_xna_game
         public float speed;
         public Game.Depth depth;
         public bool visible = true;
-        public bool fade = false;
+        protected bool fade = false;
         public float opacity = 100f;
         public float drawingOpacity
         {
@@ -91,6 +91,11 @@ namespace My_first_xna_game
         public void Reset()
         {
             movementManager.MoveTo(this, new Vector2(10 * 32, 30 * 32));
+        }
+
+        public void Fade()
+        {
+            fade = true;
         }
 
         public override void Kill()

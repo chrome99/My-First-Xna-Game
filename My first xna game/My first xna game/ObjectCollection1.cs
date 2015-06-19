@@ -25,7 +25,6 @@ namespace My_first_xna_game
             ItemCollection = new ItemCollection();
 
             wolf = new Enemy(Content.Load<Texture2D>("Textures\\Spritesheets\\wolf"), new Vector2(41 * 32, 43 * 32));
-            wolf.AddLight(32 * 6 * 2, Color.Red);
             wolf.stats.maxHealth = 16;
             wolf.stats.health = 16;
             wolf.stats.maxMana = 16;
@@ -37,7 +36,6 @@ namespace My_first_xna_game
             wolf.Cooldown = 750f;
 
             npc = new Actor(Content.Load<Texture2D>("Textures\\Spritesheets\\mage"), new Vector2(22 * 32, 16 * 32));
-            npc.AddLight(300, Color.Yellow);
             npc.pack = new Pack(npc);
             npc.pack.AddItem(ItemCollection.ironChestArmor);
             npc.pack.AddItem(ItemCollection.bread);

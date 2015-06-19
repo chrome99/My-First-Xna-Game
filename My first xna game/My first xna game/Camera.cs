@@ -76,6 +76,14 @@ namespace My_first_xna_game
             if (player.alive)
             {
                 player.DrawPlayerItems(spriteBatch, mapRect);
+                foreach (GameObject gameObject in player.map.gameObjectList)
+                {
+                    Hostile hostile = gameObject as Hostile;
+                    if (hostile != null)
+                    {
+                        hostile.DrawDmg(spriteBatch, mapRect);
+                    }
+                }
             }
         }
 

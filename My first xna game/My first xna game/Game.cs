@@ -21,7 +21,7 @@ namespace My_first_xna_game
          * round raduis for enemies
          * better AI for enemies
          * 
-         * visbale dmg xp
+         * visbale xp and healing
          * xp
          * stats
          * guns

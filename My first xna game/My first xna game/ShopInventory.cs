@@ -133,7 +133,7 @@ namespace My_first_xna_game
         {
             foreach(Text price in priceTexts)
             {
-                price.Update(null);
+                price.UpdateText(null);
             }
         }
 

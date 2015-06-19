@@ -53,7 +53,7 @@ namespace My_first_xna_game
             pathTravelled++;
             if (pathTravelled == pathDestination)
             {
-                fade = true;
+                Fade();
                 //texture.Dispose();
                 // TODO: Destroy instance
             }

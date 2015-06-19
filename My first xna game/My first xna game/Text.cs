@@ -51,7 +51,7 @@ namespace My_first_xna_game
             get { return new Rectangle((int)position.X, (int)position.Y, (int)font.MeasureString(text).X, (int)font.MeasureString(text).Y); }
         }
 
-        public void Update(string text = null)
+        public void UpdateText(string text = null)
         {
             if (text != null)
             {

@@ -47,6 +47,10 @@ namespace My_first_xna_game
         public List<Armor> equipmentList = new List<Armor>();
         private Timer cooldownTimer = new Timer(1000f, false);
 
+        private Text dmgText;
+        private Timer dmgTextTimer = new Timer(400f, false);
+        private int dmgTextFlyingAnimation = 0;
+
         public Hostile(Texture2D texture, Vector2 position, MovementManager.Auto autoMovement = MovementManager.Auto.off)
             : base(texture, position, autoMovement)
         {
@@ -60,18 +64,46 @@ namespace My_first_xna_game
             //if killed
             if (stats.health <= 0)
             {
+                Fade();
                 Kill();
+            }
+        }
+
+        protected override void UpdateAnyway()
+        {
+            if (dmgText != null)
+            {
+                if (!dmgText.visible)
+                {
+                    dmgTextFlyingAnimation = 0;
+                }
+                if (dmgTextTimer.Counting)
+                {
+                    dmgTextFlyingAnimation++;
+                    dmgText.position = position;
+                    dmgText.position.X += bounds.Width / 2 - dmgText.bounds.Width / 2;
+                    dmgText.position.Y -= dmgText.bounds.Height - 20;
+                    dmgText.position.Y -= dmgTextFlyingAnimation;
+                }
+                if (dmgTextTimer.result)
+                {
+                    dmgText.Fade();
+                    dmgTextTimer.Reset();
+                }
+                dmgText.UpdateFade();
             }
         }
 
         protected virtual void UpdateEnemy() { }
         protected virtual void UpdatePlayer() { }
 
-        public void DealDamage(Hostile source, int damage = 0)
+        public void DealDamage(Hostile source, int damage = 0, bool showDamage = true)
         {
             if (cooldownTimer.result || cooldownTimer.counter == 0)
             {
                 //set new health
+                bool noDamage = false;
+                bool defending =false;
                 int oldHealth = stats.health;
                 int newHealth;
                 Player player = this as Player;
@@ -80,12 +112,13 @@ namespace My_first_xna_game
                     if (player.defendingTimer.Counting)
                     {
                         newHealth = oldHealth;
+                        defending = true;
                     }
-                    else if (damage == 0)
+                    else if (damage == 0) // new health by number
                     {
                         newHealth = stats.health - source.stats.strength + stats.defence;
                     }
-                    else
+                    else //new health by stats
                     {
                         newHealth = stats.health - damage + stats.defence;
                     }
@@ -101,13 +134,23 @@ namespace My_first_xna_game
                         newHealth = stats.health - damage + stats.defence;
                     }
                 }
-                if (newHealth > -1)
+                
+                //limit damage to more than zero
+                if (oldHealth - newHealth > -1)
                 {
-                    stats.health = newHealth;
+                    // limit health to zero
+                    if (newHealth > -1)
+                    {
+                        stats.health = newHealth;
+                    }
+                    else
+                    {
+                        stats.health = 0;
+                    }
                 }
                 else
                 {
-                    stats.health = 0;
+                    noDamage = true;
                 }
 
                 //knockback
@@ -131,6 +174,35 @@ namespace My_first_xna_game
 
                 //timer
                 cooldownTimer.Reset();
+
+                //show damage
+                if (showDamage)
+                {
+                    string text;
+                    Color color;
+                    if (defending)
+                    {
+                        text = "Defending";
+                        color = Color.DimGray;
+                    }
+                    else if (noDamage)
+                    {
+                        text = "0";
+                        color = Color.DimGray;
+                    }
+                    else
+                    {
+                        text = "" + (oldHealth - newHealth);
+                        color = Color.Red;
+                    }
+                    dmgText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, color, text, null, new Vector2(10, 10));
+
+                    dmgText.position = position;
+                    dmgText.position.X += bounds.Width / 2 - dmgText.bounds.Width / 2;
+                    dmgText.position.Y -= dmgText.bounds.Height - 20;
+
+                    dmgTextTimer.Active();
+                }
             }
         }
 
@@ -304,6 +376,14 @@ namespace My_first_xna_game
             stats.knockback -= armor.changeStats.knockback;
             stats.defence -= armor.changeStats.defence;
             stats.agility -= armor.changeStats.agility;
+        }
+
+        public void DrawDmg(SpriteBatch spriteBatch, Rectangle offsetRect)
+        {
+            if (dmgText != null)
+            {
+                dmgText.Draw(spriteBatch, offsetRect);
+            }
         }
     }
 }

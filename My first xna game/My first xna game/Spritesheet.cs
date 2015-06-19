@@ -40,6 +40,7 @@ namespace My_first_xna_game
 
         protected override void UpdateSpritesheet(GameTime gameTime)
         {
+            UpdateAnyway();
             if (!alive) { return; }
             UpdateProjectile();
             UpdateActor();
@@ -67,6 +68,7 @@ namespace My_first_xna_game
             
         }
 
+        protected virtual void UpdateAnyway() { }
         protected virtual void UpdateProjectile() { }
         protected virtual void UpdatePlayer(GameTime gameTime) { }
         protected virtual void UpdateActor() { }
