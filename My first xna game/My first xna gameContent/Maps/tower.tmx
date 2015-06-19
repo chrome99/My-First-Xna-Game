@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="35" height="35" tilewidth="32" tileheight="32" nextobjectid="1">
  <tileset firstgid="1" name="Tower" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="Autotile" value="false"/>
+  </properties>
   <image source="../Textures/Tilesets/Tower.png" width="256" height="1085"/>
   <tile id="0">
    <properties>

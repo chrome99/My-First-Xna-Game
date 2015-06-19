@@ -12,12 +12,12 @@ using Microsoft.Xna.Framework.Storage;
 namespace My_first_xna_game
 {
     public class Game : Microsoft.Xna.Framework.Game
+
     {
         /*
          TODO:
          * attack (sword)
          * combos & skills
-         * animations and autotiles
          * round raduis for enemies
          * better AI for enemies
          * 
@@ -60,6 +60,7 @@ namespace My_first_xna_game
          * redstone
          
          BUGS:
+         * fix depth in dmg
          * fix height in multiple maps in
          * fix tileset drawing bug
          * fix heal health and hud

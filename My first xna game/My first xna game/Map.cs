@@ -112,6 +112,9 @@ namespace My_first_xna_game
 
         public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
         {
+            //update tilemap
+            tileMap.Update(gameTime);
+
             //update GameObjects
             for (int counter = 0; counter < gameObjectList.Count; counter++)
             {

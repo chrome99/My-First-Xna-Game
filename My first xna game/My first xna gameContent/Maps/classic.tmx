@@ -1,297 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" nextobjectid="11">
- <tileset firstgid="1" name="Lava" tilewidth="32" tileheight="32">
-  <image source="../Textures/Tilesets/lava.png" trans="ffffff" width="384" height="128"/>
-  <tile id="0">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="1">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="2">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="3">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="4">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="5">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="6">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="7">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="8">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="9">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="10">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="11">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="12">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="13">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="14">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="15">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="16">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="17">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="18">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="19">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="20">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="21">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="22">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="23">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="24">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="25">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="26">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="27">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="28">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="29">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="30">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="31">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="32">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="33">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="34">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="35">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="36">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="37">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="38">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="39">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="40">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="41">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="42">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="43">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="44">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="45">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="46">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
-  <tile id="47">
-   <properties>
-    <property name="Height" value="0"/>
-    <property name="Passable" value="O"/>
-   </properties>
-  </tile>
- </tileset>
- <tileset firstgid="49" name="Grassland" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Grassland" tilewidth="32" tileheight="32">
   <properties>
    <property name="Autotile" value="false"/>
   </properties>
@@ -1164,7 +873,7 @@
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="193" name="Tower" tilewidth="32" tileheight="32">
+ <tileset firstgid="145" name="Tower" tilewidth="32" tileheight="32">
   <properties>
    <property name="Autotile" value="false"/>
   </properties>
@@ -2754,11 +2463,599 @@
    </properties>
   </tile>
  </tileset>
+ <tileset firstgid="409" name="Lava" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="Autotile" value="true"/>
+  </properties>
+  <image source="../Textures/Tilesets/lava.png" trans="ffffff" width="384" height="128"/>
+  <tile id="0">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="13">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="17">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="19">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="20">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="24">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="25">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="28">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="29">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="30">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="31">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="32">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="33">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="34">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="35">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="36">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="37">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="38">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="39">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="40">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="41">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="42">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="43">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="44">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="45">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="46">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="47">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+ </tileset>
  <tileset firstgid="457" name="Water" tilewidth="32" tileheight="32">
   <properties>
    <property name="Autotile" value="true"/>
   </properties>
   <image source="../Textures/Tilesets/Water.png" trans="ffffff" width="384" height="128"/>
+  <tile id="0">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="13">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="17">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="19">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="20">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="24">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="25">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="28">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="29">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="30">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="31">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="32">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="33">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="34">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="35">
+   <properties>
+    <property name="Height" value="0"/>
+    <property name="Passable" value="X"/>
+   </properties>
+  </tile>
+  <tile id="36">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="37">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="38">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="39">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="40">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="41">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="42">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="43">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="44">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="45">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="46">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+  <tile id="47">
+   <properties>
+    <property name="Height" value="1"/>
+    <property name="Passable" value="O"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="505" name="Ocean" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="Autotile" value="true"/>
+  </properties>
+  <image source="../Textures/Tilesets/Ocean.png" trans="ffffff" width="384" height="128"/>
   <tile id="0">
    <properties>
     <property name="Height" value="0"/>
@@ -3050,17 +3347,17 @@
  </tileset>
  <layer name="Tile Layer 1" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJzt07EOwVAYhuHTmDFjxmxwE+5czAimthOC4AZ8iTOdpTR/+qu8w5OTnKH53qadhxAWxmYO/qGBjt/ZX7fDe69Fh/dWiw7vnRYd3hvpaFdDVYf3NosO710WHd6b2taRxbOT3C+z97mK5072cviio8l32JWe9JP7tfZvZBs7cimk/LCj6W9hIEMZJfe59hdSxo6jnORc8Tyvf2IsE5km9xftv8otdtzlIU+nnQAAAAAAAAAAAKjvBZf1/cU=
+   eJzt0jEOgCAQRFEw8QKW3v9knsTCAkJICLLsLMsUvySZt3qGEG7hIiAPBjrs7P/rQO+VcKC3SjjQOyUc6I2WHU9MaThm3U/TMfM/0HLMNJSWWQ4Ng0dHrVGHlqHl6DVZMLRsPd8EefPWG837ShmsOUa2WDHkW9A76GCMsX26ji/0DjqSYWVHbljVURpWdNQMdNizoDdJWNBbdnd4MHhyMMYYY4y9O49fvg==
   </data>
  </layer>
  <layer name="Tile Layer 2" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <layer name="Tile Layer 3" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJzVmVdPAzEMgPObQAwx76Eg3uAVKKNQRtllI7F+OjY9SyZkuLmM6ydZd03uEp/tLFepNKxpvzuJ+uFssfsldr8qfH8hoi65WBE8g7bf0MrWQRbjq/MPaR9TSbUoA4/5NUF5bhvMO+r08dsmlvyP/GKac6hsNpIuErZBdkB2hc9PR+izUqMxzplp2GYP5AjkuGE7bY4tRJ8rY9DU9rFw2d42L5UC123p+pFif5HSZ1J9XXMYUjKuxomXHPu/UHy67VnKS46RylKuf0uX3Z8o/1pUMp5c9uyz+2sVby3iuPZDPlB3WxyhrbuWugHIBchlg75zgbZGP+B42NfqhiD3IA8B7aYaRx1L22jrKzUaD6cN2vb146IK7Dc167WkmK8pbg5ADhO0Tz7AM/GmGn2Hzy/S3ACH4uYM5DzgfRe6vpLzfeh+FefRG5BbkLuA90N9GTu2nkCeQV5AXgPeN/lSOp5jzl0fIJ8gXyDfhnruZ9M67fOlRNcYvpHs2eccdRJf2vTUy1Pv0fgZW5o/dOnUhnPXpBLTdpJ8XS6oz6pA36Ho+yPf/aSAOdoU+aFcmOJXWlYKOq/SGWrcuGlLnNF5lZ9laa2kdWS5vrbJ/j6kOUVkO6UiY6DHFCGd63v1lfIppTDFFOlNeyzal5jGwaC+Uj6lJCZbmubajvqbx0IfDus6yqfo2PwdE2qb27JvedYWW2/1lfIp3CZdZfZ3bKhtbssrwXuu3KLEJqXgcxLa2JVb5DFks0nKWNPjntNj92hjnlukb6T3eAw9WvrKEWsmBo46+kbSi3J5yHtKpQIYOuroG7n+CO4HqlQKBfJmKNPnL8z76nGk//+cgxjjri37xRDIL5P8DQSt/Tn3wj+M+WHn
+   eJzVWVdPAzEMjkAMsR/aijd4LZRRKKPsspFY///XYNOzZEKGm8u4fpJ1aaZjO47jKpUGbe13K9E6HNusvMLK68LxS/FYyYY1QR+U/aZW1wFajs/OP0jXmEnKRRlwm28L6nPLYNHRpp/fJmHF3+UXJp9DdfOReJGgC7QDtCvsPxthzQ01PuMcczXn7AMdAR3XnKfJtoXQfWUM1JV9LLhkb/NLpYD3tvT+SBFfpNSZlF+XD0OUtKtJ7CVH/BcKH297lvqSZ2TDUq/vpcfKJ8p/F5W0J5c8B6x8reLdRRyueMgH5N1mRyjrnqVtCHQBdFlj7VxAWaMe8Dzsa20joHugh4B5U52jlmVulPWVGp+H0xpz+9ZxwXZ+S6NTUQp/TXZzAHSYYH7SAb6Jt9R4Hz69SHMDHGQ3Z0DnAeNd0PmVvO9D41X0ozdAt0B3AeNDdRnbtp6AnoFegF4Dxpt0KT3PMX3XB9An0BfQt6Gd69l0T/t0KeE1hm4kMfuCo02iSxufen3qGI2/saX5QxdPTXh3TStiyk6Sr8sFWrOpMYMJenzkK08LMEebIj+UCyb7ldaVAr1X6Q01qd00xc7ovcrfsnRX0j2yWn2bJH8fpDlFRDclIxNAtymC1Nf3qy/lU0rBZFPEN8VYFJeYzsGw+lI+pSRMsjT52pb6m8dCHY6qNsqn6LDpOyZobi7LgaWvzbbeqi/lU7hMesqs79igubksrwTjXLlFiUxKgfsklLErt8htyCaTlLam2z1Hn5VRxjy3SHukcdyGHi1r5bA1E4aONtoj8UW5PMR7SqYCMHK00R45/wiMB5oW578Z6nT/hXlf3Y70/59zIMa5a0q8GALSyzTvgUB3f85Y+AdGTCrH
   </data>
  </layer>
 </map>

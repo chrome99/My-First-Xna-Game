@@ -6,7 +6,7 @@ namespace My_first_xna_game
     {
         static public int size = 32;
 
-        static public Rectangle getTileRectangle(Vector2 tile)
+        static public Rectangle getTileRectangle(Vector2 tile, bool corner = false)
         {
             int tileX = (int)tile.X;
             int tileY = (int)tile.Y;
@@ -19,7 +19,15 @@ namespace My_first_xna_game
             {
                 tileY = 0;
             }
-            return new Rectangle(tileX * size, tileY * size, size, size);
+            if (corner)
+            {
+                return new Rectangle(tileX * size, tileY * size, size / 2, size / 2);
+            }
+            else
+            {
+                return new Rectangle(tileX * size, tileY * size, size, size);
+            }
+
         }
     }
 }

@@ -17,6 +17,7 @@ namespace My_first_xna_game
         private List<MapCell> highCells = new List<MapCell>();
         private List<MapCell> mapCellsList = new List<MapCell>();
 
+        Timer animationTimer = new Timer(500f, true);
 
         public TileMap(string path, bool debugTileset = false)
         {
@@ -75,6 +76,7 @@ namespace My_first_xna_game
                         }
                         cell.texture = tmxCell.Gid;
                         cell.tileset = tilesets[0];
+                        cell.tilesetID = 0;
                         int tilesSoFar = map.Tilesets[0].Tiles.Count;
                         for (int tilesetsCounter = 0; tilesetsCounter < map.Tilesets.Count - 1; tilesetsCounter++)
                         {
@@ -82,8 +84,18 @@ namespace My_first_xna_game
                             {
                                 cell.texture = tmxCell.Gid - tilesSoFar;
                                 cell.tileset = tilesets[tilesetsCounter + 1];
+                                cell.tilesetID = tilesetsCounter + 1;
                             }
                             tilesSoFar += map.Tilesets[tilesetsCounter + 1].Tiles.Count;
+                        }
+
+                        //position
+                        cell.position = new Vector2(tmxCell.X * Tile.size, tmxCell.Y * Tile.size);
+
+                        //if autotile
+                        if (map.Tilesets[cell.tilesetID].Properties["Autotile"] == "true")
+                        {
+                            cell.autotile = true;
                         }
 
                         //tile properties
@@ -111,7 +123,7 @@ namespace My_first_xna_game
                             {
                                 cell.passable = false;
 
-                                GameObject collisionObject = new GameObject(new Vector2(tmxCell.X * Tile.size, tmxCell.Y * Tile.size));
+                                GameObject collisionObject = new GameObject(cell.position);
 
                                 if (debugTileset)
                                 {
@@ -135,6 +147,112 @@ namespace My_first_xna_game
                     }
                 }
             }
+
+            //check for autotiles
+            for (int layersCounter = 0; layersCounter < layers.Count; layersCounter++)
+            {
+                Layer layer = layers[layersCounter];
+                for (int y = 1; y < height - 1; y++)
+                {
+                    MapRow row = layer.Rows[y];
+                    for (int x = 1; x < width - 1; x++)
+                    {
+                        MapCell cell = row.Columns[x];
+                        int currentCell = y * (height) + x;
+                        TmxLayerTile tmxCell = map.Layers[layersCounter].Tiles[currentCell];
+
+                        if (cell.autotile)
+                        {
+                            if (row.Columns[x - 1].autotile && row.Columns[x + 1].autotile)
+                            {
+                                if (layer.Rows[y - 1].Columns[x].autotile && layer.Rows[y + 1].Columns[x].autotile)
+                                {
+                                    //corners
+                                    //upper left
+                                    if (!layer.Rows[y - 1].Columns[x - 1].autotile)
+                                    {
+                                        cell.autotileCorner = MapCell.Corner.topLeft;
+                                    }
+
+                                    //upper right
+                                    else if (!layer.Rows[y - 1].Columns[x + 1].autotile)
+                                    {
+                                        cell.autotileCorner = MapCell.Corner.topRight;
+                                    }
+
+                                    //lower left
+                                    else if (!layer.Rows[y + 1].Columns[x - 1].autotile)
+                                    {
+                                        cell.autotileCorner = MapCell.Corner.bottomLeft;
+                                    }
+
+                                    //lower right
+                                    else if (!layer.Rows[y + 1].Columns[x + 1].autotile)
+                                    {
+                                        cell.autotileCorner = MapCell.Corner.bottomRight;
+                                    }
+
+                                    //center
+                                }
+                                else
+                                {
+                                    //down link
+                                    if (layer.Rows[y - 1].Columns[x].autotile)
+                                    {
+                                        cell.texture += cell.tilesetWidth;
+                                    }
+
+                                    //up link
+                                    if (layer.Rows[y + 1].Columns[x].autotile)
+                                    {
+                                        cell.texture -= cell.tilesetWidth;
+                                    }
+                                }
+                            }
+                            else if (row.Columns[x - 1].autotile)
+                            {
+                                //right link
+
+                                if (layer.Rows[y - 1].Columns[x].autotile)
+                                {
+                                    //down link
+                                    cell.texture += cell.tilesetWidth;
+                                }
+
+                                if (layer.Rows[y + 1].Columns[x].autotile)
+                                {
+                                    //up link
+                                    cell.texture -= cell.tilesetWidth;
+                                }
+                                cell.texture++;
+                            }
+                            else if (row.Columns[x + 1].autotile)
+                            {
+                                //left link
+
+                                if (layer.Rows[y - 1].Columns[x].autotile)
+                                {
+                                    //down link
+                                    cell.texture += cell.tilesetWidth;
+                                }
+
+                                if (layer.Rows[y + 1].Columns[x].autotile)
+                                {
+                                    //up link
+                                    cell.texture -= cell.tilesetWidth;
+                                }
+
+                                cell.texture--;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private int GetCorner(MapCell cell)
+        {
+            return cell.texture - cell.tilesetWidth * 2 + 1;
         }
 
         public void AddCollisionObjects(Map map)
@@ -151,6 +269,40 @@ namespace My_first_xna_game
             get
             {
                 return new Vector2(height * Tile.size / 2, width * Tile.size / 2);
+            }
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            animationTimer.Update(gameTime);
+            if (animationTimer.result)
+            {
+                for (int layersCounter = 0; layersCounter < layers.Count; layersCounter++)
+                {
+                    Layer layer = layers[layersCounter];
+                    for (int y = 1; y < height - 1; y++)
+                    {
+                        MapRow row = layer.Rows[y];
+                        for (int x = 1; x < width - 1; x++)
+                        {
+                            MapCell cell = row.Columns[x];
+                            if (cell.autotile)
+                            {
+                                if (cell.autotileAnimationCount == 3)
+                                {
+                                    cell.texture -= 3 * 3;
+                                    cell.autotileAnimationCount = 0;
+                                }
+                                else
+                                {
+                                    cell.texture += 3;
+                                    cell.autotileAnimationCount++;
+                                }
+                                animationTimer.Reset();
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -172,7 +324,6 @@ namespace My_first_xna_game
                         int positionX = x * Tile.size - offsetX;
                         int positionY = y * Tile.size - offsetY;
                         MapCell tileID = layer.Rows[(int)MathHelper.Clamp(y + firstY - 0, 0, height - 1)].Columns[(int)MathHelper.Clamp(x + firstX - 0, 0, width - 1)];
-                        int tilesetWidth = tileID.tileset.Width / Tile.size;
                         bool heightCheck;
                         if (low)
                         {
@@ -185,22 +336,22 @@ namespace My_first_xna_game
                         if (!tileID.empty && heightCheck)
                         {
                             int tileIDX;
-                            int tileIDY = tileID.texture / tilesetWidth;
-                            if (tileID.texture < 0 || tileID.texture % tilesetWidth != 0)
+                            int tileIDY = tileID.texture / tileID.tilesetWidth;
+                            if (tileID.texture < 0 || tileID.texture % tileID.tilesetWidth != 0)
                             {
-                                tileIDX = tileID.texture % tilesetWidth;
+                                tileIDX = tileID.texture % tileID.tilesetWidth;
                             }
                             else
                             {
-                                tileIDX = tilesetWidth;
+                                tileIDX = tileID.tilesetWidth;
                             }
-                            if (tileID.texture != tileIDY * tilesetWidth)
+                            if (tileID.texture != tileIDY * tileID.tilesetWidth)
                             {
-                                tileIDY = tileID.texture / tilesetWidth;
+                                tileIDY = tileID.texture / tileID.tilesetWidth;
                             }
                             else
                             {
-                                tileIDY = tileID.texture / tilesetWidth - 1;
+                                tileIDY = tileID.texture / tileID.tilesetWidth - 1;
                             }
                             spriteBatch.Draw(
                                 tileID.tileset,
@@ -208,6 +359,60 @@ namespace My_first_xna_game
                                     positionX, positionY, Tile.size, Tile.size),
                                 Tile.getTileRectangle(new Vector2(tileIDX, tileIDY)),
                                 Color.White * tileID.getOpacity);
+                            
+                            if (tileID.autotileCorner != MapCell.Corner.none)
+                            {
+                                Vector2 cornerPosition = new Vector2(positionX, positionY);
+                                Vector2 cropingPosition = Vector2.Zero;
+                                switch (tileID.autotileCorner)
+                                {
+                                    case MapCell.Corner.topRight:
+                                        cornerPosition.X += Tile.size / 2;
+                                        cropingPosition.X += Tile.size / 2;
+                                        break;
+
+                                    case MapCell.Corner.bottomLeft:
+                                        cornerPosition.Y += Tile.size / 2;
+                                        cropingPosition.Y += Tile.size / 2;
+                                        break;
+
+                                    case MapCell.Corner.bottomRight:
+                                        cornerPosition.X += Tile.size / 2;
+                                        cropingPosition.X += Tile.size / 2;
+
+                                        cornerPosition.Y += Tile.size / 2;
+                                        cropingPosition.Y += Tile.size / 2;
+                                        break;
+                                }
+                                int cornerTexture = GetCorner(tileID);
+                                int tileIDX2;
+                                int tileIDY2 = cornerTexture / tileID.tilesetWidth;
+                                if (cornerTexture < 0 || cornerTexture % tileID.tilesetWidth != 0)
+                                {
+                                    tileIDX2 = cornerTexture % tileID.tilesetWidth;
+                                }
+                                else
+                                {
+                                    tileIDX2 = tileID.tilesetWidth;
+                                }
+                                if (cornerTexture != tileIDY2 * tileID.tilesetWidth)
+                                {
+                                    tileIDY2 = cornerTexture / tileID.tilesetWidth;
+                                }
+                                else
+                                {
+                                    tileIDY2 = cornerTexture / tileID.tilesetWidth - 1;
+                                }
+                                Rectangle rect = Tile.getTileRectangle(new Vector2(tileIDX2, tileIDY2), true);
+                                rect.X += (int)cropingPosition.X;
+                                rect.Y += (int)cropingPosition.Y;
+                                spriteBatch.Draw(
+                                    tileID.tileset,
+                                    new Rectangle(
+                                        (int)cornerPosition.X, (int)cornerPosition.Y, Tile.size / 2, Tile.size / 2),
+                                    rect,
+                                    Color.White * tileID.getOpacity);
+                            }
                         }
                     }
                 }
