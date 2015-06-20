@@ -45,7 +45,6 @@ namespace My_first_xna_game
             block = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(37 * 32, 21 * 32), Game.Depth.player, 2);
 
             holdBox = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(40 * 32, 21 * 32), Game.Depth.player, 2);
-            holdBox.passable = true;
             holdBox.collisionFunction = UpdateHoldBoxCollision;
 
             pickUpBread = CreatePickup(pickUpBread, ItemCollection.bread, new Vector2(11 * 32, 34 * 32));
@@ -89,7 +88,7 @@ namespace My_first_xna_game
                 Player player = map.gameObjectList[i] as Player;
                 if (player != null)
                 {
-                    if (CollisionManager.GameObjectCollision(holdBox, player))
+                    if (CollisionManager.GameObjectTouch(player, holdBox))
                     {
                         player.HoldObject(holdBox);
                     }

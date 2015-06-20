@@ -88,6 +88,30 @@ namespace My_first_xna_game
 
         protected virtual void UpdateSpritesheet(GameTime gameTime) { }
 
+        public override void FixOutsideCollision()
+        {
+            if (mapRect == new Rectangle()) { return; }
+            Rectangle fixedMapRect = mapRect;
+            fixedMapRect.Width -= bounds.Width;
+            fixedMapRect.Height -= bounds.Height;
+            if (position.X < fixedMapRect.X)
+            {
+                position.X = 0;
+            }
+            if (position.X > fixedMapRect.Width)
+            {
+                position.X = fixedMapRect.Width;
+            }
+            if (position.Y < fixedMapRect.Y)
+            {
+                position.Y = 0;
+            }
+            if (position.Y > fixedMapRect.Height)
+            {
+                position.Y = fixedMapRect.Height;
+            }
+        }
+
         public void Reset()
         {
             movementManager.MoveTo(this, new Vector2(10 * 32, 30 * 32));

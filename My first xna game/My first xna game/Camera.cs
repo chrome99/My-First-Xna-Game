@@ -15,6 +15,7 @@ namespace My_first_xna_game
         public RenderTarget2D renderTarget;
         public Effect effect;
         public RenderTarget2D lightsTarget;
+        private Vector2 scale = new Vector2(2, 2);
 
         public GameObject cameraLightspot;
         public Player player;
@@ -30,7 +31,7 @@ namespace My_first_xna_game
             this.graphicsDeviceManager = graphicsDeviceManager;
 
             viewport = new Viewport(screenRect);
-            transform = Matrix.CreateScale(new Vector3(1, 1, 0)) * Matrix.CreateTranslation(new Vector3(0, 0, 0));
+            transform = Matrix.CreateScale(new Vector3(scale.X, scale.Y, 0)) * Matrix.CreateTranslation(new Vector3(0, 0, 0));
             renderTarget = new RenderTarget2D(graphicsDeviceManager.GraphicsDevice, Game.worldRect.Width, Game.worldRect.Height);
             effect = Game.content.Load<Effect>("Effects\\FirstOne");
             lightsTarget = new RenderTarget2D(graphicsDeviceManager.GraphicsDevice, Game.worldRect.Width, Game.worldRect.Height);
@@ -46,6 +47,8 @@ namespace My_first_xna_game
             Vector2 result;
             result.X = screenRect.Width / 2 - player.bounds.Width / 2;
             result.Y = screenRect.Height / 2 - player.bounds.Height / 2;
+            result.X /= scale.X;
+            result.Y /= scale.Y;
             return result;
         }
 
@@ -67,7 +70,7 @@ namespace My_first_xna_game
             if (player.alive)
             {
                 player.map.Draw(spriteBatch, this, false);
-                player.DrawPlayerItems(spriteBatch, mapRect);
+                //player.DrawPlayerItems(spriteBatch, mapRect);
             }
         }
 
@@ -154,8 +157,8 @@ namespace My_first_xna_game
 
         public void Move(Vector2 destination)
         {
-            mapRect.X = (int)MathHelper.Clamp(destination.X, 0, (player.map.tileMap.width - screenRect.Width / Tile.size) * Tile.size);//?
-            mapRect.Y = (int)MathHelper.Clamp(destination.Y, 0, (player.map.tileMap.height - screenRect.Height / Tile.size) * Tile.size);
+            mapRect.X = (int)MathHelper.Clamp(destination.X, 0, (player.map.tileMap.width - screenRect.Width / scale.X / Tile.size) * Tile.size);
+            mapRect.Y = (int)MathHelper.Clamp(destination.Y, 0, (player.map.tileMap.height - screenRect.Height / scale.Y / Tile.size) * Tile.size);
         }
     }
 }

@@ -60,6 +60,7 @@ namespace My_first_xna_game
          * redstone
          
          BUGS:
+         * order update anyway in sprite and in hostile
          * fix depth in dmg
          * fix height in multiple maps in
          * fix tileset drawing bug

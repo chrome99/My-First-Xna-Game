@@ -113,6 +113,7 @@ namespace My_first_xna_game
                 }
                 */
                 gameObject.position = destination;
+                gameObject.FixOutsideCollision();
             }
             return false;
         }
@@ -124,6 +125,7 @@ namespace My_first_xna_game
             if (!CollisionCheck(gameObject, MoveRectangle(gameObject.core, direction, (int)speed)))
             {
                 gameObject.position = newPosition;
+                gameObject.FixOutsideCollision();
             }
         }
 
@@ -167,57 +169,28 @@ namespace My_first_xna_game
                     Vector2 destination = MoveVector(actor.position, speed, actor.direction);
                     actor.StartAnimation(direction);
                     actor.position = destination;
+                    actor.FixOutsideCollision();
                     return true;
                 }
              }
             return false;
          }
 
-        /*public bool MovePlayer(Player player, Direction direction, int speed)
+        public bool InsideMap(GameObject gameObject, Rectangle gameObjectCore)
         {
-            //if actor moving
-            if (player.enableMovement)
-            {
-                TurnActor(player, direction);
-                Vector2 destination = MoveVector(player.position, speed, player.direction);
-
-                if (!CollisionCheck(player, MoveRectangle(new Rectangle((int)player.mapPosition.X, (int)player.mapPosition.Y, player.core.Width, player.core.Height), direction, speed)) && InsideMap(player, MoveVector(player.mapPosition, speed, direction)))
-                {
-                    player.StartAnimation(direction);
-                    if (player.cameraCenter != null)
-                    {
-                        if (player.cameraCenter.Move(direction, speed))
-                        {
-                            player.position = destination;
-                        }
-                    }
-                    else
-                    {
-                        player.position = destination;
-                    }
-                    player.mapPosition = MoveVector(player.mapPosition, speed, direction);
-                    return true;
-
-                }
-                
-             }
-            return false;
-         }*/
-        public bool InsideMap(GameObject gameObject, Vector2 gameObjectPosition)
-        {
-            if (gameObjectPosition.X > map.tileMap.width * Tile.size - gameObject.size.X)
+            if (gameObjectCore.X > map.tileMap.width * Tile.size - gameObjectCore.Width)
             {
                 return false;
             }
-            if (gameObjectPosition.X < 0)
+            if (gameObjectCore.X < 0)
             {
                 return false;
             }
-            if (gameObjectPosition.Y > map.tileMap.height * Tile.size - gameObject.size.Y)
+            if (gameObjectCore.Y > map.tileMap.height * Tile.size - gameObjectCore.Height)
             {
                 return false;
             }
-            if (gameObjectPosition.Y < 0)
+            if (gameObjectCore.Y < 0)
             {
                 return false;
             }

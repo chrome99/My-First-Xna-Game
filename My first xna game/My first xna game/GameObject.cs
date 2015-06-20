@@ -86,7 +86,6 @@ namespace My_first_xna_game
         {
             UpdateSprite(gameTime);
 
-            UpdateOutSideCollision();
 
             if (collisionFunction != null)
             {
@@ -94,7 +93,7 @@ namespace My_first_xna_game
             }
         }
 
-        private void UpdateOutSideCollision()
+        public virtual void FixOutsideCollision()
         {
             if (mapRect == new Rectangle()) { return; }
             if (position.X < mapRect.X)

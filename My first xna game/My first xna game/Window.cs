@@ -98,6 +98,30 @@ namespace My_first_xna_game
             FixOutsideCollision();
         }
 
+        public override void FixOutsideCollision()
+        {
+            if (mapRect == new Rectangle()) { return; }
+            Rectangle fixedMapRect = mapRect;
+            fixedMapRect.Width -= bounds.Width;
+            fixedMapRect.Height -= bounds.Height;
+            if (position.X < fixedMapRect.X)
+            {
+                position.X = 0;
+            }
+            if (position.X > fixedMapRect.Width)
+            {
+                position.X = fixedMapRect.Width;
+            }
+            if (position.Y < fixedMapRect.Y)
+            {
+                position.Y = 0;
+            }
+            if (position.Y > fixedMapRect.Height)
+            {
+                position.Y = fixedMapRect.Height;
+            }
+        }
+
         public override Rectangle bounds
         {
             get { return new Rectangle((int)position.X, (int)position.Y, width, height); }
@@ -140,32 +164,6 @@ namespace My_first_xna_game
                     }
 
                 }
-            }
-        }
-
-        private void FixOutsideCollision()
-        {
-            if (mapRect == new Rectangle()) { return; }
-            Rectangle fixedMapRect = mapRect;
-            fixedMapRect.X += bounds.X;
-            fixedMapRect.Y += bounds.Y;
-            fixedMapRect.Width -= bounds.Width;
-            fixedMapRect.Height -= bounds.Height;
-            if (position.X < fixedMapRect.X)
-            {
-                position.X = 0;
-            }
-            if (position.X > fixedMapRect.Width)
-            {
-                position.X = fixedMapRect.Width;
-            }
-            if (position.Y < fixedMapRect.Y)
-            {
-                position.Y = 0;
-            }
-            if (position.Y > fixedMapRect.Height)
-            {
-                position.Y = fixedMapRect.Height;
             }
         }
 

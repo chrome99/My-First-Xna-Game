@@ -204,7 +204,7 @@ namespace My_first_xna_game
             originalSprite.canCollide = true;
             bool passable = originalSprite.passable;
             originalSprite.passable = false;
-            if (!movementManager.CollisionCheck(originalSprite, originalSpriteCore))
+            if (!movementManager.CollisionCheck(originalSprite, originalSpriteCore) && movementManager.InsideMap(originalSprite, originalSpriteCore))
             {
                 DiscardObject();
 
