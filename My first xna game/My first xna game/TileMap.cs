@@ -17,17 +17,23 @@ namespace My_first_xna_game
         private List<MapCell> highCells = new List<MapCell>();
         private List<MapCell> mapCellsList = new List<MapCell>();
 
+        public const string configName = "config";
+        private TmxMap config;
+
         Timer animationTimer = new Timer(500f, true);
 
         public TileMap(string path, bool debugTileset = false)
         {
             TmxMap map = new TmxMap(path);
+            config = new TmxMap("Maps\\" + configName + ".tmx");
 
             // 1. intialize
             tilesets = new Texture2D[map.Tilesets.Count];
             for (int i = 0; i < map.Tilesets.Count; i++)
             {
-                tilesets[i] = (Game.content.Load<Texture2D>("Textures\\Tilesets\\" + Path.GetFileNameWithoutExtension(map.Tilesets[i].Image.Source)));
+                string name = Path.GetFileNameWithoutExtension(map.Tilesets[i].Image.Source);
+                tilesets[i] = (Game.content.Load<Texture2D>("Textures\\Tilesets\\" + name));
+                tilesets[i].Name = name;
             }
             this.width = map.Width; //todo: /32
             this.height = map.Height;
@@ -76,7 +82,6 @@ namespace My_first_xna_game
                         }
                         cell.texture = tmxCell.Gid;
                         cell.tileset = tilesets[0];
-                        cell.tilesetID = 0;
                         int tilesSoFar = map.Tilesets[0].Tiles.Count;
                         for (int tilesetsCounter = 0; tilesetsCounter < map.Tilesets.Count - 1; tilesetsCounter++)
                         {
@@ -84,7 +89,6 @@ namespace My_first_xna_game
                             {
                                 cell.texture = tmxCell.Gid - tilesSoFar;
                                 cell.tileset = tilesets[tilesetsCounter + 1];
-                                cell.tilesetID = tilesetsCounter + 1;
                             }
                             tilesSoFar += map.Tilesets[tilesetsCounter + 1].Tiles.Count;
                         }
@@ -93,13 +97,14 @@ namespace My_first_xna_game
                         cell.position = new Vector2(tmxCell.X * Tile.size, tmxCell.Y * Tile.size);
 
                         //if autotile
-                        if (map.Tilesets[cell.tilesetID].Properties["Autotile"] == "true")
+
+                        if (FindTileset(cell.tileset.Name).Properties["Autotile"] == "true")
                         {
                             cell.autotile = true;
                         }
 
                         //tile properties
-                        TmxTilesetTile tileResult = getTileByTexture(map, cell.texture);
+                        TmxTilesetTile tileResult = getTileByTexture(cell.texture);
 
                         if (tileResult != null)
                         {
@@ -246,12 +251,24 @@ namespace My_first_xna_game
             }
         }
 
+        private TmxTileset FindTileset(string name)
+        {
+            foreach(TmxTileset tileset in config.Tilesets)
+            {
+                if (tileset.Name == name)
+                {
+                    return tileset;
+                }
+            }
+            return null;
+        }
+
         private bool CheckLayersPassableTag(TmxMap map, int y, int x, int layersCounter)
         {
             for (int i = 0; i < layers.Count; i++)
             {
                 MapCell cell = layers[i].Rows[y].Columns[x];
-                TmxTilesetTile tilestTile = getTileByTexture(map, cell.texture);//x == 24 && y == 9
+                TmxTilesetTile tilestTile = getTileByTexture(cell.texture);//x == 24 && y == 9
                 if (tilestTile != null)
                 {
                     if (tilestTile.Properties["Passable"] == "O")
@@ -266,16 +283,16 @@ namespace My_first_xna_game
             return false;
         }
 
-        private TmxTilesetTile getTileByTexture(TmxMap map, int texture)
+        private TmxTilesetTile getTileByTexture(int texture)
         {
             if (texture == 0) { return null; }
-            for (int tilesetCounter = 0; tilesetCounter < map.Tilesets.Count; tilesetCounter++)
+            for (int tilesetCounter = 0; tilesetCounter < config.Tilesets.Count; tilesetCounter++)
             {
-                for (int tilesCounter = 0; tilesCounter < map.Tilesets[tilesetCounter].Tiles.Count; tilesCounter++)
+                for (int tilesCounter = 0; tilesCounter < config.Tilesets[tilesetCounter].Tiles.Count; tilesCounter++)
                 {
                     if (tilesCounter == texture - 1)
                     {
-                        return map.Tilesets[tilesetCounter].Tiles[tilesCounter];
+                        return config.Tilesets[tilesetCounter].Tiles[tilesCounter];
                     }
                 }
             }

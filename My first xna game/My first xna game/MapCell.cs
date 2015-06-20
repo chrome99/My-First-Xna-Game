@@ -6,17 +6,24 @@ namespace My_first_xna_game
 {
     public class MapCell
     {
-        public bool empty = false;
         public Vector2 position;
+
         public int texture = 0;
+
+        public bool empty = false;
         public bool high = false;
+
         public List<string> tag = new List<string>();
+
         public bool passable = true;
+
         public float opacity = 100f;
+
         public Texture2D tileset;
-        public int tilesetID;
+
         public bool autotile = false;
         public int autotileAnimationCount = 0;
+
         public Corner autotileCorner = Corner.none;
         public enum Corner { none, topLeft, topRight, bottomLeft, bottomRight }
 

@@ -154,6 +154,7 @@ namespace My_first_xna_game
                         MediaPlayer.Stop();
 
                         //build map
+                        
                         MapCollection.map.AddObject(PlayerCollection.player1);
                         MapCollection.map2.AddObject(PlayerCollection.player2);
                         MapCollection.map.AddObject(PlayerCollection.player3);
