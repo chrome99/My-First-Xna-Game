@@ -99,23 +99,8 @@ namespace My_first_xna_game
                         }
 
                         //tile properties
-                        TmxTilesetTile tileResult = null;
-                        bool breakLoop = false;
+                        TmxTilesetTile tileResult = getTileByTexture(map, cell.texture);
 
-                        for (int tilesetCounter = 0; tilesetCounter < map.Tilesets.Count; tilesetCounter++)
-                        {
-                            for (int tilesCounter = 0; tilesCounter < map.Tilesets[tilesetCounter].Tiles.Count; tilesCounter++)
-                            {
-                                if (tilesCounter == cell.texture - 1)
-                                {
-                                    tileResult = map.Tilesets[tilesetCounter].Tiles[tilesCounter];
-                                    breakLoop = true;
-                                    break;
-                                }
-                                if (breakLoop) { break; }
-                            }
-                            if (breakLoop) { break; }
-                        }
                         if (tileResult != null)
                         {
                             //collision
@@ -161,6 +146,17 @@ namespace My_first_xna_game
                         int currentCell = y * (height) + x;
                         TmxLayerTile tmxCell = map.Layers[layersCounter].Tiles[currentCell];
 
+                        //same layer collision
+                        if (CheckLayersPassableTag(map, y, x, layersCounter))
+                        {
+                            List<GameObject> SameLayerCollisionList = collisionObjectList.FindAll(collisionObject => collisionObject.position == cell.position);
+                            foreach (GameObject gameObject in SameLayerCollisionList)
+                            {
+                                collisionObjectList.Remove(gameObject);
+                            }
+                        }
+
+                        //check for autotiles
                         if (cell.autotile)
                         {
                             if (row.Columns[x - 1].autotile && row.Columns[x + 1].autotile)
@@ -248,6 +244,42 @@ namespace My_first_xna_game
                     }
                 }
             }
+        }
+
+        private bool CheckLayersPassableTag(TmxMap map, int y, int x, int layersCounter)
+        {
+            for (int i = 0; i < layers.Count; i++)
+            {
+                MapCell cell = layers[i].Rows[y].Columns[x];
+                TmxTilesetTile tilestTile = getTileByTexture(map, cell.texture);//x == 24 && y == 9
+                if (tilestTile != null)
+                {
+                    if (tilestTile.Properties["Passable"] == "O")
+                    {
+                        if (layersCounter < i)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        private TmxTilesetTile getTileByTexture(TmxMap map, int texture)
+        {
+            if (texture == 0) { return null; }
+            for (int tilesetCounter = 0; tilesetCounter < map.Tilesets.Count; tilesetCounter++)
+            {
+                for (int tilesCounter = 0; tilesCounter < map.Tilesets[tilesetCounter].Tiles.Count; tilesCounter++)
+                {
+                    if (tilesCounter == texture - 1)
+                    {
+                        return map.Tilesets[tilesetCounter].Tiles[tilesCounter];
+                    }
+                }
+            }
+            return null;
         }
 
         private int GetCorner(MapCell cell)

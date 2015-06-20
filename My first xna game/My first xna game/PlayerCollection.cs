@@ -37,7 +37,6 @@ namespace My_first_xna_game
             player1Stats.agility = 1;
 
             player1 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\starlord"), new Vector2(250f, 260f), player1Keys, player1Stats);
-            player1.AddLight(100, Color.Blue);
             player1.gold = 25;
 
 
@@ -71,7 +70,6 @@ namespace My_first_xna_game
             player2Stats.agility = 1;
 
             player2 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\rocket"), new Vector2(300f, 260f), player2Keys, player2Stats);
-            player2.AddLight(100, Color.Blue);
             player2.gold = 25;
 
             //intialize player
@@ -98,7 +96,6 @@ namespace My_first_xna_game
             player3Stats.agility = 1;
 
             player3 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\drax"), new Vector2(350f, 260f), player3Keys, player3Stats);
-            player3.AddLight(100, Color.Blue);
             player3.gold = 25;
 
             //intialize player
@@ -125,7 +122,6 @@ namespace My_first_xna_game
             player4Stats.agility = 1;
 
             player4 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\gamora"), new Vector2(400f, 260f), player4Keys, player4Stats);
-            player4.AddLight(100, Color.Blue);
             player4.gold = 25;
 
             /*player1.coreCollision.Y = 4;

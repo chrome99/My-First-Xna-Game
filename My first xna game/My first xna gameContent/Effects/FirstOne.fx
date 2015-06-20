@@ -7,10 +7,9 @@ float4 PixelShaderFunction(float2 coords: TEXCOORD0) : COLOR0
 {
 	float4 color = tex2D(s0, coords);
 	float4 lightColor = tex2D(lightSampler, coords);
-	float4 hue = float4(0.400f, 0.400f, 0.400f, 0);
 	if (active)
 	{
-		return color * lightColor;
+		return color * (lightColor * 1.2f);
 	}
 	else
 	{

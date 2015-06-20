@@ -16,6 +16,7 @@ namespace My_first_xna_game
     {
         /*
          TODO:
+         * boats
          * attack (sword)
          * combos & skills
          * round raduis for enemies
@@ -29,6 +30,7 @@ namespace My_first_xna_game
          * vehicles
          * 
          * minimap
+         * A*
          * ray casting
          * speed with accelertaion
          * 

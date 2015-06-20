@@ -70,14 +70,14 @@ namespace My_first_xna_game
 
 
             gameObjectList.Add(npc);
-            gameObjectList.Add(wolf);
-            gameObjectList.Add(block);
-            gameObjectList.Add(holdBox);
-            gameObjectList.Add(pickUpBread);
-            gameObjectList.Add(runningSwitch);
-            gameObjectList.Add(groundSwitch);
-            gameObjectList.Add(box1);
-            gameObjectList.Add(box2);
+            //gameObjectList.Add(wolf);
+            //gameObjectList.Add(block);
+            //gameObjectList.Add(holdBox);
+            //gameObjectList.Add(pickUpBread);
+            //gameObjectList.Add(runningSwitch);
+            //gameObjectList.Add(groundSwitch);
+            //gameObjectList.Add(box1);
+            //gameObjectList.Add(box2);
             gameObjectList.Add(portal);
         }
 

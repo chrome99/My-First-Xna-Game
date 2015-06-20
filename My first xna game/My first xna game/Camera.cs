@@ -15,7 +15,7 @@ namespace My_first_xna_game
         public RenderTarget2D renderTarget;
         public Effect effect;
         public RenderTarget2D lightsTarget;
-        private Vector2 scale = new Vector2(2, 2);
+        private Vector2 scale = new Vector2(1, 1);
 
         public GameObject cameraLightspot;
         public Player player;
