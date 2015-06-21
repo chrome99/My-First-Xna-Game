@@ -64,8 +64,6 @@ namespace My_first_xna_game
          BUGS:
          * order update anyway in sprite and in hostile
          * fix depth in dmg
-         * fix height in multiple maps in
-         * fix tileset drawing bug
          * fix heal health and hud
          * fix function GetID in GameObject
          * particals bug

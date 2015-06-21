@@ -22,7 +22,7 @@ namespace My_first_xna_game
 
         Timer animationTimer = new Timer(500f, true);
 
-        public TileMap(string path, bool debugTileset = false)
+        public TileMap(string path, bool debugTileset = true)
         {
             TmxMap map = new TmxMap(path);
             config = new TmxMap("Maps\\" + configName + ".tmx");
@@ -104,7 +104,7 @@ namespace My_first_xna_game
                         }
 
                         //tile properties
-                        TmxTilesetTile tileResult = getTileByTexture(cell.texture);
+                        TmxTilesetTile tileResult = GetMapTile(cell);
 
                         if (tileResult != null)
                         {
@@ -152,12 +152,15 @@ namespace My_first_xna_game
                         TmxLayerTile tmxCell = map.Layers[layersCounter].Tiles[currentCell];
 
                         //same layer collision
-                        if (CheckLayersPassableTag(map, y, x, layersCounter))
+                        if (layersCounter == 0) //do it for just one time
                         {
-                            List<GameObject> SameLayerCollisionList = collisionObjectList.FindAll(collisionObject => collisionObject.position == cell.position);
-                            foreach (GameObject gameObject in SameLayerCollisionList)
+                            if (CheckLayersPassableTag(map, y, x))
                             {
-                                collisionObjectList.Remove(gameObject);
+                                List<GameObject> SameLayerCollisionList = collisionObjectList.FindAll(collisionObject => collisionObject.position == cell.position);
+                                foreach (GameObject gameObject in SameLayerCollisionList)
+                                {
+                                    collisionObjectList.Remove(gameObject);
+                                }
                             }
                         }
 
@@ -263,37 +266,31 @@ namespace My_first_xna_game
             return null;
         }
 
-        private bool CheckLayersPassableTag(TmxMap map, int y, int x, int layersCounter)
+        private bool CheckLayersPassableTag(TmxMap map, int y, int x)
         {
-            for (int i = 0; i < layers.Count; i++)
+            for (int i = layers.Count -1; i >= 0; i--)
             {
                 MapCell cell = layers[i].Rows[y].Columns[x];
-                TmxTilesetTile tilestTile = getTileByTexture(cell.texture);//x == 24 && y == 9
-                if (tilestTile != null)
+                if (!cell.empty)
                 {
-                    if (tilestTile.Properties["Passable"] == "O")
-                    {
-                        if (layersCounter < i)
-                        {
-                            return true;
-                        }
-                    }
+                    return cell.passable && !cell.high;
                 }
             }
             return false;
         }
 
-        private TmxTilesetTile getTileByTexture(int texture)
+        private TmxTilesetTile GetMapTile(MapCell cell)
         {
+            int texture = cell.texture;
             if (texture == 0) { return null; }
-            for (int tilesetCounter = 0; tilesetCounter < config.Tilesets.Count; tilesetCounter++)
+
+            TmxTileset tmxTileset = FindTileset(cell.tileset.Name);
+
+            for (int tilesCounter = 0; tilesCounter < tmxTileset.Tiles.Count; tilesCounter++)
             {
-                for (int tilesCounter = 0; tilesCounter < config.Tilesets[tilesetCounter].Tiles.Count; tilesCounter++)
+                if (tilesCounter == texture - 1)
                 {
-                    if (tilesCounter == texture - 1)
-                    {
-                        return config.Tilesets[tilesetCounter].Tiles[tilesCounter];
-                    }
+                    return tmxTileset.Tiles[tilesCounter];
                 }
             }
             return null;
