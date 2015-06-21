@@ -211,9 +211,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <DesignData Include="Maps\classic.tmx">
+    <None Include="Maps\classic.tmx">
       <Name>classic</Name>
-    </DesignData>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Textures\Sprites\heart 2.png">
@@ -323,6 +323,23 @@
   <ItemGroup>
     <Compile Include="Textures\Tilesets\Ocean.png">
       <Name>Ocean</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Maps\config.tmx">
+      <Name>config</Name>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Maps\tower.tmx">
+      <Name>tower</Name>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Spritesheets\boat.png">
+      <Name>boat</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

@@ -23,6 +23,12 @@ namespace My_first_xna_game
             tileMap.AddCollisionObjects(this);
         }
 
+        public void CreateTemporeryCollisionObjects(string tag)
+        {
+            tileMap.CreateTemporeryCollisionObjects(tag);
+            tileMap.AddCollisionObjects(this);
+        }
+
         public void RemoveObject(GameObject gameObject)
         {
             //hostile list

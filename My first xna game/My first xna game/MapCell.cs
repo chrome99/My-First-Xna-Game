@@ -13,7 +13,7 @@ namespace My_first_xna_game
         public bool empty = false;
         public bool high = false;
 
-        public List<string> tag = new List<string>();
+        //public List<string> tag = new List<string>();
 
         public bool passable = true;
 

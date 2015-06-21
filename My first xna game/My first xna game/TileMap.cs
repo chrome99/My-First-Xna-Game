@@ -8,6 +8,7 @@ namespace My_first_xna_game
 {
     public class TileMap
     {
+        private TmxMap tmxMap;
         public List<GameObject> collisionObjectList = new List<GameObject>();
         public List<Layer> layers = new List<Layer>(); //todo: make it an array
         public int width;
@@ -20,25 +21,29 @@ namespace My_first_xna_game
         public const string configName = "config";
         private TmxMap config;
 
+        private bool debugTileset;
+
         Timer animationTimer = new Timer(500f, true);
 
         public TileMap(string path, bool debugTileset = false)
         {
-            TmxMap map = new TmxMap(path);
+            this.debugTileset = debugTileset;
+
+            tmxMap = new TmxMap(path);
             config = new TmxMap("Maps\\" + configName + ".tmx");
 
             // 1. intialize
-            tilesets = new Texture2D[map.Tilesets.Count];
-            for (int i = 0; i < map.Tilesets.Count; i++)
+            tilesets = new Texture2D[tmxMap.Tilesets.Count];
+            for (int i = 0; i < tmxMap.Tilesets.Count; i++)
             {
-                string name = Path.GetFileNameWithoutExtension(map.Tilesets[i].Image.Source);
+                string name = Path.GetFileNameWithoutExtension(tmxMap.Tilesets[i].Image.Source);
                 tilesets[i] = (Game.content.Load<Texture2D>("Textures\\Tilesets\\" + name));
                 tilesets[i].Name = name;
             }
-            this.width = map.Width; //todo: /32
-            this.height = map.Height;
+            this.width = tmxMap.Width; //todo: /32
+            this.height = tmxMap.Height;
 
-            for (int counter = 0; counter < map.Layers.Count; counter++)
+            for (int counter = 0; counter < tmxMap.Layers.Count; counter++)
             {
                 layers.Add(new Layer());
             }
@@ -73,7 +78,7 @@ namespace My_first_xna_game
                     {
                         MapCell cell = row.Columns[x];
                         int currentCell = y * (height) + x;
-                        TmxLayerTile tmxCell = map.Layers[layersCounter].Tiles[currentCell];
+                        TmxLayerTile tmxCell = tmxMap.Layers[layersCounter].Tiles[currentCell];
 
                         //texture and tileset
                         if (tmxCell.Gid == 0)
@@ -82,15 +87,15 @@ namespace My_first_xna_game
                         }
                         cell.texture = tmxCell.Gid;
                         cell.tileset = tilesets[0];
-                        int tilesSoFar = map.Tilesets[0].Tiles.Count;
-                        for (int tilesetsCounter = 0; tilesetsCounter < map.Tilesets.Count - 1; tilesetsCounter++)
+                        int tilesSoFar = tmxMap.Tilesets[0].Tiles.Count;
+                        for (int tilesetsCounter = 0; tilesetsCounter < tmxMap.Tilesets.Count - 1; tilesetsCounter++)
                         {
                             if (tmxCell.Gid > tilesSoFar)
                             {
                                 cell.texture = tmxCell.Gid - tilesSoFar;
                                 cell.tileset = tilesets[tilesetsCounter + 1];
                             }
-                            tilesSoFar += map.Tilesets[tilesetsCounter + 1].Tiles.Count;
+                            tilesSoFar += tmxMap.Tilesets[tilesetsCounter + 1].Tiles.Count;
                         }
 
                         //position
@@ -111,20 +116,7 @@ namespace My_first_xna_game
                             //collision
                             if (tileResult.Properties["Passable"] == "X")
                             {
-                                bool objectFound = false;
-                                for (int objectGroupCount = 0; objectGroupCount < tileResult.ObjectGroups.Count; objectGroupCount++)
-                                {
-                                    for (int objectCount = 0; objectCount < tileResult.ObjectGroups.Count; objectCount++)
-                                    {
-                                        TmxObjectGroup.TmxObject tmxObject = tileResult.ObjectGroups[objectGroupCount].Objects[objectCount];
-                                        CreateCollisionObject(cell, tmxObject, debugTileset);
-                                        objectFound = true;
-                                    }
-                                }
-                                if (!objectFound)
-                                {
-                                    CreateCollisionObject(cell, null, debugTileset);
-                                }
+                                CreateCollisionObject(cell, tileResult);
                             }
 
                             //height
@@ -153,12 +145,12 @@ namespace My_first_xna_game
                     {
                         MapCell cell = row.Columns[x];
                         int currentCell = y * (height) + x;
-                        TmxLayerTile tmxCell = map.Layers[layersCounter].Tiles[currentCell];
+                        TmxLayerTile tmxCell = tmxMap.Layers[layersCounter].Tiles[currentCell];
 
                         //same layer collision
                         if (layersCounter == 0) //do it for just one time
                         {
-                            if (CheckLayersPassableTag(map, y, x))
+                            if (CheckLayersPassableTag(tmxMap, y, x))
                             {
                                 List<GameObject> SameLayerCollisionList = collisionObjectList.FindAll(collisionObject => collisionObject.position == cell.position);
                                 foreach (GameObject gameObject in SameLayerCollisionList)
@@ -258,8 +250,17 @@ namespace My_first_xna_game
             }
         }
 
-        private void CreateCollisionObject(MapCell cell, TmxObjectGroup.TmxObject tmxObject, bool debugTileset)
+        private void CreateCollisionObject(MapCell cell, TmxTilesetTile tileResult)
         {
+            TmxObjectGroup.TmxObject tmxObject = null;
+            for (int objectGroupCount = 0; objectGroupCount < tileResult.ObjectGroups.Count; objectGroupCount++)
+            {
+                for (int objectCount = 0; objectCount < tileResult.ObjectGroups.Count; objectCount++)
+                {
+                    tmxObject = tileResult.ObjectGroups[objectGroupCount].Objects[objectCount];
+                }
+            }
+
             cell.passable = false;
 
             GameObject collisionObject = new GameObject(cell.position);
@@ -272,6 +273,12 @@ namespace My_first_xna_game
             {
                 collisionObject.position += new Vector2((float)tmxObject.X, (float)tmxObject.Y);
                 collisionObject.size = new Vector2((float)tmxObject.Width, (float)tmxObject.Height);
+            }
+
+            string tag = tileResult.Properties["Tag"];
+            if (tag != "")
+            {
+                collisionObject.tags.Add(tag);
             }
 
 
@@ -369,6 +376,35 @@ namespace My_first_xna_game
                                     cell.autotileAnimationCount++;
                                 }
                                 animationTimer.Reset();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void CreateTemporeryCollisionObjects(string tag)
+        {
+            for (int layersCounter = 0; layersCounter < layers.Count; layersCounter++)
+            {
+                Layer layer = layers[layersCounter];
+                for (int y = 1; y < height - 1; y++)
+                {
+                    MapRow row = layer.Rows[y];
+                    for (int x = 1; x < width - 1; x++)
+                    {
+                        MapCell cell = row.Columns[x];
+                        int currentCell = y * (height) + x;
+                        TmxLayerTile tmxCell = tmxMap.Layers[layersCounter].Tiles[currentCell];
+
+                        TmxTilesetTile tileResult = GetMapTile(cell);
+
+                        if (tileResult != null)
+                        {
+                            //collision
+                            if (tileResult.Properties["Tag"] == tag)
+                            {
+                                CreateCollisionObject(cell, tileResult);
                             }
                         }
                     }

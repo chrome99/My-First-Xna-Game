@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace My_first_xna_game
@@ -8,21 +9,22 @@ namespace My_first_xna_game
         private MovementManager movementManager;
         private Enemy wolf;
         private Actor npc;
+        private Vehicle boat;
+        private GameObject boatCollision;
+        private GameObject portal;
+
         private Sprite block;
         private Sprite holdBox;
         private Sprite pickUpBread;
         private Sprite runningSwitch;
         private Sprite box1;
         private Sprite box2;
-        private GameObject portal;
         private Sprite groundSwitch;
-        private ItemCollection ItemCollection;
 
         public ObjectCollection1(Map map)
             : base(map)
         {
             movementManager = new MovementManager(map);
-            ItemCollection = new ItemCollection();
 
             wolf = new Enemy(Content.Load<Texture2D>("Textures\\Spritesheets\\wolf"), new Vector2(41 * 32, 43 * 32));
             wolf.stats.maxHealth = 16;
@@ -43,6 +45,13 @@ namespace My_first_xna_game
             npc.collisionFunction = UpdateNpcCollision;
 
             block = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(37 * 32, 21 * 32), Game.Depth.player, 2);
+
+            boatCollision = new GameObject(new Vector2(34 * 32, 29 * 32));
+            boatCollision.passable = true;
+            boatCollision.collisionFunction = UpdateBoatCollision;
+
+            boat = new Vehicle(Content.Load<Texture2D>("Textures\\Spritesheets\\boat"), new Vector2(33.5f * 32, 30 * 32), new List<string>() { "water" }, new List<string>() { "grass" });
+            movementManager.TurnActor(boat, MovementManager.Direction.left);
 
             holdBox = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(40 * 32, 21 * 32), Game.Depth.player, 2);
             holdBox.collisionFunction = UpdateHoldBoxCollision;
@@ -70,6 +79,10 @@ namespace My_first_xna_game
 
 
             gameObjectList.Add(npc);
+            gameObjectList.Add(boat);
+            gameObjectList.Add(boatCollision);
+            gameObjectList.Add(portal);
+
             //gameObjectList.Add(wolf);
             //gameObjectList.Add(block);
             //gameObjectList.Add(holdBox);
@@ -78,7 +91,21 @@ namespace My_first_xna_game
             //gameObjectList.Add(groundSwitch);
             //gameObjectList.Add(box1);
             //gameObjectList.Add(box2);
-            gameObjectList.Add(portal);
+        }
+
+        private void UpdateBoatCollision(GameObject boatCollision)
+        {
+            for (int i = 0; i < map.gameObjectList.Count; i++)
+            {
+                Player player = map.gameObjectList[i] as Player;
+                if (player != null)
+                {
+                    if (CollisionManager.GameObjectCollision(player, boatCollision))
+                    {
+                        player.Ride(boat);
+                    }
+                }
+            }
         }
 
         private void UpdateHoldBoxCollision(GameObject HoldBox)

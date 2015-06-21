@@ -180,6 +180,28 @@ namespace My_first_xna_game
             }
         }
 
+        public void Ride(Vehicle vehicle)
+        {
+            texture = vehicle.texture;
+            position = vehicle.position;
+            for (int i = 0; i < map.gameObjectList.Count; i++)
+            {
+                GameObject gameObject = map.gameObjectList[i];
+                foreach (string vehicleTag in vehicle.passableTilesTags)
+                {
+                    if (gameObject.tags.Contains(vehicleTag))
+                    {
+                        gameObject.passable = true;
+                    }
+                }
+                foreach (string vehicleTag in vehicle.impassableTilesTags)
+                {
+                    //create temporery object
+                    map.CreateTemporeryCollisionObjects(vehicleTag);
+                }
+            }
+        }
+
         public void HoldObject(Sprite sprite)
         {
             HoldedSprite = sprite;
@@ -444,6 +466,10 @@ namespace My_first_xna_game
             //jump
             if (newState.IsKeyDown(kbKeys.jump) && jumpKeyReleased)
             {
+                passable = !passable;
+                jumpKeyReleased = false;
+
+                /*
                 if (!jumping)
                 {
                     int VectorMoveTo = 0;
@@ -469,7 +495,7 @@ namespace My_first_xna_game
                         jumpKeyReleased = false;
                         return;
                     }
-                }
+                }*/
 
             }
             else if (!oldState.IsKeyDown(kbKeys.jump))
