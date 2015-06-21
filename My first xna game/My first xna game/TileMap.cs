@@ -22,7 +22,7 @@ namespace My_first_xna_game
 
         Timer animationTimer = new Timer(500f, true);
 
-        public TileMap(string path, bool debugTileset = true)
+        public TileMap(string path, bool debugTileset = false)
         {
             TmxMap map = new TmxMap(path);
             config = new TmxMap("Maps\\" + configName + ".tmx");
@@ -111,16 +111,20 @@ namespace My_first_xna_game
                             //collision
                             if (tileResult.Properties["Passable"] == "X")
                             {
-                                cell.passable = false;
-
-                                GameObject collisionObject = new GameObject(cell.position);
-
-                                if (debugTileset)
+                                bool objectFound = false;
+                                for (int objectGroupCount = 0; objectGroupCount < tileResult.ObjectGroups.Count; objectGroupCount++)
                                 {
-                                    collisionObject.AddLight(70, Color.White);
+                                    for (int objectCount = 0; objectCount < tileResult.ObjectGroups.Count; objectCount++)
+                                    {
+                                        TmxObjectGroup.TmxObject tmxObject = tileResult.ObjectGroups[objectGroupCount].Objects[objectCount];
+                                        CreateCollisionObject(cell, tmxObject, debugTileset);
+                                        objectFound = true;
+                                    }
                                 }
-
-                                collisionObjectList.Add(collisionObject);
+                                if (!objectFound)
+                                {
+                                    CreateCollisionObject(cell, null, debugTileset);
+                                }
                             }
 
                             //height
@@ -252,6 +256,26 @@ namespace My_first_xna_game
                     }
                 }
             }
+        }
+
+        private void CreateCollisionObject(MapCell cell, TmxObjectGroup.TmxObject tmxObject, bool debugTileset)
+        {
+            cell.passable = false;
+
+            GameObject collisionObject = new GameObject(cell.position);
+
+            if (debugTileset)
+            {
+                collisionObject.AddLight(70, Color.White);
+            }
+            if (tmxObject != null)
+            {
+                collisionObject.position += new Vector2((float)tmxObject.X, (float)tmxObject.Y);
+                collisionObject.size = new Vector2((float)tmxObject.Width, (float)tmxObject.Height);
+            }
+
+
+            collisionObjectList.Add(collisionObject);
         }
 
         private TmxTileset FindTileset(string name)

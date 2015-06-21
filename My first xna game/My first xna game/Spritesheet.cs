@@ -21,7 +21,7 @@ namespace My_first_xna_game
 
         public override Rectangle bounds
         {
-            get { return new Rectangle((int)position.X, (int)position.Y, texture.Width / 4, texture.Height / 4); }
+            get { return new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y); }
         }
 
         public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect)
