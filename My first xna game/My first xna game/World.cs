@@ -74,9 +74,11 @@ namespace My_first_xna_game
                     camera.DrawWindows(spriteBatch);
                     spriteBatch.End();
 
+                    /*
+                    *** to add mini map
                     graphicsDeviceManager.GraphicsDevice.Viewport = camera.minimapViewport;
                     spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, camera.minimapTransform);
-                    camera.DrawMinimap(spriteBatch);
+                    camera.DrawMinimap(spriteBatch);*/
                 }
                 else
                 {
