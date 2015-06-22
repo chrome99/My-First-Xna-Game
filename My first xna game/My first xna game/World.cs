@@ -71,9 +71,12 @@ namespace My_first_xna_game
                     spriteBatch.End();
 
                     spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, camera.transform);
-                    camera.effect.Parameters["active"].SetValue(false);
-                    camera.effect.CurrentTechnique.Passes[0].Apply();
                     camera.DrawWindows(spriteBatch);
+                    spriteBatch.End();
+
+                    graphicsDeviceManager.GraphicsDevice.Viewport = camera.minimapViewport;
+                    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, camera.minimapTransform);
+                    camera.DrawMinimap(spriteBatch);
                 }
                 else
                 {

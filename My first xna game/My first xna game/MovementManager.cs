@@ -206,7 +206,7 @@ namespace My_first_xna_game
 
         public bool InsideMap(GameObject gameObject, Rectangle gameObjectCore)
         {
-            if (gameObjectCore.X > map.tileMap.width * Tile.size - gameObjectCore.Width)
+            if (gameObjectCore.X > map.width * Tile.size - gameObjectCore.Width)
             {
                 return false;
             }
@@ -214,7 +214,7 @@ namespace My_first_xna_game
             {
                 return false;
             }
-            if (gameObjectCore.Y > map.tileMap.height * Tile.size - gameObjectCore.Height)
+            if (gameObjectCore.Y > map.height * Tile.size - gameObjectCore.Height)
             {
                 return false;
             }

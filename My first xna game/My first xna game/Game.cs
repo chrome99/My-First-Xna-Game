@@ -16,7 +16,7 @@ namespace My_first_xna_game
     {
         /*
          TODO:
-         * boats
+         * A*
          * attack (sword)
          * combos & skills
          * round raduis for enemies
@@ -28,9 +28,6 @@ namespace My_first_xna_game
          * guns
          * homing spells
          * vehicles
-         * 
-         * minimap
-         * A*
          * ray casting
          * speed with accelertaion
          * 
@@ -62,6 +59,7 @@ namespace My_first_xna_game
          * redstone
          
          BUGS:
+         * fix boat bug
          * order update anyway in sprite and in hostile
          * fix depth in dmg
          * fix heal health and hud

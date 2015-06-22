@@ -537,10 +537,6 @@ namespace My_first_xna_game
             //jump
             if (newState.IsKeyDown(kbKeys.jump) && jumpKeyReleased)
             {
-                passable = !passable;
-                jumpKeyReleased = false;
-
-                /*
                 if (!jumping)
                 {
                     int VectorMoveTo = 0;
@@ -566,7 +562,7 @@ namespace My_first_xna_game
                         jumpKeyReleased = false;
                         return;
                     }
-                }*/
+                }
 
             }
             else if (!oldState.IsKeyDown(kbKeys.jump))

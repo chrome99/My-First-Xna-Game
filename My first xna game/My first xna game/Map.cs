@@ -11,8 +11,17 @@ namespace My_first_xna_game
         public List<LightSource> lightsList = new List<LightSource>();
         public List<Hostile> hostilesList = new List<Hostile>();
         public List<GameObject> gameObjectList = new List<GameObject>();
-        public TileMap tileMap;
+        private TileMap tileMap;
         public string name;
+
+        public int width
+        {
+            get { return tileMap.width; }
+        }
+        public int height
+        {
+            get { return tileMap.height; }
+        }
 
         public Map(TileMap tileMap, string name)
         {

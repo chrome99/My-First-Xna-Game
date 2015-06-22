@@ -116,6 +116,7 @@
     <Compile Include="MapCollection.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Message.cs" />
+    <Compile Include="MiniMap.cs" />
     <Compile Include="PlayerCollection.cs" />
     <Compile Include="Partical.cs" />
     <Compile Include="ParticalManager.cs" />

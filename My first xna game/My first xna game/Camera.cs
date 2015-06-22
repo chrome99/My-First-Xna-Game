@@ -10,12 +10,15 @@ namespace My_first_xna_game
         public Rectangle mapRect;
         public Rectangle screenRect;
         public Viewport viewport;
+        public Viewport minimapViewport;
 
         public Matrix transform;
+        public Matrix minimapTransform;
         public RenderTarget2D renderTarget;
         public Effect effect;
         public RenderTarget2D lightsTarget;
         private Vector2 scale = new Vector2(1, 1);
+        private Vector2 minimapScale = new Vector2(0.2f, 0.2f);
 
         public GameObject cameraLightspot;
         public Player player;
@@ -31,10 +34,19 @@ namespace My_first_xna_game
             this.graphicsDeviceManager = graphicsDeviceManager;
 
             viewport = new Viewport(screenRect);
+
+            float minimapRectWidth = screenRect.Width * minimapScale.X;
+            float minimapRectHeight = screenRect.Height * minimapScale.Y;
+            minimapViewport = new Viewport(new Rectangle(screenRect.X, screenRect.Y, (int)minimapRectWidth, (int)minimapRectHeight));
+
+
             transform = Matrix.CreateScale(new Vector3(scale.X, scale.Y, 0)) * Matrix.CreateTranslation(new Vector3(0, 0, 0));
+            minimapTransform = Matrix.CreateScale(new Vector3(minimapScale.X, minimapScale.Y, 0)) * Matrix.CreateTranslation(new Vector3(0, 0, 0));
+
             renderTarget = new RenderTarget2D(graphicsDeviceManager.GraphicsDevice, Game.worldRect.Width, Game.worldRect.Height);
-            effect = Game.content.Load<Effect>("Effects\\FirstOne");
             lightsTarget = new RenderTarget2D(graphicsDeviceManager.GraphicsDevice, Game.worldRect.Width, Game.worldRect.Height);
+
+            effect = Game.content.Load<Effect>("Effects\\FirstOne");
         }
 
         public Rectangle view
@@ -70,7 +82,6 @@ namespace My_first_xna_game
             if (player.alive)
             {
                 player.map.Draw(spriteBatch, this, false);
-                //player.DrawPlayerItems(spriteBatch, mapRect);
             }
         }
 
@@ -88,6 +99,12 @@ namespace My_first_xna_game
                     }
                 }
             }
+        }
+
+        public void DrawMinimap(SpriteBatch spriteBatch)
+        {
+            DrawLow(spriteBatch);
+            DrawHigh(spriteBatch);
         }
 
         public void DrawGrave(SpriteBatch spriteBatch)
@@ -157,8 +174,8 @@ namespace My_first_xna_game
 
         public void Move(Vector2 destination)
         {
-            mapRect.X = (int)MathHelper.Clamp(destination.X, 0, (player.map.tileMap.width - screenRect.Width / scale.X / Tile.size) * Tile.size);
-            mapRect.Y = (int)MathHelper.Clamp(destination.Y, 0, (player.map.tileMap.height - screenRect.Height / scale.Y / Tile.size) * Tile.size);
+            mapRect.X = (int)MathHelper.Clamp(destination.X, 0, (player.map.width - screenRect.Width / scale.X / Tile.size) * Tile.size);
+            mapRect.Y = (int)MathHelper.Clamp(destination.Y, 0, (player.map.height - screenRect.Height / scale.Y / Tile.size) * Tile.size);
         }
     }
 }
