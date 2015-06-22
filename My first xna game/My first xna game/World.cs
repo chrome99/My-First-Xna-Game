@@ -72,10 +72,11 @@ namespace My_first_xna_game
 
                     spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, camera.transform);
                     camera.DrawWindows(spriteBatch);
-                    spriteBatch.End();
+
 
                     /*
                     *** to add mini map
+                    spriteBatch.End();
                     graphicsDeviceManager.GraphicsDevice.Viewport = camera.minimapViewport;
                     spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, camera.minimapTransform);
                     camera.DrawMinimap(spriteBatch);*/
