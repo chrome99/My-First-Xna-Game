@@ -167,6 +167,34 @@ namespace My_first_xna_game
                 if (!CollisionCheck(actor, MoveRectangle(actor.core, direction, speed)))
                 {
                     Vector2 destination = MoveVector(actor.position, speed, actor.direction);
+                    Player player = actor as Player;
+                    if (player != null)
+                    {
+                        if (player.impassableTilesTag != null && !player.passable)
+                        {
+                            if (player.impassableTilesTag.Count > 0)
+                            {
+                                MapCell currentCell;
+                                if (direction == Direction.right || direction == Direction.down)
+                                {
+                                    Vector2 checkingDestination = MoveVector(destination, player.bounds.Width, Direction.right);
+                                    checkingDestination = MoveVector(checkingDestination, player.bounds.Height, Direction.down);
+                                    currentCell = player.map.GetTileByPosition(checkingDestination, 0);
+                                }
+                                else
+                                {
+                                    currentCell = player.map.GetTileByPosition(destination, 0);
+                                }
+                                if (currentCell != null)
+                                {
+                                    if (currentCell.tags.Contains(player.impassableTilesTag[0]))
+                                    {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    }
                     actor.StartAnimation(direction);
                     actor.position = destination;
                     actor.FixOutsideCollision();

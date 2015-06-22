@@ -129,6 +129,13 @@ namespace My_first_xna_game
                             {
                                 mapCellsList.Add(cell);
                             }
+
+                            //tags
+                            string tag = tileResult.Properties["Tag"];
+                            if (tag != "")
+                            {
+                                cell.tags.Add(tag);
+                            }
                         }
                     }
                 }
@@ -383,8 +390,35 @@ namespace My_first_xna_game
             }
         }
 
-        public void CreateTemporeryCollisionObjects(string tag)
+        public MapCell GetTileByPosition(Vector2 position, int currentLayer)
         {
+            Layer layer = layers[currentLayer];
+            for (int y = 1; y < height - 1; y++)
+            {
+                MapRow row = layer.Rows[y];
+                for (int x = 1; x < width - 1; x++)
+                {
+                    MapCell cell = row.Columns[x];
+                    int cellPositionX = (int)(cell.position / new Vector2(Tile.size)).X;
+                    int cellPositionY = (int)(cell.position / new Vector2(Tile.size)).Y;
+
+                    int positionX = (int)(position / new Vector2(Tile.size)).X;
+                    int positionY = (int)(position / new Vector2(Tile.size)).Y;
+                    if (cellPositionX == positionX)
+                    {
+                        if (cellPositionY == positionY)
+                        {
+                            return cell;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        public List<MapCell> GetTilesByTag(string tag)
+        {
+            List<MapCell> result = new List<MapCell>();
             for (int layersCounter = 0; layersCounter < layers.Count; layersCounter++)
             {
                 Layer layer = layers[layersCounter];
@@ -394,22 +428,15 @@ namespace My_first_xna_game
                     for (int x = 1; x < width - 1; x++)
                     {
                         MapCell cell = row.Columns[x];
-                        int currentCell = y * (height) + x;
-                        TmxLayerTile tmxCell = tmxMap.Layers[layersCounter].Tiles[currentCell];
-
-                        TmxTilesetTile tileResult = GetMapTile(cell);
-
-                        if (tileResult != null)
+                        if (cell.tags.Contains(tag))
                         {
-                            //collision
-                            if (tileResult.Properties["Tag"] == tag)
-                            {
-                                CreateCollisionObject(cell, tileResult);
-                            }
+                            result.Add(cell);
                         }
                     }
                 }
             }
+
+            return result;
         }
 
         public void Draw(SpriteBatch spriteBatch, Rectangle screenRect, Rectangle mapRect, bool low)

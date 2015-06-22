@@ -23,12 +23,6 @@ namespace My_first_xna_game
             tileMap.AddCollisionObjects(this);
         }
 
-        public void CreateTemporeryCollisionObjects(string tag)
-        {
-            tileMap.CreateTemporeryCollisionObjects(tag);
-            tileMap.AddCollisionObjects(this);
-        }
-
         public void RemoveObject(GameObject gameObject)
         {
             //hostile list
@@ -208,6 +202,16 @@ namespace My_first_xna_game
                     }
                 }
             }
+        }
+
+        public MapCell GetTileByPosition(Vector2 position, int currentLayer)
+        {
+            return tileMap.GetTileByPosition(position, currentLayer);
+        }
+
+        public List<MapCell> GetTilesByTag(string tag)
+        {
+            return tileMap.GetTilesByTag(tag);
         }
 
         public void Draw(SpriteBatch spriteBatch, Camera camera, bool low)

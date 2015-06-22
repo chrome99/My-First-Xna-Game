@@ -923,21 +923,21 @@
    <properties>
     <property name="Height" value="0"/>
     <property name="Passable" value="X"/>
-    <property name="Tag" value=""/>
+    <property name="Tag" value="water"/>
    </properties>
   </tile>
   <tile id="126">
    <properties>
     <property name="Height" value="0"/>
     <property name="Passable" value="X"/>
-    <property name="Tag" value=""/>
+    <property name="Tag" value="water"/>
    </properties>
   </tile>
   <tile id="127">
    <properties>
     <property name="Height" value="0"/>
     <property name="Passable" value="X"/>
-    <property name="Tag" value=""/>
+    <property name="Tag" value="water"/>
    </properties>
   </tile>
   <tile id="128">

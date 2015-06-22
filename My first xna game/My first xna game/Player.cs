@@ -25,6 +25,22 @@ namespace My_first_xna_game
 
         private Sprite HoldedSprite;
 
+        private Vehicle vehicle;
+        private VehicleSave vehicleSave;
+        private struct VehicleSave
+        {
+            public Texture2D texture;
+            public Vector2 position;
+            public Vector2 size;
+            public bool ShowAnimation;
+        }
+        public bool Riding
+        {
+            get { return vehicle != null; }
+        }
+
+        public List<string> impassableTilesTag { get; private set; }
+
         private bool playerMoving = false;
         private bool playerRunning = false;
         private int releasedKeysCount;
@@ -180,10 +196,34 @@ namespace My_first_xna_game
             }
         }
 
+        public void AddImpassableTileTag(string tag)
+        {
+            if (impassableTilesTag == null)
+            {
+                impassableTilesTag = new List<string>();
+            }
+            impassableTilesTag.Add(tag);
+        }
+
+        public void RemoveImpassableTileTag(string tag)
+        {
+            impassableTilesTag.Remove(tag);
+        }
+
         public void Ride(Vehicle vehicle)
         {
+            vehicleSave = new VehicleSave
+            {
+                texture = this.texture,
+                position = this.position,
+                size = this.size,
+                ShowAnimation = this.ShowAnimation
+            };
             texture = vehicle.texture;
             position = vehicle.position;
+            size = vehicle.size;
+            ShowAnimation = vehicle.ShowAnimation;
+
             for (int i = 0; i < map.gameObjectList.Count; i++)
             {
                 GameObject gameObject = map.gameObjectList[i];
@@ -194,12 +234,43 @@ namespace My_first_xna_game
                         gameObject.passable = true;
                     }
                 }
-                foreach (string vehicleTag in vehicle.impassableTilesTags)
+            }
+            foreach (string vehicleTag in vehicle.impassableTilesTags)
+            {
+                //create temporery object
+                AddImpassableTileTag(vehicleTag);
+            }
+
+            this.vehicle = vehicle;
+            vehicle.Kill();
+        }
+
+        public void Backoff()
+        {
+            texture = vehicleSave.texture;
+            position = vehicleSave.position;
+            size = vehicleSave.size;
+            ShowAnimation = vehicleSave.ShowAnimation;
+
+            for (int i = 0; i < map.gameObjectList.Count; i++)
+            {
+                GameObject gameObject = map.gameObjectList[i];
+                foreach (string vehicleTag in vehicle.passableTilesTags)
                 {
-                    //create temporery object
-                    map.CreateTemporeryCollisionObjects(vehicleTag);
+                    if (gameObject.tags.Contains(vehicleTag))
+                    {
+                        gameObject.passable = false;
+                    }
                 }
             }
+            foreach (string vehicleTag in vehicle.impassableTilesTags)
+            {
+                //delete temporery object
+                RemoveImpassableTileTag(vehicleTag);
+            }
+
+            vehicle.Revive();
+            vehicle = null;
         }
 
         public void HoldObject(Sprite sprite)

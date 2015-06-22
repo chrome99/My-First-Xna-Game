@@ -5,6 +5,13 @@ namespace My_first_xna_game
 {
     public class Spritesheet : Sprite
     {
+        private bool showAnimation = false;
+        public bool ShowAnimation
+        {
+            get { return showAnimation; }
+            set { showAnimation = value; timerSwitch = value; }
+        }
+
         private Rectangle rect;
         private float timer = 0f;
         private bool timerSwitch = false;
@@ -59,7 +66,14 @@ namespace My_first_xna_game
                     if (currentFrameX == 4)
                     {
                         currentFrameX = 0;
-                        timerSwitch = false;
+                        if (!showAnimation)
+                        {
+                            timerSwitch = false;
+                        }
+                        else
+                        {
+                            timer = 0f;
+                        }
                     }
                 }
             }
@@ -73,7 +87,7 @@ namespace My_first_xna_game
         protected virtual void UpdatePlayer(GameTime gameTime) { }
         protected virtual void UpdateActor() { }
 
-        public void StartAnimation(MovementManager.Direction Direction, bool animation = true)
+        public void StartAnimation(MovementManager.Direction Direction, bool showAnimation = true)
         {
             switch (Direction)
             {
@@ -93,7 +107,7 @@ namespace My_first_xna_game
                     currentFrameY = 3;
                     break;
             }
-            if (animation)
+            if (showAnimation)
             {
                 timerSwitch = true;
             }
@@ -101,8 +115,11 @@ namespace My_first_xna_game
 
         protected void StopAnimation()
         {
-            timerSwitch = false;
-            currentFrameX = 0;
+            if (!ShowAnimation)
+            {
+                timerSwitch = false;
+                currentFrameX = 0;
+            }
         }
 
     }

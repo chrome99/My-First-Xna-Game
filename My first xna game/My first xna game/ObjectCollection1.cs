@@ -46,11 +46,11 @@ namespace My_first_xna_game
 
             block = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(37 * 32, 21 * 32), Game.Depth.player, 2);
 
-            boatCollision = new GameObject(new Vector2(34 * 32, 29 * 32));
-            boatCollision.passable = true;
+            boatCollision = new GameObject(new Vector2(33 * 32, 29 * 32));
             boatCollision.collisionFunction = UpdateBoatCollision;
 
             boat = new Vehicle(Content.Load<Texture2D>("Textures\\Spritesheets\\boat"), new Vector2(33.5f * 32, 30 * 32), new List<string>() { "water" }, new List<string>() { "grass" });
+            boat.ShowAnimation = true;
             movementManager.TurnActor(boat, MovementManager.Direction.left);
 
             holdBox = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(40 * 32, 21 * 32), Game.Depth.player, 2);
@@ -93,16 +93,31 @@ namespace My_first_xna_game
             //gameObjectList.Add(box2);
         }
 
+
         private void UpdateBoatCollision(GameObject boatCollision)
         {
             for (int i = 0; i < map.gameObjectList.Count; i++)
             {
+                int collisionID = boatCollision.GetID(map.gameObjectList);
                 Player player = map.gameObjectList[i] as Player;
                 if (player != null)
                 {
-                    if (CollisionManager.GameObjectCollision(player, boatCollision))
+                    if (CollisionManager.GameObjectTouch(player, boatCollision) && !player.collisionsList.Contains(collisionID))
                     {
-                        player.Ride(boat);
+                        if (player.Riding)
+                        {
+                            player.Backoff();
+                            player.collisionsList.Add(collisionID);
+                        }
+                        else
+                        {
+                            player.Ride(boat);
+                        }
+                        
+                    }
+                    else
+                    {
+                        player.collisionsList.Remove(collisionID);
                     }
                 }
             }
