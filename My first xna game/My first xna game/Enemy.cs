@@ -19,7 +19,7 @@ namespace My_first_xna_game
         public Enemy(Texture2D texture, Vector2 position)
             : base(texture, position, MovementManager.Auto.off)
         {
-            movingState = MovementManager.MovingState.walking;
+            MovingState = MovementManager.MovingState.walking;
         }
 
         protected override void UpdateEnemy()
@@ -65,7 +65,7 @@ namespace My_first_xna_game
         }
         private void MoveToTarget(Hostile target)
         {
-            movingState = MovementManager.MovingState.walking;
+            MovingState = MovementManager.MovingState.walking;
             autoMovement = MovementManager.Auto.off;
             direction = MovementManager.DirectionToGameObject(this, target);
             movementManager.MoveActor(this, direction, (int)speed);

@@ -167,6 +167,8 @@ namespace My_first_xna_game
             hud = new HostileHUD(this);
             shop = new Shop();
 
+            runningAccelerationMax = 1;
+
             defendingTimer = new Timer(defendingTime, false);
             defendingCooldownTimer = new Timer(defendingCoolddownTime, true);
         }
@@ -641,16 +643,16 @@ namespace My_first_xna_game
 
             if (playerMoving && playerRunning)
             {
-                movingState = MovementManager.MovingState.running;
+                MovingState = MovementManager.MovingState.running;
 
             }
             else if (playerMoving)
             {
-                movingState = MovementManager.MovingState.walking; //srsly
+                MovingState = MovementManager.MovingState.walking; //srsly
             }
             else
             {
-                movingState = MovementManager.MovingState.standing;
+                MovingState = MovementManager.MovingState.standing;
             }
         }
 

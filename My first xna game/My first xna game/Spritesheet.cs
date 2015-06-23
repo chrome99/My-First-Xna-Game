@@ -12,7 +12,7 @@ namespace My_first_xna_game
             set { showAnimation = value; timerSwitch = value; }
         }
 
-        private Rectangle rect;
+        private Rectangle cropingRect;
         private float timer = 0f;
         private bool timerSwitch = false;
         protected float interval = 200f;
@@ -39,7 +39,7 @@ namespace My_first_xna_game
                 Rectangle drawingRect = bounds;
                 drawingRect.X = drawingRect.X - offsetRect.X;
                 drawingRect.Y = drawingRect.Y - offsetRect.Y;
-                spriteBatch.Draw(texture, drawingRect, rect, Color.White * drawingOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
+                spriteBatch.Draw(texture, drawingRect, cropingRect, Color.White * drawingOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
             }
         }
 
@@ -53,7 +53,7 @@ namespace My_first_xna_game
             UpdateActor();
 
             //-update spritesheet rect
-            rect = new Rectangle(currentFrameX * (int)size.X, currentFrameY * (int)size.Y, (int)size.X, (int)size.Y);
+            cropingRect = new Rectangle(currentFrameX * (int)size.X, currentFrameY * (int)size.Y, (int)size.X, (int)size.Y);
 
             //-update animation timer
             if (timerSwitch == true)

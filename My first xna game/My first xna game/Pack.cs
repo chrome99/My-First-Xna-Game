@@ -235,7 +235,7 @@ namespace My_first_xna_game
         }
         private void UpdatePlayerWeight(bool add)
         {
-            //update player speed by weight
+            //update player running option by weight
             Player player = source as Player;
             if (player != null)
             {

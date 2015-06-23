@@ -29,7 +29,6 @@ namespace My_first_xna_game
          * homing spells
          * vehicles
          * ray casting
-         * speed with accelertaion
          * 
          * enemy type / id (bee, wolf, eater of worlds)
          * 
@@ -125,7 +124,7 @@ namespace My_first_xna_game
             // Initialize keyboard (old) state
             oldState = Keyboard.GetState();
 
-            base.Initialize();
+            base.Initialize(); 
         }
 
         protected override void LoadContent()

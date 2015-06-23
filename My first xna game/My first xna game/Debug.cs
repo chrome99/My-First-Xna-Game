@@ -32,7 +32,7 @@ namespace My_first_xna_game
                 "Health: " + player.stats.health + " / " + player.stats.maxHealth +
                 "\nX:" + player.position.X / Tile.size +
                 "\nY: " + player.position.Y / Tile.size +
-                "\nMovement: " + player.movingState +
+                "\nMovement: " + player.MovingState +
                 "\nDirection: " + player.direction;
         }
 

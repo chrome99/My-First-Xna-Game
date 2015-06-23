@@ -7,9 +7,27 @@ namespace My_first_xna_game
     public class Actor : Spritesheet
     {
         public Pack pack;
+
         public float walkingSpeed = 2f;
         public float runningSpeed = 4f;
-        public MovementManager.MovingState movingState;
+        public float runningAcceleration = 0f;
+        public float runningAccelerationSpeed = 0.01f;
+        public int runningAccelerationMax = 0;
+
+        private MovementManager.MovingState movingState;
+        public MovementManager.MovingState MovingState
+        {
+            get { return movingState; }
+            set
+            {
+                if (value != MovementManager.MovingState.running)
+                {
+                    runningAcceleration = 0;
+                }
+                movingState = value;
+            }
+        }
+
         public MovementManager.Auto autoMovement;
         public MovementManager.Direction direction = MovementManager.Direction.down;
 
@@ -31,10 +49,14 @@ namespace My_first_xna_game
             UpdateHostile();
 
             //update speed and animation according to actor status
-            switch (movingState)
+            switch (MovingState)
             {
                 case MovementManager.MovingState.running:
-                    speed = runningSpeed;
+                    if (runningAcceleration < runningAccelerationMax)
+                    {
+                        runningAcceleration += runningAccelerationSpeed;
+                    }
+                    speed = runningSpeed + runningAcceleration;
                     interval = 125f;
                     break;
 
@@ -54,7 +76,7 @@ namespace My_first_xna_game
                 case MovementManager.Auto.random:
                     if (movementTimer.result && walkingTimer.result)
                     {
-                        movingState = MovementManager.MovingState.walking;
+                        MovingState = MovementManager.MovingState.walking;
                         movementManager.MoveActor(this, direction, (int)speed);
                         timesMoved++;
                         movementTimer.counter = 0f;
@@ -63,7 +85,7 @@ namespace My_first_xna_game
 
                     if (timesMoved >= random.Next(10, 100) * random.Next(1, 5))
                     {
-                        movingState = MovementManager.MovingState.standing;
+                        MovingState = MovementManager.MovingState.standing;
                         direction = MovementManager.RandomDirection;
                         walkingTimer.counter = 0f;
                         timesMoved = 0;
