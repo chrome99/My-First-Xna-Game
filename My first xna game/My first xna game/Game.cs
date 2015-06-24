@@ -62,11 +62,7 @@ namespace My_first_xna_game
          * order update anyway in sprite and in hostile
          * fix depth in dmg
          * fix heal health and hud
-         * fix function GetID in GameObject
-         * particals bug
-         * fix drawing opacity
-         * stuck keyboard in singleplayer and multiplayer
-         * fix msgWindow intializing
+         * stuck keyboard in multiplayer
          * remove depth
          * hud bug in low health
          */

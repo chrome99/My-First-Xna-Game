@@ -14,10 +14,11 @@ namespace My_first_xna_game
         private Text loadgame;
         private Text quit;
 
-        private ParticalManager particalManager;
+        private ParticalManager backgroundParticals;
+        private ParticalManager cursorParticals;
 
         private Song music;
-        private bool shutUp = false;
+        private bool shutUp = true;
 
         private int title = 0;
         private int titleSpeed = 3;
@@ -37,12 +38,17 @@ namespace My_first_xna_game
             background = new Picture(Game.content.Load<Texture2D>("Textures\\Pictures\\title"), Vector2.Zero, null);
             background.depth = Game.DepthToFloat(Game.Depth.background);
 
-            newgame = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 550f), Color.Lime, "New Game", null, new Vector2(20, 20));
-            loadgame = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 700f), Color.Lime, "Continue", null, new Vector2(20, 20));
+            newgame = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 550f), Color.Gold, "New Game", null, new Vector2(20, 20));
+            loadgame = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 700f), Color.Gold, "Continue", null, new Vector2(20, 20));
             loadgame.opacity = 50;
-            quit = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 850f), Color.Lime, "Quit", null, new Vector2(20, 20));
+            quit = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 850f), Color.Gold, "Quit", null, new Vector2(20, 20));
 
-            particalManager = new ParticalManager(100, new Rectangle(0, 0, 1000, 1000));
+            backgroundParticals = new ParticalManager(100, Game.worldRect, new Vector2(4, 4), 0, 1, Color.Yellow, Color.WhiteSmoke, 100, 0);
+
+            Rectangle newRect = newgame.bounds;
+            newRect.Y += newRect.Height - 30;
+            newRect.Height = 10;
+            cursorParticals = new ParticalManager(100, newRect, new Vector2(3, 3), 0, 2, Color.Orange, Color.OrangeRed, 50, 25);
 
             music = Game.content.Load<Song>("Audio\\Themes\\title theme");
 
@@ -55,7 +61,8 @@ namespace My_first_xna_game
         {
             UpdateInput(newState, oldState);
 
-            particalManager.Update();
+            backgroundParticals.Update();
+            cursorParticals.Update();
 
             switch (title)
             {
@@ -63,6 +70,13 @@ namespace My_first_xna_game
                     if (newgame.position.X < 150)
                     {
                         newgame.position.X += titleSpeed;
+                        if (newgame.position.X - 150 < titleSpeed)
+                        {
+                            Rectangle newRect = newgame.bounds;
+                            newRect.Y += newRect.Height - 30;
+                            newRect.Height = 20;
+                            cursorParticals.NewRect(newRect);
+                        }
                     }
 
                     if (loadgame.position.X > 80)
@@ -80,6 +94,13 @@ namespace My_first_xna_game
                     if (loadgame.position.X < 150)
                     {
                         loadgame.position.X += titleSpeed;
+                        if (loadgame.position.X - 150 < titleSpeed)
+                        {
+                            Rectangle newRect = loadgame.bounds;
+                            newRect.Y += newRect.Height - 30;
+                            newRect.Height = 10;
+                            cursorParticals.NewRect(newRect);
+                        }
                     }
 
                     if (newgame.position.X > 80)
@@ -97,6 +118,13 @@ namespace My_first_xna_game
                     if (quit.position.X < 150)
                     {
                         quit.position.X += titleSpeed;
+                        if (quit.position.X - 150 < titleSpeed)
+                        {
+                            Rectangle newRect = quit.bounds;
+                            newRect.Y += newRect.Height - 30;
+                            newRect.Height = 10;
+                            cursorParticals.NewRect(newRect);
+                        }
                     }
 
                     if (newgame.position.X > 80)
@@ -211,7 +239,8 @@ namespace My_first_xna_game
             loadgame.Draw(spriteBatch, new Rectangle());
             quit.Draw(spriteBatch, new Rectangle());
 
-            particalManager.Draw(spriteBatch);
+            backgroundParticals.Draw(spriteBatch);
+            cursorParticals.Draw(spriteBatch);
 
             spriteBatch.End();
         }

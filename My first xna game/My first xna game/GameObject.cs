@@ -53,18 +53,6 @@ namespace My_first_xna_game
             }
         }
 
-        public int GetID(List<GameObject> gameObjectList)
-        {
-            for (int counter = 0; counter < gameObjectList.Count; counter++)
-            {
-                if (gameObjectList[counter].Equals(this))
-                {
-                    return counter;
-                }
-            }
-            throw new System.ArgumentException("Parameter wasn't found.", "original");
-        }
-
         public virtual void Kill()
         {
             canCollide = false;

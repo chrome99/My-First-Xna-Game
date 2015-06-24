@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace My_first_xna_game
 {
@@ -95,7 +96,7 @@ namespace My_first_xna_game
         }
 
         protected virtual void UpdateEnemy() { }
-        protected virtual void UpdatePlayer() { }
+        public virtual void UpdatePlayer(GameTime gameTime, KeyboardState newState, KeyboardState oldState) { }
 
         public void DealDamage(Hostile source, int damage = 0, bool showDamage = true)
         {

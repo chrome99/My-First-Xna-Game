@@ -6,7 +6,6 @@ namespace My_first_xna_game
 {
     class Partical
     {
-        public delegate void ParticalUpdate();
         public Rectangle rect;
         public int speed;
         public Color color;
@@ -75,9 +74,10 @@ namespace My_first_xna_game
             }
         }*/
 
-        public bool GoTo(Vector2 destination)
+        private bool GoTo(Vector2 destination)
         {
-            if (rect.X == destination.X && rect.Y == destination.Y)
+            if (((rect.X - destination.X >= 0 && rect.X - destination.X < speed) || (rect.X - destination.X <= 0 && rect.X - destination.X > speed * -1))
+                && ((rect.Y - destination.Y >= 0 && rect.Y - destination.Y < speed) || (rect.Y - destination.Y <= 0 && rect.Y - destination.Y > speed * -1)))
             {
                 return false;
             }

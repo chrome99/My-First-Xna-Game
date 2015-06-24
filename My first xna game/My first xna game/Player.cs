@@ -71,8 +71,6 @@ namespace My_first_xna_game
         private bool menuKeyReleased = false;
 
         public Map map;
-        private KeyboardState newState;
-        private KeyboardState oldState;
 
         public List<int> collisionsList = new List<int>();
 
@@ -178,12 +176,6 @@ namespace My_first_xna_game
             this.map = map;
             menu = new Menu(map, this);
             msg = new Message(map, this);
-        }
-
-        public void UpdateMapParameters(KeyboardState newState, KeyboardState oldState)
-        {
-            this.newState = newState;
-            this.oldState = oldState;
         }
 
         public void FlipRunning()
@@ -364,9 +356,8 @@ namespace My_first_xna_game
             hud.UpdateHearts(damage);
         }
 
-        protected override void UpdatePlayer(GameTime gameTime)
+        public override void UpdatePlayer(GameTime gameTime, KeyboardState newState, KeyboardState oldState)
         {
-            //TODO: is this being updated the number of players?
             if (jumping)
             {
                 UpdateJump();
@@ -385,7 +376,7 @@ namespace My_first_xna_game
             debug.UpdateInput(newState, oldState);
             msg.Update(gameTime, newState, oldState);
 
-            UpdateInput();
+            UpdateInput(newState, oldState);
         }
 
         private void UpdateJump()
@@ -465,7 +456,7 @@ namespace My_first_xna_game
             }
         }
 
-        protected void UpdateInput()
+        protected void UpdateInput(KeyboardState newState, KeyboardState oldState)
         {
             //cancal things, and open menu when can
             if (newState.IsKeyDown(kbKeys.opMenu) && menuKeyReleased)
@@ -637,6 +628,8 @@ namespace My_first_xna_game
             if (releasedKeysCount >= 4)
             {
                 playerMoving = false;
+                int x = PlayerManager.playersList.IndexOf(this);
+                x++;
             }
 
             //-Update player movement status

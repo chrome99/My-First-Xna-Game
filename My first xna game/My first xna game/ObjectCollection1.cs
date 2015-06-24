@@ -98,7 +98,7 @@ namespace My_first_xna_game
         {
             for (int i = 0; i < map.gameObjectList.Count; i++)
             {
-                int collisionID = boatCollision.GetID(map.gameObjectList);
+                int collisionID = map.gameObjectList.IndexOf(boatCollision);
                 Player player = map.gameObjectList[i] as Player;
                 if (player != null)
                 {
@@ -179,19 +179,19 @@ namespace My_first_xna_game
         }
 
 
-        private void UpdateNpcCollision(GameObject gameObject1)
+        private void UpdateNpcCollision(GameObject npcAsGameObject)
         {
             //TODO: fix npc2
 
-            Actor npc2 = gameObject1 as Actor;
+            Actor npc = npcAsGameObject as Actor;
             foreach (GameObject gameObject2 in map.gameObjectList)
             {
                 Player player = gameObject2 as Player;
                 if (player != null)
                 {
-                    int collisionID = npc2.GetID(map.gameObjectList);
+                    int collisionID = map.gameObjectList.IndexOf(npc);
                     //npc and player
-                    if (CollisionManager.GameObjectTouch(player, npc2))
+                    if (CollisionManager.GameObjectTouch(player, npc))
                     {
                         if (!player.collisionsList.Contains(collisionID))
                         {
@@ -199,7 +199,7 @@ namespace My_first_xna_game
                             {
                                 if (player.Shop(npc))
                                 {
-                                    movementManager.TurnActor(npc2, MovementManager.OppositeDirection(player.direction));
+                                    movementManager.TurnActor(npc, MovementManager.OppositeDirection(player.direction));
                                     //movementManager.Knockback(player, MovementManager.Direction.left, 100);
                                     //player.MessageWindow(npc2.bounds, new List<string> {"the great king wants to see you. \n no, he dosent.", "asd"}, true);
                                     //player.MessageWindow(npc2.bounds, "the king wants to see you. \n no, he dosent.", true);
@@ -225,7 +225,7 @@ namespace My_first_xna_game
                 Player player = gameObject as Player;
                 if (player != null)
                 {
-                    int collisionID = runningSwitch.GetID(map.gameObjectList);
+                    int collisionID = map.gameObjectList.IndexOf(runningSwitch);
                     if (CollisionManager.GameObjectCollision(player, runningSwitch))
                     {
                         if (!player.collisionsList.Contains(collisionID))

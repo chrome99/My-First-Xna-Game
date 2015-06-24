@@ -15,14 +15,6 @@ namespace My_first_xna_game
             playersList = new List<Player> { PlayerCollection.player1, PlayerCollection.player2, PlayerCollection.player3, PlayerCollection.player4 };
         }
 
-        public static void UpdatePlayersMapParameters(KeyboardState newState, KeyboardState oldState)
-        {
-            foreach (Player player in playersList)
-            {
-                player.UpdateMapParameters(newState, oldState);
-            }
-        }
-
         public static bool TwoPlayersSameShop(Player currentPlayer, Vector2 merchantPosition)
         {
             if (playersOnShop.Count > 0)

@@ -128,6 +128,11 @@ namespace My_first_xna_game
             for (int counter = 0; counter < gameObjectList.Count; counter++)
             {
                 gameObjectList[counter].Update(gameTime);
+                Player player = gameObjectList[counter] as Player;
+                if (player != null)
+                {
+                    player.UpdatePlayer(gameTime, newState, oldState);
+                }
             }
 
             //update lights
@@ -135,9 +140,6 @@ namespace My_first_xna_game
             {
                 lightsList[counter].Update();
             }
-
-            //update Player Manager (he updates players details on the map)
-            PlayerManager.UpdatePlayersMapParameters(newState, oldState);
 
             //update general collision
             UpdateTypeCollision();
