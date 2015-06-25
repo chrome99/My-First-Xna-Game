@@ -23,7 +23,7 @@ namespace My_first_xna_game
             this.color = color;
             this.opacity = opacity;
 
-            texture = Game.content.Load<Texture2D>("Textures\\Sprites\\white dot");
+            texture = Game.content.Load<Texture2D>("Textures\\Sprites\\particle");
         }
 
         public void Update()

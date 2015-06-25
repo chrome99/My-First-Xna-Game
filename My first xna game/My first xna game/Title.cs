@@ -43,12 +43,12 @@ namespace My_first_xna_game
             loadgame.opacity = 50;
             quit = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 850f), Color.Gold, "Quit", null, new Vector2(20, 20));
 
-            backgroundParticals = new ParticalManager(100, Game.worldRect, new Vector2(4, 4), 0, 1, Color.Yellow, Color.WhiteSmoke, 100, 0);
+            backgroundParticals = new ParticalManager(ParticalManager.ParticalsMovement.xy, 100, Game.worldRect, new Vector2(6, 6), 0, 1, Color.Yellow, Color.WhiteSmoke, 100, 0);
 
             Rectangle newRect = newgame.bounds;
             newRect.Y += newRect.Height - 30;
-            newRect.Height = 10;
-            cursorParticals = new ParticalManager(100, newRect, new Vector2(3, 3), 0, 2, Color.Orange, Color.OrangeRed, 50, 25);
+            newRect.Height = 20;
+            cursorParticals = new ParticalManager(ParticalManager.ParticalsMovement.xy, 100, newRect, new Vector2(10, 10), 0, 4, Color.Orange, Color.OrangeRed, 50, 25);
 
             music = Game.content.Load<Song>("Audio\\Themes\\title theme");
 
@@ -232,15 +232,18 @@ namespace My_first_xna_game
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
             background.Draw(spriteBatch, new Rectangle());
+
+            backgroundParticals.Draw(spriteBatch);
+            cursorParticals.Draw(spriteBatch);
+
             newgame.Draw(spriteBatch, new Rectangle());
             loadgame.Draw(spriteBatch, new Rectangle());
             quit.Draw(spriteBatch, new Rectangle());
 
-            backgroundParticals.Draw(spriteBatch);
-            cursorParticals.Draw(spriteBatch);
+
 
             spriteBatch.End();
         }

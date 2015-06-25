@@ -6,10 +6,11 @@ namespace My_first_xna_game
 {
     class ParticalManager
     {
+        public enum ParticalsMovement { xy, y, x }
         private Partical[] snakes;
         private Random random = new Random();
 
-        public ParticalManager(int maxParticals, Rectangle rect, Vector2 particalSize, int randomParticalSize, int speed, Color color, Color randomColor, int opacity, int randomOpacity)
+        public ParticalManager(ParticalsMovement particalsMovement, int maxParticals, Rectangle rect, Vector2 particalSize, int randomParticalSize, int speed, Color color, Color randomColor, int opacity, int randomOpacity)
         {
             snakes = new Partical[maxParticals];
 
@@ -57,9 +58,26 @@ namespace My_first_xna_game
                 }
                 Vector2 startingPoint = new Vector2(rect.X + random.Next(rect.Width), rect.Y + random.Next(rect.Height));
                 snakes[i] = new Partical(new Rectangle((int)startingPoint.X, (int)startingPoint.Y, (int)particalSize.X + randomSize, (int)particalSize.Y + randomSize), speed, new Color(color.R + RandomColor(randomColorR), color.G + RandomColor(randomColorG), color.B + RandomColor(randomColorB)), (opacity + random.Next(randomOpacity)) / 100f);//i, 255, i   //random.Next(70) / 100f);
-                snakes[i].destinationsList.Add(new Vector2(rect.X + random.Next(rect.Width), rect.Y + random.Next(rect.Height)));
-                snakes[i].destinationsList.Add(new Vector2(rect.X + random.Next(rect.Width), rect.Y + random.Next(rect.Height)));
-                snakes[i].destinationsList.Add(startingPoint);
+                switch (particalsMovement)
+                {
+                    case ParticalsMovement.xy:
+                        snakes[i].destinationsList.Add(new Vector2(rect.X + random.Next(rect.Width), rect.Y + random.Next(rect.Height)));
+                        snakes[i].destinationsList.Add(new Vector2(rect.X + random.Next(rect.Width), rect.Y + random.Next(rect.Height)));
+                        snakes[i].destinationsList.Add(startingPoint);
+                        break;
+
+                    case ParticalsMovement.y:
+                        snakes[i].destinationsList.Add(new Vector2(startingPoint.X, rect.Y + random.Next(rect.Height)));
+                        snakes[i].destinationsList.Add(new Vector2(startingPoint.X, rect.Y + random.Next(rect.Height)));
+                        snakes[i].destinationsList.Add(startingPoint);
+                        break;
+
+                    case ParticalsMovement.x:
+                        snakes[i].destinationsList.Add(new Vector2(rect.X + random.Next(rect.Width), startingPoint.Y));
+                        snakes[i].destinationsList.Add(new Vector2(rect.X + random.Next(rect.Width), startingPoint.Y));
+                        snakes[i].destinationsList.Add(startingPoint);
+                        break;
+                }
             }
         }
 
