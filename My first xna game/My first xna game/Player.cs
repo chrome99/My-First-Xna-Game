@@ -484,7 +484,7 @@ namespace My_first_xna_game
                 menuKeyReleased = true;
             }
 
-            if (shop.alive || msg.alive || menu.alive)
+            if (shop.alive || msg.alive || menu.alive || forceMoving)
             {
                 return;
             }

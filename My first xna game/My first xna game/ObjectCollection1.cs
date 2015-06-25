@@ -26,7 +26,7 @@ namespace My_first_xna_game
         {
             movementManager = new MovementManager(map);
 
-            wolf = new Enemy(Content.Load<Texture2D>("Textures\\Spritesheets\\wolf"), new Vector2(41 * 32, 43 * 32));
+            wolf = new Enemy(Content.Load<Texture2D>("Textures\\Spritesheets\\wolf"), new Vector2(25 * 32, 16 * 32));
             wolf.stats.maxHealth = 16;
             wolf.stats.health = 16;
             wolf.stats.maxMana = 16;
@@ -44,7 +44,7 @@ namespace My_first_xna_game
             npc.pack.AddItem(ItemCollection.bread);
             npc.collisionFunction = UpdateNpcCollision;
 
-            block = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(37 * 32, 21 * 32), Game.Depth.player, 2);
+            block = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(37 * 32, 21 * 32), Game.Depth.player);
 
             boatCollision = new GameObject(new Vector2(33 * 32, 29 * 32));
             boatCollision.collisionFunction = UpdateBoatCollision;
@@ -53,26 +53,26 @@ namespace My_first_xna_game
             boat.ShowAnimation = true;
             movementManager.TurnActor(boat, MovementManager.Direction.left);
 
-            holdBox = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(40 * 32, 21 * 32), Game.Depth.player, 2);
+            holdBox = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(40 * 32, 21 * 32), Game.Depth.player);
             holdBox.collisionFunction = UpdateHoldBoxCollision;
 
             pickUpBread = CreatePickup(pickUpBread, ItemCollection.bread, new Vector2(11 * 32, 34 * 32));
 
-            groundSwitch = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\brick1"), new Vector2(38 * 32, 25 * 32), Game.Depth.below, 2);
+            groundSwitch = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\brick1"), new Vector2(38 * 32, 25 * 32), Game.Depth.below);
             groundSwitch.passable = true;
             groundSwitch.collisionFunction = UpdateGroundSwitchCollision;
 
-            box1 = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(27 * 32, 25 * 32), Game.Depth.player, 2);
+            box1 = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(27 * 32, 25 * 32), Game.Depth.player);
             box1.tags.Add("box");
 
-            box2 = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(30 * 32, 25 * 32), Game.Depth.player, 2);
+            box2 = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(30 * 32, 25 * 32), Game.Depth.player);
             box2.tags.Add("box");
 
-            runningSwitch = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\brick1"), new Vector2(27 * 32, 18 * 32), Game.Depth.below, 2);
+            runningSwitch = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\brick1"), new Vector2(27 * 32, 18 * 32), Game.Depth.below);
             runningSwitch.passable = true;
             runningSwitch.collisionFunction = UpdateRunningSwitchCollision;
 
-            //portal = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\player1"), new Vector2(34 * 32, 22* 32), Game.Depth.player, 2);
+            //portal = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\player1"), new Vector2(34 * 32, 22* 32), Game.Depth.player);
             portal = new GameObject(new Vector2(34 * 32, 22 * 32));
             portal.passable = true;
             portal.collisionFunction = UpdatePortalCollision;
@@ -83,7 +83,7 @@ namespace My_first_xna_game
             gameObjectList.Add(boatCollision);
             gameObjectList.Add(portal);
 
-            //gameObjectList.Add(wolf);
+            gameObjectList.Add(wolf);
             //gameObjectList.Add(block);
             //gameObjectList.Add(holdBox);
             //gameObjectList.Add(pickUpBread);

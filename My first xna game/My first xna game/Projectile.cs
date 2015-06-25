@@ -14,12 +14,13 @@ namespace My_first_xna_game
         private SoundEffect hitSound;
 
         public Projectile(Texture2D texture, float speed, Player source, int pathDestination, SoundEffect launchSound, SoundEffect hitSound)
-            : base(texture, new Vector2(), Game.Depth.projectiles, speed)
+            : base(texture, new Vector2(), Game.Depth.projectiles)
         {
             this.source = source;
             this.pathDestination = pathDestination;
             this.launchSound = launchSound;
             this.hitSound = hitSound;
+            this.speed = speed;
 
             direction = source.direction;
             position.X = source.position.X + source.bounds.Width / 2 - bounds.Width / 2;
@@ -48,7 +49,7 @@ namespace My_first_xna_game
         protected override void UpdateProjectile()
         {
             //-update movement
-            movementManager.MoveToDirection(this, this.speed, direction);
+            movementManager.MoveToDirection(this, direction, (int)this.speed);
             StartAnimation(direction);
             pathTravelled++;
             if (pathTravelled == pathDestination)

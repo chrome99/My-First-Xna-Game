@@ -36,7 +36,7 @@ namespace My_first_xna_game
 
         public Sprite getSprite
         {
-            get { return new Sprite(Item.IconSet, Vector2.Zero, Game.Depth.above, 2f, getRect); }
+            get { return new Sprite(Item.IconSet, Vector2.Zero, Game.Depth.above, getRect); }
         }
 
         public void Spawn(Map map, GameObject gameObject)

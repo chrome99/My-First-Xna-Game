@@ -20,7 +20,7 @@ namespace My_first_xna_game
         private bool playerCollision = false;
 
         public Window(Map map, Texture2D texture, Vector2 position, int width, int height, Player player = null)
-            : base(texture, position, Game.Depth.windows, 0f)
+            : base(texture, position, Game.Depth.windows)
         {
             this.width = width;
             this.height = height;

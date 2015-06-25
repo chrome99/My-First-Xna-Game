@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -8,8 +9,6 @@ namespace My_first_xna_game
     {
         public Pack pack;
 
-        public float walkingSpeed = 2f;
-        public float runningSpeed = 4f;
         public float runningAcceleration = 0f;
         public float runningAccelerationSpeed = 0.01f;
         public int runningAccelerationMax = 0;
@@ -39,7 +38,7 @@ namespace My_first_xna_game
         private Random random = new Random();
 
         public Actor(Texture2D texture, Vector2 position, MovementManager.Auto autoMovement = MovementManager.Auto.off)
-            : base(texture, position, Game.Depth.player, 0)
+            : base(texture, position, Game.Depth.player)
         {
             this.autoMovement = autoMovement;
         }
@@ -98,9 +97,14 @@ namespace My_first_xna_game
 
         protected virtual void UpdateHostile() { }
 
+        protected override void move(MovementManager.Direction direction, int speed)
+        {
+            movementManager.MoveActor(this, direction, speed);
+        }
+
         public void push(GameObject gameObject)
         {
-            movementManager.MoveToDirection(gameObject, this.speed, this.direction);
+            movementManager.MoveToDirection(gameObject, this.direction, (int)this.speed);
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace My_first_xna_game
@@ -6,7 +7,30 @@ namespace My_first_xna_game
     public class Sprite : GameObject
     {
         public Texture2D texture;
+
         public float speed;
+        public float walkingSpeed = 2;
+        public float knockbackSpeed = 6;
+        public float runningSpeed = 4;
+        public float GetSpeedByType(MovementManager.SpeedType speedType)
+        {
+            switch (speedType)
+            {
+                case MovementManager.SpeedType.walking:
+                    return walkingSpeed;
+
+                case MovementManager.SpeedType.knockback:
+                    return knockbackSpeed;
+
+                case MovementManager.SpeedType.running:
+                    return runningSpeed;
+            }
+            return 0;
+        }
+
+        protected bool forceMoving = false;
+        public List<MovementManager.MovementString> movementList = new List<MovementManager.MovementString>();
+
         public Game.Depth depth;
         public bool visible = true;
         protected bool fade = false;
@@ -24,14 +48,13 @@ namespace My_first_xna_game
 
         public Rectangle drawingCoordinates;
 
-        public Sprite(Texture2D texture, Vector2 position, Game.Depth depth, float speed = 2f, Rectangle drawingCoordinates = new Rectangle())
+        public Sprite(Texture2D texture, Vector2 position, Game.Depth depth, Rectangle drawingCoordinates = new Rectangle())
             : base(position)
         {
             //intialize variables
             this.texture = texture;
             this.position = position;
             this.depth = depth;
-            this.speed = speed;
             this.drawingCoordinates = drawingCoordinates;
 
             //intialize size
@@ -72,6 +95,8 @@ namespace My_first_xna_game
             updated = true;*/
             UpdateSpritesheet(gameTime);
 
+            HandleMovementList();
+
             if (fade)
             {
                 if (fadeTimer.result && opacity > 0)
@@ -87,6 +112,36 @@ namespace My_first_xna_game
         }
 
         protected virtual void UpdateSpritesheet(GameTime gameTime) { }
+
+        int movementCount = 0;
+        private void HandleMovementList()
+        {
+            if (movementList.Count > 0)
+            {
+                forceMoving = true;
+                int maxMovementCount = movementList[0].destination / (int)speed;
+
+                if (movementCount < maxMovementCount)
+                {
+                    move(movementList[0].direction, (int)GetSpeedByType(movementList[0].speedType));
+                    movementCount++;
+                }
+                else
+                {
+                    movementList.Remove(movementList[0]);
+                    movementCount = 0;
+                }
+            }
+            else
+            {
+                forceMoving = false; 
+            }
+        }
+
+        protected virtual void move(MovementManager.Direction direction, int speed)
+        {
+            movementManager.MoveToDirection(this, direction, speed);
+        }
 
         public override void FixOutsideCollision()
         {

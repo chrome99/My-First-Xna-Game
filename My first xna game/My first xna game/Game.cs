@@ -24,10 +24,8 @@ namespace My_first_xna_game
          * 
          * visbale xp and healing
          * xp
-         * stats
          * guns
          * homing spells
-         * vehicles
          * ray casting
          * 
          * enemy type / id (bee, wolf, eater of worlds)
@@ -35,7 +33,6 @@ namespace My_first_xna_game
          * bloom shader
          * shadows
          * effects
-         * better knockback
          * core collision
          * options
          * gamemodes

@@ -10,6 +10,14 @@ namespace My_first_xna_game
         public enum Direction { left, right, down, up }
         public enum MovingState { standing, walking, running }
         public enum Auto { off, random}
+        public enum SpeedType { walking, knockback, running }
+        public struct MovementString
+        {
+            public int destination;
+            public Direction direction;
+            public SpeedType speedType;
+            public bool turn;
+        }
 
         public MovementManager(Map map)
         {
@@ -80,18 +88,10 @@ namespace My_first_xna_game
             }
         }
 
-        public void Knockback(Spritesheet target, Direction direction, int knockbackPower)
+        public void Knockback(Sprite target, Direction direction, int knockbackPower)
         {
-            Player player = target as Player;
-            if (player == null)
-            {
-                MoveToDirection(target, knockbackPower, direction);
-            }
-            else
-            {
-                MoveActor(player, direction, knockbackPower);
-            }
-            
+            target.movementList.Add(new MovementString() { destination = knockbackPower, direction = direction,
+                speedType = SpeedType.knockback, turn = false });
         }
 
         public bool MoveTo(GameObject gameObject, Vector2 destination)
@@ -118,9 +118,12 @@ namespace My_first_xna_game
             return false;
         }
 
-        public void MoveToDirection(GameObject gameObject, float speed, Direction direction)
+        public void MoveToDirection(GameObject gameObject, Direction direction, int speed, bool turn = true)
         {
-            gameObject.view = direction;
+            if (turn)
+            {
+                gameObject.view = direction;
+            }
             Vector2 newPosition = MoveVector(gameObject.position, speed, direction);
             if (!CollisionCheck(gameObject, MoveRectangle(gameObject.core, direction, (int)speed)))
             {
@@ -158,12 +161,15 @@ namespace My_first_xna_game
             actor.direction = direction;
             actor.StartAnimation(direction, false);
         }
-        public bool MoveActor(Actor actor, Direction direction, int speed)
+        public bool MoveActor(Actor actor, Direction direction, int speed, bool turn = true)
         {
             //if actor moving
             if (actor.enableMovement)
             {
-                TurnActor(actor, direction);
+                if (turn)
+                {
+                    TurnActor(actor, direction);
+                }
                 if (!CollisionCheck(actor, MoveRectangle(actor.core, direction, speed)))
                 {
                     Vector2 destination = MoveVector(actor.position, speed, actor.direction);
