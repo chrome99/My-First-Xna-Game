@@ -20,6 +20,8 @@ namespace My_first_xna_game
         public bool active = true;
         public int itemsInRow;
 
+        private bool customSize;
+
         // TODO: Remove this
         private bool opacityMaxed = false;
 
@@ -35,6 +37,8 @@ namespace My_first_xna_game
             this.size = size;
             this.layout = layout;
             this.itemsInRow = itemsInRow;
+
+            customSize = size == new Vector2();
 
             texture = source.texture;
             opacity = 30f;
@@ -90,6 +94,11 @@ namespace My_first_xna_game
             currentTarget = targets[currentTargetNum];
             position.X = currentTarget.position.X - layout;
             position.Y = currentTarget.position.Y - layout;
+            if (customSize)
+            {
+                size.X = currentTarget.bounds.Width + layout * 2;
+                size.Y = currentTarget.bounds.Height + layout * 2;
+            }
         }
 
         public bool Clamp()

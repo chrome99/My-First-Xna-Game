@@ -60,6 +60,7 @@ namespace My_first_xna_game
         public Stats stats;
         public Equipment equipment;
         public List<Armor> equipmentList = new List<Armor>();
+        private List<Skill> skillsList = new List<Skill>();
         private Timer cooldownTimer = new Timer(1000f, false);
 
         private Text dmgText;
@@ -103,6 +104,16 @@ namespace My_first_xna_game
         }
 
         protected virtual void UpdateEnemy() { }
+
+        public void LearnSkill(Skill skill)
+        {
+            skillsList.Add(skill);
+        }
+
+        public void ForgetSkill(Skill skill)
+        {
+            skillsList.Remove(skill);
+        }
 
         public void DealDamage(Hostile source, int damage = 0, bool showDamage = true)
         {
