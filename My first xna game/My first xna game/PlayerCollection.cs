@@ -35,6 +35,8 @@ namespace My_first_xna_game
             player1Stats.knockback = 30;
             player1Stats.defence = 2;
             player1Stats.agility = 1;
+            player1Stats.exp = 0;
+            player1Stats.level = 1;
 
             player1 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\starlord"), new Vector2(250f, 260f), player1Keys, player1Stats);
             player1.gold = 25;
@@ -68,6 +70,8 @@ namespace My_first_xna_game
             player2Stats.knockback = 30;
             player2Stats.defence = 2;
             player2Stats.agility = 1;
+            player2Stats.exp = 0;
+            player2Stats.level = 1;
 
             player2 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\rocket"), new Vector2(300f, 260f), player2Keys, player2Stats);
             player2.gold = 25;
@@ -94,6 +98,8 @@ namespace My_first_xna_game
             player3Stats.knockback = 30;
             player3Stats.defence = 2;
             player3Stats.agility = 1;
+            player3Stats.exp = 0;
+            player3Stats.level = 1;
 
             player3 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\drax"), new Vector2(350f, 260f), player3Keys, player3Stats);
             player3.gold = 25;
@@ -120,6 +126,8 @@ namespace My_first_xna_game
             player4Stats.knockback = 30;
             player4Stats.defence = 2;
             player4Stats.agility = 1;
+            player4Stats.exp = 0;
+            player4Stats.level = 1;
 
             player4 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\gamora"), new Vector2(400f, 260f), player4Keys, player4Stats);
             player4.gold = 25;

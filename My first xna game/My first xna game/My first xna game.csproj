@@ -110,6 +110,7 @@
     <Compile Include="Actor.cs" />
     <Compile Include="Armor.cs" />
     <Compile Include="ChoiceInventory.cs" />
+    <Compile Include="ChooseSkill.cs" />
     <Compile Include="EquipmentMenu.cs" />
     <Compile Include="HostileHUD.cs" />
     <Compile Include="LightSource.cs" />
@@ -146,6 +147,8 @@
     <Compile Include="Scene.cs" />
     <Compile Include="Selector.cs" />
     <Compile Include="Shop.cs" />
+    <Compile Include="Skill.cs" />
+    <Compile Include="SkillCollection.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="Spritesheet.cs" />
     <Compile Include="Text.cs" />

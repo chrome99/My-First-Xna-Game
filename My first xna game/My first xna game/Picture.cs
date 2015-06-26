@@ -13,7 +13,16 @@ namespace My_first_xna_game
             }
             else
             {
-                return position + source.position + source.thickness;
+                Vector2 newPosition = position + source.position + source.thickness;
+                /*if (newPosition.X > source.bounds.Width - bounds.Width)
+                {
+                    newPosition.X = source.bounds.Width - bounds.Width;
+                }
+                if (newPosition.Y > source.bounds.Height - bounds.Height)
+                {
+                    newPosition.Y = source.bounds.Height - bounds.Height;
+                }*/
+                return newPosition;
             }
         }
         public Rectangle? drawingRect = null;

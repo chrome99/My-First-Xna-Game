@@ -22,6 +22,7 @@ namespace My_first_xna_game
         private Message msg;
         private DebugHUD debug;
         private HostileHUD hud;
+        private ChooseSkill chooseSkill;
 
         private Sprite HoldedSprite;
 
@@ -176,6 +177,7 @@ namespace My_first_xna_game
             this.map = map;
             menu = new Menu(map, this);
             msg = new Message(map, this);
+            chooseSkill = new ChooseSkill(this);
         }
 
         public void FlipRunning()
@@ -356,7 +358,7 @@ namespace My_first_xna_game
             hud.UpdateHearts(damage);
         }
 
-        public override void UpdatePlayer(GameTime gameTime, KeyboardState newState, KeyboardState oldState)
+        public void UpdatePlayer(GameTime gameTime, KeyboardState newState, KeyboardState oldState)
         {
             if (jumping)
             {
@@ -375,6 +377,7 @@ namespace My_first_xna_game
             debug.Update();
             debug.UpdateInput(newState, oldState);
             msg.Update(gameTime, newState, oldState);
+            chooseSkill.Update(gameTime, newState, oldState);
 
             UpdateInput(newState, oldState);
         }
@@ -669,6 +672,7 @@ namespace My_first_xna_game
             msg.Draw(spriteBatch, offsetRect);
             hud.Draw(spriteBatch);
             debug.Draw(spriteBatch);
+            chooseSkill.Draw(spriteBatch);
         }
     }
 }

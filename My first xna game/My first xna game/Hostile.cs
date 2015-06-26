@@ -29,6 +29,20 @@ namespace My_first_xna_game
             public int agility;
 
             public int knockback;
+            public int exp;
+            public int level;
+        }
+        public void AddExp(int exp)
+        {
+            stats.exp += exp;
+            if (stats.exp >= 10 * (stats.level^2))
+            {
+                Player player = this as Player;
+                if (player != null)
+                {
+
+                }
+            }
         }
 
         private float cooldown;
@@ -61,13 +75,6 @@ namespace My_first_xna_game
         protected override void UpdateHostile()
         {
             UpdateEnemy();
-
-            //if killed
-            if (stats.health <= 0)
-            {
-                Fade();
-                Kill();
-            }
         }
 
         protected override void UpdateAnyway()
@@ -96,7 +103,6 @@ namespace My_first_xna_game
         }
 
         protected virtual void UpdateEnemy() { }
-        public virtual void UpdatePlayer(GameTime gameTime, KeyboardState newState, KeyboardState oldState) { }
 
         public void DealDamage(Hostile source, int damage = 0, bool showDamage = true)
         {
@@ -140,13 +146,19 @@ namespace My_first_xna_game
                 if (oldHealth - newHealth > -1)
                 {
                     // limit health to zero
-                    if (newHealth > -1)
+                    if (newHealth > 0)
                     {
                         stats.health = newHealth;
                     }
                     else
                     {
                         stats.health = 0;
+                        if (source as Player != null)
+                        {
+                            source.stats.exp += stats.exp;
+                        }
+                        fade = true;
+                        Kill();
                     }
                 }
                 else
@@ -364,6 +376,7 @@ namespace My_first_xna_game
             stats.knockback += armor.changeStats.knockback;
             stats.defence += armor.changeStats.defence;
             stats.agility += armor.changeStats.agility;
+            stats.exp += armor.changeStats.exp;
         }
 
         private void subArmorStats(Armor armor)
@@ -377,6 +390,7 @@ namespace My_first_xna_game
             stats.knockback -= armor.changeStats.knockback;
             stats.defence -= armor.changeStats.defence;
             stats.agility -= armor.changeStats.agility;
+            stats.exp -= armor.changeStats.exp;
         }
 
         public void DrawDmg(SpriteBatch spriteBatch, Rectangle offsetRect)

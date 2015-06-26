@@ -35,6 +35,7 @@ namespace My_first_xna_game
             wolf.stats.knockback = 30;
             wolf.stats.defence = 2;
             wolf.stats.agility = 1;
+            wolf.stats.exp = 2;
             wolf.Cooldown = 750f;
 
             npc = new Actor(Content.Load<Texture2D>("Textures\\Spritesheets\\mage"), new Vector2(22 * 32, 16 * 32));
