@@ -33,6 +33,59 @@ namespace My_first_xna_game
             public int level;
         }
 
+        public struct Stat
+        {
+            public int value;
+            public string name;
+        }
+
+        public static List<Stat> StatsToStatList(Stats stats)
+        {
+            List<Stat> result = new List<Stat>();
+            if (stats.agility != 0)
+            {
+                result.Add(new Stat { value = stats.agility, name = "Agility" });
+            }
+            if (stats.defence != 0)
+            {
+                result.Add(new Stat() { value = stats.defence, name = "Defence" });
+            }
+            if (stats.exp != 0)
+            {
+                result.Add(new Stat() { value = stats.exp, name = "Experience" });
+            }
+            if (stats.health != 0)
+            {
+                result.Add(new Stat() { value = stats.health, name = "Health" });
+            }
+            if (stats.knockback != 0)
+            {
+                result.Add(new Stat() { value = stats.knockback, name = "Knockback" });
+            }
+            if (stats.level != 0)
+            {
+                result.Add(new Stat() { value = stats.level, name = "Level" });
+            }
+            if (stats.mana != 0)
+            {
+                result.Add(new Stat() { value = stats.mana, name = "Mana" });
+            }
+            if (stats.maxHealth != 0)
+            {
+                result.Add(new Stat() { value = stats.maxHealth, name = "Max Health" });
+            }
+            if (stats.maxMana != 0)
+            {
+                result.Add(new Stat() { value = stats.maxMana, name = "Max Mana" });
+            }
+            if (stats.strength != 0)
+            {
+                result.Add(new Stat() { value = stats.strength, name = "Strength" });
+            }
+
+            return result;
+        }
+
         private float cooldown;
         public float Cooldown
         {

@@ -211,6 +211,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fonts\medival small.spritefont">
+      <Name>medival small</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
     <None Include="Maps\classic.tmx">
       <Name>classic</Name>
     </None>

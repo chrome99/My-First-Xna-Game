@@ -58,7 +58,7 @@ namespace My_first_xna_game
             npc.pack.AddItem(ItemCollection.bread);
             npc.collisionFunction = UpdateNpcCollision;
 
-            block = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(37 * 32, 21 * 32), Game.Depth.player);
+            block = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(30 * 32, 30 * 32), Game.Depth.player);
 
             boatCollision = new GameObject(new Vector2(33 * 32, 29 * 32));
             boatCollision.collisionFunction = UpdateBoatCollision;
@@ -67,12 +67,12 @@ namespace My_first_xna_game
             boat.ShowAnimation = true;
             movementManager.TurnActor(boat, MovementManager.Direction.left);
 
-            holdBox = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(40 * 32, 21 * 32), Game.Depth.player);
+            holdBox = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(20 * 32, 30 * 32), Game.Depth.player);
             holdBox.collisionFunction = UpdateHoldBoxCollision;
 
             pickUpBread = CreatePickup(pickUpBread, ItemCollection.bread, new Vector2(11 * 32, 34 * 32));
 
-            groundSwitch = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\brick1"), new Vector2(38 * 32, 25 * 32), Game.Depth.below);
+            groundSwitch = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\brick1"), new Vector2(36 * 32, 25 * 32), Game.Depth.below);
             groundSwitch.passable = true;
             groundSwitch.collisionFunction = UpdateGroundSwitchCollision;
 
@@ -86,26 +86,27 @@ namespace My_first_xna_game
             runningSwitch.passable = true;
             runningSwitch.collisionFunction = UpdateRunningSwitchCollision;
 
-            //portal = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\player1"), new Vector2(34 * 32, 22* 32), Game.Depth.player);
             portal = new GameObject(new Vector2(34 * 32, 22 * 32));
             portal.passable = true;
             portal.collisionFunction = UpdatePortalCollision;
 
 
+            //below
+            gameObjectList.Add(runningSwitch);
+            gameObjectList.Add(groundSwitch);
+
+            //above
             gameObjectList.Add(npc);
             gameObjectList.Add(boat);
             gameObjectList.Add(boatCollision);
             gameObjectList.Add(portal);
-
             gameObjectList.Add(wolf);
             gameObjectList.Add(wolf2);
-            //gameObjectList.Add(block);
-            //gameObjectList.Add(holdBox);
-            //gameObjectList.Add(pickUpBread);
-            //gameObjectList.Add(runningSwitch);
-            //gameObjectList.Add(groundSwitch);
-            //gameObjectList.Add(box1);
-            //gameObjectList.Add(box2);
+            gameObjectList.Add(block);
+            gameObjectList.Add(holdBox);
+            gameObjectList.Add(pickUpBread);
+            gameObjectList.Add(box1);
+            gameObjectList.Add(box2);
         }
 
 

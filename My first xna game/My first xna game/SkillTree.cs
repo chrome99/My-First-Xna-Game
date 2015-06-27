@@ -12,8 +12,8 @@ namespace My_first_xna_game
         public SkillTree()
         {
             skillBranches = new SkillBranch[] {
-            new SkillBranch(SkillCollection.ballOfDestruction, new Hostile.Stats() {maxHealth = 5},
-                SkillCollection.wallOfFire, new Hostile.Stats() {maxMana = 5}),
+            new SkillBranch(SkillCollection.ballOfDestruction, new Hostile.Stats() {agility = -3, strength = 4},
+                SkillCollection.wallOfFire, new Hostile.Stats() {maxHealth = 2}),
 
             new SkillBranch(SkillCollection.ballOfDestruction, new Hostile.Stats() {maxHealth = 5},
                 SkillCollection.wallOfFire, new Hostile.Stats() {maxMana = 5})

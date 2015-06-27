@@ -41,6 +41,34 @@ namespace My_first_xna_game
             skillText2.position.X = skillPicture2.position.X + skillPicture2.bounds.Width / 2 - skillText2.bounds.Width / 2;
             skillText2.position.Y = skillPicture2.position.Y + skillPicture2.bounds.Height;
 
+            List<Hostile.Stat> statsList = Hostile.StatsToStatList(currentBranch.changeStats1);
+            for (int i = 0; i < statsList.Count; i++)
+            {
+                Color color = Color.DimGray;
+                if (statsList[i].value > 0)
+                {
+                    color = Color.LightBlue;
+                }
+                Text text = new Text(Game.content.Load<SpriteFont>("Fonts\\medival small"), new Vector2(0, 320), color, statsList[i].name + ": " + statsList[i].value);
+                text.position.X = skillPicture1.position.X + skillPicture1.bounds.Width / 2 - text.bounds.Width / 2;
+                text.position.Y += i * text.bounds.Height + 10;
+                window.AddItem(text);
+            }
+
+            statsList = Hostile.StatsToStatList(currentBranch.changeStats2);
+            for (int i = 0; i < statsList.Count; i++)
+            {
+                Color color = Color.DimGray;
+                if (statsList[i].value > 0)
+                {
+                    color = Color.LightBlue;
+                }
+                Text text = new Text(Game.content.Load<SpriteFont>("Fonts\\medival small"), new Vector2(0, 320), color, statsList[i].name + ": " + statsList[i].value);
+                text.position.X = skillPicture2.position.X + skillPicture2.bounds.Width / 2 - text.bounds.Width / 2;
+                text.position.Y += i * text.bounds.Height + 10;
+                window.AddItem(text);
+            }
+
             window.AddItem(skillPicture1);
             window.AddItem(skillPicture2);
             window.AddItem(skillText1);

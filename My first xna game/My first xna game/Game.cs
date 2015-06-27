@@ -54,7 +54,9 @@ namespace My_first_xna_game
          * redstone
          
          BUGS:
+         * fix too much stat changes in skill tree at choose skill
          * fix boat bug
+         * fix boat controls bug (shooting and jumping and stuff)
          * order update anyway in sprite and in hostile
          * fix depth in dmg
          * fix heal health and hud
