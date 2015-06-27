@@ -6,6 +6,19 @@ namespace My_first_xna_game
 {
     public class Projectile : Spritesheet
     {
+        public struct ProjectileData
+        {
+            public Texture2D texture;
+            public SoundEffect launchSound;
+            public SoundEffect hitSound;
+            public bool lit;
+            public int lightLevel;
+            public Color lightColor;
+            public int lightOpacity;
+            public int speed;
+            public int pathDestination;
+        }
+
         public Player source;
         private int pathDestination = 50;
         private int pathTravelled = 0;
@@ -58,6 +71,21 @@ namespace My_first_xna_game
                 //texture.Dispose();
                 // TODO: Destroy instance
             }
+        }
+
+        public static void LaunchProjectile(ProjectileData projectileData, Map map, Player source)
+        {
+            Projectile projectile = new Projectile(projectileData.texture, projectileData.speed, source,
+                projectileData.pathDestination, projectileData.launchSound, projectileData.hitSound);
+
+            if (projectileData.lit)
+            {
+                projectile.AddLight(projectileData.lightLevel, projectileData.lightColor, projectileData.lightOpacity);
+            }
+
+            projectile.AddToGameObjectList(map);
+
+            projectile.passable = true;
         }
     }
 }

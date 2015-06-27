@@ -25,6 +25,8 @@ namespace My_first_xna_game
             player1Keys.opMenu = Keys.LeftControl;
             player1Keys.run = Keys.LeftShift;
             player1Keys.opDebug = Keys.F2;
+            player1Keys.switchSkill = Keys.Tab;
+            player1Keys.useSkill = Keys.R;
 
             Hostile.Stats player1Stats;
             player1Stats.maxHealth = 26;
@@ -60,6 +62,9 @@ namespace My_first_xna_game
             player2Keys.opMenu = Keys.Back;
             player2Keys.run = Keys.RightShift;
             player2Keys.opDebug = Keys.F4;
+            player2Keys.switchSkill = Keys.Home;
+            player2Keys.useSkill = Keys.Home;
+
 
             Hostile.Stats player2Stats;
             player2Stats.maxHealth = 7;
@@ -88,6 +93,8 @@ namespace My_first_xna_game
             player3Keys.opMenu = Keys.B;
             player3Keys.run = Keys.Y;
             player3Keys.opDebug = Keys.F6;
+            player3Keys.switchSkill = Keys.Home;
+            player3Keys.useSkill = Keys.Home;
 
             Hostile.Stats player3Stats;
             player3Stats.maxHealth = 16;
@@ -116,6 +123,8 @@ namespace My_first_xna_game
             player4Keys.opMenu = Keys.M;
             player4Keys.run = Keys.O;
             player4Keys.opDebug = Keys.F8;
+            player4Keys.switchSkill = Keys.Home;
+            player4Keys.useSkill = Keys.Home;
 
             Hostile.Stats player4Stats;
             player4Stats.maxHealth = 16;

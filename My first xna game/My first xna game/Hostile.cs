@@ -48,7 +48,7 @@ namespace My_first_xna_game
         public Stats stats;
         public Equipment equipment;
         public List<Armor> equipmentList = new List<Armor>();
-        private List<Skill> skillsList = new List<Skill>();
+        protected List<Skill> skillsList = new List<Skill>();
         private Timer cooldownTimer = new Timer(1000f, false);
 
         private Text dmgText;

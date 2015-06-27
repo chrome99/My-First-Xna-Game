@@ -39,7 +39,7 @@ namespace My_first_xna_game
 
         // two handed
         public static Bow woodenStaff = new Bow(20, 25, 1, 25, Armor.ArmorType.twoHanded,
-            new Bow.ProjectileData {
+            new Projectile.ProjectileData {
                 texture = Game.content.Load<Texture2D>("Textures\\Spritesheets\\fireball"),
                 hitSound = Game.content.Load<SoundEffect>("Audio\\Waves\\fireball launch"),
                 launchSound = Game.content.Load<SoundEffect>("Audio\\Waves\\fireball hit"),
@@ -71,37 +71,13 @@ namespace My_first_xna_game
         public static void useMine(Hostile source, GameObject target, Item item)
         {
             Player player = source as Player;
-            PlayerObject mine = PlayerObject.SpriteToPlayerObject(player, item.getSprite);
+            Mine mine = new Mine(player, 20, item.getSprite);
 
-            Vector2 newPosition;
-            newPosition.X = source.position.X + source.bounds.Width / 2 - mine.bounds.Width / 2;
-            newPosition.Y = source.position.Y + source.bounds.Height / 2 - mine.bounds.Height / 2;
-            mine.position = MovementManager.MoveVector(newPosition, Tile.size * 2, source.direction);
+            MovementManager.PositionNextTo(mine, player, Tile.size * 2);
 
             mine.AddLight(100, Color.Green);
             mine.canCollide = false;
-            mine.collisionFunction = UpdateMineCollision;
-            item.Spawn(player.map, mine);
-            
-        }
-
-        private static void UpdateMineCollision(GameObject gameObject)
-        {
-            PlayerObject mine = gameObject as PlayerObject;
-
-            //mine and player
-            foreach (GameObject gameObject2 in mine.source.map.gameObjectList)
-            {
-                Hostile hostile = gameObject2 as Hostile;
-                if (hostile != null)
-                {
-                    if (CollisionManager.GameObjectCollision(hostile, mine, false) && hostile != mine.source)
-                    {
-                        hostile.DealDamage(mine.source, 20);
-                        mine.Kill();
-                    }
-                }
-            }
+            player.map.AddObject(mine);
         }
 
         public static void useApple(Hostile source, GameObject target, Item item)

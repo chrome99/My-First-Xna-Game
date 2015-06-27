@@ -12,6 +12,7 @@ namespace My_first_xna_game
         public PlayerKeys kbKeys;
 
         public SkillTree skillTree;
+        private Skill currentSkill;
 
         public int gold;
         public int maxGold = 100;
@@ -71,6 +72,10 @@ namespace My_first_xna_game
         public Timer defendingCooldownTimer;
         private int defendingCoolddownTime = 500;
 
+        private bool useSkillKeyReleased = false;
+
+        private bool switchKeyReleased = false;
+
         private bool menuKeyReleased = false;
 
         public Map map;
@@ -89,6 +94,8 @@ namespace My_first_xna_game
             public Keys run;
             public Keys opMenu;
             public Keys opDebug;
+            public Keys switchSkill;
+            public Keys useSkill;
         }
 
         public bool msgAlive
@@ -606,6 +613,53 @@ namespace My_first_xna_game
             else if (!oldState.IsKeyDown(kbKeys.defend))
             {
                 defendKeyReleased = true;
+            }
+
+            //use skill
+            if (newState.IsKeyDown(kbKeys.useSkill) && useSkillKeyReleased)
+            {
+                if (currentSkill != null)
+                {
+                    currentSkill.Use(map, this);
+                }
+                useSkillKeyReleased = false;
+            }
+            else if (!oldState.IsKeyDown(kbKeys.useSkill))
+            {
+                useSkillKeyReleased = true;
+            }
+
+            //switch skill
+            if (newState.IsKeyDown(kbKeys.switchSkill) && switchKeyReleased)
+            {
+                if (skillsList.Count == 1)
+                {
+                    if (currentSkill == null)
+                    {
+                        Game.content.Load<SoundEffect>("Audio\\Waves\\select").Play();
+                        currentSkill = skillsList[0];
+                    }
+                }
+                else if (skillsList.Count > 1)
+                {
+                    Game.content.Load<SoundEffect>("Audio\\Waves\\select").Play();
+                    int currentSkillIndex = skillsList.IndexOf(currentSkill);
+
+                    //if he is on the last skill on the list
+                    if (currentSkillIndex == skillsList.Count - 1)
+                    {
+                        currentSkill = skillsList[0];
+                    }
+                    else
+                    {
+                        currentSkill = skillsList[currentSkillIndex + 1];
+                    }
+                }
+                switchKeyReleased = false;
+            }
+            else if (!oldState.IsKeyDown(kbKeys.switchSkill))
+            {
+                switchKeyReleased = true;
             }
 
             //movement

@@ -132,6 +132,14 @@ namespace My_first_xna_game
             }
         }
 
+        public static void PositionNextTo(GameObject objectToPosition, GameObject destinationObject, int howFar)
+        {
+            Vector2 newPosition;
+            newPosition.X = destinationObject.position.X + destinationObject.bounds.Width / 2 - objectToPosition.bounds.Width / 2;
+            newPosition.Y = destinationObject.position.Y + destinationObject.bounds.Height / 2 - objectToPosition.bounds.Height / 2;
+            objectToPosition.position = MovementManager.MoveVector(newPosition, howFar, destinationObject.view);
+        }
+
         public static Vector2 MoveVector(Vector2 vector, float speed, Direction direction)
         {
             switch (direction)

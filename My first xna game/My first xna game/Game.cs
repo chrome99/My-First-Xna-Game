@@ -18,7 +18,7 @@ namespace My_first_xna_game
          TODO:
          * A*
          * attack (sword)
-         * combos & skills
+         * combos
          * round raduis for enemies
          * better AI for enemies
          * 

@@ -1,11 +1,27 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace My_first_xna_game
 {
     class SkillCollection
     {
-        public static Skill fire = new Skill(Game.content.Load<Texture2D>("Textures\\SkillsPictures\\fire"), Color.Red, "Wall of Fire");
-        public static Skill ice = new Skill(Game.content.Load<Texture2D>("Textures\\SkillsPictures\\ice"), Color.LightBlue, "Godess Of Ice");
+        public static ProjectileSkill ballOfDestruction = new ProjectileSkill(Game.content.Load<Texture2D>("Textures\\SkillsPictures\\fire"),
+            Color.Red, "Ball of Destruction", new Skill.SkillStats() { cost = 1, strength = 5 }, new Projectile.ProjectileData
+            {
+                texture = Game.content.Load<Texture2D>("Textures\\Spritesheets\\fireball"),
+                hitSound = Game.content.Load<SoundEffect>("Audio\\Waves\\fireball launch"),
+                launchSound = Game.content.Load<SoundEffect>("Audio\\Waves\\fireball hit"),
+                lit = true,
+                lightLevel = 150,
+                lightColor = Color.Red,
+                lightOpacity = 100,
+                pathDestination = 60,
+                speed = 6
+            });
+
+        public static Skill wallOfFire = new MapSkill(Game.content.Load<Texture2D>("Textures\\SkillsPictures\\ice"),
+            Color.LightBlue, "Wall of Fire", new Skill.SkillStats() { cost = 1, strength = 5 },
+            new Sprite(Game.content.Load<Texture2D>("Textures\\Sprites\\box1"), Vector2.Zero, Game.Depth.below));
     }
 }
