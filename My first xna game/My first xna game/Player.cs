@@ -11,6 +11,8 @@ namespace My_first_xna_game
     {
         public PlayerKeys kbKeys;
 
+        public SkillTree skillTree;
+
         public int gold;
         public int maxGold = 100;
 
@@ -166,6 +168,7 @@ namespace My_first_xna_game
             hud = new HostileHUD(this);
             shop = new Shop();
 
+            skillTree = new SkillTree();
             runningAccelerationMax = 1;
 
             defendingTimer = new Timer(defendingTime, false);
@@ -178,6 +181,19 @@ namespace My_first_xna_game
             menu = new Menu(map, this);
             msg = new Message(map, this);
             chooseSkill = new ChooseSkill(this);
+        }
+
+        public void AddExp(int exp)
+        {
+            stats.exp += exp;
+            if (stats.exp >= 10 * (stats.level * stats.level))
+            {
+                Player player = this as Player;
+                if (player != null)
+                {
+                    player.LevelUp();
+                }
+            }
         }
 
         public void FlipRunning()
@@ -330,6 +346,16 @@ namespace My_first_xna_game
                 msg.setPlayerWindowPosition();
             }
             UpdatePlayerHUD(damage);
+        }
+
+        public void LevelUp()
+        {
+            ChooseSkillWindow();
+        }
+
+        private void ChooseSkillWindow()
+        {
+            chooseSkill.alive = true;
         }
 
         public void MessageWindow(GameObject gameObject, List<string> dialog, bool canIgnoreMsg, bool notFromShop = true, Message.ReturnFunction returnFunction = null)
@@ -487,7 +513,7 @@ namespace My_first_xna_game
                 menuKeyReleased = true;
             }
 
-            if (shop.alive || msg.alive || menu.alive || forceMoving)
+            if (shop.alive || msg.alive || menu.alive || chooseSkill.alive || forceMoving)
             {
                 return;
             }

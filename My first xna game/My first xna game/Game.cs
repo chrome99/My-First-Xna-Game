@@ -38,7 +38,6 @@ namespace My_first_xna_game
          * gamemodes
          * trade
          * pvp menu
-         * levels (in level up you can upgrade skills or stats)
          * chat
          * command line
          * push and plate sound

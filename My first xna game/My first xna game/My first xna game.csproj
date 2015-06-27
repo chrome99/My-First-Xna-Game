@@ -149,6 +149,7 @@
     <Compile Include="Shop.cs" />
     <Compile Include="Skill.cs" />
     <Compile Include="SkillCollection.cs" />
+    <Compile Include="SkillTree.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="Spritesheet.cs" />
     <Compile Include="Text.cs" />

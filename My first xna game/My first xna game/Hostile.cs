@@ -32,18 +32,6 @@ namespace My_first_xna_game
             public int exp;
             public int level;
         }
-        public void AddExp(int exp)
-        {
-            stats.exp += exp;
-            if (stats.exp >= 10 * (stats.level^2))
-            {
-                Player player = this as Player;
-                if (player != null)
-                {
-
-                }
-            }
-        }
 
         private float cooldown;
         public float Cooldown
@@ -124,10 +112,10 @@ namespace My_first_xna_game
                 bool defending =false;
                 int oldHealth = stats.health;
                 int newHealth;
-                Player player = this as Player;
-                if (player != null)
+                Player thisAsPlayer = this as Player;
+                if (thisAsPlayer != null)
                 {
-                    if (player.defendingTimer.Counting)
+                    if (thisAsPlayer.defendingTimer.Counting)
                     {
                         newHealth = oldHealth;
                         defending = true;
@@ -164,9 +152,10 @@ namespace My_first_xna_game
                     else
                     {
                         stats.health = 0;
-                        if (source as Player != null)
+                        Player sourceAsPlayer = source as Player;
+                        if (sourceAsPlayer != null)
                         {
-                            source.stats.exp += stats.exp;
+                            sourceAsPlayer.AddExp(stats.exp);
                         }
                         fade = true;
                         Kill();
@@ -191,9 +180,9 @@ namespace My_first_xna_game
                 }
 
                 //update player hud and menu
-                if (player != null)
+                if (thisAsPlayer != null)
                 {
-                    player.HandleHit(oldHealth - newHealth);
+                    thisAsPlayer.HandleHit(oldHealth - newHealth);
                 }
 
                 //timer
@@ -234,7 +223,10 @@ namespace My_first_xna_game
         {
             if (equipmentList.Contains(armor))
             {
-                subArmorStats(armor);
+                if (armor != null)
+                {
+                    SubStats(armor.changeStats);
+                }
                 equipmentList.Remove(armor);
                 switch (armor.armorType)
                 {
@@ -348,7 +340,7 @@ namespace My_first_xna_game
             }
             armor.source = this;
             equipmentList.Add(armor);
-            addArmorStats(armor);
+            AddStats(armor.changeStats);
         }
 
         public bool leftHandOrRightHand()
@@ -377,31 +369,32 @@ namespace My_first_xna_game
             }
         }
 
-        private void addArmorStats(Armor armor)
+        public void AddStats(Stats changeStats)
         {
-            stats.health += armor.changeStats.health;
-            stats.maxHealth += armor.changeStats.maxHealth;
-            stats.mana += armor.changeStats.mana;
-            stats.maxMana += armor.changeStats.maxMana;
-            stats.strength += armor.changeStats.strength;
-            stats.knockback += armor.changeStats.knockback;
-            stats.defence += armor.changeStats.defence;
-            stats.agility += armor.changeStats.agility;
-            stats.exp += armor.changeStats.exp;
+            stats.health += changeStats.health;
+            stats.maxHealth += changeStats.maxHealth;
+            stats.mana += changeStats.mana;
+            stats.maxMana += changeStats.maxMana;
+            stats.strength += changeStats.strength;
+            stats.knockback += changeStats.knockback;
+            stats.defence += changeStats.defence;
+            stats.agility += changeStats.agility;
+            stats.exp += changeStats.exp;
+            stats.level += changeStats.level;
         }
 
-        private void subArmorStats(Armor armor)
+        public void SubStats(Stats changeStats)
         {
-            if (armor == null) { return; }
-            stats.health -= armor.changeStats.health;
-            stats.maxHealth -= armor.changeStats.maxHealth;
-            stats.mana -= armor.changeStats.mana;
-            stats.maxMana -= armor.changeStats.maxMana;
-            stats.strength -= armor.changeStats.strength;
-            stats.knockback -= armor.changeStats.knockback;
-            stats.defence -= armor.changeStats.defence;
-            stats.agility -= armor.changeStats.agility;
-            stats.exp -= armor.changeStats.exp;
+            stats.health -= changeStats.health;
+            stats.maxHealth -= changeStats.maxHealth;
+            stats.mana -= changeStats.mana;
+            stats.maxMana -= changeStats.maxMana;
+            stats.strength -= changeStats.strength;
+            stats.knockback -= changeStats.knockback;
+            stats.defence -= changeStats.defence;
+            stats.agility -= changeStats.agility;
+            stats.exp -= changeStats.exp;
+            stats.level -= changeStats.level;
         }
 
         public void DrawDmg(SpriteBatch spriteBatch, Rectangle offsetRect)

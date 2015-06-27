@@ -8,6 +8,7 @@ namespace My_first_xna_game
     {
         private MovementManager movementManager;
         private Enemy wolf;
+        private Enemy wolf2;
         private Actor npc;
         private Vehicle boat;
         private GameObject boatCollision;
@@ -35,8 +36,20 @@ namespace My_first_xna_game
             wolf.stats.knockback = 30;
             wolf.stats.defence = 2;
             wolf.stats.agility = 1;
-            wolf.stats.exp = 2;
+            wolf.stats.exp = 5;
             wolf.Cooldown = 750f;
+
+            wolf2 = new Enemy(Content.Load<Texture2D>("Textures\\Spritesheets\\wolf"), new Vector2(30 * 32, 16 * 32));
+            wolf2.stats.maxHealth = 16;
+            wolf2.stats.health = 16;
+            wolf2.stats.maxMana = 16;
+            wolf2.stats.mana = 16;
+            wolf2.stats.strength = 4;
+            wolf2.stats.knockback = 30;
+            wolf2.stats.defence = 2;
+            wolf2.stats.agility = 1;
+            wolf2.stats.exp = 7;
+            wolf2.Cooldown = 750f;
 
             npc = new Actor(Content.Load<Texture2D>("Textures\\Spritesheets\\mage"), new Vector2(22 * 32, 16 * 32));
             npc.pack = new Pack(npc);
@@ -85,6 +98,7 @@ namespace My_first_xna_game
             gameObjectList.Add(portal);
 
             gameObjectList.Add(wolf);
+            gameObjectList.Add(wolf2);
             //gameObjectList.Add(block);
             //gameObjectList.Add(holdBox);
             //gameObjectList.Add(pickUpBread);
