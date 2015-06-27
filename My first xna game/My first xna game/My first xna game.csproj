@@ -111,6 +111,8 @@
     <Compile Include="Armor.cs" />
     <Compile Include="ChoiceInventory.cs" />
     <Compile Include="ChooseSkill.cs" />
+    <Compile Include="Combo.cs" />
+    <Compile Include="ComboCollection.cs" />
     <Compile Include="EquipmentMenu.cs" />
     <Compile Include="HostileHUD.cs" />
     <Compile Include="LightSource.cs" />

@@ -18,7 +18,7 @@ namespace My_first_xna_game
         private ParticalManager cursorParticals;
 
         private Song music;
-        private bool shutUp = true;
+        private bool shutUp = false;
 
         private int title = 0;
         private int titleSpeed = 3;

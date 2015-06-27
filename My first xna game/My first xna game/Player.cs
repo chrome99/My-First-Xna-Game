@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -10,6 +11,10 @@ namespace My_first_xna_game
     public class Player : Hostile
     {
         public PlayerKeys kbKeys;
+
+        private List<Combo> combosList = new List<Combo>() { ComboCollection.fireCombo };
+        private List<ComboCollection.PlayerKeysIndex> comboKeysQueue = new List<ComboCollection.PlayerKeysIndex>();
+        public Timer comboTimer = new Timer(300f, true);
 
         public SkillTree skillTree;
         private Skill currentSkill;
@@ -77,6 +82,11 @@ namespace My_first_xna_game
         private bool switchKeyReleased = false;
 
         private bool menuKeyReleased = false;
+
+        private bool mvRightKeyReleased = false;
+        private bool mvLeftKeyReleased = false;
+        private bool mvUpKeyReleased = false;
+        private bool mvDownKeyReleased = false;
 
         public Map map;
 
@@ -405,6 +415,12 @@ namespace My_first_xna_game
                 HoldedSprite.position.Y = position.Y - HoldedSprite.bounds.Height / 3 * 2;
             }
 
+            if (comboTimer.result)
+            {
+                comboKeysQueue.Clear();
+                comboTimer.Reset();
+            }
+
             shop.Update(newState, oldState, gameTime);
             menu.Update(newState, oldState, gameTime);
             debug.Update();
@@ -538,22 +554,21 @@ namespace My_first_xna_game
             //if pressed attack
             if (newState.IsKeyDown(kbKeys.attack) && attackKeyReleased)
             {
+                comboTimer.Reset();
+                if (comboKeysQueue.Count == 3)
+                {
+                    comboKeysQueue.Remove(comboKeysQueue[0]);
+                }
+                comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.attack);
+
                 if (HoldedSprite != null)
                 {
                     ThrowObject();
                 }
                 else
                 {
-                    for (int counter = 0; counter < equipmentList.Count; counter++)
-                    {
-                        Bow weapon = equipmentList[counter] as Bow;
-                        if (weapon != null)
-                        {
-                            weapon.Attack(map, this);
-                        }
-                    }
+                    Attack();
                 }
-
                 attackKeyReleased = false;
             }
             else if (!oldState.IsKeyDown(kbKeys.attack))
@@ -566,33 +581,14 @@ namespace My_first_xna_game
             //jump
             if (newState.IsKeyDown(kbKeys.jump) && jumpKeyReleased)
             {
-                if (!jumping)
+                comboTimer.Reset();
+                if (comboKeysQueue.Count == 3)
                 {
-                    int VectorMoveTo = 0;
-                    if (direction == MovementManager.Direction.down || direction == MovementManager.Direction.up)
-                    {
-                        VectorMoveTo = maxJumpingHeight;
-                    }
-                    if (direction == MovementManager.Direction.right || direction == MovementManager.Direction.left)
-                    {
-                        VectorMoveTo = maxJumpingWidth;
-                    }
-                    Rectangle collisionRect = core;
-                    Vector2 collisionVector = MovementManager.MoveVector(position, VectorMoveTo, direction);
-                    collisionRect.X = (int)collisionVector.X;
-                    collisionRect.Y = (int)collisionVector.Y;
-                    if (!movementManager.CollisionCheck(this, collisionRect))
-                    {
-                        Game.content.Load<SoundEffect>("Audio\\Waves\\fart").Play();
-                        originalJumpingPosition = position;
-                        canCollide = false;
-                        passable = true;
-                        jumping = true;
-                        jumpKeyReleased = false;
-                        return;
-                    }
+                    comboKeysQueue.Remove(comboKeysQueue[0]);
                 }
-
+                comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.jump);
+                Jump();
+                jumpKeyReleased = false;
             }
             else if (!oldState.IsKeyDown(kbKeys.jump))
             {
@@ -602,13 +598,14 @@ namespace My_first_xna_game
             //defend
             if (newState.IsKeyDown(kbKeys.defend) && defendKeyReleased)
             {
-                if (defendingCooldownTimer.result)
+                comboTimer.Reset();
+                if (comboKeysQueue.Count == 3)
                 {
-                    Game.content.Load<SoundEffect>("Audio\\Waves\\fart").Play();
-                    defendingTimer.Active();
-                    defendingTimer.Reset();
-                    defendKeyReleased = false;
+                    comboKeysQueue.Remove(comboKeysQueue[0]);
                 }
+                comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.defend);
+                Defend();
+                defendKeyReleased = false;
             }
             else if (!oldState.IsKeyDown(kbKeys.defend))
             {
@@ -669,8 +666,22 @@ namespace My_first_xna_game
             // if pressed left
             if (newState.IsKeyDown(kbKeys.mvLeft))
             {
-                playerMoving = movementManager.MoveActor(this, MovementManager.Direction.left, (int)speed);
+                if (mvLeftKeyReleased)
+                {
+                    if (comboKeysQueue.Count == 3)
+                    {
+                        comboKeysQueue.Remove(comboKeysQueue[0]);
+                    }
+                    comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.mvLeft);
+                    comboTimer.Reset();
+                    mvLeftKeyReleased = false;
+                }
 
+                playerMoving = movementManager.MoveActor(this, MovementManager.Direction.left, (int)speed);
+            }
+            else if (!oldState.IsKeyDown(kbKeys.mvLeft))
+            {
+                mvLeftKeyReleased = true;
             }
             else
             {
@@ -680,7 +691,22 @@ namespace My_first_xna_game
             // if pressed right
             if (newState.IsKeyDown(kbKeys.mvRight))
             {
+                if (mvRightKeyReleased)
+                {
+                    if (comboKeysQueue.Count == 3)
+                    {
+                        comboKeysQueue.Remove(comboKeysQueue[0]);
+                    }
+                    comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.mvRight);
+                    comboTimer.Reset();
+                    mvRightKeyReleased = false;
+                }
+
                 playerMoving = movementManager.MoveActor(this, MovementManager.Direction.right, (int)speed);
+            }
+            else if (!oldState.IsKeyDown(kbKeys.mvRight))
+            {
+                mvRightKeyReleased = true;
             }
             else
             {
@@ -690,7 +716,22 @@ namespace My_first_xna_game
             // if pressed up
             if (newState.IsKeyDown(kbKeys.mvUp))
             {
+                if (mvUpKeyReleased)
+                {
+                    if (comboKeysQueue.Count == 3)
+                    {
+                        comboKeysQueue.Remove(comboKeysQueue[0]);
+                    }
+                    comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.mvUp);
+                    comboTimer.Reset();
+                    mvUpKeyReleased = false;
+                }
+
                 playerMoving = movementManager.MoveActor(this, MovementManager.Direction.up, (int)speed);
+            }
+            else if (!oldState.IsKeyDown(kbKeys.mvUp))
+            {
+                mvUpKeyReleased = true;
             }
             else
             {
@@ -700,7 +741,22 @@ namespace My_first_xna_game
             // if pressed down
             if (newState.IsKeyDown(kbKeys.mvDown))
             {
+                if (mvDownKeyReleased)
+                {
+                    if (comboKeysQueue.Count == 3)
+                    {
+                        comboKeysQueue.Remove(comboKeysQueue[0]);
+                    }
+                    comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.mvDown);
+                    comboTimer.Reset();
+                    mvDownKeyReleased = false;
+                }
+
                 playerMoving = movementManager.MoveActor(this, MovementManager.Direction.down, (int)speed);
+            }
+            else if (!oldState.IsKeyDown(kbKeys.mvDown))
+            {
+                mvDownKeyReleased = true;
             }
             else
             {
@@ -729,6 +785,80 @@ namespace My_first_xna_game
             else
             {
                 MovingState = MovementManager.MovingState.standing;
+            }
+
+
+            //Do combo
+            if (comboKeysQueue.Count == 3)
+            {
+                foreach (Combo combo in combosList)
+                {
+                    bool result = true;
+                    for (int i = 0; i < comboKeysQueue.Count; i++)
+                    {
+                        if (comboKeysQueue[i] != combo.comboKeys[i])
+                        {
+                            result = false;
+                            break;
+                        }
+                    }
+                    if (result)
+                    {
+                        combo.comboFunction();
+                        comboKeysQueue.Clear();
+                    }
+                }
+            }
+        }
+
+        private void Attack()
+        {
+            for (int counter = 0; counter < equipmentList.Count; counter++)
+            {
+                Bow weapon = equipmentList[counter] as Bow;
+                if (weapon != null)
+                {
+                    weapon.Attack(map, this);
+                }
+            }
+        }
+
+        private void Jump()
+        {
+            if (!jumping)
+            {
+                int VectorMoveTo = 0;
+                if (direction == MovementManager.Direction.down || direction == MovementManager.Direction.up)
+                {
+                    VectorMoveTo = maxJumpingHeight;
+                }
+                if (direction == MovementManager.Direction.right || direction == MovementManager.Direction.left)
+                {
+                    VectorMoveTo = maxJumpingWidth;
+                }
+                Rectangle collisionRect = core;
+                Vector2 collisionVector = MovementManager.MoveVector(position, VectorMoveTo, direction);
+                collisionRect.X = (int)collisionVector.X;
+                collisionRect.Y = (int)collisionVector.Y;
+                if (!movementManager.CollisionCheck(this, collisionRect))
+                {
+                    Game.content.Load<SoundEffect>("Audio\\Waves\\fart").Play();
+                    originalJumpingPosition = position;
+                    canCollide = false;
+                    passable = true;
+                    jumping = true;
+                    return;
+                }
+            }
+        }
+
+        private void Defend()
+        {
+            if (defendingCooldownTimer.result)
+            {
+                Game.content.Load<SoundEffect>("Audio\\Waves\\fart").Play();
+                defendingTimer.Active();
+                defendingTimer.Reset();
             }
         }
 
