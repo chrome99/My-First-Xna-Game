@@ -5,7 +5,7 @@ namespace My_first_xna_game
 {
     class Combo
     {
-        public delegate void ComboFunction();
+        public delegate void ComboFunction(Player player);
         public ComboFunction comboFunction;
 
         public ComboCollection.PlayerKeysIndex[] comboKeys;

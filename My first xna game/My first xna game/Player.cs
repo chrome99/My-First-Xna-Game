@@ -79,8 +79,6 @@ namespace My_first_xna_game
 
         private bool useSkillKeyReleased = false;
 
-        private bool switchKeyReleased = false;
-
         private bool menuKeyReleased = false;
 
         private bool mvRightKeyReleased = false;
@@ -104,7 +102,6 @@ namespace My_first_xna_game
             public Keys run;
             public Keys opMenu;
             public Keys opDebug;
-            public Keys switchSkill;
             public Keys useSkill;
         }
 
@@ -578,6 +575,10 @@ namespace My_first_xna_game
 
             if (jumping || (defendingTimer.Counting)) { return; }
 
+            UpdateMovementInput(newState, oldState);
+
+            if (vehicle != null) { return; }
+
             //jump
             if (newState.IsKeyDown(kbKeys.jump) && jumpKeyReleased)
             {
@@ -615,10 +616,19 @@ namespace My_first_xna_game
             //use skill
             if (newState.IsKeyDown(kbKeys.useSkill) && useSkillKeyReleased)
             {
-                if (currentSkill != null)
+                //switch skill (if running button and use skill button are pressed)
+                if (playerRunning)
                 {
-                    currentSkill.Use(map, this);
+                    SwitchSkill();
                 }
+                else
+                {
+                    if (currentSkill != null)
+                    {
+                        currentSkill.Use(map, this);
+                    }
+                }
+
                 useSkillKeyReleased = false;
             }
             else if (!oldState.IsKeyDown(kbKeys.useSkill))
@@ -626,39 +636,32 @@ namespace My_first_xna_game
                 useSkillKeyReleased = true;
             }
 
-            //switch skill
-            if (newState.IsKeyDown(kbKeys.switchSkill) && switchKeyReleased)
+
+            //Do combo
+            if (comboKeysQueue.Count == 3)
             {
-                if (skillsList.Count == 1)
+                foreach (Combo combo in combosList)
                 {
-                    if (currentSkill == null)
+                    bool result = true;
+                    for (int i = 0; i < comboKeysQueue.Count; i++)
                     {
-                        Game.content.Load<SoundEffect>("Audio\\Waves\\select").Play();
-                        currentSkill = skillsList[0];
+                        if (comboKeysQueue[i] != combo.comboKeys[i])
+                        {
+                            result = false;
+                            break;
+                        }
+                    }
+                    if (result)
+                    {
+                        combo.comboFunction(this);
+                        comboKeysQueue.Clear();
                     }
                 }
-                else if (skillsList.Count > 1)
-                {
-                    Game.content.Load<SoundEffect>("Audio\\Waves\\select").Play();
-                    int currentSkillIndex = skillsList.IndexOf(currentSkill);
-
-                    //if he is on the last skill on the list
-                    if (currentSkillIndex == skillsList.Count - 1)
-                    {
-                        currentSkill = skillsList[0];
-                    }
-                    else
-                    {
-                        currentSkill = skillsList[currentSkillIndex + 1];
-                    }
-                }
-                switchKeyReleased = false;
             }
-            else if (!oldState.IsKeyDown(kbKeys.switchSkill))
-            {
-                switchKeyReleased = true;
-            }
+        }
 
+        private void UpdateMovementInput(KeyboardState newState, KeyboardState oldState)
+        {
             //movement
 
             releasedKeysCount = 0;
@@ -672,7 +675,7 @@ namespace My_first_xna_game
                     {
                         comboKeysQueue.Remove(comboKeysQueue[0]);
                     }
-                    comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.mvLeft);
+                    comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.move);
                     comboTimer.Reset();
                     mvLeftKeyReleased = false;
                 }
@@ -697,7 +700,7 @@ namespace My_first_xna_game
                     {
                         comboKeysQueue.Remove(comboKeysQueue[0]);
                     }
-                    comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.mvRight);
+                    comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.move);
                     comboTimer.Reset();
                     mvRightKeyReleased = false;
                 }
@@ -722,7 +725,7 @@ namespace My_first_xna_game
                     {
                         comboKeysQueue.Remove(comboKeysQueue[0]);
                     }
-                    comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.mvUp);
+                    comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.move);
                     comboTimer.Reset();
                     mvUpKeyReleased = false;
                 }
@@ -747,7 +750,7 @@ namespace My_first_xna_game
                     {
                         comboKeysQueue.Remove(comboKeysQueue[0]);
                     }
-                    comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.mvDown);
+                    comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.move);
                     comboTimer.Reset();
                     mvDownKeyReleased = false;
                 }
@@ -785,29 +788,6 @@ namespace My_first_xna_game
             else
             {
                 MovingState = MovementManager.MovingState.standing;
-            }
-
-
-            //Do combo
-            if (comboKeysQueue.Count == 3)
-            {
-                foreach (Combo combo in combosList)
-                {
-                    bool result = true;
-                    for (int i = 0; i < comboKeysQueue.Count; i++)
-                    {
-                        if (comboKeysQueue[i] != combo.comboKeys[i])
-                        {
-                            result = false;
-                            break;
-                        }
-                    }
-                    if (result)
-                    {
-                        combo.comboFunction();
-                        comboKeysQueue.Clear();
-                    }
-                }
             }
         }
 
@@ -859,6 +839,33 @@ namespace My_first_xna_game
                 Game.content.Load<SoundEffect>("Audio\\Waves\\fart").Play();
                 defendingTimer.Active();
                 defendingTimer.Reset();
+            }
+        }
+
+        private void SwitchSkill()
+        {
+            if (skillsList.Count == 1)
+            {
+                if (currentSkill == null)
+                {
+                    Game.content.Load<SoundEffect>("Audio\\Waves\\select").Play();
+                    currentSkill = skillsList[0];
+                }
+            }
+            else if (skillsList.Count > 1)
+            {
+                Game.content.Load<SoundEffect>("Audio\\Waves\\select").Play();
+                int currentSkillIndex = skillsList.IndexOf(currentSkill);
+
+                //if he is on the last skill on the list
+                if (currentSkillIndex == skillsList.Count - 1)
+                {
+                    currentSkill = skillsList[0];
+                }
+                else
+                {
+                    currentSkill = skillsList[currentSkillIndex + 1];
+                }
             }
         }
 

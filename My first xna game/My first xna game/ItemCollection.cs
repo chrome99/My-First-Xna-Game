@@ -40,12 +40,12 @@ namespace My_first_xna_game
         // two handed
         public static Bow woodenStaff = new Bow(20, 25, 1, 25, Armor.ArmorType.twoHanded,
             new Projectile.ProjectileData {
-                texture = Game.content.Load<Texture2D>("Textures\\Spritesheets\\fireball"),
+                texture = Game.content.Load<Texture2D>("Textures\\Spritesheets\\arrow"),
                 hitSound = Game.content.Load<SoundEffect>("Audio\\Waves\\fireball launch"),
                 launchSound = Game.content.Load<SoundEffect>("Audio\\Waves\\fireball hit"),
                 lit = true, lightLevel = 150, lightColor = Color.Red, lightOpacity = 100,
-                pathDestination = 60, speed = 6
-            }, new Hostile.Stats { strength = 3 });
+                pathDestination = 300, speed = 7
+            }, new Hostile.Stats { strength = 2 });
 
         public static List<Item> list = new List<Item> { apple, healthPotion, manaPotion, strPotion };
 

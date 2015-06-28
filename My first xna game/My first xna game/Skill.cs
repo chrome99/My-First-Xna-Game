@@ -9,7 +9,6 @@ namespace My_first_xna_game
         public struct SkillStats
         {
             public int cost;
-            public int strength;
         }
         public Texture2D choosePicture;
         public Color color;
@@ -59,16 +58,18 @@ namespace My_first_xna_game
     class MapSkill : Skill
     {
         private Sprite mine;
+        private int strength;
 
-        public MapSkill(Texture2D choosePicture, Color color, string name, SkillStats stats, Sprite mine)
+        public MapSkill(Texture2D choosePicture, Color color, string name, SkillStats stats, Sprite mine, int strength)
             : base(choosePicture, color, name, stats)
         {
             this.mine = mine;
+            this.strength = strength;
         }
 
         protected override void UseSkill(Map map, Player player)
         {
-            Mine newMine = new Mine(player, stats.strength, mine);
+            Mine newMine = new Mine(player, strength, mine);
             
             newMine.source = player;
             map.AddObject(newMine);

@@ -8,7 +8,7 @@ namespace My_first_xna_game
     {
         public Texture2D texture;
 
-        public float speed;
+        public float speed = 1;
         public float walkingSpeed = 2;
         public float knockbackSpeed = 6;
         public float runningSpeed = 4;

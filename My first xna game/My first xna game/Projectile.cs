@@ -17,6 +17,7 @@ namespace My_first_xna_game
             public int lightOpacity;
             public int speed;
             public int pathDestination;
+            public int strength;
         }
 
         public Player source;
@@ -26,7 +27,7 @@ namespace My_first_xna_game
         private SoundEffect launchSound;
         private SoundEffect hitSound;
 
-        public Projectile(Texture2D texture, float speed, Player source, int pathDestination, SoundEffect launchSound, SoundEffect hitSound)
+        public Projectile(Texture2D texture, float speed, Player source, int pathDestination, int strength, SoundEffect launchSound, SoundEffect hitSound)
             : base(texture, new Vector2(), Game.Depth.projectiles)
         {
             this.source = source;
@@ -64,8 +65,8 @@ namespace My_first_xna_game
             //-update movement
             movementManager.MoveToDirection(this, direction, (int)this.speed);
             StartAnimation(direction);
-            pathTravelled++;
-            if (pathTravelled == pathDestination)
+            pathTravelled += (int)speed;
+            if (pathTravelled - pathDestination >= 0 && pathTravelled - pathDestination < speed)
             {
                 Fade();
                 //texture.Dispose();
@@ -76,7 +77,7 @@ namespace My_first_xna_game
         public static void LaunchProjectile(ProjectileData projectileData, Map map, Player source)
         {
             Projectile projectile = new Projectile(projectileData.texture, projectileData.speed, source,
-                projectileData.pathDestination, projectileData.launchSound, projectileData.hitSound);
+                projectileData.pathDestination, projectileData.strength, projectileData.launchSound, projectileData.hitSound);
 
             if (projectileData.lit)
             {

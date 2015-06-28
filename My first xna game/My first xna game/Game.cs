@@ -18,12 +18,11 @@ namespace My_first_xna_game
          TODO:
          * A*
          * attack (sword)
-         * combos
          * round raduis for enemies
          * better AI for enemies
+         * switch skill hud
          * 
-         * visbale xp and healing
-         * xp
+         * visbale healing
          * guns
          * homing spells
          * ray casting
@@ -56,7 +55,6 @@ namespace My_first_xna_game
          BUGS:
          * fix too much stat changes in skill tree at choose skill
          * fix boat bug
-         * fix boat controls bug (shooting and jumping and stuff)
          * order update anyway in sprite and in hostile
          * fix depth in dmg
          * fix heal health and hud
