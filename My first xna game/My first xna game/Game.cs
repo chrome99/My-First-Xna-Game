@@ -93,7 +93,6 @@ namespace My_first_xna_game
         private static string storageName = "myStorage";
         private static string fileName = "asd.sav";
 
-        [Serializable]
         public struct SaveData
         {
             public List<Player.PlayerData> playersData;

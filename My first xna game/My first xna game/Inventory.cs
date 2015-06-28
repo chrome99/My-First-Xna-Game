@@ -161,13 +161,16 @@ namespace My_first_xna_game
         {
             //sort amount
             List<WindowItem> result = new List<WindowItem>();
-            foreach (Text amount in amountTexts)
+            foreach (WindowItem amount in window.hiddenItemsList)
             {
-                foreach (WindowItem windowItem in window.itemsList)
+                if (amount is Text)
                 {
-                    if (windowItem.position == amount.position)
+                    foreach (WindowItem windowItem in window.itemsList)
                     {
-                        result.Add(windowItem);
+                        if (windowItem.position == amount.position)
+                        {
+                            result.Add(windowItem);
+                        }
                     }
                 }
             }
@@ -179,7 +182,7 @@ namespace My_first_xna_game
                 if (result.Contains(window.itemsList[counter]))
                 {
                     int index = result.IndexOf(window.itemsList[counter]);
-                    amountTexts[index].position = window.itemsList[counter].position;
+                    window.hiddenItemsList[index].position = window.itemsList[counter].position;
                 }
             }
         }
