@@ -34,22 +34,16 @@ namespace My_first_xna_game
             window.SetWindowLeft(player.bounds);
 
             head = new Picture(Item.IconSet, new Vector2(46, 32), window);
-            window.AddItem(head);
 
             body = new Picture(Item.IconSet, new Vector2(46, 32 * 2), window);
-            window.AddItem(body);
 
             leftHand = new Picture(Item.IconSet, new Vector2(14, 32 * 2 + 10), window);
-            window.AddItem(leftHand);
 
             shoes = new Picture(Item.IconSet, new Vector2(46, 32 * 3), window);
-            window.AddItem(shoes);
 
             rightHand = new Picture(Item.IconSet, new Vector2(78, 32 * 2 + 10), window);
-            window.AddItem(rightHand);
 
-            selector = new Selector(window, window.itemsList, new Vector2(32, 32), 3, 1);
-            selector.player = player;
+            selector = new Selector(window, player, window.itemsList, new Vector2(32, 32), 3, 1);
 
             DrawTemplate();
         }
@@ -209,8 +203,10 @@ namespace My_first_xna_game
         public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
         {
             if (!alive) { return; }
+
             window.Update(gameTime);
-            selector.Update(newState, oldState, gameTime);
+            window.UpdateSelectorAndTextBox(newState, oldState, gameTime);
+
             armorInventory.Update(newState, oldState, gameTime);
             switch (selector.currentTargetNum)
             {
@@ -287,7 +283,6 @@ namespace My_first_xna_game
         {
             if (!alive) { return; }
             window.Draw(spriteBatch, offsetRect);
-            selector.Draw(spriteBatch, offsetRect);
             armorInventory.Draw(spriteBatch, offsetRect);
         }
     }

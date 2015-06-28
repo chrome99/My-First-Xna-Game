@@ -117,9 +117,7 @@ namespace My_first_xna_game
             window = new Window(map, Game.content.Load<Texture2D>("Textures\\Windows\\windowskin"), Vector2.Zero, (int)windowSize.X, (int)windowSize.Y, windowPlayer);
             window.SetWindowAbove(sourcePosition);
 
-
-            selector = new Selector(window, optionsList, biggestOptionSize, 0, newRow);
-            selector.player = player;
+            selector = new Selector(window, player, optionsList, biggestOptionSize, 0, newRow);
 
             foreach (WindowItem option in this.optionsList)
             {
@@ -136,7 +134,7 @@ namespace My_first_xna_game
         {
             if (!alive) { return; }
             window.Update(gameTime);
-            selector.Update(newState, oldState, gameTime);
+            window.UpdateSelectorAndTextBox(newState, oldState, gameTime);
             
 
             if (selector.visible)
@@ -157,12 +155,7 @@ namespace My_first_xna_game
         {
             if (!alive) { return; }
 
-            foreach(WindowItem option in optionsList)
-            {
-                option.Draw(spriteBatch, offsetRect);
-            }
             window.Draw(spriteBatch, offsetRect);
-            selector.Draw(spriteBatch, offsetRect);
         }
     }
 }

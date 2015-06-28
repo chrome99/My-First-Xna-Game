@@ -128,7 +128,7 @@
     <Compile Include="Camera.cs" />
     <Compile Include="Choice.cs" />
     <Compile Include="CollisionManager.cs" />
-    <Compile Include="Debug.cs" />
+    <Compile Include="DebugHUD.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="Hostile.cs" />
@@ -155,6 +155,7 @@
     <Compile Include="Sprite.cs" />
     <Compile Include="Spritesheet.cs" />
     <Compile Include="Text.cs" />
+    <Compile Include="Textbox.cs" />
     <Compile Include="TextShadow.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="TileMap.cs" />

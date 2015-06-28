@@ -5,31 +5,11 @@ namespace My_first_xna_game
 {
     public class Picture : WindowItem
     {
-        public override Vector2 GetDrawingPosition()
-        {
-            if (source == null)
-            {
-                return position;
-            }
-            else
-            {
-                Vector2 newPosition = position + source.position + source.thickness;
-                /*if (newPosition.X > source.bounds.Width - bounds.Width)
-                {
-                    newPosition.X = source.bounds.Width - bounds.Width;
-                }
-                if (newPosition.Y > source.bounds.Height - bounds.Height)
-                {
-                    newPosition.Y = source.bounds.Height - bounds.Height;
-                }*/
-                return newPosition;
-            }
-        }
         public Rectangle? drawingRect = null;
         public Texture2D texture;
 
-        public Picture(Texture2D texture, Vector2 position, Window source)
-            : base(source)
+        public Picture(Texture2D texture, Vector2 position, Window source, bool hidden = false)
+            : base(source, hidden)
         {
             this.position = position;
             this.texture = texture;
@@ -40,15 +20,19 @@ namespace My_first_xna_game
             get { return new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height); }
         }
 
-        public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect)
+        public override void Draw(SpriteBatch spriteBatch, Vector2 windowPosition)
         {
             if (visible)
             {
-                Vector2 newPosition = GetDrawingPosition();
-                newPosition.X = newPosition.X - offsetRect.X;
-                newPosition.Y = newPosition.Y - offsetRect.Y;
-                spriteBatch.Draw(texture, newPosition, drawingRect, Color.White * drawingOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
-                
+                spriteBatch.Draw(texture, GetDrawingPosition(windowPosition), drawingRect, Color.White * drawingOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
+            }
+        }
+
+        public override void DrawWithoutSource(SpriteBatch spriteBatch, Rectangle offsetRect)
+        {
+            if (visible)
+            {
+                spriteBatch.Draw(texture, GetDrawingPositionWithoutSource(offsetRect), drawingRect, Color.White * drawingOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
             }
         }
     }

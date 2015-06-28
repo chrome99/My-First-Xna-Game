@@ -76,8 +76,7 @@ namespace My_first_xna_game
             pack.representation = this;
             pack.CreateItems(this, window);
             SortItems();
-            selector = new Selector(window, window.itemsList, new Vector2(Item.size + spacing, Item.size + spacing), spacing / 2, margin);
-            selector.player = this.player;
+            selector = new Selector(window, player, window.itemsList, new Vector2(Item.size + spacing, Item.size + spacing), spacing / 2, margin);
             if (pack.items.Count == 0)
             {
                 selector.visible = false;
@@ -90,11 +89,15 @@ namespace My_first_xna_game
             {
                 RemoveWindowItem(window.itemsList[counter], false);
             }
-            for (int counter = 0; counter < amountTexts.Count;)
+            for (int counter = 0; counter < window.hiddenItemsList.Count; )
+            {
+                RemoveWindowItem(window.hiddenItemsList[counter], false, true);
+            }
+            /*for (int counter = 0; counter < amountTexts.Count;)
             {
                 amountTexts[counter] = null;
                 amountTexts.Remove(amountTexts[counter]);
-            }
+            }*/
         }
 
         private void setWindowPosition(Side newSide = Side.none)
@@ -189,7 +192,7 @@ namespace My_first_xna_game
             UpdateShopInventory();
 
             window.Update(gameTime);
-            selector.Update(newState, oldState, gameTime);
+            window.UpdateSelectorAndTextBox(newState, oldState, gameTime);
 
             //window speical effects
             /*
@@ -262,9 +265,16 @@ namespace My_first_xna_game
             }
         }
 
-        public void RemoveWindowItem(WindowItem windowItem, bool sort = true)
+        public void RemoveWindowItem(WindowItem windowItem, bool sort = true, bool hidden = false)
         {
-            window.itemsList.Remove(windowItem);
+            if (hidden)
+            {
+                window.hiddenItemsList.Remove(windowItem);
+            }
+            else
+            {
+                window.itemsList.Remove(windowItem);
+            }
             windowItem = null;
 
             if (sort)
@@ -279,12 +289,6 @@ namespace My_first_xna_game
             if (!alive) { return; }
 
             window.Draw(spriteBatch, offsetRect);
-            selector.Draw(spriteBatch, offsetRect);
-
-            foreach (Text amount in amountTexts)
-            {
-                amount.Draw(spriteBatch, offsetRect);
-            }
 
             DrawShopInventory(spriteBatch, offsetRect);
         }

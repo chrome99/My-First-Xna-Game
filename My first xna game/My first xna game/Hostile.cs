@@ -454,7 +454,7 @@ namespace My_first_xna_game
         {
             if (dmgText != null)
             {
-                dmgText.Draw(spriteBatch, offsetRect);
+                dmgText.DrawWithoutSource(spriteBatch, offsetRect);
             }
         }
     }

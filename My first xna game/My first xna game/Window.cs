@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace My_first_xna_game
@@ -8,10 +9,12 @@ namespace My_first_xna_game
     {
         public static Rectangle windowRect = new Rectangle(0, 0, 128, 128);
         public List<WindowItem> itemsList = new List<WindowItem>();
+        public List<WindowItem> hiddenItemsList = new List<WindowItem>();
         public Vector2 thickness = new Vector2(10, 10);
         public bool offsetRect = true;
         public int width;
         public int height;
+        public Window source;
 
         // TODO: Make an opacity value for each state
         private float originalOpacity;
@@ -137,6 +140,12 @@ namespace My_first_xna_game
             item.source = this;
         }
 
+        public void AddHiddenItem(WindowItem item)
+        {
+            hiddenItemsList.Add(item);
+            item.source = this;
+        }
+
         public void setCorner(Camera camera, Camera.Corner corner)
         {
             Rectangle side = camera.setSide(bounds, corner);
@@ -144,25 +153,37 @@ namespace My_first_xna_game
             position.Y = side.Y;
         }
 
+        private Rectangle GetDrawingRect(Rectangle offsetRect)
+        {
+            Rectangle newPosition = bounds;
+            if (source != null)
+            {
+                Vector2 calculatedPosition = position + source.position + source.thickness;
+                newPosition.X = (int)calculatedPosition.X;
+                newPosition.Y = (int)calculatedPosition.Y;
+            }
+            newPosition.X = newPosition.X - offsetRect.X;
+            newPosition.Y = newPosition.Y - offsetRect.Y;
+            return newPosition;
+        }
+
         public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect)
         {
             if (visible && alive)
             {
                 //draw window
-                Rectangle drawingPosition = bounds;
-                drawingPosition.X = drawingPosition.X - offsetRect.X;
-                drawingPosition.Y = drawingPosition.Y - offsetRect.Y;
+                Rectangle drawingPosition = GetDrawingRect(offsetRect);
 
                 spriteBatch.Draw(texture, drawingPosition, windowRect, Color.White * drawingOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
 
                 //draw items
                 foreach (WindowItem item in itemsList)
                 {
-                    if (item is Text || item is Picture && item.sourceCanDrawThis)
-                    {
-                        item.Draw(spriteBatch, offsetRect);
-                    }
-
+                    item.Draw(spriteBatch, new Vector2(drawingPosition.X, drawingPosition.Y));
+                }
+                foreach (WindowItem item in hiddenItemsList)
+                {
+                    item.Draw(spriteBatch, new Vector2(drawingPosition.X, drawingPosition.Y));
                 }
             }
         }
@@ -238,6 +259,39 @@ namespace My_first_xna_game
                 }
             }
 
+        }
+
+        public void UpdateSelectorAndTextBox(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
+        {
+            foreach (WindowItem item in itemsList)
+            {
+                Selector selector = item as Selector;
+                if (selector != null)
+                {
+                    selector.UpdateSelector(newState, oldState, gameTime);
+                }
+
+                Textbox textbox = item as Textbox;
+                if (textbox != null)
+                {
+                    textbox.UpdateTextbox(gameTime, newState, oldState);
+                }
+            }
+
+            foreach (WindowItem item in hiddenItemsList)
+            {
+                Selector selector = item as Selector;
+                if (selector != null)
+                {
+                    selector.UpdateSelector(newState, oldState, gameTime);
+                }
+
+                Textbox textbox = item as Textbox;
+                if (textbox != null)
+                {
+                    textbox.UpdateTextbox(gameTime, newState, oldState);
+                }
+            }
         }
     }
 }

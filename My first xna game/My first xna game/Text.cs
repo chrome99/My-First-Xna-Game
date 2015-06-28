@@ -16,8 +16,8 @@ namespace My_first_xna_game
         private Color newColor;
         private Timer changeColorTimer;
 
-        public Text(SpriteFont font, Vector2 position, Color color, string text, Window source = null, Vector2 shadowPosition = new Vector2())
-            : base(source)
+        public Text(SpriteFont font, Vector2 position, Color color, string text, Window source = null, Vector2 shadowPosition = new Vector2(), bool hidden = false)
+            : base(source, hidden)
         {
             this.position = position;
             this.font = font;
@@ -30,34 +30,13 @@ namespace My_first_xna_game
             }
         }
 
-        private Vector2 drawingPosition(Rectangle offsetRect)
-        {
-            Vector2 newPosition;
-            if (source == null)
-            {
-                newPosition = position;
-            }
-            else
-            {
-                newPosition = position + source.position + source.thickness;
-            }
-            newPosition.X = newPosition.X - offsetRect.X;
-            newPosition.Y = newPosition.Y - offsetRect.Y;
-            return newPosition;
-        }
-
         public override Rectangle bounds
         {
             get { return new Rectangle((int)position.X, (int)position.Y, (int)font.MeasureString(text).X, (int)font.MeasureString(text).Y); }
         }
 
-        public void UpdateText(string text = null)
+        public void UpdateTextChangeColor()
         {
-            if (text != null)
-            {
-                this.text = text;
-            }
-
             //change to red effect
             if (changeColor)
             {
@@ -84,6 +63,14 @@ namespace My_first_xna_game
                 {
                     returnToOriginalColor = false;
                 }
+            }
+        }
+
+        public void UpdateTextString(string text = null)
+        {
+            if (text != null)
+            {
+                this.text = text;
             }
         }
 
@@ -137,15 +124,29 @@ namespace My_first_xna_game
             changeColor = true;
         }
 
-        public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect)
+        public override void Draw(SpriteBatch spriteBatch, Vector2 windowPosition)
         {
             if (visible)
             {
+                Vector2 drawingPosition = GetDrawingPosition(windowPosition);
                 if (shadow != null)
                 {
-                    shadow.Draw(spriteBatch, drawingPosition(offsetRect), font, drawingOpacity);
+                    shadow.Draw(spriteBatch, drawingPosition, font, drawingOpacity);
                 }
-                spriteBatch.DrawString(font, text, drawingPosition(offsetRect), color * drawingOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
+                spriteBatch.DrawString(font, text, drawingPosition, color * drawingOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
+            }
+        }
+
+        public override void DrawWithoutSource(SpriteBatch spriteBatch, Rectangle offsetRect)
+        {
+            if (visible)
+            {
+                Vector2 drawingPosition = GetDrawingPositionWithoutSource(offsetRect);
+                if (shadow != null)
+                {
+                    shadow.Draw(spriteBatch, drawingPosition, font, drawingOpacity);
+                }
+                spriteBatch.DrawString(font, text, drawingPosition, color * drawingOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
             }
         }
     }

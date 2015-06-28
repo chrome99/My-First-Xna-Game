@@ -48,7 +48,7 @@ namespace My_first_xna_game
         {
             for (int counter = 0; counter < pack.items.Count; counter++)
             {
-                Text price = new Text(Game.content.Load<SpriteFont>("Fonts\\small"), Vector2.Zero, new Color(255, 215, 0), getPrice(pack.items[counter].price).ToString(), window, new Vector2(1, 2));
+                Text price = new Text(Game.content.Load<SpriteFont>("Fonts\\small"), Vector2.Zero, new Color(255, 215, 0), getPrice(pack.items[counter].price).ToString(), window, new Vector2(1, 2), true);
                 price.position = new Vector2(counter % margin * (Item.size + spacing) + Item.size / 2, counter / margin * (Item.size + spacing) + Item.size / 2);
                 price.depth = Game.DepthToFloat(Game.Depth.windowsDataFront);
                 priceTexts.Add(price);
@@ -60,6 +60,7 @@ namespace My_first_xna_game
             for (int counter = 0; counter < priceTexts.Count;)
             {
                 SubPrice(priceTexts[counter]);
+
             }
         }
         
@@ -74,6 +75,7 @@ namespace My_first_xna_game
         public void SubPrice(Text text)
         {
             priceTexts.Remove(text);
+            window.hiddenItemsList.Remove(text);
             text = null;
         }
 
@@ -133,16 +135,16 @@ namespace My_first_xna_game
         {
             foreach(Text price in priceTexts)
             {
-                price.UpdateText(null);
+                price.UpdateTextChangeColor();
             }
         }
 
         protected override void DrawShopInventory(SpriteBatch spriteBatch, Rectangle offsetRect)
         {
-            foreach(Text price in priceTexts)
+            /*foreach(Text price in priceTexts)
             {
                 price.Draw(spriteBatch, offsetRect);
-            }
+            }*/ //TODO: fix override
         }
     }
 }

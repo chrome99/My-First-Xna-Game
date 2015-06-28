@@ -123,12 +123,11 @@ namespace My_first_xna_game
             item.icon.drawingRect = item.getRect;
             if (item.amount > 1)
             {
-                Text amount = new Text(Game.content.Load<SpriteFont>("Fonts\\small"), Vector2.Zero, new Color(255, 255, 255), items[i].amount + "X", InventoryWindow, new Vector2(1, 2));
+                Text amount = new Text(Game.content.Load<SpriteFont>("Fonts\\small"), Vector2.Zero, new Color(255, 255, 255), items[i].amount + "X", InventoryWindow, new Vector2(1, 2), true);
                 amount.position = new Vector2(i % inventory.margin * (Item.size + inventory.spacing), i / inventory.margin * (Item.size + inventory.spacing));
                 amount.depth = Game.DepthToFloat(Game.Depth.windowsDataFront);
                 inventory.amountTexts.Add(amount);
             }
-            InventoryWindow.AddItem(item.icon);
         }
 
         public void AddItem(List<Item> itemsList)
@@ -181,8 +180,8 @@ namespace My_first_xna_game
                 {
                     if (item.amount == 2)
                     {
+                        representation.RemoveWindowItem(result, true, true);
                         representation.amountTexts.Remove(result);
-                        result = null;
                     }
                     else
                     {
@@ -204,7 +203,7 @@ namespace My_first_xna_game
                 }
 
                 //remove window item
-                representation.RemoveWindowItem(item.icon);
+                representation.RemoveWindowItem(item.icon, true);
             }
 
             //check if the item is equiped

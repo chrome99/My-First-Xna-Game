@@ -234,14 +234,14 @@ namespace My_first_xna_game
         {
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
-            background.Draw(spriteBatch, new Rectangle());
+            background.DrawWithoutSource(spriteBatch, new Rectangle());//nana
 
             backgroundParticals.Draw(spriteBatch);
             cursorParticals.Draw(spriteBatch);
 
-            newgame.Draw(spriteBatch, new Rectangle());
-            loadgame.Draw(spriteBatch, new Rectangle());
-            quit.Draw(spriteBatch, new Rectangle());
+            newgame.DrawWithoutSource(spriteBatch, new Rectangle());//nana
+            loadgame.DrawWithoutSource(spriteBatch, new Rectangle());//nana
+            quit.DrawWithoutSource(spriteBatch, new Rectangle());//nana
 
 
 

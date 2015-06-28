@@ -12,7 +12,7 @@ namespace My_first_xna_game
         public static Rectangle selectorRect = new Rectangle(128, 64, 32, 32);
         public WindowItem currentTarget;
         public int currentTargetNum;
-        public Player player;
+        private Player player;
         private Texture2D texture;
         private List<WindowItem> targets;
         private Vector2 size;
@@ -30,13 +30,14 @@ namespace My_first_xna_game
         private bool leftKeyReleased = false;
         private bool rightKeyReleased = false;
 
-        public Selector(Window source, List<WindowItem> targets, Vector2 size, int layout, int itemsInRow = 0)
-            : base(source)
+        public Selector(Window source, Player player, List<WindowItem> targets, Vector2 size, int layout, int itemsInRow = 0)
+            : base(source, true)
         {
-            this.targets = targets;
             this.size = size;
             this.layout = layout;
             this.itemsInRow = itemsInRow;
+            this.targets = targets;
+            this.player = player;
 
             customSize = size == new Vector2();
 
@@ -56,7 +57,7 @@ namespace My_first_xna_game
             get { return new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y); }
         }
 
-        public void Update(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
+        public void UpdateSelector(KeyboardState newState, KeyboardState oldState, GameTime gameTime)
         {
             if (targets.Count == 0)
             {
@@ -183,27 +184,26 @@ namespace My_first_xna_game
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect)
+        public override void Draw(SpriteBatch spriteBatch, Vector2 windowPosition)
         {
             if (visible)
             {
-                Vector2 newPositionVec;
-                if (source == null)
-                {
-                    newPositionVec = position;
-                }
-                else
-                {
-                    newPositionVec = position + source.position + source.thickness;
-                }
-                newPositionVec.X = newPositionVec.X - offsetRect.X;
-                newPositionVec.Y = newPositionVec.Y - offsetRect.Y;
+                Vector2 newPositionVec = GetDrawingPosition(windowPosition);
                 Rectangle newPositionRect = bounds;
                 newPositionRect.X = (int)newPositionVec.X;
                 newPositionRect.Y = (int)newPositionVec.Y;
 
                 spriteBatch.Draw(texture, newPositionRect, selectorRect, Color.White * drawingOpacity, 0f, Vector2.Zero, SpriteEffects.None, depth);
             }
+        }
+
+        public override void DrawWithoutSource(SpriteBatch spriteBatch, Rectangle offsetRect)
+        {
+            Vector2 newPositionVec = GetDrawingPositionWithoutSource(offsetRect);
+            Rectangle newPositionRect = bounds;
+            newPositionRect.X = (int)newPositionVec.X;
+            newPositionRect.Y = (int)newPositionVec.Y;
+            spriteBatch.Draw(texture, newPositionRect, selectorRect, Color.White * drawingOpacity, 0f, Vector2.Zero, SpriteEffects.None, depth);
         }
 
     }

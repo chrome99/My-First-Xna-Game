@@ -22,10 +22,10 @@ namespace My_first_xna_game
 
             currentBranch = player.skillTree.skillBranches[player.stats.level - 1];
             window = new Window(player.map, Game.content.Load<Texture2D>("Textures\\Windows\\windowskin"), new Vector2(20), 920, 500);
-            Text skillText1 = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, currentBranch.skill1.color, currentBranch.skill1.name, null, new Vector2(2, 5));
-            Text skillText2 = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, currentBranch.skill2.color, currentBranch.skill2.name, null, new Vector2(2, 5));
-            Picture skillPicture1 = new Picture(currentBranch.skill1.choosePicture, Vector2.Zero, null);
-            Picture skillPicture2 = new Picture(currentBranch.skill2.choosePicture, Vector2.Zero, null);
+            Text skillText1 = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, currentBranch.skill1.color, currentBranch.skill1.name, window, new Vector2(2, 5));
+            Text skillText2 = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, currentBranch.skill2.color, currentBranch.skill2.name, window, new Vector2(2, 5));
+            Picture skillPicture1 = new Picture(currentBranch.skill1.choosePicture, Vector2.Zero, window);
+            Picture skillPicture2 = new Picture(currentBranch.skill2.choosePicture, Vector2.Zero, window);
 
             skillPicture1.position.X += 100;
             skillPicture1.position.Y += 60;
@@ -49,10 +49,9 @@ namespace My_first_xna_game
                 {
                     color = Color.LightBlue;
                 }
-                Text text = new Text(Game.content.Load<SpriteFont>("Fonts\\medival small"), new Vector2(0, 320), color, statsList[i].name + ": " + statsList[i].value);
+                Text text = new Text(Game.content.Load<SpriteFont>("Fonts\\medival small"), new Vector2(0, 320), color, statsList[i].name + ": " + statsList[i].value, window);
                 text.position.X = skillPicture1.position.X + skillPicture1.bounds.Width / 2 - text.bounds.Width / 2;
                 text.position.Y += i * text.bounds.Height + 10;
-                window.AddItem(text);
             }
 
             statsList = Hostile.StatsToStatList(currentBranch.changeStats2);
@@ -63,26 +62,20 @@ namespace My_first_xna_game
                 {
                     color = Color.LightBlue;
                 }
-                Text text = new Text(Game.content.Load<SpriteFont>("Fonts\\medival small"), new Vector2(0, 320), color, statsList[i].name + ": " + statsList[i].value);
+                Text text = new Text(Game.content.Load<SpriteFont>("Fonts\\medival small"), new Vector2(0, 320), color, statsList[i].name + ": " + statsList[i].value, window);
                 text.position.X = skillPicture2.position.X + skillPicture2.bounds.Width / 2 - text.bounds.Width / 2;
                 text.position.Y += i * text.bounds.Height + 10;
-                window.AddItem(text);
             }
 
-            window.AddItem(skillPicture1);
-            window.AddItem(skillPicture2);
-            window.AddItem(skillText1);
-            window.AddItem(skillText2);
-
-            selector = new Selector(window, new List<WindowItem>() { skillText1, skillText2 }, new Vector2(), 10, 2);
-            selector.player = player;
+            selector = new Selector(window, player, new List<WindowItem>() { skillText1, skillText2 }, new Vector2(), 10, 2);
         }
 
         public void Update(GameTime gameTime, KeyboardState newState, KeyboardState oldState)
         {
             if (!alive) { return; }
+
             window.Update(gameTime);
-            selector.Update(newState, oldState, gameTime);
+            window.UpdateSelectorAndTextBox(newState, oldState, gameTime);
 
             UpdateInput(newState, oldState);
         }
@@ -115,7 +108,7 @@ namespace My_first_xna_game
         {
             if (!alive) { return; }
             window.Draw(spriteBatch, new Rectangle());
-            selector.Draw(spriteBatch, new Rectangle());
+            //selector.Draw(spriteBatch, new Rectangle()); tata
         }
     }
 }

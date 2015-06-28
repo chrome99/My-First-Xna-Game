@@ -42,7 +42,6 @@ namespace My_first_xna_game
             window.thickness = new Vector2(10f, 0f);
 
             currentText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, null, window, new Vector2(2, 5));
-            window.AddItem(currentText);
 
             window.Kill();
         }
