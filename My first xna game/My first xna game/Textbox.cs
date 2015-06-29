@@ -17,7 +17,12 @@ namespace My_first_xna_game
             input = "";
 
             box = new Window(player.map, Game.content.Load<Texture2D>("Textures\\Windows\\windowskin"), position, (int)size.X, (int)size.Y);
-            text = new Text(Game.content.Load<SpriteFont>("Fonts\\Debug1"), position, Color.Black, input, box);
+            text = new Text(Game.content.Load<SpriteFont>("Fonts\\Debug1"), Vector2.Zero, Color.Black, input, box);
+        }
+
+        public void Reset()
+        {
+            input = "";
         }
 
         public void UpdateTextbox(GameTime gameTime, KeyboardState newState, KeyboardState oldState)
@@ -30,10 +35,23 @@ namespace My_first_xna_game
 
         private void UpdateInput(KeyboardState newState, KeyboardState oldState)
         {
-
+            char newInput;
+            if (Game.TryConvertKeyboardInput(newState, oldState, out newInput))
+            {
+                input = input + newInput;
+            }
         }
 
-        public void Draw(SpriteBatch spriteBatch, Rectangle offsetRect)
+        public override void Draw(SpriteBatch spriteBatch, Vector2 windowPosition)
+        {
+            Rectangle drawingRect = bounds;
+            Vector2 drawingPosition = GetDrawingPosition(windowPosition);
+            drawingRect.X = (int)drawingPosition.X;
+            drawingRect.Y = (int)drawingPosition.Y;
+            box.Draw(spriteBatch, drawingRect);
+        }
+
+        public override void DrawWithoutSource(SpriteBatch spriteBatch, Rectangle offsetRect)
         {
             box.Draw(spriteBatch, offsetRect);
         }

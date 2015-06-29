@@ -29,7 +29,7 @@ namespace My_first_xna_game
          * 
          * enemy type / id (bee, wolf, eater of worlds)
          * 
-         * bloom shader
+         * dust, smoke, and realistic water shaders
          * shadows
          * effects
          * core collision
@@ -38,7 +38,6 @@ namespace My_first_xna_game
          * trade
          * pvp menu
          * chat
-         * command line
          * push and plate sound
          * item data(durabillity, price, weight, and more)
          * 

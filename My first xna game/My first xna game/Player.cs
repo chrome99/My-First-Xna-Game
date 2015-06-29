@@ -31,6 +31,7 @@ namespace My_first_xna_game
         private DebugHUD debug;
         private HostileHUD hud;
         private ChooseSkill chooseSkill;
+        private CommandLine commandLine;
 
         private Sprite HoldedSprite;
 
@@ -81,6 +82,8 @@ namespace My_first_xna_game
 
         private bool menuKeyReleased = false;
 
+        private bool commandKeyReleased = false;
+
         private bool mvRightKeyReleased = false;
         private bool mvLeftKeyReleased = false;
         private bool mvUpKeyReleased = false;
@@ -102,6 +105,7 @@ namespace My_first_xna_game
             public Keys run;
             public Keys opMenu;
             public Keys opDebug;
+            public Keys opCommand;
             public Keys useSkill;
         }
 
@@ -171,16 +175,16 @@ namespace My_first_xna_game
 
         }
 
-        public Player(Texture2D texture, Vector2 position, PlayerKeys keys, Stats stats)
+        public Player(Texture2D texture, Vector2 position, PlayerKeys kbKeys, Stats stats)
             : base(texture, position, MovementManager.Auto.off)
         {
-            this.kbKeys = keys;
+            this.kbKeys = kbKeys;
             this.stats = stats;
 
             pack = new Pack(this);
-            debug = new DebugHUD(Game.content.Load<SpriteFont>("Fonts\\Debug1"), Color.Wheat, this, keys.opDebug);
             hud = new HostileHUD(this);
             shop = new Shop();
+            debug = new DebugHUD(Game.content.Load<SpriteFont>("Fonts\\Debug1"), Color.Wheat, this, kbKeys.opDebug);
 
             skillTree = new SkillTree();
             runningAccelerationMax = 1;
@@ -195,6 +199,7 @@ namespace My_first_xna_game
             menu = new Menu(map, this);
             msg = new Message(map, this);
             chooseSkill = new ChooseSkill(this);
+            commandLine = new CommandLine(this);
         }
 
         public void AddExp(int exp)
@@ -424,6 +429,7 @@ namespace My_first_xna_game
             debug.UpdateInput(newState, oldState);
             msg.Update(gameTime, newState, oldState);
             chooseSkill.Update(gameTime, newState, oldState);
+            commandLine.Update(gameTime, newState, oldState);
 
             UpdateInput(newState, oldState);
         }
@@ -507,6 +513,17 @@ namespace My_first_xna_game
 
         protected void UpdateInput(KeyboardState newState, KeyboardState oldState)
         {
+            //command line
+            if (newState.IsKeyDown(kbKeys.opCommand) && commandKeyReleased)
+            {
+                commandLine.alive = !commandLine.alive;
+                commandKeyReleased = false;
+            }
+            else if (!oldState.IsKeyDown(kbKeys.opCommand))
+            {
+                commandKeyReleased = true;
+            }
+
             //cancal things, and open menu when can
             if (newState.IsKeyDown(kbKeys.opMenu) && menuKeyReleased)
             {
@@ -890,6 +907,7 @@ namespace My_first_xna_game
             hud.Draw(spriteBatch);
             debug.Draw(spriteBatch);
             chooseSkill.Draw(spriteBatch);
+            commandLine.Draw(spriteBatch);
         }
     }
 }

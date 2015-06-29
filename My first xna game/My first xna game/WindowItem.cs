@@ -56,8 +56,6 @@ namespace My_first_xna_game
             depth = Game.DepthToFloat(Game.Depth.windowsData);
         }
 
-        public virtual void Update() { }
-
         public void Fade()
         {
             fade = true;
