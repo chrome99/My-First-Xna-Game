@@ -31,6 +31,7 @@ namespace My_first_xna_game
         public bool updated = false;
         public Vector2 coreCollision = new Vector2(1, 1);
 
+        public GameObject() { }
         public GameObject(Vector2 position)
         {
             this.position = position;

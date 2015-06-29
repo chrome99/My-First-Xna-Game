@@ -160,7 +160,7 @@ namespace My_first_xna_game
 
                     //Special keys
                     case Keys.OemTilde: if (shift) { key = '~'; } else { key = '`'; } return true;
-                    case Keys.OemSemicolon: if (shift) { key = ':'; } else { key = ';'; } return true;
+                    case Keys.OemSemicolon: if (shift) { key = ':'; } else { key = ':'; } return true;
                     case Keys.OemQuotes: if (shift) { key = '"'; } else { key = '\''; } return true;
                     case Keys.OemQuestion: if (shift) { key = '?'; } else { key = '/'; } return true;
                     case Keys.OemPlus: if (shift) { key = '+'; } else { key = '='; } return true;
