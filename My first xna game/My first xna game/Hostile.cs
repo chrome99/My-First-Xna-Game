@@ -156,7 +156,7 @@ namespace My_first_xna_game
             skillsList.Remove(skill);
         }
 
-        public void DealDamage(Hostile source, int damage = 0, bool showDamage = true)
+        public void DealDamage(Hostile source, bool sourceDamage = true, int damage = 0, bool showDamage = true)
         {
             if (cooldownTimer.result || cooldownTimer.counter == 0)
             {
@@ -164,33 +164,35 @@ namespace My_first_xna_game
                 bool noDamage = false;
                 bool defending =false;
                 int oldHealth = stats.health;
-                int newHealth;
+                int newHealth = stats.health;
                 Player thisAsPlayer = this as Player;
                 if (thisAsPlayer != null)
                 {
                     if (thisAsPlayer.defendingTimer.Counting)
                     {
-                        newHealth = oldHealth;
                         defending = true;
                     }
-                    else if (damage == 0) // new health by number
+                    else
                     {
-                        newHealth = stats.health - source.stats.strength + stats.defence;
-                    }
-                    else //new health by stats
-                    {
-                        newHealth = stats.health - damage + stats.defence;
+                        if (damage == 0) // new health by stats
+                        {
+                            newHealth += stats.defence - source.stats.strength;
+                        }
+                        if (!sourceDamage) //new health by number
+                        {
+                            newHealth += stats.defence - damage;
+                        }
                     }
                 }
                 else
                 {
-                    if (damage == 0)
+                    if (damage == 0) // new health by stats
                     {
-                        newHealth = stats.health - source.stats.strength + stats.defence;
+                        newHealth += stats.defence - source.stats.strength;
                     }
-                    else
+                    if (!sourceDamage) //new health by number
                     {
-                        newHealth = stats.health - damage + stats.defence;
+                        newHealth += stats.defence - damage;
                     }
                 }
                 

@@ -3,15 +3,17 @@ using Microsoft.Xna.Framework.Input;
 
 namespace My_first_xna_game
 {
-    class Combo
+    public class Combo
     {
         public delegate void ComboFunction(Player player);
         public ComboFunction comboFunction;
+        public string name;
 
         public ComboCollection.PlayerKeysIndex[] comboKeys;
 
-        public Combo(ComboCollection.PlayerKeysIndex[] comboKeys, ComboFunction comboFunction)
+        public Combo(string name, ComboCollection.PlayerKeysIndex[] comboKeys, ComboFunction comboFunction)
         {
+            this.name = name;
             this.comboKeys = comboKeys;
             this.comboFunction = comboFunction;
         }

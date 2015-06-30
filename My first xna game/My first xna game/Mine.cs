@@ -31,7 +31,7 @@ namespace My_first_xna_game
                 {
                     if (CollisionManager.GameObjectCollision(hostile, mine, false) && hostile != mine.source)
                     {
-                        hostile.DealDamage(mine.source, mine.strength);
+                        hostile.DealDamage(mine.source, false, mine.strength);
                         mine.Kill();
                     }
                 }

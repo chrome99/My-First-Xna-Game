@@ -15,14 +15,14 @@ namespace My_first_xna_game
         static PlayerCollection()
         {
             Player.PlayerKeys player1Keys;
-            player1Keys.attack = Keys.Space;
-            player1Keys.jump = Keys.Q;
-            player1Keys.defend = Keys.E;
+            player1Keys.attack = Keys.J;
+            player1Keys.jump = Keys.K;
+            player1Keys.defend = Keys.L;
             player1Keys.mvLeft = Keys.A;
             player1Keys.mvRight = Keys.D;
             player1Keys.mvUp = Keys.W;
             player1Keys.mvDown = Keys.S;
-            player1Keys.opMenu = Keys.LeftControl;
+            player1Keys.opMenu = Keys.Escape;
             player1Keys.run = Keys.LeftShift;
             player1Keys.opDebug = Keys.F2;
             player1Keys.opCommand = Keys.F3;
@@ -45,24 +45,24 @@ namespace My_first_xna_game
 
 
             player1.pack.AddItem(new List<Item> {
-                ItemCollection.apple ,ItemCollection.mine, ItemCollection.mine, ItemCollection.ironChestArmor, ItemCollection.ironSword,
+                ItemCollection.apple ,ItemCollection.woodenStaff, ItemCollection.mine, ItemCollection.ironChestArmor, ItemCollection.ironSword,
                 /*ItemCollection.ironSword, ItemCollection.ironSword, ItemCollection.leatherShoes, ItemCollection.mask,
                 ItemCollection.shirt, ItemCollection.copperChestArmor, ItemCollection.apple, ItemCollection.apple, ItemCollection.apple*/
             });
 
             //intialize player
             Player.PlayerKeys player2Keys;
-            player2Keys.attack = Keys.RightControl;
-            player2Keys.jump = Keys.Delete;
-            player2Keys.defend = Keys.PageDown;
-            player2Keys.mvLeft = Keys.Left;
-            player2Keys.mvRight = Keys.Right;
-            player2Keys.mvUp = Keys.Up;
-            player2Keys.mvDown = Keys.Down;
-            player2Keys.opMenu = Keys.End;
-            player2Keys.run = Keys.RightShift;
-            player2Keys.opDebug = Keys.F4;
-            player2Keys.opCommand = Keys.F5;
+            player2Keys.attack = Keys.Home;
+            player2Keys.jump = Keys.Home;
+            player2Keys.defend = Keys.Home;
+            player2Keys.mvLeft = Keys.Home;
+            player2Keys.mvRight = Keys.Home;
+            player2Keys.mvUp = Keys.Home;
+            player2Keys.mvDown = Keys.Home;
+            player2Keys.opMenu = Keys.Home;
+            player2Keys.run = Keys.Home;
+            player2Keys.opDebug = Keys.Home;
+            player2Keys.opCommand = Keys.Home;
             player2Keys.useSkill = Keys.Home;
 
 
@@ -83,17 +83,17 @@ namespace My_first_xna_game
 
             //intialize player
             Player.PlayerKeys player3Keys;
-            player3Keys.attack = Keys.R;
-            player3Keys.jump = Keys.Delete;
-            player3Keys.defend = Keys.PageDown;
-            player3Keys.mvLeft = Keys.F;
-            player3Keys.mvRight = Keys.H;
-            player3Keys.mvUp = Keys.T;
-            player3Keys.mvDown = Keys.G;
-            player3Keys.opMenu = Keys.B;
-            player3Keys.run = Keys.Y;
-            player3Keys.opDebug = Keys.F6;
-            player3Keys.opCommand = Keys.F7;
+            player3Keys.attack = Keys.Home;
+            player3Keys.jump = Keys.Home;
+            player3Keys.defend = Keys.Home;
+            player3Keys.mvLeft = Keys.Home;
+            player3Keys.mvRight = Keys.Home;
+            player3Keys.mvUp = Keys.Home;
+            player3Keys.mvDown = Keys.Home;
+            player3Keys.opMenu = Keys.Home;
+            player3Keys.run = Keys.Home;
+            player3Keys.opDebug = Keys.Home;
+            player3Keys.opCommand = Keys.Home;
             player3Keys.useSkill = Keys.Home;
 
             Hostile.Stats player3Stats;
@@ -113,17 +113,17 @@ namespace My_first_xna_game
 
             //intialize player
             Player.PlayerKeys player4Keys;
-            player4Keys.attack = Keys.U;
-            player4Keys.jump = Keys.Delete;
-            player4Keys.defend = Keys.PageDown;
-            player4Keys.mvLeft = Keys.J;
-            player4Keys.mvRight = Keys.L;
-            player4Keys.mvUp = Keys.I;
-            player4Keys.mvDown = Keys.K;
-            player4Keys.opMenu = Keys.M;
-            player4Keys.run = Keys.O;
-            player4Keys.opDebug = Keys.F8;
-            player4Keys.opCommand = Keys.F9;
+            player4Keys.attack = Keys.Home;
+            player4Keys.jump = Keys.Home;
+            player4Keys.defend = Keys.Home;
+            player4Keys.mvLeft = Keys.Home;
+            player4Keys.mvRight = Keys.Home;
+            player4Keys.mvUp = Keys.Home;
+            player4Keys.mvDown = Keys.Home;
+            player4Keys.opMenu = Keys.Home;
+            player4Keys.run = Keys.Home;
+            player4Keys.opDebug = Keys.Home;
+            player4Keys.opCommand = Keys.Home;
             player4Keys.useSkill = Keys.Home;
 
             Hostile.Stats player4Stats;

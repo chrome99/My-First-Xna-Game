@@ -45,9 +45,10 @@ namespace My_first_xna_game
                 launchSound = Game.content.Load<SoundEffect>("Audio\\Waves\\fireball hit"),
                 lit = true, lightLevel = 150, lightColor = Color.Red, lightOpacity = 100,
                 pathDestination = 300, speed = 7
-            }, new Hostile.Stats { strength = 2 });
+            }, new Hostile.Stats { strength = 3 });
 
-        public static List<Item> list = new List<Item> { apple, healthPotion, manaPotion, strPotion };
+        public static List<Item> list = new List<Item> { mine, apple, bread, healthPotion, manaPotion, strPotion, hat, mask, helmate, shirt,
+            copperChestArmor, ironChestArmor, leatherShoes, ironBoots, goldBoots, ironSword, woodenStaff };
 
         public static Item RandomItem()
         {

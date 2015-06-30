@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace My_first_xna_game
 {
-    class ComboCollection
+    public class ComboCollection
     {
         public enum PlayerKeysIndex
         {
@@ -14,7 +14,9 @@ namespace My_first_xna_game
             mvUp, mvDown, mvLeft, mvRight,
             attack, jump, defend
         }
-        public static Combo fireCombo = new Combo(new ComboCollection.PlayerKeysIndex[] { PlayerKeysIndex.defend, PlayerKeysIndex.move, PlayerKeysIndex.attack }, FireCombo);
+        public static Combo fireCombo = new Combo("fire combo", new ComboCollection.PlayerKeysIndex[] { PlayerKeysIndex.defend, PlayerKeysIndex.move, PlayerKeysIndex.attack }, FireCombo);
+
+        public static List<Combo> list = new List<Combo>() { fireCombo };
 
         private static void FireCombo(Player player)
         {
@@ -29,7 +31,9 @@ namespace My_first_xna_game
                 lightOpacity = 100,
                 pathDestination = 400,
                 speed = 4,
-                strength = 0
+                strength = 4,
+                exploading = false,
+                sourceDamage = false
             }, player.map, player);
         }
     }

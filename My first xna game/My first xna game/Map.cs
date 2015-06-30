@@ -190,9 +190,7 @@ namespace My_first_xna_game
                         {
                             if (CollisionManager.GameObjectCollision(enemy, projectile))
                             {
-                                projectile.PlayHitSound();
-                                enemy.DealDamage(projectile.source);
-                                projectile.Kill();
+                                projectile.Colide(enemy);
                             }
                         }
                     }
@@ -205,9 +203,7 @@ namespace My_first_xna_game
                         {
                             if (CollisionManager.GameObjectCollision(player, projectile))
                             {
-                                projectile.PlayHitSound();
-                                player.DealDamage(projectile.source);
-                                projectile.Kill();
+                                projectile.Colide(player);
                             }
                         }
                     }

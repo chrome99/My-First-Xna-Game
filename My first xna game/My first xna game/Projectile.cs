@@ -18,9 +18,14 @@ namespace My_first_xna_game
             public int speed;
             public int pathDestination;
             public int strength;
+            public bool exploading;
+            public bool sourceDamage;
         }
 
         public Player source;
+        public int strength;
+        private bool exploading = false;
+        private bool sourceDamage = true;
         private int pathDestination = 50;
         private int pathTravelled = 0;
         private MovementManager.Direction direction;
@@ -35,6 +40,7 @@ namespace My_first_xna_game
             this.launchSound = launchSound;
             this.hitSound = hitSound;
             this.speed = speed;
+            this.strength = strength;
 
             direction = source.direction;
             position.X = source.position.X + source.bounds.Width / 2 - bounds.Width / 2;
@@ -47,17 +53,14 @@ namespace My_first_xna_game
             }
         }
 
-        public void AddToGameObjectList(Map map)
-        {
-            map.AddObject(this);
-        }
-
-        public void PlayHitSound()
+        public void Colide(Hostile target)
         {
             if (hitSound != null)
             {
                 hitSound.Play();
             }
+            target.DealDamage(source, sourceDamage, strength);
+            Kill();
         }
 
         protected override void UpdateProjectile()
@@ -78,15 +81,17 @@ namespace My_first_xna_game
         {
             Projectile projectile = new Projectile(projectileData.texture, projectileData.speed, source,
                 projectileData.pathDestination, projectileData.strength, projectileData.launchSound, projectileData.hitSound);
+            projectile.exploading = projectileData.exploading;
+            projectile.sourceDamage = projectileData.sourceDamage;
 
             if (projectileData.lit)
             {
                 projectile.AddLight(projectileData.lightLevel, projectileData.lightColor, projectileData.lightOpacity);
             }
 
-            projectile.AddToGameObjectList(map);
-
             projectile.passable = true;
+
+            map.AddObject(projectile);
         }
     }
 }

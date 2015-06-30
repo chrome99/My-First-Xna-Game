@@ -13,7 +13,7 @@ namespace My_first_xna_game
         public PlayerKeys kbKeys;
 
         private List<Combo> combosList = new List<Combo>() { ComboCollection.fireCombo };
-        private List<ComboCollection.PlayerKeysIndex> comboKeysQueue = new List<ComboCollection.PlayerKeysIndex>();
+        private List<ComboCollection.PlayerKeysIndex> comboKeysList = new List<ComboCollection.PlayerKeysIndex>();
         public Timer comboTimer = new Timer(300f, true);
 
         public SkillTree skillTree;
@@ -122,6 +122,11 @@ namespace My_first_xna_game
             public bool maxWeightReached;
             public bool enableRunning;
 
+            public List<string> combosList;
+            public List<string> skillsList;
+            public int currentSkill;
+            public List<int> equipmentList;
+
             public Vector2 position;
 
             public List<int> collisionsList;
@@ -133,6 +138,30 @@ namespace My_first_xna_game
 
         public PlayerData getSaveData()
         {
+            List<string> combosNames = new List<string>();
+            foreach(Combo combo in combosList)
+            {
+                combosNames.Add(combo.name);
+            }
+
+            List<string> skillsNames = new List<string>();
+            foreach(Skill skill in SkillCollection.list)
+            {
+                skillsNames.Add(skill.name);
+            }
+
+            int currentSkillIndex = skillsList.IndexOf(currentSkill);
+
+            List<int> armorsIDs = new List<int>();
+            foreach (Item item in ItemCollection.list)
+            {
+                Armor armor = item as Armor;
+                if (armor != null)
+                {
+                    armorsIDs.Add(armor.iconID);
+                }
+            }
+
             return new PlayerData()
             {
                 gold = this.gold,
@@ -141,6 +170,10 @@ namespace My_first_xna_game
                 maxWeightReached = this.maxWeightReached,
                 enableRunning = this.enableRunning,
                 position = this.position,
+                skillsList = skillsNames,
+                currentSkill = currentSkillIndex,
+                combosList = combosNames,
+                equipmentList = armorsIDs,
                 collisionsList = this.collisionsList,
                 stats = this.stats,
                 mapName = this.map.name
@@ -149,12 +182,67 @@ namespace My_first_xna_game
 
         public void LoadData(PlayerData data)
         {
+            List<Combo> dataCombosList = new List<Combo>();
+            foreach (Combo combo in ComboCollection.list)
+            {
+                foreach (string comboName in data.combosList)
+                {
+                    if (combo.name == comboName)
+                    {
+                        dataCombosList.Add(combo);
+                    }
+                }
+            }
+
+            List<Armor> dataEquipmentList = new List<Armor>();
+            foreach (Item item in ItemCollection.list)
+            {
+                Armor armor = item as Armor;
+                if (armor != null)
+                {
+                    foreach (int armorID in data.equipmentList)
+                    {
+                        if (armor.iconID == armorID)
+                        {
+                            dataEquipmentList.Add(armor);
+                        }
+                    }
+                }
+
+            }
+
+            List<Skill> dataSkillsList = new List<Skill>();
+            foreach (Skill skill in SkillCollection.list)
+            {
+                foreach (string skillName in data.skillsList)
+                {
+                    if (skill.name == skillName)
+                    {
+                        dataSkillsList.Add(skill);
+                    }
+                }
+            }
+            
+            Skill dataCurrentSkill;
+            if (data.currentSkill == -1)
+            {
+                dataCurrentSkill = null;
+            }
+            else
+            {
+                dataCurrentSkill = dataSkillsList[data.currentSkill];
+            }
+
             gold = data.gold;
             maxGold = data.maxGold;
             maxPackWeight = data.maxPackWeight;
             maxWeightReached = data.maxWeightReached;
             enableRunning = data.enableRunning;
             position = data.position;
+            equipmentList = dataEquipmentList;
+            combosList = dataCombosList;
+            skillsList = dataSkillsList;
+            currentSkill = dataCurrentSkill;
             collisionsList = data.collisionsList;
             stats = data.stats;
             Map playerMap = MapCollection.mapsList.Find(x => x.name == data.mapName);
@@ -419,7 +507,7 @@ namespace My_first_xna_game
 
             if (comboTimer.result)
             {
-                comboKeysQueue.Clear();
+                comboKeysList.Clear();
                 comboTimer.Reset();
             }
 
@@ -554,7 +642,7 @@ namespace My_first_xna_game
             {
                 return;
             }
-
+            Combo combo;
             // -Update player speed state
             if (newState.IsKeyDown(kbKeys.run) && enableRunning)
             {
@@ -569,17 +657,18 @@ namespace My_first_xna_game
             if (newState.IsKeyDown(kbKeys.attack) && attackKeyReleased)
             {
                 comboTimer.Reset();
-                if (comboKeysQueue.Count == 3)
+                if (comboKeysList.Count == 3)
                 {
-                    comboKeysQueue.Remove(comboKeysQueue[0]);
+                    comboKeysList.Remove(comboKeysList[0]);
                 }
-                comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.attack);
+                comboKeysList.Add(ComboCollection.PlayerKeysIndex.attack);
 
+                combo = CheckForCombo();
                 if (HoldedSprite != null)
                 {
                     ThrowObject();
                 }
-                else
+                else if (combo == null)
                 {
                     Attack();
                 }
@@ -600,11 +689,11 @@ namespace My_first_xna_game
             if (newState.IsKeyDown(kbKeys.jump) && jumpKeyReleased)
             {
                 comboTimer.Reset();
-                if (comboKeysQueue.Count == 3)
+                if (comboKeysList.Count == 3)
                 {
-                    comboKeysQueue.Remove(comboKeysQueue[0]);
+                    comboKeysList.Remove(comboKeysList[0]);
                 }
-                comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.jump);
+                comboKeysList.Add(ComboCollection.PlayerKeysIndex.jump);
                 Jump();
                 jumpKeyReleased = false;
             }
@@ -617,11 +706,11 @@ namespace My_first_xna_game
             if (newState.IsKeyDown(kbKeys.defend) && defendKeyReleased)
             {
                 comboTimer.Reset();
-                if (comboKeysQueue.Count == 3)
+                if (comboKeysList.Count == 3)
                 {
-                    comboKeysQueue.Remove(comboKeysQueue[0]);
+                    comboKeysList.Remove(comboKeysList[0]);
                 }
-                comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.defend);
+                comboKeysList.Add(ComboCollection.PlayerKeysIndex.defend);
                 Defend();
                 defendKeyReleased = false;
             }
@@ -655,14 +744,24 @@ namespace My_first_xna_game
 
 
             //Do combo
-            if (comboKeysQueue.Count == 3)
+            combo = CheckForCombo();
+            if (combo != null)
+            {
+                combo.comboFunction(this);
+                comboKeysList.Clear();
+            }
+        }
+
+        private Combo CheckForCombo()
+        {
+            if (comboKeysList.Count == 3)
             {
                 foreach (Combo combo in combosList)
                 {
                     bool result = true;
-                    for (int i = 0; i < comboKeysQueue.Count; i++)
+                    for (int i = 0; i < comboKeysList.Count; i++)
                     {
-                        if (comboKeysQueue[i] != combo.comboKeys[i])
+                        if (comboKeysList[i] != combo.comboKeys[i])
                         {
                             result = false;
                             break;
@@ -670,11 +769,11 @@ namespace My_first_xna_game
                     }
                     if (result)
                     {
-                        combo.comboFunction(this);
-                        comboKeysQueue.Clear();
+                        return combo;
                     }
                 }
             }
+            return null;
         }
 
         private void UpdateMovementInput(KeyboardState newState, KeyboardState oldState)
@@ -688,11 +787,11 @@ namespace My_first_xna_game
             {
                 if (mvLeftKeyReleased)
                 {
-                    if (comboKeysQueue.Count == 3)
+                    if (comboKeysList.Count == 3)
                     {
-                        comboKeysQueue.Remove(comboKeysQueue[0]);
+                        comboKeysList.Remove(comboKeysList[0]);
                     }
-                    comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.move);
+                    comboKeysList.Add(ComboCollection.PlayerKeysIndex.move);
                     comboTimer.Reset();
                     mvLeftKeyReleased = false;
                 }
@@ -713,11 +812,11 @@ namespace My_first_xna_game
             {
                 if (mvRightKeyReleased)
                 {
-                    if (comboKeysQueue.Count == 3)
+                    if (comboKeysList.Count == 3)
                     {
-                        comboKeysQueue.Remove(comboKeysQueue[0]);
+                        comboKeysList.Remove(comboKeysList[0]);
                     }
-                    comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.move);
+                    comboKeysList.Add(ComboCollection.PlayerKeysIndex.move);
                     comboTimer.Reset();
                     mvRightKeyReleased = false;
                 }
@@ -738,11 +837,11 @@ namespace My_first_xna_game
             {
                 if (mvUpKeyReleased)
                 {
-                    if (comboKeysQueue.Count == 3)
+                    if (comboKeysList.Count == 3)
                     {
-                        comboKeysQueue.Remove(comboKeysQueue[0]);
+                        comboKeysList.Remove(comboKeysList[0]);
                     }
-                    comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.move);
+                    comboKeysList.Add(ComboCollection.PlayerKeysIndex.move);
                     comboTimer.Reset();
                     mvUpKeyReleased = false;
                 }
@@ -763,11 +862,11 @@ namespace My_first_xna_game
             {
                 if (mvDownKeyReleased)
                 {
-                    if (comboKeysQueue.Count == 3)
+                    if (comboKeysList.Count == 3)
                     {
-                        comboKeysQueue.Remove(comboKeysQueue[0]);
+                        comboKeysList.Remove(comboKeysList[0]);
                     }
-                    comboKeysQueue.Add(ComboCollection.PlayerKeysIndex.move);
+                    comboKeysList.Add(ComboCollection.PlayerKeysIndex.move);
                     comboTimer.Reset();
                     mvDownKeyReleased = false;
                 }
