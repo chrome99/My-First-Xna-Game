@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using NLua;
@@ -11,9 +12,14 @@ namespace My_first_xna_game
         public bool alive = false;
         private Textbox textBox;
         Player player;
+        private List<string> commandsHistory = new List<string>();
+        private int toggleCommandsHistory = -1;
+        private int maxHistory = 5;
 
         private bool enterKeyReleased = false;
         private bool backKeyReleased = false;
+        private bool upKeyReleased = false;
+        private bool downKeyReleased = false;
 
         public CommandLine(Player player)
         {
@@ -35,14 +41,7 @@ namespace My_first_xna_game
             //command line
             if (newState.IsKeyDown(Keys.Enter) && enterKeyReleased)
             {
-                /*foreach (Command command in CommandCollection.commandsList)
-                {
-                    if (textBox.input == command.name)
-                    {
-                        command.function(player, textBox.input);
-                    }
-                }*/
-
+                commandsHistory.Add(textBox.input);
                 Lua state = new Lua();
 
                 try
@@ -77,6 +76,69 @@ namespace My_first_xna_game
             else if (!oldState.IsKeyDown(Keys.Back))
             {
                 backKeyReleased = true;
+            }
+
+            if (newState.IsKeyDown(Keys.Up) && upKeyReleased)
+            {
+                if (commandsHistory.Count == 0)
+                {
+                    //todo play sound
+                }
+                else
+                {
+                    toggleCommandsHistory++;
+                    if (commandsHistory.Count <= toggleCommandsHistory)
+                    {
+                        textBox.Reset();
+                        toggleCommandsHistory = -1;
+                    }
+                    else
+                    {
+                        textBox.input = commandsHistory[commandsHistory.Count - 1 - toggleCommandsHistory];
+                    }
+                }
+                upKeyReleased = false;
+            }
+            else if (!oldState.IsKeyDown(Keys.Up))
+            {
+                upKeyReleased = true;
+            }
+
+            if (newState.IsKeyDown(Keys.Down) && downKeyReleased)
+            {
+                if (commandsHistory.Count == 0)
+                {
+                    //todo play sound
+                }
+                else
+                {
+                    toggleCommandsHistory--;
+                    if (toggleCommandsHistory == -1)
+                    {
+                        textBox.Reset();
+                        toggleCommandsHistory = -1;
+                    }
+                    else if (toggleCommandsHistory == -2)
+                    {
+                        textBox.input = commandsHistory[0];
+                        toggleCommandsHistory = commandsHistory.Count - 1;
+                    }
+                    else
+                    {
+                        textBox.input = commandsHistory[commandsHistory.Count - 1 - toggleCommandsHistory];
+                    }
+                }
+                downKeyReleased = false;
+            }
+            else if (!oldState.IsKeyDown(Keys.Down))
+            {
+                downKeyReleased = true;
+            }
+
+
+            if (commandsHistory.Count > maxHistory)
+            {
+                commandsHistory.Remove(commandsHistory[0]);
             }
         }
 

@@ -29,7 +29,7 @@ namespace My_first_xna_game
          * 
          * enemy type / id (bee, wolf, eater of worlds)
          * 
-         * dust, smoke, and realistic water shaders
+         * dust, smoke, fire, better light, partical shader, and realistic water shaders
          * shadows
          * effects
          * core collision
