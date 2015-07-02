@@ -21,7 +21,7 @@ namespace My_first_xna_game
         private bool shutUp = false;
 
         private int title = 0;
-        private int titleSpeed = 3;
+        private int titleSpeed = 1;
 
         private bool keyDownReleased;
         private bool keyUpReleased;
@@ -38,10 +38,10 @@ namespace My_first_xna_game
             background = new Picture(Game.content.Load<Texture2D>("Textures\\Pictures\\title"), Vector2.Zero, null);
             background.depth = Game.DepthToFloat(Game.Depth.background);
 
-            newgame = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 550f), Color.Gold, "New Game", null, new Vector2(20, 20));
-            loadgame = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 700f), Color.Gold, "Continue", null, new Vector2(20, 20));
+            newgame = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 550f), Color.Orange, "New Game", null, new Vector2(20, 20));
+            loadgame = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 700f), Color.Orange, "Continue", null, new Vector2(20, 20));
             loadgame.opacity = 50;
-            quit = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 850f), Color.Gold, "Quit", null, new Vector2(20, 20));
+            quit = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 850f), Color.Orange, "Quit", null, new Vector2(20, 20));
 
             backgroundParticals = new ParticalManager(ParticalManager.ParticalsMovement.xy, 100, Game.worldRect, new Vector2(6, 6), 0, 1, Color.Yellow, Color.WhiteSmoke, 100, 0);
 
@@ -67,15 +67,19 @@ namespace My_first_xna_game
             switch (title)
             {
                 case 0:
-                    if (newgame.position.X < 150)
+                    if (newgame.position.X < 100)
                     {
                         newgame.position.X += titleSpeed;
-                        if (newgame.position.X - 150 < titleSpeed)
+                        if (newgame.position.X - 100 < titleSpeed)
                         {
                             Rectangle newRect = newgame.bounds;
                             newRect.Y += newRect.Height - 30;
                             newRect.Height = 20;
                             cursorParticals.NewRect(newRect);
+
+                            newgame.color = Color.Gold;
+                            loadgame.color = Color.Orange;
+                            quit.color = Color.Orange;
                         }
                     }
 
@@ -91,15 +95,19 @@ namespace My_first_xna_game
                     break;
 
                 case 1:
-                    if (loadgame.position.X < 150)
+                    if (loadgame.position.X < 100)
                     {
                         loadgame.position.X += titleSpeed;
-                        if (loadgame.position.X - 150 < titleSpeed)
+                        if (loadgame.position.X - 100 < titleSpeed)
                         {
                             Rectangle newRect = loadgame.bounds;
                             newRect.Y += newRect.Height - 30;
                             newRect.Height = 10;
                             cursorParticals.NewRect(newRect);
+
+                            newgame.color = Color.Orange;
+                            loadgame.color = Color.Gold;
+                            quit.color = Color.Orange;
                         }
                     }
 
@@ -115,15 +123,19 @@ namespace My_first_xna_game
                     break;
 
                 case 2:
-                    if (quit.position.X < 150)
+                    if (quit.position.X < 100)
                     {
                         quit.position.X += titleSpeed;
-                        if (quit.position.X - 150 < titleSpeed)
+                        if (quit.position.X - 100 < titleSpeed)
                         {
                             Rectangle newRect = quit.bounds;
                             newRect.Y += newRect.Height - 30;
                             newRect.Height = 10;
                             cursorParticals.NewRect(newRect);
+
+                            newgame.color = Color.Orange;
+                            loadgame.color = Color.Orange;
+                            quit.color = Color.Gold;
                         }
                     }
 

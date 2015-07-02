@@ -6,6 +6,7 @@ namespace My_first_xna_game
     public class Text : WindowItem
     {
         public string text;
+        public float scale = 1.0f;
         public Color color;
         private SpriteFont font;
         private TextShadow shadow;
@@ -133,7 +134,7 @@ namespace My_first_xna_game
                 {
                     shadow.Draw(spriteBatch, drawingPosition, font, drawingOpacity);
                 }
-                spriteBatch.DrawString(font, text, drawingPosition, color * drawingOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
+                spriteBatch.DrawString(font, text, drawingPosition, color * drawingOpacity, 0f, Vector2.Zero, scale, SpriteEffects.None, depth);
             }
         }
 
@@ -146,7 +147,7 @@ namespace My_first_xna_game
                 {
                     shadow.Draw(spriteBatch, drawingPosition, font, drawingOpacity);
                 }
-                spriteBatch.DrawString(font, text, drawingPosition, color * drawingOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
+                spriteBatch.DrawString(font, text, drawingPosition, color * drawingOpacity, 0f, Vector2.Zero, scale, SpriteEffects.None, depth);
             }
         }
     }

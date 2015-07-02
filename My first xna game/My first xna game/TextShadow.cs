@@ -19,7 +19,7 @@ namespace My_first_xna_game
             if (source.visible)
             {
                 spriteBatch.DrawString(font, source.text, drawingPosition + layout, Color.Black * (drawingOpacity / 7),
-                    0f, Vector2.Zero, 1.0f, SpriteEffects.None, Game.DepthToFloat(Game.Depth.windowDataShadow));
+                    0f, Vector2.Zero, source.scale, SpriteEffects.None, Game.DepthToFloat(Game.Depth.windowDataShadow));
             }
         }
     }
