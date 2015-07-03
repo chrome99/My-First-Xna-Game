@@ -86,7 +86,7 @@ namespace My_first_xna_game
             Hostile hostile = target as Hostile;
             if (hostile != null)
             {
-                hostile.stats.health += 5;
+                hostile.Heal(5);
             }
         }
 
@@ -95,7 +95,7 @@ namespace My_first_xna_game
             Hostile hostile = target as Hostile;
             if (hostile != null)
             {
-                hostile.stats.health += 10;
+                hostile.Heal(7);
             }
         }
 
@@ -104,7 +104,7 @@ namespace My_first_xna_game
             Hostile hostile = target as Hostile;
             if (hostile != null)
             {
-                hostile.stats.health = hostile.stats.maxHealth;
+                hostile.Heal(10);
             }
         }
 

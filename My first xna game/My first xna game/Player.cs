@@ -460,7 +460,12 @@ namespace My_first_xna_game
             {
                 msg.setPlayerWindowPosition();
             }
-            UpdatePlayerHUD(damage);
+            UpdatePlayerHUD();
+        }
+
+        public void HandleHeal()
+        {
+            UpdatePlayerHUD();
         }
 
         public void LevelUp()
@@ -494,9 +499,9 @@ namespace My_first_xna_game
             return true;
         }
 
-        public void UpdatePlayerHUD(int damage)
+        public void UpdatePlayerHUD()
         {
-            hud.UpdateHearts(damage);
+            hud.UpdateHearts(stats.health);
         }
 
         public void UpdatePlayer(GameTime gameTime, KeyboardState newState, KeyboardState oldState)

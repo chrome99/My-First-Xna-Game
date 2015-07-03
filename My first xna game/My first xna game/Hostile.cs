@@ -274,6 +274,44 @@ namespace My_first_xna_game
             }
         }
 
+        public void Heal(int healingPower, bool showHealing = true)
+        {
+            int oldHealth = stats.health;
+            int newHealth = stats.health + healingPower;
+
+            // limit healing to max health
+            if (newHealth > stats.maxHealth)
+            {
+                newHealth = stats.maxHealth;
+            }
+            stats.health = newHealth;
+
+            //update player hud and menu
+            Player player = this as Player;
+            if (player != null)
+            {
+                player.HandleHeal();
+            }
+
+            string text = (newHealth - oldHealth).ToString();
+            if (text == "0")
+            {
+                showHealing = false;
+            }
+
+            //show damage
+            if (showHealing)
+            {
+                dmgText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.LightBlue, text, null, new Vector2(10, 10));
+
+                dmgText.position = position;
+                dmgText.position.X += bounds.Width / 2 - dmgText.bounds.Width / 2;
+                dmgText.position.Y -= dmgText.bounds.Height - 20;
+
+                dmgTextTimer.Active();
+            }
+        }
+
         public void UnEquip(Armor armor)
         {
             if (equipmentList.Contains(armor))

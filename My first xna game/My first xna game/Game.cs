@@ -22,7 +22,7 @@ namespace My_first_xna_game
          * better AI for enemies
          * switch skill hud
          * 
-         * visbale healing
+         * visable healing
          * guns
          * homing spells
          * ray casting

@@ -6,7 +6,7 @@ namespace My_first_xna_game
 {
     class DebugHUD
     {
-        public Vector2 position = new Vector2(0f, 0f);
+        public Vector2 position = new Vector2(0, 30);
         private bool keyReleased = false;
 
         // TODO: Can a Debug HUD be alive or dead?
@@ -29,7 +29,7 @@ namespace My_first_xna_game
         {
             if (!alive) { return; }
             text =
-                "Health: " + player.stats.strength + " / " + player.stats.maxHealth +
+                "Health: " + player.stats.health + " / " + player.stats.maxHealth +
                 "\nX:" + player.position.X / Tile.size +
                 "\nY: " + player.position.Y / Tile.size +
                 "\nMovement: " + player.MovingState +

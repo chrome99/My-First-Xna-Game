@@ -35,6 +35,11 @@ namespace My_first_xna_game
             this.hostile = hostile;
 
             //intialize hearts list
+            CreateHearts();
+        }
+
+        private void CreateHearts()
+        {
             for (int counter = 0; counter < getHeartsNum(true, false); counter++)
             {
                 Picture emptyHeartPic = new Picture(Game.content.Load<Texture2D>("Textures\\Sprites\\heart 0"), new Vector2(5, 5), null);
