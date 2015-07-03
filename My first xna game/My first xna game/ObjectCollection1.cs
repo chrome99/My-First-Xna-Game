@@ -56,25 +56,25 @@ namespace My_first_xna_game
             npc.pack.AddItem(ItemCollection.ironChestArmor);
             npc.pack.AddItem(ItemCollection.bread);
             npc.pack.AddItem(ItemCollection.bread);
-            npc.collisionFunction = UpdateNpcCollision;
+            npc.interactFunction = NpcInteraction;
 
             block = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(30 * 32, 30 * 32), Game.Depth.player);
 
             boatCollision = new GameObject(new Vector2(33 * 32, 29 * 32));
-            boatCollision.collisionFunction = UpdateBoatCollision;
+            boatCollision.collisionFunction = BoatcollisionCollision;
 
             boat = new Vehicle(Content.Load<Texture2D>("Textures\\Spritesheets\\boat"), new Vector2(33.5f * 32, 30 * 32), new List<string>() { "water" }, new List<string>() { "grass" });
             boat.ShowAnimation = true;
             movementManager.TurnActor(boat, MovementManager.Direction.left);
 
             holdBox = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(20 * 32, 30 * 32), Game.Depth.player);
-            holdBox.collisionFunction = UpdateHoldBoxCollision;
+            holdBox.collisionFunction = HoldBoxCollision;
 
             pickUpBread = new Pickup(pickUpBread, ItemCollection.bread, new Vector2(11 * 32, 34 * 32));
 
             groundSwitch = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\brick1"), new Vector2(36 * 32, 25 * 32), Game.Depth.below);
             groundSwitch.passable = true;
-            groundSwitch.collisionFunction = UpdateGroundSwitchCollision;
+            groundSwitch.collisionFunction = GroundSwitchCollision;
 
             box1 = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(27 * 32, 25 * 32), Game.Depth.player);
             box1.tags.Add("box");
@@ -84,11 +84,11 @@ namespace My_first_xna_game
 
             runningSwitch = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\brick1"), new Vector2(27 * 32, 18 * 32), Game.Depth.below);
             runningSwitch.passable = true;
-            runningSwitch.collisionFunction = UpdateRunningSwitchCollision;
+            runningSwitch.collisionFunction = RunningSwitchCollision;
 
             portal = new GameObject(new Vector2(34 * 32, 22 * 32));
             portal.passable = true;
-            portal.collisionFunction = UpdatePortalCollision;
+            portal.collisionFunction = PortalCollision;
 
 
             //below
@@ -110,7 +110,7 @@ namespace My_first_xna_game
         }
 
 
-        private void UpdateBoatCollision(GameObject boatCollision, GameObject colidedWith)
+        private void BoatcollisionCollision(GameObject boatCollision, GameObject colidedWith)
         {
             int collisionID = map.gameObjectList.IndexOf(boatCollision);
             Player player = colidedWith as Player;
@@ -136,7 +136,7 @@ namespace My_first_xna_game
             }
         }
 
-        private void UpdateHoldBoxCollision(GameObject HoldBox, GameObject colidedWith)
+        private void HoldBoxCollision(GameObject HoldBox, GameObject colidedWith)
         {
             Player player = colidedWith as Player;
             if (player != null)
@@ -148,7 +148,7 @@ namespace My_first_xna_game
             }
         }
 
-        private void UpdatePortalCollision(GameObject portal, GameObject colidedWith)
+        private void PortalCollision(GameObject portal, GameObject colidedWith)
         {
             Window window = colidedWith as Window;
             Sprite sprite = colidedWith as Sprite;
@@ -163,7 +163,7 @@ namespace My_first_xna_game
             }
         }
 
-        private void UpdateGroundSwitchCollision(GameObject groundSwitch, GameObject colidedWith)
+        private void GroundSwitchCollision(GameObject groundSwitch, GameObject colidedWith)
         {
             if (colidedWith.tags.Contains("box"))
             {
@@ -184,41 +184,22 @@ namespace My_first_xna_game
         }
 
 
-        private void UpdateNpcCollision(GameObject npcAsGameObject, GameObject colidedWith)
+        private void NpcInteraction(Player player, GameObject interactedWith)
         {
-            //TODO: fix npc2
-            Player player = colidedWith as Player;
-            if (player != null)
+            if (player.canInteract())
             {
-                Actor npc = npcAsGameObject as Actor;
-                int collisionID = map.gameObjectList.IndexOf(npc);
-                //npc and player
-                if (CollisionManager.GameObjectTouch(player, npc))
+                if (player.Shop(npc))
                 {
-                    if (!player.collisionsList.Contains(collisionID))
-                    {
-                        if (player.canInteract())
-                        {
-                            if (player.Shop(npc))
-                            {
-                                movementManager.TurnActor(npc, MovementManager.OppositeDirection(player.direction));
-                                //movementManager.Knockback(player, MovementManager.Direction.left, 100);
-                                //player.MessageWindow(npc2.bounds, new List<string> {"the great king wants to see you. \n no, he dosent.", "asd"}, true);
-                                //player.MessageWindow(npc2.bounds, "the king wants to see you. \n no, he dosent.", true);
-                                player.collisionsList.Add(collisionID);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    player.collisionsList.Remove(collisionID);
+                    movementManager.TurnActor(npc, MovementManager.OppositeDirection(player.direction));
+                    //movementManager.Knockback(player, MovementManager.Direction.left, 100);
+                    //player.MessageWindow(npc2.bounds, new List<string> {"the great king wants to see you. \n no, he dosent.", "asd"}, true);
+                    //player.MessageWindow(npc2.bounds, "the king wants to see you. \n no, he dosent.", true);
                 }
             }
         }
 
 
-        private void UpdateRunningSwitchCollision(GameObject runningSwitch, GameObject colidedWith)
+        private void RunningSwitchCollision(GameObject runningSwitch, GameObject colidedWith)
         {
             //running switch and player
             Player player = colidedWith as Player;

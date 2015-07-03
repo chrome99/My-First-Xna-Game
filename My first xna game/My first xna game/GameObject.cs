@@ -12,6 +12,7 @@ namespace My_first_xna_game
         public List<string> tags = new List<string>();
 
         public CollisionManager.CollisionFunction collisionFunction;
+        public CollisionManager.InteractionFunction interactFunction;
         public bool passable = false;
         public bool canCollide = true;
 

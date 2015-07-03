@@ -30,8 +30,9 @@ namespace My_first_xna_game
             this.cameraLightspot = cameraLightspot;
             this.screenRect = screenRect;
             this.mapRect = screenRect;
-            this.player = player;
             this.graphicsDeviceManager = graphicsDeviceManager;
+            this.player = player;
+            player.AssignToCamera(this);
 
             viewport = new Viewport(screenRect);
 

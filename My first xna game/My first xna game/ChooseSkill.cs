@@ -96,6 +96,7 @@ namespace My_first_xna_game
                     player.AddStats(currentBranch.changeStats1);
                     alive = false;
                 }
+                player.holdUpdateInput = true;
                 confirmKeyReleased = false;
             }
             else if (!oldState.IsKeyDown(player.kbKeys.attack))

@@ -113,6 +113,7 @@ namespace My_first_xna_game
                     {
                         returnFunction();
                     }
+                    player.holdUpdateInput = true;
                 }
                 else
                 {
@@ -124,6 +125,7 @@ namespace My_first_xna_game
                         {
                             returnFunction();
                         }
+                        player.holdUpdateInput = true;
                     }
                     else
                     {

@@ -70,7 +70,8 @@ namespace My_first_xna_game
                 {
                     case 0: //Return
                         alive = false;
-                        break;
+                        player.holdUpdateInput = true;
+                        return;
 
                     case 1: //Inventory
                         choice.alive = false;

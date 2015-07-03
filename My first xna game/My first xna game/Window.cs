@@ -223,6 +223,11 @@ namespace My_first_xna_game
             }
 
             //player collision
+            UpdatePlayerCollision();
+        }
+
+        private void UpdatePlayerCollision()
+        {
             if (player != null)
             {
                 if (bounds.Intersects(player.bounds) && !playerCollision) //i've choosen precisely bounds over core.
@@ -258,7 +263,6 @@ namespace My_first_xna_game
                     playerCollision = false;
                 }
             }
-
         }
 
         public void UpdateSelectorAndTextBox(KeyboardState newState, KeyboardState oldState, GameTime gameTime)

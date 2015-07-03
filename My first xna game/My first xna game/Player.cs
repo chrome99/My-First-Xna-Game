@@ -10,6 +10,7 @@ namespace My_first_xna_game
 {
     public class Player : Hostile
     {
+        private Camera camera;
         public PlayerKeys kbKeys;
 
         private List<Combo> combosList = new List<Combo>() { ComboCollection.fireCombo };
@@ -54,6 +55,8 @@ namespace My_first_xna_game
         private bool playerMoving = false;
         private bool playerRunning = false;
         private int releasedKeysCount;
+
+        public bool holdUpdateInput = false;
 
         private bool attackKeyReleased = false;
 
@@ -288,6 +291,11 @@ namespace My_first_xna_game
             msg = new Message(map, this);
             chooseSkill = new ChooseSkill(this);
             commandLine = new CommandLine(this);
+        }
+
+        public void AssignToCamera(Camera camera)
+        {
+            this.camera = camera;
         }
 
         public void AddExp(int exp)
@@ -612,6 +620,23 @@ namespace My_first_xna_game
                 commandKeyReleased = true;
             }
 
+            if (holdUpdateInput)
+            {
+                holdUpdateInput = false;
+
+                attackKeyReleased = false;
+                commandKeyReleased = false;
+                defendKeyReleased = false;
+                jumpKeyReleased = false;
+                menuKeyReleased = false;
+                useSkillKeyReleased = false;
+                mvRightKeyReleased = false;
+                mvLeftKeyReleased = false;
+                mvUpKeyReleased = false;
+                mvDownKeyReleased = false;
+                return;
+            }
+
             //cancal things, and open menu when can
             if (newState.IsKeyDown(kbKeys.opMenu) && menuKeyReleased)
             {
@@ -670,7 +695,10 @@ namespace My_first_xna_game
                 }
                 else if (combo == null)
                 {
-                    Attack();
+                    if (!Interact())
+                    {
+                        Attack();
+                    }
                 }
                 attackKeyReleased = false;
             }
@@ -905,6 +933,28 @@ namespace My_first_xna_game
             {
                 MovingState = MovementManager.MovingState.standing;
             }
+        }
+
+        private bool Interact()
+        {
+            Vector2 interactVector = new Vector2();
+            interactVector.X = position.X + bounds.Width / 2 - bounds.Width / 2;
+            interactVector.Y = position.Y + bounds.Height / 2 - bounds.Height / 2;
+            interactVector = MovementManager.MoveVector(interactVector, Tile.size, direction);
+            Rectangle interactRect = new Rectangle((int)interactVector.X, (int)interactVector.Y, Tile.size, Tile.size);
+
+            foreach(GameObject gameObject in map.gameObjectList)
+            {
+                if (camera.InCamera(gameObject))
+                {
+                    if (interactRect.Intersects(gameObject.core) && gameObject.interactFunction != null)
+                    {
+                        gameObject.interactFunction(this, gameObject);
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private void Attack()

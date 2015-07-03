@@ -90,7 +90,9 @@ namespace My_first_xna_game
                         break;
 
                     case 2: //Exit
+
                         Kill();
+                        player.holdUpdateInput = true;
                         break;
 
                     case 3: //Talk
