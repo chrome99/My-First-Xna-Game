@@ -70,7 +70,7 @@ namespace My_first_xna_game
             holdBox = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(20 * 32, 30 * 32), Game.Depth.player);
             holdBox.collisionFunction = UpdateHoldBoxCollision;
 
-            pickUpBread = CreatePickup(pickUpBread, ItemCollection.bread, new Vector2(11 * 32, 34 * 32));
+            pickUpBread = new Pickup(pickUpBread, ItemCollection.bread, new Vector2(11 * 32, 34 * 32));
 
             groundSwitch = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\brick1"), new Vector2(36 * 32, 25 * 32), Game.Depth.below);
             groundSwitch.passable = true;
@@ -110,78 +110,67 @@ namespace My_first_xna_game
         }
 
 
-        private void UpdateBoatCollision(GameObject boatCollision)
+        private void UpdateBoatCollision(GameObject boatCollision, GameObject colidedWith)
         {
-            for (int i = 0; i < map.gameObjectList.Count; i++)
+            int collisionID = map.gameObjectList.IndexOf(boatCollision);
+            Player player = colidedWith as Player;
+            if (player != null)
             {
-                int collisionID = map.gameObjectList.IndexOf(boatCollision);
-                Player player = map.gameObjectList[i] as Player;
-                if (player != null)
+                if (CollisionManager.GameObjectTouch(player, boatCollision) && !player.collisionsList.Contains(collisionID))
                 {
-                    if (CollisionManager.GameObjectTouch(player, boatCollision) && !player.collisionsList.Contains(collisionID))
+                    if (player.Riding)
                     {
-                        if (player.Riding)
-                        {
-                            player.Backoff();
-                            player.collisionsList.Add(collisionID);
-                        }
-                        else
-                        {
-                            player.Ride(boat);
-                        }
-                        
+                        player.Backoff();
+                        player.collisionsList.Add(collisionID);
                     }
                     else
                     {
-                        player.collisionsList.Remove(collisionID);
+                        player.Ride(boat);
                     }
+                        
                 }
-            }
-        }
-
-        private void UpdateHoldBoxCollision(GameObject HoldBox)
-        {
-            for (int i = 0; i < map.gameObjectList.Count; i++)
-            {
-                Player player = map.gameObjectList[i] as Player;
-                if (player != null)
+                else
                 {
-                    if (CollisionManager.GameObjectTouch(player, holdBox))
-                    {
-                        player.HoldObject(holdBox);
-                    }
+                    player.collisionsList.Remove(collisionID);
                 }
             }
         }
 
-        private void UpdatePortalCollision(GameObject portal)
+        private void UpdateHoldBoxCollision(GameObject HoldBox, GameObject colidedWith)
         {
-            for (int i = 0; i < map.gameObjectList.Count; i++)
+            Player player = colidedWith as Player;
+            if (player != null)
             {
-                GameObject gameObject = map.gameObjectList[i];
-                Window window = gameObject as Window;
-                Sprite sprite = gameObject as Sprite;
-                if (window == null && sprite != null)
+                if (CollisionManager.GameObjectTouch(player, holdBox))
                 {
-                    if (CollisionManager.GameObjectCollision(portal, sprite))
-                    {
-                        MapCollection.map.RemoveObject(sprite);
-                        MapCollection.map2.AddObject(sprite);
-                        sprite.Reset();
-                    }
+                    player.HoldObject(holdBox);
                 }
-
             }
         }
 
-        private void UpdateGroundSwitchCollision(GameObject groundSwitch)
+        private void UpdatePortalCollision(GameObject portal, GameObject colidedWith)
         {
-            bool blockKilled = false;
-            foreach (GameObject boxes in map.FindTag("box"))
+            Window window = colidedWith as Window;
+            Sprite sprite = colidedWith as Sprite;
+            if (window == null && sprite != null)
             {
+                if (CollisionManager.GameObjectCollision(portal, sprite))
+                {
+                    MapCollection.map.RemoveObject(sprite);
+                    MapCollection.map2.AddObject(sprite);
+                    sprite.Reset();
+                }
+            }
+        }
+
+        private void UpdateGroundSwitchCollision(GameObject groundSwitch, GameObject colidedWith)
+        {
+            if (colidedWith.tags.Contains("box"))
+            {
+                bool blockKilled = false;
                 if (!blockKilled)
                 {
-                    if (CollisionManager.GameObjectCollision(boxes, groundSwitch))
+                    if (CollisionManager.GameObjectCollision(colidedWith, groundSwitch))
                     {
                         block.Kill();
                         blockKilled = true;
@@ -195,65 +184,58 @@ namespace My_first_xna_game
         }
 
 
-        private void UpdateNpcCollision(GameObject npcAsGameObject)
+        private void UpdateNpcCollision(GameObject npcAsGameObject, GameObject colidedWith)
         {
             //TODO: fix npc2
-
-            Actor npc = npcAsGameObject as Actor;
-            foreach (GameObject gameObject2 in map.gameObjectList)
+            Player player = colidedWith as Player;
+            if (player != null)
             {
-                Player player = gameObject2 as Player;
-                if (player != null)
+                Actor npc = npcAsGameObject as Actor;
+                int collisionID = map.gameObjectList.IndexOf(npc);
+                //npc and player
+                if (CollisionManager.GameObjectTouch(player, npc))
                 {
-                    int collisionID = map.gameObjectList.IndexOf(npc);
-                    //npc and player
-                    if (CollisionManager.GameObjectTouch(player, npc))
+                    if (!player.collisionsList.Contains(collisionID))
                     {
-                        if (!player.collisionsList.Contains(collisionID))
+                        if (player.canInteract())
                         {
-                            if (player.canInteract())
+                            if (player.Shop(npc))
                             {
-                                if (player.Shop(npc))
-                                {
-                                    movementManager.TurnActor(npc, MovementManager.OppositeDirection(player.direction));
-                                    //movementManager.Knockback(player, MovementManager.Direction.left, 100);
-                                    //player.MessageWindow(npc2.bounds, new List<string> {"the great king wants to see you. \n no, he dosent.", "asd"}, true);
-                                    //player.MessageWindow(npc2.bounds, "the king wants to see you. \n no, he dosent.", true);
-                                    player.collisionsList.Add(collisionID);
-                                }
+                                movementManager.TurnActor(npc, MovementManager.OppositeDirection(player.direction));
+                                //movementManager.Knockback(player, MovementManager.Direction.left, 100);
+                                //player.MessageWindow(npc2.bounds, new List<string> {"the great king wants to see you. \n no, he dosent.", "asd"}, true);
+                                //player.MessageWindow(npc2.bounds, "the king wants to see you. \n no, he dosent.", true);
+                                player.collisionsList.Add(collisionID);
                             }
                         }
                     }
-                    else
-                    {
-                        player.collisionsList.Remove(collisionID);
-                    }
+                }
+                else
+                {
+                    player.collisionsList.Remove(collisionID);
                 }
             }
         }
 
 
-        private void UpdateRunningSwitchCollision(GameObject runningSwitch)
+        private void UpdateRunningSwitchCollision(GameObject runningSwitch, GameObject colidedWith)
         {
             //running switch and player
-            foreach (GameObject gameObject in map.gameObjectList)
+            Player player = colidedWith as Player;
+            if (player != null)
             {
-                Player player = gameObject as Player;
-                if (player != null)
+                int collisionID = map.gameObjectList.IndexOf(runningSwitch);
+                if (CollisionManager.GameObjectCollision(player, runningSwitch))
                 {
-                    int collisionID = map.gameObjectList.IndexOf(runningSwitch);
-                    if (CollisionManager.GameObjectCollision(player, runningSwitch))
+                    if (!player.collisionsList.Contains(collisionID))
                     {
-                        if (!player.collisionsList.Contains(collisionID))
-                        {
-                            player.FlipRunning();
-                            player.collisionsList.Add(collisionID);
-                        }
+                        player.FlipRunning();
+                        player.collisionsList.Add(collisionID);
                     }
-                    else
-                    {
-                        player.collisionsList.Remove(collisionID);
-                    }
+                }
+                else
+                {
+                    player.collisionsList.Remove(collisionID);
                 }
             }
         }

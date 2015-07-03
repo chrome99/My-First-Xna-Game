@@ -140,72 +140,82 @@ namespace My_first_xna_game
             {
                 lightsList[counter].Update();
             }
-
-            //update general collision
-            UpdateTypeCollision();
-            
         }
 
-        private void UpdateTypeCollision()
+        public void UpdateCollision(List<Camera> camerasList)
         {
-            //player collision
-            foreach(GameObject gameObject1 in gameObjectList)
+            List<GameObject> result = new List<GameObject>();
+            foreach (GameObject gameObject in gameObjectList)
             {
-                Player player = gameObject1 as Player;
-                if (player != null)
+                foreach (Camera camera in camerasList)
                 {
-                    //boxes collision
-                    foreach (GameObject boxes in FindTag("box"))
+                    if (camera.InCamera(gameObject) && !result.Contains(gameObject))
                     {
-                        if (CollisionManager.GameObjectTouch(player, boxes)) { player.push(boxes); }
+                        result.Add(gameObject);
+                    }
+                }
+            }
+            for (int counter1 = 0; counter1 < result.Count; counter1++)
+            {
+                for (int counter2 = 0; counter2 < result.Count; counter2++)
+                {
+                    //update specific collision
+                    if (result[counter1].collisionFunction != null)
+                    {
+                        result[counter1].collisionFunction(result[counter1], result[counter2]);
                     }
 
-                    //enemies collision //TODO: what does this do?
-                    foreach (GameObject gameObject2 in gameObjectList)
+                    //update general collision
+                    UpdateGeneralCollision(result[counter1], result[counter2]);
+                }
+            }
+        }
+
+        private void UpdateGeneralCollision(GameObject gameObject, GameObject colidedWith)
+        {
+            //player collision
+            Player gameObjectAsPlayer = gameObject as Player;
+            if (gameObjectAsPlayer != null)
+            {
+                //boxes collision
+                if (colidedWith.tags.Contains("box"))
+                {
+                    if (CollisionManager.GameObjectTouch(gameObjectAsPlayer, colidedWith)) { gameObjectAsPlayer.push(colidedWith); }
+                }
+
+                //enemies collision
+                Enemy enemy = colidedWith as Enemy;
+                if (enemy != null)
+                {
+                    if (CollisionManager.GameObjectTouch(enemy, gameObjectAsPlayer))
                     {
-                        Enemy enemy = gameObject2 as Enemy;
-                        if (enemy != null)
-                        {
-                            if (CollisionManager.GameObjectTouch(enemy, player))
-                            {
-                                player.DealDamage(enemy);
-                            }
-                        }
+                        gameObjectAsPlayer.DealDamage(enemy);
                     }
                 }
             }
 
             
             //projectiles collision
-            foreach (GameObject gameObject1 in gameObjectList)
+            Projectile projectile = gameObject as Projectile;
+            if (projectile != null)
             {
-                Projectile projectile = gameObject1 as Projectile;
-                if (projectile != null)
+                //enemy collision
+                Enemy enemy = colidedWith as Enemy;
+                if (enemy != null)
                 {
-                    //enemy collision
-                    foreach (GameObject gameObject2 in gameObjectList)
+                    if (CollisionManager.GameObjectCollision(enemy, projectile))
                     {
-                        Enemy enemy = gameObject2 as Enemy;
-                        if (enemy != null)
-                        {
-                            if (CollisionManager.GameObjectCollision(enemy, projectile))
-                            {
-                                projectile.Colide(enemy);
-                            }
-                        }
+                        projectile.Colide(enemy);
                     }
+                }
 
-                    //player collision (pvp!)
-                    foreach (GameObject gameObject2 in gameObjectList)
+                //player collision (pvp!)
+                Player colidedWithAsPlayer = colidedWith as Player;
+                if (colidedWithAsPlayer != null && colidedWithAsPlayer != projectile.source)
+                {
+                    if (CollisionManager.GameObjectCollision(colidedWithAsPlayer, projectile))
                     {
-                        Player player = gameObject2 as Player;
-                        if (player != null && player != projectile.source)
-                        {
-                            if (CollisionManager.GameObjectCollision(player, projectile))
-                            {
-                                projectile.Colide(player);
-                            }
-                        }
+                        projectile.Colide(colidedWithAsPlayer);
                     }
                 }
             }
@@ -278,7 +288,7 @@ namespace My_first_xna_game
             }
         }
 
-        public List<GameObject> FindTag(string tagName)
+        /*public List<GameObject> FindTag(string tagName)
         {
             List<GameObject> result = new List<GameObject>();
             for (int i = 0; i < gameObjectList.Count; i++)
@@ -290,6 +300,6 @@ namespace My_first_xna_game
                 }
             }
             return result;
-        }
+        }*/
     }
 }

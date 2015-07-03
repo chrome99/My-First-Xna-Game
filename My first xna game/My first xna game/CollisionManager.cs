@@ -4,7 +4,7 @@ namespace My_first_xna_game
 {
     public class CollisionManager
     {
-        public delegate void CollisionFunction(GameObject gameObject);
+        public delegate void CollisionFunction(GameObject gameObject, GameObject colidedWith);
 
         public static bool GameObjectCollision(GameObject gameObject1, GameObject gameObject2, bool checkCanCollide = true)
         {

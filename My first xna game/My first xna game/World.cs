@@ -40,11 +40,12 @@ namespace My_first_xna_game
         {   
             foreach (Camera camera in cameraList)
             {
-                camera.Update();                
+                camera.Update();
             }
             foreach (Map map in mapsList)
             {
                 map.Update(newState, oldState, gameTime);
+                map.UpdateCollision(cameraList);
             }
         }
 

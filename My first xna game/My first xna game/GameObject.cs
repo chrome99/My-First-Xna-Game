@@ -14,7 +14,6 @@ namespace My_first_xna_game
         public CollisionManager.CollisionFunction collisionFunction;
         public bool passable = false;
         public bool canCollide = true;
-        public Item[] collisionParameters = new Item[10];
 
         public MovementManager.Direction view;
         public bool alive = true;
@@ -74,12 +73,6 @@ namespace My_first_xna_game
         public void Update(GameTime gameTime)
         {
             UpdateSprite(gameTime);
-
-
-            if (collisionFunction != null)
-            {
-                collisionFunction(this);
-            }
         }
 
         public virtual void FixOutsideCollision()

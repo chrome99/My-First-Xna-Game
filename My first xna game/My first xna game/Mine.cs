@@ -19,21 +19,17 @@ namespace My_first_xna_game
             MovementManager.PositionNextTo(this, source, Tile.size * 2);
         }
 
-        private static void UpdateMineCollision(GameObject gameObject)
+        private static void UpdateMineCollision(GameObject gameObject, GameObject colidedWith)
         {
-            Mine mine = gameObject as Mine;
-
-            //mine and player
-            foreach (GameObject gameObject2 in mine.source.map.gameObjectList)
+            //mine and hostile
+            Hostile hostile = colidedWith as Hostile;
+            if (hostile != null)
             {
-                Hostile hostile = gameObject2 as Hostile;
-                if (hostile != null)
+                Mine mine = gameObject as Mine;
+                if (CollisionManager.GameObjectCollision(hostile, mine, false) && hostile != mine.source)
                 {
-                    if (CollisionManager.GameObjectCollision(hostile, mine, false) && hostile != mine.source)
-                    {
-                        hostile.DealDamage(mine.source, false, mine.strength);
-                        mine.Kill();
-                    }
+                    hostile.DealDamage(mine.source, false, mine.strength);
+                    mine.Kill();
                 }
             }
         }
