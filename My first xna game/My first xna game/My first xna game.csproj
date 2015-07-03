@@ -121,6 +121,7 @@
     <Compile Include="CommandCollection.cs" />
     <Compile Include="CommandLine.cs" />
     <Compile Include="EquipmentMenu.cs" />
+    <Compile Include="FPS.cs" />
     <Compile Include="HostileHUD.cs" />
     <Compile Include="LightSource.cs" />
     <Compile Include="MapCollection.cs" />

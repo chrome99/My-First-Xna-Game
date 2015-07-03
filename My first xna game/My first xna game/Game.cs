@@ -84,6 +84,8 @@ namespace My_first_xna_game
         // Class lists
         private List<GameObject> tagList = new List<GameObject>();
 
+        private FrameCounter _frameCounter = new FrameCounter();
+
         // TODO: Is this needed?
         public static ContentManager content;
         public static Rectangle worldRect = new Rectangle(0, 0, 1920, 1080);
@@ -316,6 +318,15 @@ namespace My_first_xna_game
             {
                 scene.Draw(spriteBatch);
             }
+            spriteBatch.Begin();
+            var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            _frameCounter.Update(deltaTime);
+
+            var fps = string.Format("FPS: {0}", _frameCounter.AverageFramesPerSecond);
+
+            spriteBatch.DrawString(Game.content.Load<SpriteFont>("Fonts\\debug1"), fps, new Vector2(1, 1), Color.Black);
+            spriteBatch.End();
             //if (spriteBatch.)
             //spriteBatch.End();
             base.Draw(gameTime);
