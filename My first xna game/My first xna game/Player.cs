@@ -414,13 +414,14 @@ namespace My_first_xna_game
         {
             Sprite originalSprite = HoldedSprite;
 
-            Vector2 newPosition;
-            newPosition.X = position.X + bounds.Width / 2 - bounds.Width / 2;
-            newPosition.Y = position.Y + bounds.Height - originalSprite.bounds.Height;
-
             Rectangle originalSpriteCore = originalSprite.core;
-            originalSpriteCore.X = (int)MovementManager.MoveVector(newPosition, Tile.size * 2, direction).X;
-            originalSpriteCore.Y = (int)MovementManager.MoveVector(newPosition, Tile.size * 2, direction).Y;
+            Vector2 newPosition = MovementManager.GetRectNextTo(originalSpriteCore, bounds, direction);
+            originalSpriteCore.X = (int)newPosition.X;
+            originalSpriteCore.Y = (int)newPosition.Y;
+
+            newPosition = MovementManager.MoveVector(new Vector2(originalSpriteCore.X, originalSpriteCore.Y), Tile.size, direction);
+            originalSpriteCore.X = (int)newPosition.X;
+            originalSpriteCore.Y = (int)newPosition.Y;
             originalSprite.canCollide = true;
             bool passable = originalSprite.passable;
             originalSprite.passable = false;
@@ -942,11 +943,10 @@ namespace My_first_xna_game
 
         private bool Interact()
         {
-            Vector2 interactVector = new Vector2();
-            interactVector.X = position.X + bounds.Width / 2 - bounds.Width / 2;
-            interactVector.Y = position.Y + bounds.Height / 2 - bounds.Height / 2;
-            interactVector = MovementManager.MoveVector(interactVector, Tile.size, direction);
-            Rectangle interactRect = new Rectangle((int)interactVector.X, (int)interactVector.Y, Tile.size, Tile.size);
+            Rectangle interactRect = new Rectangle(0, 0, Tile.size, Tile.size);
+            Vector2 result = MovementManager.GetRectNextTo(interactRect, bounds, direction);
+            interactRect.X = (int)result.X;
+            interactRect.Y = (int)result.Y;
 
             foreach(GameObject gameObject in map.gameObjectList)
             {
@@ -988,7 +988,7 @@ namespace My_first_xna_game
                     VectorMoveTo = maxJumpingWidth;
                 }
                 Rectangle collisionRect = core;
-                Vector2 collisionVector = MovementManager.MoveVector(position, VectorMoveTo, direction);
+                Vector2 collisionVector = MovementManager.MoveVector(position, VectorMoveTo, direction); //TODO: something is wrong here. i can smell it
                 collisionRect.X = (int)collisionVector.X;
                 collisionRect.Y = (int)collisionVector.Y;
                 if (!movementManager.CollisionCheck(this, collisionRect))

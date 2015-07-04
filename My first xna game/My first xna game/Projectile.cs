@@ -41,11 +41,10 @@ namespace My_first_xna_game
             this.hitSound = hitSound;
             this.speed = speed;
             this.strength = strength;
+            this.direction = source.direction;
 
-            direction = source.direction;
-            position.X = source.position.X + source.bounds.Width / 2 - bounds.Width / 2;
-            position.Y = source.position.Y + source.bounds.Height / 2 - bounds.Height / 2;
-            position = MovementManager.MoveVector(position, Tile.size, direction);
+            Vector2 result = MovementManager.GetRectNextTo(bounds, source.bounds, source.direction);
+            position = result;
 
             if (launchSound != null)
             {

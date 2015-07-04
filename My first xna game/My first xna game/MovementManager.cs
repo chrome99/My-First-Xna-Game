@@ -88,7 +88,34 @@ namespace My_first_xna_game
             }
         }
 
-        public void Knockback(Sprite target, Direction direction, int knockbackPower)
+        public static Vector2 GetRectNextTo(Rectangle rect, Rectangle nextTo, Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.down:
+                    rect.X = nextTo.X + nextTo.Width / 2 - rect.Width / 2;
+                    rect.Y = nextTo.Y + nextTo.Height;
+                    break;
+
+                case Direction.up:
+                    rect.X = nextTo.X + nextTo.Width / 2 - rect.Width / 2;
+                    rect.Y = nextTo.Y - rect.Height;
+                    break;
+
+                case Direction.left:
+                    rect.X = nextTo.X - rect.Width;
+                    rect.Y = nextTo.Y + nextTo.Height / 2 - rect.Height / 2;
+                    break;
+
+                case Direction.right:
+                    rect.X = nextTo.X + nextTo.Width;
+                    rect.Y = nextTo.Y + nextTo.Height / 2 - rect.Height / 2;
+                    break;
+            }
+            return new Vector2(rect.X, rect.Y);
+        }
+
+        public static void Knockback(Sprite target, Direction direction, int knockbackPower)
         {
             target.movementList.Add(new MovementString() { destination = knockbackPower, direction = direction,
                 speedType = SpeedType.knockback, turn = false });
@@ -98,20 +125,6 @@ namespace My_first_xna_game
         {
             if (!CollisionCheck(gameObject, MoveRectangle(gameObject.core, destination)))
             {
-                /*Player player = gameObject as Player;
-                if (player != null && player.cameraCenter != null)
-                {
-
-                    player.mapPosition = destination;
-                    player.cameraCenter.Move(destination);
-                    player.position = player.cameraCenter.PlayerMovingCamera(destination);
-                    
-                }
-                else
-                {
-                    gameObject.position = destination;
-                }
-                */
                 gameObject.position = destination;
                 gameObject.FixOutsideCollision();
             }
@@ -130,14 +143,6 @@ namespace My_first_xna_game
                 gameObject.position = newPosition;
                 gameObject.FixOutsideCollision();
             }
-        }
-
-        public static void PositionNextTo(GameObject objectToPosition, GameObject destinationObject, int howFar)
-        {
-            Vector2 newPosition;
-            newPosition.X = destinationObject.position.X + destinationObject.bounds.Width / 2 - objectToPosition.bounds.Width / 2;
-            newPosition.Y = destinationObject.position.Y + destinationObject.bounds.Height / 2 - objectToPosition.bounds.Height / 2;
-            objectToPosition.position = MovementManager.MoveVector(newPosition, howFar, destinationObject.view);
         }
 
         public static Vector2 MoveVector(Vector2 vector, float speed, Direction direction)

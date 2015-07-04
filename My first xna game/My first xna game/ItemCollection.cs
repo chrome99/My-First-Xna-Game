@@ -73,10 +73,6 @@ namespace My_first_xna_game
         {
             Player player = source as Player;
             Mine mine = new Mine(player, 20, item.getSprite);
-
-            MovementManager.PositionNextTo(mine, player, Tile.size * 2);
-
-            mine.AddLight(100, Color.Green);
             mine.canCollide = false;
             player.map.AddObject(mine);
         }

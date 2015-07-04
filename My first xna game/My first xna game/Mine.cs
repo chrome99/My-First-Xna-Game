@@ -16,7 +16,8 @@ namespace My_first_xna_game
 
             collisionFunction = Mine.UpdateMineCollision;
             canCollide = false;
-            MovementManager.PositionNextTo(this, source, Tile.size * 2);
+            position = MovementManager.GetRectNextTo(bounds, source.bounds, source.direction);
+            //position = MovementManager.MoveVector(position, Tile.size * 2, source.direction);
         }
 
         private static void UpdateMineCollision(GameObject gameObject, GameObject colidedWith)

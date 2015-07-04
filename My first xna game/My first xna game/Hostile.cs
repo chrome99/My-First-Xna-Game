@@ -222,7 +222,7 @@ namespace My_first_xna_game
                 }
 
                 //knockback
-                movementManager.Knockback(this, source.direction, source.stats.knockback);
+                MovementManager.Knockback(this, source.direction, source.stats.knockback);
 
                 //durability
                 for (int counter = 0; counter < equipmentList.Count; counter++)
