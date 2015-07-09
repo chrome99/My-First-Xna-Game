@@ -162,6 +162,7 @@
     <Compile Include="SkillTree.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="Spritesheet.cs" />
+    <Compile Include="SwitchSkillDisplay.cs" />
     <Compile Include="Text.cs" />
     <Compile Include="Textbox.cs" />
     <Compile Include="TextShadow.cs" />

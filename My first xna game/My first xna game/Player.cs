@@ -33,6 +33,7 @@ namespace My_first_xna_game
         private HostileHUD hud;
         private ChooseSkill chooseSkill;
         private CommandLine commandLine;
+        private SwitchSkillDisplay switchSkillDisplay;
 
         private Sprite HoldedSprite;
 
@@ -289,6 +290,7 @@ namespace My_first_xna_game
             this.map = map;
             menu = new Menu(map, this);
             msg = new Message(map, this);
+            switchSkillDisplay = new SwitchSkillDisplay(map, this);
             chooseSkill = new ChooseSkill(this);
             commandLine = new CommandLine(this);
         }
@@ -534,6 +536,7 @@ namespace My_first_xna_game
             msg.Update(gameTime, newState, oldState);
             chooseSkill.Update(gameTime, newState, oldState);
             commandLine.Update(gameTime, newState, oldState);
+            switchSkillDisplay.Update(gameTime, newState, oldState);
 
             UpdateInput(newState, oldState);
         }
@@ -1060,6 +1063,7 @@ namespace My_first_xna_game
             shop.Draw(spriteBatch, offsetRect);
             menu.Draw(spriteBatch, offsetRect);
             msg.Draw(spriteBatch, offsetRect);
+            switchSkillDisplay.Draw(spriteBatch, offsetRect);
             hud.Draw(spriteBatch);
             debug.Draw(spriteBatch);
             chooseSkill.Draw(spriteBatch);
