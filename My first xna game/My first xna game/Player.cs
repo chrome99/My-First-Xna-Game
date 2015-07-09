@@ -406,6 +406,7 @@ namespace My_first_xna_game
             map.RemoveObject(sprite);
             map.AddObject(HoldedSprite);
             HoldedSprite.canCollide = false;
+            HoldedSprite.MapDepth = Game.MapDepth.above;
             HoldedSprite.position = position;
             HoldedSprite.position.Y -= HoldedSprite.bounds.Height / 3 * 2;
         }
@@ -423,6 +424,7 @@ namespace My_first_xna_game
             originalSpriteCore.X = (int)newPosition.X;
             originalSpriteCore.Y = (int)newPosition.Y;
             originalSprite.canCollide = true;
+            HoldedSprite.MapDepth = Game.MapDepth.player;
             bool passable = originalSprite.passable;
             originalSprite.passable = false;
             if (!movementManager.CollisionCheck(originalSprite, originalSpriteCore) && movementManager.InsideMap(originalSprite, originalSpriteCore))

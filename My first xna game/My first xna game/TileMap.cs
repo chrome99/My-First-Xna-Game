@@ -116,7 +116,7 @@ namespace My_first_xna_game
                             //collision
                             if (tileResult.Properties["Passable"] == "X")
                             {
-                                CreateCollisionObject(cell, tileResult);
+                                CreateCollisionObject(cell, tileResult, out cell.customCollisionSize);
                             }
 
                             //height
@@ -257,7 +257,7 @@ namespace My_first_xna_game
             }
         }
 
-        private void CreateCollisionObject(MapCell cell, TmxTilesetTile tileResult)
+        private void CreateCollisionObject(MapCell cell, TmxTilesetTile tileResult, out bool customCollisionSize)
         {
             TmxObjectGroup.TmxObject tmxObject = null;
             for (int objectGroupCount = 0; objectGroupCount < tileResult.ObjectGroups.Count; objectGroupCount++)
@@ -270,16 +270,22 @@ namespace My_first_xna_game
 
             cell.passable = false;
 
-            GameObject collisionObject = new GameObject(cell.position);
+            GameObject collisionObject = new GameObject(cell.position);//cell.position.X / 32 == 33 && cell.position.Y / 32 == 29
 
             if (debugTileset)
             {
                 collisionObject.AddLight(70, Color.White);
             }
+
             if (tmxObject != null)
             {
+                customCollisionSize = true;
                 collisionObject.position += new Vector2((float)tmxObject.X, (float)tmxObject.Y);
                 collisionObject.size = new Vector2((float)tmxObject.Width, (float)tmxObject.Height);
+            }
+            else
+            {
+                customCollisionSize = false;
             }
 
             string tag = tileResult.Properties["Tag"];
@@ -287,7 +293,6 @@ namespace My_first_xna_game
             {
                 collisionObject.tags.Add(tag);
             }
-
 
             collisionObjectList.Add(collisionObject);
         }
@@ -311,7 +316,14 @@ namespace My_first_xna_game
                 MapCell cell = layers[i].Rows[y].Columns[x];
                 if (!cell.empty)
                 {
-                    return cell.passable && !cell.high;
+                    if (cell.customCollisionSize)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return cell.passable && !cell.high;
+                    }
                 }
             }
             return false;

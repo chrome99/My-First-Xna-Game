@@ -181,7 +181,7 @@
     <property name="Tag" value=""/>
    </properties>
    <objectgroup draworder="index">
-    <object id="0" x="12" y="1.25" width="6.5" height="29"/>
+    <object id="0" x="12" y="1.09091" width="7.27273" height="29.4545"/>
    </objectgroup>
   </tile>
   <tile id="23">

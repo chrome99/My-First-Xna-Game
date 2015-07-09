@@ -16,6 +16,7 @@ namespace My_first_xna_game
         public List<string> tags = new List<string>();
 
         public bool passable = true;
+        public bool customCollisionSize = false;
 
         public float opacity = 100f;
 
