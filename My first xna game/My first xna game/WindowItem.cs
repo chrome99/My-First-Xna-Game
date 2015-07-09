@@ -21,7 +21,20 @@ namespace My_first_xna_game
         }
 
         public bool visible = true;
-        public float depth;
+
+        protected float depth;
+        public Game.WindowDepth WindowDepth
+        {
+            get
+            {
+                return Game.FloatToWindowDepth(depth);
+            }
+            set
+            {
+                depth = Game.DepthToFloat((int)value);
+            }
+        }
+
         public float originalOpacityState;
         public float opacity = 100f;
         public bool sourceCanDrawThis = true; //TODO: SRSLY?
@@ -53,7 +66,7 @@ namespace My_first_xna_game
                 }
             }
 
-            depth = Game.DepthToFloat(Game.Depth.windowsData);
+            WindowDepth = Game.WindowDepth.windowsData;
         }
 
         public void Fade()

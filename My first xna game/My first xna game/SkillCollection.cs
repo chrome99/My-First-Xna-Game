@@ -24,7 +24,7 @@ namespace My_first_xna_game
 
         public static Skill wallOfFire = new MapSkill(Game.content.Load<Texture2D>("Textures\\SkillsPictures\\ice"),
             Color.LightCyan, "Wall of Fire", new Skill.SkillStats() { cost = 1 },
-            new Sprite(Game.content.Load<Texture2D>("Textures\\Sprites\\box1"), Vector2.Zero, Game.Depth.below), 5);
+            new Sprite(Game.content.Load<Texture2D>("Textures\\Sprites\\box1"), Vector2.Zero), 5);
 
         public static List<Skill> list = new List<Skill>() { ballOfDestruction, wallOfFire };
     }

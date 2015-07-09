@@ -9,10 +9,12 @@ namespace My_first_xna_game
         public int strength;
 
         public Mine(Player source, int strength, Sprite sprite)
-            : base(sprite.texture, sprite.position, sprite.depth, sprite.drawingCoordinates)
+            : base(sprite.texture, sprite.position, sprite.drawingCoordinates)
         {
             this.source = source;
             this.strength = strength;
+
+            MapDepth = Game.MapDepth.below;
 
             collisionFunction = Mine.UpdateMineCollision;
             canCollide = false;

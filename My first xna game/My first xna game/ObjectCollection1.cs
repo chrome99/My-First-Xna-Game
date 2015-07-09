@@ -51,14 +51,15 @@ namespace My_first_xna_game
             wolf2.stats.exp = 7;
             wolf2.Cooldown = 750f;
 
-            npc = new Actor(Content.Load<Texture2D>("Textures\\Spritesheets\\mage"), new Vector2(22 * 32, 16 * 32));
+            npc = new Actor(Content.Load<Texture2D>("Textures\\Spritesheets\\mage"), new Vector2(22 * 32, 18 * 32));
             npc.pack = new Pack(npc);
             npc.pack.AddItem(ItemCollection.ironChestArmor);
             npc.pack.AddItem(ItemCollection.bread);
             npc.pack.AddItem(ItemCollection.bread);
             npc.interactFunction = NpcInteraction;
+            npc.core = new Rectangle(7, 30, 18, 16);
 
-            block = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(30 * 32, 30 * 32), Game.Depth.player);
+            block = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(30 * 32, 30 * 32));
 
             boatCollision = new GameObject(new Vector2(33 * 32, 29 * 32));
             boatCollision.collisionFunction = BoatcollisionCollision;
@@ -67,22 +68,24 @@ namespace My_first_xna_game
             boat.ShowAnimation = true;
             movementManager.TurnActor(boat, MovementManager.Direction.left);
 
-            holdBox = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(20 * 32, 30 * 32), Game.Depth.player);
+            holdBox = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(20 * 32, 30 * 32));
             holdBox.collisionFunction = HoldBoxCollision;
 
             pickUpBread = new Pickup(pickUpBread, ItemCollection.bread, new Vector2(11 * 32, 34 * 32));
 
-            groundSwitch = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\brick1"), new Vector2(36 * 32, 25 * 32), Game.Depth.below);
+            groundSwitch = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\brick1"), new Vector2(36 * 32, 25 * 32));
+            groundSwitch.MapDepth = Game.MapDepth.below;
             groundSwitch.passable = true;
             groundSwitch.collisionFunction = GroundSwitchCollision;
 
-            box1 = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(27 * 32, 25 * 32), Game.Depth.player);
+            box1 = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(27 * 32, 25 * 32));
             box1.tags.Add("box");
 
-            box2 = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(30 * 32, 25 * 32), Game.Depth.player);
+            box2 = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(30 * 32, 25 * 32));
             box2.tags.Add("box");
 
-            runningSwitch = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\brick1"), new Vector2(27 * 32, 18 * 32), Game.Depth.below);
+            runningSwitch = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\brick1"), new Vector2(27 * 32, 18 * 32));
+            runningSwitch.MapDepth = Game.MapDepth.below;
             runningSwitch.passable = true;
             runningSwitch.collisionFunction = RunningSwitchCollision;
 
@@ -90,12 +93,8 @@ namespace My_first_xna_game
             portal.passable = true;
             portal.collisionFunction = PortalCollision;
 
-
-            //below
             gameObjectList.Add(runningSwitch);
             gameObjectList.Add(groundSwitch);
-
-            //above
             gameObjectList.Add(npc);
             gameObjectList.Add(boat);
             gameObjectList.Add(boatCollision);

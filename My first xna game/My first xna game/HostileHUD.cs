@@ -46,7 +46,7 @@ namespace My_first_xna_game
                 Picture fullHeartPic = new Picture(Game.content.Load<Texture2D>("Textures\\Sprites\\heart 4"), new Vector2(5, 5), null);
                 emptyHeartPic.position.X += Tile.size * counter;
                 fullHeartPic.position.X += Tile.size * counter;
-                fullHeartPic.depth = Game.DepthToFloat(Game.Depth.windowsDataFront);
+                fullHeartPic.WindowDepth = Game.WindowDepth.windowsDataFront;
                 heartsList.Add(new Heart { fullHeart = fullHeartPic, emptyHeart = emptyHeartPic, value = 4 });
             }
         }

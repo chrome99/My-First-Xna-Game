@@ -11,34 +11,32 @@ namespace My_first_xna_game
 
         // TODO: Can a Debug HUD be alive or dead?
         private bool alive = false;
-        private string text = "";
-        private SpriteFont font;
-        private Color color;
+        private Text text;
         private Player player;
-        private Keys key;
 
-        public DebugHUD(SpriteFont font, Color color, Player player, Keys key)
+        public DebugHUD(Text text, Player player)
         {
-            this.font = font;
-            this.color = color;
+            this.text = text;
             this.player = player;
-            this.key = key;
+
+            text.WindowDepth = Game.WindowDepth.GUIFront;
         }
 
         public void Update()
         {
             if (!alive) { return; }
-            text =
+            text.UpdateTextString(
                 "Health: " + player.stats.health + " / " + player.stats.maxHealth +
                 "\nX:" + player.position.X / Tile.size +
                 "\nY: " + player.position.Y / Tile.size +
                 "\nMovement: " + player.MovingState +
-                "\nDirection: " + player.direction;
+                "\nDirection: " + player.direction
+                );
         }
 
         public void UpdateInput(KeyboardState newState, KeyboardState oldState)
         {
-            if (newState.IsKeyDown(key) && keyReleased)
+            if (newState.IsKeyDown(player.kbKeys.opDebug) && keyReleased)
             {
                 if (alive)
                 {
@@ -50,7 +48,7 @@ namespace My_first_xna_game
                 }
                 keyReleased = false;
             }
-            else if (!oldState.IsKeyDown(key))
+            else if (!oldState.IsKeyDown(player.kbKeys.opDebug))
             {
                 keyReleased = true;
             }
@@ -60,9 +58,8 @@ namespace My_first_xna_game
         {
             if (alive)
             {
-                //draw window
-                spriteBatch.DrawString(font, text, position, color
-                , 0f, new Vector2(3f, 3f), 1.0f, SpriteEffects.None, Game.DepthToFloat(Game.Depth.front));
+                //draw text
+                text.DrawWithoutSource(spriteBatch, new Rectangle());
             }
         }
     }

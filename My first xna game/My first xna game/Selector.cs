@@ -43,7 +43,7 @@ namespace My_first_xna_game
 
             texture = source.texture;
             opacity = 30f;
-            depth = Game.DepthToFloat(Game.Depth.windowsSelector);
+            WindowDepth = Game.WindowDepth.windowsSelector;
         }
 
         public void Reset()

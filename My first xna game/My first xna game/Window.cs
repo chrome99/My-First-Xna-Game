@@ -16,6 +16,18 @@ namespace My_first_xna_game
         public int height;
         public Window source;
 
+        public Game.WindowDepth WindowDepth
+        {
+            get
+            {
+                return Game.FloatToWindowDepth(depth);
+            }
+            set
+            {
+                depth = Game.DepthToFloat((int)value);
+            }
+        }
+
         // TODO: Make an opacity value for each state
         private float originalOpacity;
         private float subOpacity = 50f;
@@ -23,11 +35,13 @@ namespace My_first_xna_game
         private bool playerCollision = false;
 
         public Window(Map map, Texture2D texture, Vector2 position, int width, int height, Player player = null)
-            : base(texture, position, Game.Depth.windows)
+            : base(texture, position)
         {
             this.width = width;
             this.height = height;
             this.player = player;
+
+            WindowDepth = Game.WindowDepth.windows;
 
             map.IntializeMapVariables(this);
 
@@ -131,7 +145,7 @@ namespace My_first_xna_game
         }
         public override Rectangle core
         {
-            get { return new Rectangle((int)position.X, (int)position.Y, width, height); }
+            get { return bounds; }
         }
 
         public void AddItem(WindowItem item)
@@ -174,7 +188,7 @@ namespace My_first_xna_game
                 //draw window
                 Rectangle drawingPosition = GetDrawingRect(offsetRect);
 
-                spriteBatch.Draw(texture, drawingPosition, windowRect, Color.White * drawingOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
+                spriteBatch.Draw(texture, drawingPosition, windowRect, Color.White * drawingOpacity, 0f, Vector2.Zero, SpriteEffects.None, depth);
 
                 //draw items
                 foreach (WindowItem item in itemsList)

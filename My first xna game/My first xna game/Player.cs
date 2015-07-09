@@ -275,7 +275,7 @@ namespace My_first_xna_game
             pack = new Pack(this);
             hud = new HostileHUD(this);
             shop = new Shop();
-            debug = new DebugHUD(Game.content.Load<SpriteFont>("Fonts\\Debug1"), Color.Wheat, this, kbKeys.opDebug);
+            debug = new DebugHUD(new Text(Game.content.Load<SpriteFont>("Fonts\\Debug1"), Vector2.Zero, Color.Wheat, ""), this);
 
             skillTree = new SkillTree();
             runningAccelerationMax = 1;

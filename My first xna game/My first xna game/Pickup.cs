@@ -7,9 +7,11 @@ namespace My_first_xna_game
     {
         Item item;
         public Pickup(Sprite sprite, Item item, Vector2 position)
-            : base(Item.IconSet, position, Game.Depth.below, item.getRect)
+            : base(Item.IconSet, position, item.getRect)
         {
             this.item = item;
+
+            MapDepth = Game.MapDepth.below;
 
             passable = true;
             collisionFunction = UpdatePickupCollision;

@@ -31,7 +31,19 @@ namespace My_first_xna_game
         protected bool forceMoving = false;
         public List<MovementManager.MovementString> movementList = new List<MovementManager.MovementString>();
 
-        public Game.Depth depth;
+        public float depth { get; protected set; }
+        public Game.MapDepth MapDepth
+        {
+            get
+            {
+                return Game.FloatToMapDepth(depth);
+            }
+            set
+            {
+                depth = Game.DepthToFloat((int)value);
+            }
+        }
+
         public bool visible = true;
         protected bool fade = false;
         public float opacity = 100f;
@@ -48,14 +60,15 @@ namespace My_first_xna_game
 
         public Rectangle drawingCoordinates;
 
-        public Sprite(Texture2D texture, Vector2 position, Game.Depth depth, Rectangle drawingCoordinates = new Rectangle())
+        public Sprite(Texture2D texture, Vector2 position, Rectangle drawingCoordinates = new Rectangle())
             : base(position)
         {
             //intialize variables
             this.texture = texture;
             this.position = position;
-            this.depth = depth;
             this.drawingCoordinates = drawingCoordinates;
+
+            MapDepth = Game.MapDepth.player;
 
             //intialize size
             if (drawingCoordinates.Equals(new Rectangle()))
@@ -80,11 +93,11 @@ namespace My_first_xna_game
 
                 if (drawingCoordinates.Equals(new Rectangle()))
                 {
-                    spriteBatch.Draw(texture, drawingRect, null, Color.White * drawingOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
+                    spriteBatch.Draw(texture, drawingRect, null, Color.White * drawingOpacity, 0f, Vector2.Zero, SpriteEffects.None, depth);
                 }
                 else
                 {
-                    spriteBatch.Draw(texture, drawingRect, drawingCoordinates, Color.White * drawingOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
+                    spriteBatch.Draw(texture, drawingRect, drawingCoordinates, Color.White * drawingOpacity, 0f, Vector2.Zero, SpriteEffects.None, depth);
                 }
             }
         }

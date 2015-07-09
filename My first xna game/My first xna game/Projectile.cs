@@ -33,7 +33,7 @@ namespace My_first_xna_game
         private SoundEffect hitSound;
 
         public Projectile(Texture2D texture, float speed, Player source, int pathDestination, int strength, SoundEffect launchSound, SoundEffect hitSound)
-            : base(texture, new Vector2(), Game.Depth.projectiles)
+            : base(texture, new Vector2())
         {
             this.source = source;
             this.pathDestination = pathDestination;

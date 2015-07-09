@@ -19,8 +19,8 @@ namespace My_first_xna_game
         private int currentFrameX = 0;
         private int currentFrameY = 0;
 
-        public Spritesheet(Texture2D texture, Vector2 position, Game.Depth depth)
-            : base(texture, position, depth)
+        public Spritesheet(Texture2D texture, Vector2 position)
+            : base(texture, position)
         {
             size.X = this.texture.Width / 4;
             size.Y = this.texture.Height / 4;
@@ -39,7 +39,7 @@ namespace My_first_xna_game
                 Rectangle drawingRect = bounds;
                 drawingRect.X = drawingRect.X - offsetRect.X;
                 drawingRect.Y = drawingRect.Y - offsetRect.Y;
-                spriteBatch.Draw(texture, drawingRect, cropingRect, Color.White * drawingOpacity, 0f, Vector2.Zero, SpriteEffects.None, Game.DepthToFloat(depth));
+                spriteBatch.Draw(texture, drawingRect, cropingRect, Color.White * drawingOpacity, 0f, Vector2.Zero, SpriteEffects.None, depth);
             }
         }
 

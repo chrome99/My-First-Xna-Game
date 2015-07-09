@@ -59,7 +59,6 @@ namespace My_first_xna_game
          * fix depth in dmg
          * fix heal health and hud
          * stuck keyboard in multiplayer
-         * remove depth
          * hud bug in low health
          */
 
@@ -69,9 +68,20 @@ namespace My_first_xna_game
         SpriteBatch spriteBatch;
         KeyboardState oldState;
 
-        public enum Depth { GUIFront, front, windowsSelector, windowsDataFront, windowsData, windowDataShadow, windows, above, jumping, player, projectiles, below, background }
+        public enum WindowDepth { GUIFront, windowsSelector, windowsDataFront, windowsData, windowDataShadow, windows }
+        public enum MapDepth { below, player, above }
 
-        public static float DepthToFloat(Depth type)
+        public static WindowDepth FloatToWindowDepth(float type)
+        {
+            return (WindowDepth)(int)(type * 1000);
+        }
+
+        public static MapDepth FloatToMapDepth(float type)
+        {
+            return (MapDepth)(int)(type * 1000);
+        }
+
+        public static float DepthToFloat(int type)
         {
             return (float)type / 1000;
         }

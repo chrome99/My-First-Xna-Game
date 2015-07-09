@@ -124,6 +124,9 @@ namespace My_first_xna_game
             //update tilemap
             tileMap.Update(gameTime);
 
+            //sort game object list
+            gameObjectList.Sort(CompareGameObjectsDepth);
+
             //update GameObjects
             for (int counter = 0; counter < gameObjectList.Count; counter++)
             {
@@ -139,6 +142,60 @@ namespace My_first_xna_game
             for (int counter = 0; counter < lightsList.Count; counter++)
             {
                 lightsList[counter].Update();
+            }
+        }
+
+        private int CompareGameObjectsDepth(GameObject gameObject1, GameObject gameObject2)
+        {
+            Sprite sprite1 = gameObject1 as Sprite;
+            Sprite sprite2 = gameObject2 as Sprite;
+            if (sprite1 == null)
+            {
+                if (sprite2 == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    //gameobject2 is greater
+                    return -1;
+                }
+            }
+            else
+            {
+                if (sprite2 == null)
+                {
+                    //gameobject1 is greater
+                    return 1;
+                }
+                else
+                {
+                    //if both are not null
+                    if (sprite1.depth > sprite2.depth)
+                    {
+                        return 1;
+                    }
+                    else if (sprite1.depth < sprite2.depth)
+                    {
+                        return -1;
+                    }
+                    else //if depth equal
+                    {
+                        int retval = sprite1.position.Y.CompareTo(sprite2.position.Y);
+
+                        if (retval != 0)
+                        {
+                            //not equal
+                            return retval;
+                        }
+                        else
+                        {
+                            // if equal return first (gameobject 1)
+                            return 1;
+                        }
+                    }
+
+                }
             }
         }
 

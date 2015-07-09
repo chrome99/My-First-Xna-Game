@@ -36,7 +36,6 @@ namespace My_first_xna_game
             : base(graphicsDeviceManager)
         {
             background = new Picture(Game.content.Load<Texture2D>("Textures\\Pictures\\title"), Vector2.Zero, null);
-            background.depth = Game.DepthToFloat(Game.Depth.background);
 
             newgame = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 550f), Color.Orange, "New Game", null, new Vector2(20, 20));
             loadgame = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 700f), Color.Orange, "Continue", null, new Vector2(20, 20));
