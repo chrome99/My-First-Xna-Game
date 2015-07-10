@@ -118,7 +118,6 @@
     <Compile Include="ChooseSkill.cs" />
     <Compile Include="Combo.cs" />
     <Compile Include="ComboCollection.cs" />
-    <Compile Include="CommandCollection.cs" />
     <Compile Include="CommandLine.cs" />
     <Compile Include="EquipmentMenu.cs" />
     <Compile Include="HostileHUD.cs" />

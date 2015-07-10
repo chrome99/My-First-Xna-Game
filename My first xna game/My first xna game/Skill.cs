@@ -13,14 +13,21 @@ namespace My_first_xna_game
         public Texture2D choosePicture;
         public Color color;
         public string name;
+        private int iconID;
         protected SkillStats stats;
 
-        public Skill(Texture2D choosePicture, Color color, string name, SkillStats stats)
+        public Skill(Texture2D choosePicture, Color color, string name, int iconID, SkillStats stats)
         {
             this.choosePicture = choosePicture;
             this.color = color;
             this.name = name;
+            this.iconID = iconID;
             this.stats = stats;
+        }
+
+        public Rectangle getRect
+        {
+            get { return new Rectangle(iconID % Item.itemsInRow * Item.size, iconID / Item.itemsInRow * Item.size, Item.size, Item.size); }
         }
 
         public void Use(Map map, Player player)
@@ -43,8 +50,8 @@ namespace My_first_xna_game
     {
         public Projectile.ProjectileData projectileData;
 
-        public ProjectileSkill(Texture2D choosePicture, Color color, string name, SkillStats stats, Projectile.ProjectileData projectileData)
-            : base(choosePicture, color, name, stats)
+        public ProjectileSkill(Texture2D choosePicture, Color color, string name, int iconID, SkillStats stats, Projectile.ProjectileData projectileData)
+            : base(choosePicture, color, name, iconID, stats)
         {
             this.projectileData = projectileData;
         }
@@ -60,8 +67,8 @@ namespace My_first_xna_game
         private Sprite mine;
         private int strength;
 
-        public MapSkill(Texture2D choosePicture, Color color, string name, SkillStats stats, Sprite mine, int strength)
-            : base(choosePicture, color, name, stats)
+        public MapSkill(Texture2D choosePicture, Color color, string name, int iconID, SkillStats stats, Sprite mine, int strength)
+            : base(choosePicture, color, name, iconID, stats)
         {
             this.mine = mine;
             this.strength = strength;

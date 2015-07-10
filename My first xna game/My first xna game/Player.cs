@@ -18,7 +18,7 @@ namespace My_first_xna_game
         public Timer comboTimer = new Timer(300f, true);
 
         public SkillTree skillTree;
-        private Skill currentSkill;
+        public Skill currentSkill;
 
         public int gold;
         public int maxGold = 100;
@@ -83,6 +83,7 @@ namespace My_first_xna_game
         private int defendingCoolddownTime = 500;
 
         private bool useSkillKeyReleased = false;
+        public Timer switchSkillMenuTimer = new Timer(200f, false);
 
         private bool menuKeyReleased = false;
 
@@ -283,6 +284,12 @@ namespace My_first_xna_game
 
             defendingTimer = new Timer(defendingTime, false);
             defendingCooldownTimer = new Timer(defendingCoolddownTime, true);
+
+            LearnSkill(SkillCollection.ballOfDestruction);
+            LearnSkill(SkillCollection.wallOfFire);
+            LearnSkill(SkillCollection.ballOfDestruction2);
+            LearnSkill(SkillCollection.ballOfDestruction3);
+            LearnSkill(SkillCollection.ballOfDestruction4);
         }
 
         public void IntializeMapParamters(Map map)
@@ -529,6 +536,11 @@ namespace My_first_xna_game
                 comboTimer.Reset();
             }
 
+            if (switchSkillMenuTimer.result && !switchSkillDisplay.alive)
+            {
+                switchSkillDisplay.Revive();
+            }
+
             shop.Update(newState, oldState, gameTime);
             menu.Update(newState, oldState, gameTime);
             debug.Update();
@@ -761,10 +773,11 @@ namespace My_first_xna_game
             //use skill
             if (newState.IsKeyDown(kbKeys.useSkill) && useSkillKeyReleased)
             {
-                //switch skill (if running button and use skill button are pressed)
-                if (playerRunning)
+
+                //if the player is about to switch skill(holding running button) don't use skill
+                if (playerRunning && !switchSkillMenuTimer.result)
                 {
-                    SwitchSkill();
+                    switchSkillMenuTimer.Reset();
                 }
                 else
                 {
@@ -778,6 +791,16 @@ namespace My_first_xna_game
             }
             else if (!oldState.IsKeyDown(kbKeys.useSkill))
             {
+                //switch skill (if running button is pressed and use skill button released)
+                if (!useSkillKeyReleased)
+                {
+                    if (playerRunning)
+                    {
+                        SwitchSkill();
+                    }
+                    switchSkillMenuTimer.Reset(false);
+                }
+
                 useSkillKeyReleased = true;
             }
 
