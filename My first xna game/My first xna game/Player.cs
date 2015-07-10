@@ -643,6 +643,9 @@ namespace My_first_xna_game
                 commandKeyReleased = true;
             }
 
+            if (commandLine.alive) { return; }
+
+            //hold update input for one frame
             if (holdUpdateInput)
             {
                 holdUpdateInput = false;

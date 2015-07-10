@@ -6,31 +6,75 @@ namespace My_first_xna_game
 {
     class Textbox : WindowItem
     {
+        public delegate void HandleText(string input);
+        private HandleText handleTextFunction;
+
         private Window box;
-        public Text text;
+        private SpriteFont font;
 
-        public string input;
+        public Text input;
+        private string inputString = "";
+        public string InputString
+        {
+            get
+            {
+                return inputString;
+            }
+            set
+            {
+                inputString = value;
+                input.UpdateTextString(InputString);
+            }
+        }
 
-        public Textbox(Window source, Player player, Vector2 position, Vector2 size)
+        private Text cursor;
+
+        private bool enterKeyReleased = false;
+        private bool backKeyReleased = false;
+        private bool rightKeyReleased = false;
+        private bool leftKeyReleased = false;
+
+        public Textbox(Window source, Player player, Vector2 position, Vector2 size, HandleText handleTextFunction)
             : base(source)
         {
-            input = "";
+            this.handleTextFunction = handleTextFunction;
 
             box = new Window(player.map, Game.content.Load<Texture2D>("Textures\\Windows\\windowskin"), position, (int)size.X, (int)size.Y);
-            text = new Text(Game.content.Load<SpriteFont>("Fonts\\Debug1"), Vector2.Zero, Color.Black, input, box);
+            font = Game.content.Load<SpriteFont>("Fonts\\Debug1");
+            input = new Text(font, Vector2.Zero, Color.Black, InputString, box);
+            cursor = new Text(font, Vector2.Zero, Color.Black, "_", box);
         }
 
         public void Reset()
         {
-            input = "";
+            InputString = "";
+            SetCursorPosition();
         }
 
         public void UpdateTextbox(GameTime gameTime, KeyboardState newState, KeyboardState oldState)
         {
             box.Update(gameTime);
-            text.UpdateTextString(input);
 
             UpdateInput(newState, oldState);
+        }
+
+        private void SetCursorPosition()
+        {
+            cursor.position.X = input.bounds.Width + font.Spacing;
+        }
+
+        private void FixCursorPosition(char letter, bool back = false)
+        {
+            float newPosition = font.MeasureString(letter.ToString()).X + font.Spacing;
+            if (back)
+            {
+                cursor.position.X -= newPosition;
+            }
+            else
+            {
+                cursor.position.X += newPosition;
+            }
+
         }
 
         private void UpdateInput(KeyboardState newState, KeyboardState oldState)
@@ -38,7 +82,64 @@ namespace My_first_xna_game
             char newInput;
             if (Game.TryConvertKeyboardInput(newState, oldState, out newInput))
             {
-                input = input + newInput;
+                InputString = InputString + newInput;
+                FixCursorPosition(newInput, false);
+            }
+
+            //command line
+            if (newState.IsKeyDown(Keys.Enter) && enterKeyReleased)
+            {
+                handleTextFunction(InputString);
+
+                enterKeyReleased = false;
+            }
+            else if (!oldState.IsKeyDown(Keys.Enter))
+            {
+                enterKeyReleased = true;
+            }
+
+            if (newState.IsKeyDown(Keys.Back) && backKeyReleased)
+            {
+                if (InputString.Length != 0)
+                {
+                    char charToRemove = InputString[InputString.Length - 1];
+                    InputString = InputString.Remove(InputString.Length - 1);
+                    if (InputString.Length != 0)
+                    {
+                        FixCursorPosition(charToRemove, true);
+                    }
+                    else
+                    {
+                        cursor.position.X = 0;
+                    }
+                }
+
+                
+                backKeyReleased = false;
+            }
+            else if (!oldState.IsKeyDown(Keys.Back))
+            {
+                backKeyReleased = true;
+            }
+
+            if (newState.IsKeyDown(Keys.Right) && rightKeyReleased)
+            {
+
+                rightKeyReleased = false;
+            }
+            else if (!oldState.IsKeyDown(Keys.Right))
+            {
+                rightKeyReleased = true;
+            }
+
+            if (newState.IsKeyDown(Keys.Left) && leftKeyReleased)
+            {
+
+                leftKeyReleased = false;
+            }
+            else if (!oldState.IsKeyDown(Keys.Left))
+            {
+                leftKeyReleased = true;
             }
         }
 
