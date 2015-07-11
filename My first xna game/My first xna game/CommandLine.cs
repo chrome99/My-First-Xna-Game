@@ -76,6 +76,7 @@ namespace My_first_xna_game
                     {
                         textBox.InputString = commandsHistory[commandsHistory.Count - 1 - toggleCommandsHistory];
                     }
+                    textBox.ResetCursorPosition();
                 }
                 upKeyReleased = false;
             }
@@ -107,6 +108,7 @@ namespace My_first_xna_game
                     {
                         textBox.InputString = commandsHistory[commandsHistory.Count - 1 - toggleCommandsHistory];
                     }
+                    textBox.ResetCursorPosition();
                 }
                 downKeyReleased = false;
             }

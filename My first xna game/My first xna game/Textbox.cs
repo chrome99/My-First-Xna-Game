@@ -28,6 +28,9 @@ namespace My_first_xna_game
         }
 
         private Text cursor;
+        private int cursorIndex = 0;
+        private Timer cursorAnimationTimer = new Timer(400f, true);
+
 
         private bool enterKeyReleased = false;
         private bool backKeyReleased = false;
@@ -48,19 +51,50 @@ namespace My_first_xna_game
         public void Reset()
         {
             InputString = "";
-            SetCursorPosition();
+            ResetCursorPosition();
         }
 
         public void UpdateTextbox(GameTime gameTime, KeyboardState newState, KeyboardState oldState)
         {
             box.Update(gameTime);
+            UpdateCursorAnimation();
 
             UpdateInput(newState, oldState);
         }
 
-        private void SetCursorPosition()
+        public void ResetCursorPosition()
         {
             cursor.position.X = input.bounds.Width + font.Spacing;
+            cursorIndex = InputString.Length;
+        }
+
+        public void SetCursorPositionToStart()
+        {
+            cursor.position.X = 0;
+            cursorIndex = 0;
+        }
+
+        private void CursorGoTo(int index)
+        {
+            string checkingString = InputString.Remove(index);
+            cursor.position.X = font.MeasureString(checkingString).X;
+            cursorIndex = checkingString.Length;
+        }
+
+        private void FixCursorPosition(string str, bool back = false)
+        {
+            float newPosition = font.MeasureString(str).X + font.Spacing;
+            if (back)
+            {
+                cursor.position.X -= newPosition;
+                cursorIndex -= str.Length;
+            }
+            else
+            {
+                cursor.position.X += newPosition;
+                cursorIndex += str.Length;
+            }
+
         }
 
         private void FixCursorPosition(char letter, bool back = false)
@@ -69,12 +103,35 @@ namespace My_first_xna_game
             if (back)
             {
                 cursor.position.X -= newPosition;
+                cursorIndex--;
             }
             else
             {
                 cursor.position.X += newPosition;
+                cursorIndex++;
             }
+        }
 
+        private void UpdateCursorAnimation()
+        {
+            if (cursorAnimationTimer.result)
+            {
+                if (cursor.text == "_")
+                {
+                    cursor.text = "";
+                }
+                else if (cursor.text == "")
+                {
+                    cursor.text = "_";
+                }
+                cursorAnimationTimer.Reset();
+            }
+        }
+
+        private void FixCursorAnimation()
+        {
+            cursor.text = "_";
+            cursorAnimationTimer.Reset();
         }
 
         private void UpdateInput(KeyboardState newState, KeyboardState oldState)
@@ -82,8 +139,9 @@ namespace My_first_xna_game
             char newInput;
             if (Game.TryConvertKeyboardInput(newState, oldState, out newInput))
             {
-                InputString = InputString + newInput;
+                InputString = InputString.Insert(cursorIndex, newInput.ToString());
                 FixCursorPosition(newInput, false);
+                FixCursorAnimation();
             }
 
             //command line
@@ -100,20 +158,21 @@ namespace My_first_xna_game
 
             if (newState.IsKeyDown(Keys.Back) && backKeyReleased)
             {
-                if (InputString.Length != 0)
+                if (InputString.Length != 0 && cursorIndex > 0)
                 {
-                    char charToRemove = InputString[InputString.Length - 1];
-                    InputString = InputString.Remove(InputString.Length - 1);
+                    char charToRemove = InputString[cursorIndex - 1];
+                    InputString = InputString.Remove(cursorIndex - 1, 1);
                     if (InputString.Length != 0)
                     {
                         FixCursorPosition(charToRemove, true);
                     }
                     else
                     {
-                        cursor.position.X = 0;
+                        ResetCursorPosition();
                     }
-                }
 
+                    FixCursorAnimation();
+                }
                 
                 backKeyReleased = false;
             }
@@ -124,7 +183,28 @@ namespace My_first_xna_game
 
             if (newState.IsKeyDown(Keys.Right) && rightKeyReleased)
             {
-
+                if (newState.IsKeyDown(Keys.LeftControl))
+                {
+                    if (cursorIndex != InputString.Length)
+                    {
+                        int newIndex = InputString.IndexOf(" ", cursorIndex + 1);
+                        if (newIndex == -1)
+                        {
+                            ResetCursorPosition();
+                        }
+                        else
+                        {
+                            CursorGoTo(newIndex);
+                        }
+                    }
+                }
+                else
+                {
+                    if (cursorIndex < InputString.Length)
+                    {
+                        FixCursorPosition(InputString[cursorIndex]);
+                    }
+                }
                 rightKeyReleased = false;
             }
             else if (!oldState.IsKeyDown(Keys.Right))
@@ -134,7 +214,28 @@ namespace My_first_xna_game
 
             if (newState.IsKeyDown(Keys.Left) && leftKeyReleased)
             {
-
+                if (newState.IsKeyDown(Keys.LeftControl))
+                {
+                    if (cursorIndex != 0)
+                    {
+                        int newIndex = InputString.LastIndexOf(" ", cursorIndex - 1);
+                        if (newIndex == -1)
+                        {
+                            SetCursorPositionToStart();
+                        }
+                        else
+                        {
+                            CursorGoTo(newIndex);
+                        }
+                    }
+                }
+                else
+                {
+                    if (cursorIndex > 0)
+                    {
+                        FixCursorPosition(InputString[cursorIndex - 1], true);
+                    }
+                }
                 leftKeyReleased = false;
             }
             else if (!oldState.IsKeyDown(Keys.Left))
