@@ -8,19 +8,20 @@ namespace My_first_xna_game
     class SwitchSkillDisplay
     {
         public bool alive = false;
+        public bool active = false;
         Player player;
-        Picture skillIconCenter;
-        Picture skillIconLeft;
-        Picture skillIconVeryLeft;
-        Picture skillIconRight;
-        Picture skillIconVeryRight;
-        Picture skillIconTransition;
         List<Picture> picturesList;
 
         public SwitchSkillDisplay(Map map, Player player)
         {
             this.player = player;
-            picturesList = new List<Picture>() { skillIconVeryLeft, skillIconLeft, skillIconCenter, skillIconRight, skillIconVeryRight };
+            picturesList = new List<Picture>();
+
+            for (int i = 0; i < 5; i++)
+            {
+                picturesList.Add(new Picture(Item.IconSet, Vector2.Zero, null));
+            }
+
             Kill();
         }
 
@@ -29,6 +30,14 @@ namespace My_first_xna_game
             if (CreateSkillPictures())
             {
                 alive = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            foreach (Picture picture in picturesList)
+            {
+                picture.Fade(0);
             }
         }
 
@@ -45,8 +54,12 @@ namespace My_first_xna_game
             int picturesCounter = 0;
             for (int skillCounter = currentSkill - 2; skillCounter < currentSkill + 2 + 1; skillCounter++)
             {
-                picturesList[picturesCounter] = new Picture(Item.IconSet, new Vector2(player.position.X + ((picturesCounter - 2) * 50), player.position.Y - 50), null);
-                picturesList[picturesCounter].drawingRect = player.skillsList[skillCounter].getRect;
+                Picture picture = picturesList[picturesCounter];
+                picture.position = new Vector2(player.position.X + ((picturesCounter - 2) * 50), player.position.Y - 50);
+                picture.drawingRect = player.skillsList[skillCounter].getRect;
+                picture.opacity = 1;
+                picture.FadeBack(100);
+
                 picturesCounter++;
             }
             return true;
@@ -56,7 +69,16 @@ namespace My_first_xna_game
         {
             if (!alive) { return; }
 
+            if (picturesList[0].opacity == 0)
+            {
+                Kill();
+            }
 
+            for (int i = 0; i < picturesList.Count; i++)
+            {
+                picturesList[i].position = new Vector2(player.position.X + ((i - 2) * 50), player.position.Y - 50);
+                picturesList[i].UpdateFade();
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch, Rectangle offsetRect)

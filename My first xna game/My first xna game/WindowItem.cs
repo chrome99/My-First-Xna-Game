@@ -39,6 +39,8 @@ namespace My_first_xna_game
         public float opacity = 100f;
         public bool sourceCanDrawThis = true; //TODO: SRSLY?
         private bool fade = false;
+        private bool fadeBack = false;
+        private int fadeingOpacity;
         private Timer fadeTimer = new Timer(50f);
 
         protected float drawingOpacity
@@ -69,9 +71,32 @@ namespace My_first_xna_game
             WindowDepth = Game.WindowDepth.windowsData;
         }
 
-        public void Fade()
+        public bool Fade(int newOpacity = 0)
         {
-            fade = true;
+            if (!fadeBack)
+            {
+                fade = true;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool FadeBack(int newOpacity = 100)
+        {
+            if (!fade)
+            {
+                visible = true;
+                fadeBack = true;
+                fadeingOpacity = newOpacity;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void UpdateFade()
@@ -83,10 +108,24 @@ namespace My_first_xna_game
                     opacity -= 20;
                     fadeTimer.counter = 0f;
                 }
-                if (opacity == 0)
+                if (opacity <= 0)
                 {
                     visible = false;
+                    fade = false;
                     //// TODO: Destroy instance
+                }
+            }
+            if (fadeBack)
+            {
+                if (fadeTimer.result && opacity < fadeingOpacity)
+                {
+                    opacity += 20;
+                    fadeTimer.counter = 0f;
+                }
+                if (opacity >= fadeingOpacity)
+                {
+                    opacity = fadeingOpacity;
+                    fadeBack = false;
                 }
             }
         }

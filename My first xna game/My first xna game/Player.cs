@@ -539,6 +539,7 @@ namespace My_first_xna_game
             if (switchSkillMenuTimer.result && !switchSkillDisplay.alive)
             {
                 switchSkillDisplay.Revive();
+                switchSkillMenuTimer.Reset(false);
             }
 
             shop.Update(newState, oldState, gameTime);
@@ -797,11 +798,18 @@ namespace My_first_xna_game
                 //switch skill (if running button is pressed and use skill button released)
                 if (!useSkillKeyReleased)
                 {
-                    if (playerRunning)
+                    if (switchSkillDisplay.alive)
                     {
-                        SwitchSkill();
+                        switchSkillDisplay.Dispose();
                     }
-                    switchSkillMenuTimer.Reset(false);
+                    else
+                    {
+                        if (playerRunning)
+                        {
+                            SwitchSkill();
+                        }
+                        switchSkillMenuTimer.Reset(false);
+                    }
                 }
 
                 useSkillKeyReleased = true;
