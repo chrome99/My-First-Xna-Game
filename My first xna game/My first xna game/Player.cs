@@ -10,7 +10,7 @@ namespace My_first_xna_game
 {
     public class Player : Hostile
     {
-        private Camera camera;
+        public Camera camera;
         public PlayerKeys kbKeys;
 
         private List<Combo> combosList = new List<Combo>() { ComboCollection.fireCombo };
@@ -997,7 +997,7 @@ namespace My_first_xna_game
         {
             for (int counter = 0; counter < equipmentList.Count; counter++)
             {
-                Bow weapon = equipmentList[counter] as Bow;
+                Weapon weapon = equipmentList[counter] as Weapon;
                 if (weapon != null)
                 {
                     weapon.Attack(map, this);

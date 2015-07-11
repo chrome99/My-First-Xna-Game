@@ -19,7 +19,9 @@ namespace My_first_xna_game
                 lightOpacity = 100,
                 pathDestination = 150,
                 speed = 5,
-                strength = 2
+                strength = 2,
+                sourceDamage = false,
+                exploading = false
             });
 
         public static ProjectileSkill ballOfDestruction2 = new ProjectileSkill(Game.content.Load<Texture2D>("Textures\\SkillsPictures\\fire"),
@@ -34,7 +36,9 @@ namespace My_first_xna_game
         lightOpacity = 100,
         pathDestination = 150,
         speed = 5,
-        strength = 2
+        strength = 2,
+        sourceDamage = false,
+        exploading = false
     });
 
         public static ProjectileSkill ballOfDestruction3 = new ProjectileSkill(Game.content.Load<Texture2D>("Textures\\SkillsPictures\\fire"),
@@ -49,7 +53,9 @@ namespace My_first_xna_game
         lightOpacity = 100,
         pathDestination = 150,
         speed = 5,
-        strength = 2
+        strength = 2,
+        sourceDamage = false,
+        exploading = false
     });
 
         public static ProjectileSkill ballOfDestruction4 = new ProjectileSkill(Game.content.Load<Texture2D>("Textures\\SkillsPictures\\fire"),
@@ -64,7 +70,9 @@ Color.OrangeRed, "Ball of Destruction", 204, new Skill.SkillStats() { cost = 1 }
     lightOpacity = 100,
     pathDestination = 150,
     speed = 5,
-    strength = 2
+    strength = 2,
+    sourceDamage = false,
+    exploading = false
 });
 
         public static Skill wallOfFire = new MapSkill(Game.content.Load<Texture2D>("Textures\\SkillsPictures\\ice"),

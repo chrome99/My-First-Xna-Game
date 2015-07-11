@@ -162,6 +162,7 @@
     <Compile Include="Sprite.cs" />
     <Compile Include="Spritesheet.cs" />
     <Compile Include="SwitchSkillDisplay.cs" />
+    <Compile Include="Sword.cs" />
     <Compile Include="Text.cs" />
     <Compile Include="Textbox.cs" />
     <Compile Include="TextShadow.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="Title.cs" />
     <Compile Include="Bow.cs" />
     <Compile Include="Vehicle.cs" />
+    <Compile Include="Weapon.cs" />
     <Compile Include="Window.cs" />
     <Compile Include="WindowItem.cs" />
     <Compile Include="Picture.cs" />

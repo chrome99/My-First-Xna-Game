@@ -35,16 +35,18 @@ namespace My_first_xna_game
         public static Armor goldBoots = new Armor(323, 50, 5, 60, Armor.ArmorType.shoes, new Hostile.Stats { defence = 7, agility = -3 });
 
         // one handed
-        public static Armor ironSword = new Armor(2, 20, 1.5f, 10, Armor.ArmorType.oneHanded, new Hostile.Stats { strength = 4 });
+        public static Sword ironSword = new Sword(2, 20, 1.5f, 50, Armor.ArmorType.oneHanded,
+            1.5f, Game.content.Load<SoundEffect>("Audio\\Waves\\fireball launch"),
+            Game.content.Load<SoundEffect>("Audio\\Waves\\fart"), new Hostile.Stats { strength = 1 });
 
         // two handed
-        public static Bow woodenStaff = new Bow(20, 25, 1, 25, Armor.ArmorType.twoHanded,
+        public static Bow woodenStaff = new Bow(20, 25, 1, 40, Armor.ArmorType.twoHanded,
             new Projectile.ProjectileData {
                 texture = Game.content.Load<Texture2D>("Textures\\Spritesheets\\arrow"),
                 hitSound = Game.content.Load<SoundEffect>("Audio\\Waves\\fireball launch"),
                 launchSound = Game.content.Load<SoundEffect>("Audio\\Waves\\fireball hit"),
                 lit = true, lightLevel = 150, lightColor = Color.Red, lightOpacity = 100,
-                pathDestination = 300, speed = 7
+                pathDestination = 300, speed = 7, strength = 0, exploading = true, sourceDamage = true
             }, new Hostile.Stats { strength = 3 });
 
         public static List<Item> list = new List<Item> { mine, apple, bread, healthPotion, manaPotion, strPotion, hat, mask, helmate, shirt,

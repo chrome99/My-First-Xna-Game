@@ -16,7 +16,7 @@ namespace My_first_xna_game
             {
                 if (value < 1)
                 {
-                    Game.content.Load<SoundEffect>("Audio\\Waves\\fart");
+                    Game.content.Load<SoundEffect>("Audio\\Waves\\fart").Play();
                     source.pack.SubItem(this);
                     source.UnEquip(this);
                 }

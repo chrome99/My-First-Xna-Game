@@ -409,6 +409,7 @@ namespace My_first_xna_game
 
                 case Armor.ArmorType.twoHanded:
                     UnEquip(equipment.leftHand);
+                    UnEquip(equipment.rightHand);
                     equipment.rightHand = null;
                     equipment.leftHand = armor;
                     break;

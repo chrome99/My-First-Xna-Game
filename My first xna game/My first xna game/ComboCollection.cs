@@ -31,9 +31,7 @@ namespace My_first_xna_game
                 lightOpacity = 100,
                 pathDestination = 400,
                 speed = 4,
-                strength = 4,
-                exploading = false,
-                sourceDamage = false
+                exploading = false
             }, player.map, player);
         }
     }

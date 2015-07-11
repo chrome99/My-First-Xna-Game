@@ -17,7 +17,8 @@ namespace My_first_xna_game
         /*
          TODO:
          * A*
-         * attack (sword)
+         * 
+         * 
          * round raduis for enemies
          * better AI for enemies
          * switch skill hud

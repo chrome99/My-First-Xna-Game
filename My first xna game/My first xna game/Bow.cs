@@ -1,11 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Graphics;
+﻿
 
 namespace My_first_xna_game
 {
-    public class Bow : Armor
+    public class Bow : Weapon
     {
         Projectile.ProjectileData projectileData;
 
@@ -15,19 +12,11 @@ namespace My_first_xna_game
             this.projectileData = projectileData;
         }
 
-        public void Attack(Map map, Player player)
+        public override void Attack(Map map, Player player)
         {
-            Durability--;
+            base.Attack(map, player);
 
             Projectile.LaunchProjectile(projectileData, map, player);
         }
-        /*
-                     Projectile projectile = new Projectile(Game.content.Load<Texture2D>("Textures\\Spritesheets\\wolf"),
-                6, player, 60, Game.content.Load<SoundEffect>("Audio\\Waves\\fireball launch"),
-                Game.content.Load<SoundEffect>("Audio\\Waves\\fireball hit"));
-            projectile.AddLight(150, Color.Red);
-            projectile.AddToGameObjectList(map);
-            projectile.passable = true;
-         */
     }
 }
