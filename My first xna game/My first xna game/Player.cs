@@ -1001,6 +1001,7 @@ namespace My_first_xna_game
                 if (weapon != null)
                 {
                     weapon.Attack(map, this);
+                    break;
                 }
             }
         }
