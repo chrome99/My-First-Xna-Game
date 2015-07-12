@@ -7,6 +7,7 @@ namespace My_first_xna_game
     {
         public Rectangle? drawingRect = null;
         public Texture2D texture;
+        public float rotation = 0f;
 
         public Picture(Texture2D texture, Vector2 position, Window source, bool hidden = false)
             : base(source, hidden)
@@ -32,7 +33,7 @@ namespace My_first_xna_game
         {
             if (visible)
             {
-                spriteBatch.Draw(texture, GetDrawingPositionWithoutSource(offsetRect), drawingRect, Color.White * drawingOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
+                spriteBatch.Draw(texture, GetDrawingPositionWithoutSource(offsetRect), drawingRect, Color.White * drawingOpacity, rotation, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
             }
         }
     }

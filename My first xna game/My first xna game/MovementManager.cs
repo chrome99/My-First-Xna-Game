@@ -35,6 +35,28 @@ namespace My_first_xna_game
             }
         }
 
+        public static Direction DirectionTo(Vector2 startingPoint, Vector2 destination)
+        {
+            Direction result = Direction.down;
+            if (destination.X > startingPoint.X)
+            {
+                result = Direction.right;
+            }
+            else if (destination.X < startingPoint.X)
+            {
+                result = Direction.left;
+            }
+            else if (destination.Y > startingPoint.Y)
+            {
+                result = Direction.down;
+            }
+            else if (destination.Y < startingPoint.Y)
+            {
+                result = Direction.up;
+            }
+            return result;
+        }
+
         public static Direction DirectionToGameObject(GameObject startingPoint, GameObject gameObject)
         {
             Direction result = Direction.down;

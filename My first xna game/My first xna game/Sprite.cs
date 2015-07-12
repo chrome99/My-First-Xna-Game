@@ -30,6 +30,7 @@ namespace My_first_xna_game
 
         protected bool forceMoving = false;
         public List<MovementManager.MovementString> movementList = new List<MovementManager.MovementString>();
+        public List<Vector2> destinationsList = new List<Vector2>();
 
         public float depth { get; protected set; }
         public Game.MapDepth MapDepth
@@ -109,6 +110,7 @@ namespace My_first_xna_game
             UpdateSpritesheet(gameTime);
 
             HandleMovementList();
+            HandleDestinationsList();
 
             if (fade)
             {
@@ -126,13 +128,34 @@ namespace My_first_xna_game
 
         protected virtual void UpdateSpritesheet(GameTime gameTime) { }
 
+
+        private void HandleDestinationsList()
+        {
+            if (destinationsList.Count > 0)
+            {
+                forceMoving = true;
+                if (new Vector2((int)(position / Tile.size).X, (int)(position / Tile.size).Y) != new Vector2((int)(destinationsList[0] / Tile.size).X, (int)(destinationsList[0] / Tile.size).Y))
+                {
+                    destinationsList.Remove(destinationsList[0]);
+                }
+                else
+                {
+                    move(MovementManager.DirectionTo(position, destinationsList[0]), (int)speed);
+                }
+            }
+            else if (movementList.Count <= 0)
+            {
+                forceMoving = false;
+            }
+        }
+
         int movementCount = 0;
         private void HandleMovementList()
         {
             if (movementList.Count > 0)
             {
                 forceMoving = true;
-                int maxMovementCount = movementList[0].destination / (int)speed;
+                int maxMovementCount = movementList[0].destination / (int)GetSpeedByType(movementList[0].speedType);
 
                 if (movementCount < maxMovementCount)
                 {
@@ -144,10 +167,6 @@ namespace My_first_xna_game
                     movementList.Remove(movementList[0]);
                     movementCount = 0;
                 }
-            }
-            else
-            {
-                forceMoving = false; 
             }
         }
 

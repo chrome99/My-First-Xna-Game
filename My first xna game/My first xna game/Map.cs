@@ -12,6 +12,7 @@ namespace My_first_xna_game
         public List<Hostile> hostilesList = new List<Hostile>();
         public List<GameObject> gameObjectList = new List<GameObject>();
         private TileMap tileMap;
+        
         public string name;
 
         public int width

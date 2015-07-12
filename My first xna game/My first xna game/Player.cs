@@ -268,6 +268,8 @@ namespace My_first_xna_game
 
         }
 
+        aStarCalculator cal;
+
         public Player(Texture2D texture, Vector2 position, PlayerKeys kbKeys, Stats stats)
             : base(texture, position, MovementManager.Auto.off)
         {
@@ -300,6 +302,7 @@ namespace My_first_xna_game
             switchSkillDisplay = new SwitchSkillDisplay(map, this);
             chooseSkill = new ChooseSkill(this);
             commandLine = new CommandLine(this);
+            cal = new aStarCalculator(map);
         }
 
         public void AssignToCamera(Camera camera)
@@ -1003,6 +1006,19 @@ namespace My_first_xna_game
 
         private void Attack()
         {
+            List<Vector2> bla = cal.FindWayTo(position, new Vector2(500, 500));
+            if (bla != null)
+            {
+                foreach (Vector2 vector2 in bla)
+                {
+                    GameObject light = new GameObject(vector2);
+                    light.passable = true;
+                    Random random = new Random();
+                    light.AddLight(32, new Color(random.Next(255), random.Next(255), random.Next(255)), 100);
+                    map.AddObject(light);
+                }
+            }
+            return;
             for (int counter = 0; counter < equipmentList.Count; counter++)
             {
                 Weapon weapon = equipmentList[counter] as Weapon;
@@ -1103,6 +1119,7 @@ namespace My_first_xna_game
             debug.Draw(spriteBatch);
             chooseSkill.Draw(spriteBatch);
             commandLine.Draw(spriteBatch);
+            cal.Draw(spriteBatch, offsetRect);
         }
     }
 }

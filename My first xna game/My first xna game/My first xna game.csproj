@@ -114,6 +114,7 @@
   <ItemGroup>
     <Compile Include="Actor.cs" />
     <Compile Include="Armor.cs" />
+    <Compile Include="aStarMap.cs" />
     <Compile Include="ChoiceInventory.cs" />
     <Compile Include="ChooseSkill.cs" />
     <Compile Include="Combo.cs" />
