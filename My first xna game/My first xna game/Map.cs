@@ -12,6 +12,7 @@ namespace My_first_xna_game
         public List<Hostile> hostilesList = new List<Hostile>();
         public List<GameObject> gameObjectList = new List<GameObject>();
         private TileMap tileMap;
+        private MovementManager movementManager;
         
         public string name;
 
@@ -24,13 +25,63 @@ namespace My_first_xna_game
             get { return tileMap.height; }
         }
 
+        public List<Layer> Layers
+        {
+            get { return tileMap.layers; }
+        }
+
         public Map(TileMap tileMap, string name)
         {
             this.tileMap = tileMap;
             this.name = name;
 
+            movementManager = new MovementManager(this);
+
             //add collision objects in tileMap
             tileMap.AddCollisionObjects(this);
+        }
+
+        public bool CheckTilePassability(int x, int y)
+        {
+            for (int i = Layers.Count - 1; i > -1; i--)
+            {
+                MapCell cell = Layers[i].Rows[y].Columns[x];
+                if (!cell.empty)
+                {
+                    return cell.passable;
+                }
+            }
+            return true;
+        }
+
+        public bool CheckTilePassability(Vector2 tilePosition)
+        {
+            tilePosition.X = (int)tilePosition.X / Tile.size;
+            tilePosition.Y = (int)tilePosition.Y / Tile.size;
+            for (int i = Layers.Count - 1; i > -1; i--)
+            {
+                MapCell cell = Layers[i].Rows[(int)tilePosition.Y].Columns[(int)tilePosition.X];
+                if (!cell.empty)
+                {
+                    return cell.passable;
+                }
+            }
+            return true;
+        }
+
+        public void RemoveTagObjects(string tag)
+        {
+            for (int i = 0; i < gameObjectList.Count; )
+            {
+                if (gameObjectList[i].tags.Contains(tag))
+                {
+                    RemoveObject(gameObjectList[i]);
+                }
+                else
+                {
+                    i++;
+                }
+            }
         }
 
         public void RemoveObject(GameObject gameObject)
@@ -111,7 +162,7 @@ namespace My_first_xna_game
         public void IntializeMapVariables(GameObject gameObject)
         {
             gameObject.mapRect = tileMap.mapRect;
-            gameObject.movementManager = new MovementManager(this);
+            gameObject.movementManager = movementManager;
             Player player = gameObject as Player;
             if (player != null)
             {
@@ -335,6 +386,7 @@ namespace My_first_xna_game
             {
                 //draw tilemap (high)
                 tileMap.Draw(spriteBatch, camera.screenRect, camera.mapRect, false);
+                movementManager.DrawDebug(spriteBatch, camera.mapRect);
             }
         }
 

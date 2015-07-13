@@ -338,6 +338,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Maps\maze.tmx">
+      <Name>maze</Name>
+    </None>
     <None Include="Maps\tower.tmx">
       <Name>tower</Name>
     </None>

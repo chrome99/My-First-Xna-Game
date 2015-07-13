@@ -155,8 +155,8 @@ namespace My_first_xna_game
             {
                 if (CollisionManager.GameObjectCollision(portal, sprite))
                 {
-                    MapCollection.map.RemoveObject(sprite);
-                    MapCollection.map2.AddObject(sprite);
+                    MapCollection.classic.RemoveObject(sprite);
+                    MapCollection.tower.AddObject(sprite);
                     sprite.Reset();
                 }
             }

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace My_first_xna_game
 {
     public class MovementManager
     {
-        Map map;
+        private aStarCalculator cal;
+        private Map map;
         public enum Direction { left, right, down, up }
         public enum MovingState { standing, walking, running }
         public enum Auto { off, random}
@@ -22,6 +24,44 @@ namespace My_first_xna_game
         public MovementManager(Map map)
         {
             this.map = map;
+            cal = new aStarCalculator(map);
+        }
+
+        public List<Vector2> WayTo(Vector2 startingPoint, Vector2 destination, bool diagonal = true)
+        {
+            return cal.FindWayTo(startingPoint, destination, diagonal);
+        }
+
+        public void HighlightWayTo(Vector2 startingPoint, Vector2 destination, bool diagonal = true)
+        {
+            List<Vector2> way = cal.FindWayTo(startingPoint, destination, diagonal);
+
+            //remove old highlights
+            map.RemoveTagObjects("debug highlightWay");
+
+            //highlight destination
+            GameObject light = new GameObject(way[way.Count-1]);
+            light.passable = true;
+            light.AddLight(32, Color.Gold);
+            light.tags.Add("debug highlightWay");
+            map.AddObject(light);
+            way.Remove(way[way.Count - 1]);
+
+
+            //highlight way
+            foreach (Vector2 nodes in way)
+            {
+                light = new GameObject(nodes);
+                light.passable = true;
+                light.tags.Add("debug highlightWay");
+                light.AddLight(32, Color.Red);
+                map.AddObject(light);
+            }
+        }
+
+        public void DrawDebug(SpriteBatch spriteBatch, Rectangle offsetRect)
+        {
+            cal.Draw(spriteBatch, offsetRect);
         }
 
         public static Direction RandomDirection

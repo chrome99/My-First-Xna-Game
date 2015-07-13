@@ -194,10 +194,10 @@ namespace My_first_xna_game
 
                         //build map
                         
-                        MapCollection.map.AddObject(PlayerCollection.player1);
-                        MapCollection.map2.AddObject(PlayerCollection.player2);
-                        MapCollection.map.AddObject(PlayerCollection.player3);
-                        MapCollection.map.AddObject(PlayerCollection.player4);
+                        MapCollection.classic.AddObject(PlayerCollection.player1);
+                        MapCollection.tower.AddObject(PlayerCollection.player2);
+                        MapCollection.tower.AddObject(PlayerCollection.player3);
+                        MapCollection.tower.AddObject(PlayerCollection.player4);
                         
 
                         camera1 = new Camera(graphicsDeviceManager, new Rectangle(0, 0, 960, 540), PlayerCollection.player1, PlayerCollection.player1);

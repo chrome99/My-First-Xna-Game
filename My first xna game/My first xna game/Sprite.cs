@@ -134,14 +134,48 @@ namespace My_first_xna_game
             if (destinationsList.Count > 0)
             {
                 forceMoving = true;
-                if (new Vector2((int)(position / Tile.size).X, (int)(position / Tile.size).Y) != new Vector2((int)(destinationsList[0] / Tile.size).X, (int)(destinationsList[0] / Tile.size).Y))
+                Vector2 tilePosition = new Vector2((int)((core.X)), (int)((core.Y)));
+                Vector2 tileDestination = new Vector2((int)(destinationsList[0]).X, (int)(destinationsList[0]).Y);
+
+                if ((int)tilePosition.X - (int)tileDestination.X >= 0 && (int)tilePosition.X - (int)tileDestination.X < (int)speed)
+                {
+                    tilePosition.X = tileDestination.X;
+                }
+                if ((int)tilePosition.Y - (int)tileDestination.Y >= 0 && (int)tilePosition.Y - (int)tileDestination.Y < (int)speed)
+                {
+                    tilePosition.Y = tileDestination.Y;
+                }
+
+                if (tilePosition == tileDestination)
                 {
                     destinationsList.Remove(destinationsList[0]);
+                    if (destinationsList.Count > 0)
+                    {
+                        tileDestination = new Vector2((int)(destinationsList[0]).X, (int)(destinationsList[0]).Y);
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
-                else
+
+                if (tilePosition.X > tileDestination.X)
                 {
-                    move(MovementManager.DirectionTo(position, destinationsList[0]), (int)speed);
+                    move(MovementManager.Direction.left, (int)speed);
                 }
+                else if (tilePosition.X < tileDestination.X)
+                {
+                    move(MovementManager.Direction.right, (int)speed);
+                }
+                if (tilePosition.Y > tileDestination.Y)
+                {
+                    move(MovementManager.Direction.up, (int)speed);
+                }
+                else if (tilePosition.Y < tileDestination.Y)
+                {
+                    move(MovementManager.Direction.down, (int)speed);
+                }
+
             }
             else if (movementList.Count <= 0)
             {

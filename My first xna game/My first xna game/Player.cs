@@ -268,8 +268,6 @@ namespace My_first_xna_game
 
         }
 
-        aStarCalculator cal;
-
         public Player(Texture2D texture, Vector2 position, PlayerKeys kbKeys, Stats stats)
             : base(texture, position, MovementManager.Auto.off)
         {
@@ -302,7 +300,6 @@ namespace My_first_xna_game
             switchSkillDisplay = new SwitchSkillDisplay(map, this);
             chooseSkill = new ChooseSkill(this);
             commandLine = new CommandLine(this);
-            cal = new aStarCalculator(map);
         }
 
         public void AssignToCamera(Camera camera)
@@ -1004,19 +1001,24 @@ namespace My_first_xna_game
             return false;
         }
 
+        bool toggleDebugAStar = false;
+        Vector2 lastPosition;
         private void Attack()
         {
-            List<Vector2> bla = cal.FindWayTo(position, new Vector2(500, 500));
-            if (bla != null)
+            if (toggleDebugAStar)
             {
-                foreach (Vector2 vector2 in bla)
+                List<Vector2> way = movementManager.WayTo(new Vector2(core.X, core.Y), lastPosition);
+                movementManager.HighlightWayTo(new Vector2(core.X, core.Y), lastPosition);
+                foreach (Vector2 node in way)
                 {
-                    GameObject light = new GameObject(vector2);
-                    light.passable = true;
-                    Random random = new Random();
-                    light.AddLight(32, new Color(random.Next(255), random.Next(255), random.Next(255)), 100);
-                    map.AddObject(light);
+                    destinationsList.Add(node);
                 }
+                toggleDebugAStar = false;
+            }
+            else
+            {
+                lastPosition = new Vector2(core.X, core.Y);
+                toggleDebugAStar = true;
             }
             return;
             for (int counter = 0; counter < equipmentList.Count; counter++)
@@ -1119,7 +1121,6 @@ namespace My_first_xna_game
             debug.Draw(spriteBatch);
             chooseSkill.Draw(spriteBatch);
             commandLine.Draw(spriteBatch);
-            cal.Draw(spriteBatch, offsetRect);
         }
     }
 }
