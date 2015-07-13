@@ -33,7 +33,7 @@ namespace My_first_xna_game
          * effects
          * core collision
          * options
-         * gamemodes
+         * gamemodes (deathmach, last man standing, tag, ctf, king of the hill, ring of fire(sumo), hot potato, gameMaster / gameVillan, find the tresure)
          * trade
          * pvp menu
          * chat

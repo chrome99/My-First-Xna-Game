@@ -67,7 +67,41 @@ namespace My_first_xna_game
 
         public void Update()
         {
-            Move(cameraLightspot.position - cellNumber(cameraLightspot));
+            //Move(cameraLightspot.position - cellNumber(cameraLightspot));
+
+            int speed = 2;
+            Sprite sprite = cameraLightspot as Sprite;
+            if (sprite != null)
+            {
+                speed = (int)sprite.speed - 1;
+            }
+
+            Vector2 cameraLightspotPosition = new Vector2((int)cameraLightspot.position.X - (int)cellNumber(cameraLightspot).X, (int)cameraLightspot.position.Y - (int)cellNumber(cameraLightspot).Y);
+            Vector2 mapPosition = new Vector2((int)mapRect.X, (int)mapRect.Y);
+
+            if (!(cameraLightspotPosition.X - mapPosition.X >= 0 && cameraLightspotPosition.X - mapPosition.X <= speed))
+            {
+                if (MathHelper.Clamp(cameraLightspot.position.X - cellNumber(cameraLightspot).X, 0, cameraLightspot.position.X) > mapRect.X)
+                {
+                    Move(new Vector2(mapRect.X + speed, mapRect.Y));
+                }
+                else if (MathHelper.Clamp(cameraLightspot.position.X - cellNumber(cameraLightspot).X, 0, cameraLightspot.position.X) < mapRect.X)
+                {
+                    Move(new Vector2(mapRect.X - speed, mapRect.Y));
+                }
+            }
+
+            if (!(cameraLightspotPosition.Y - mapPosition.Y >= 0 && cameraLightspotPosition.Y - mapPosition.Y <= speed))
+            {
+                if (MathHelper.Clamp(cameraLightspot.position.Y - cellNumber(cameraLightspot).Y, 0, cameraLightspot.position.Y) > mapRect.Y)
+                {
+                    Move(new Vector2(mapRect.X, mapRect.Y + speed));
+                }
+                else if (MathHelper.Clamp(cameraLightspot.position.Y - cellNumber(cameraLightspot).Y, 0, cameraLightspot.position.Y) < mapRect.Y)
+                {
+                    Move(new Vector2(mapRect.X, mapRect.Y - speed));
+                }
+            }
         }
 
         private void DrawLow(SpriteBatch spriteBatch)

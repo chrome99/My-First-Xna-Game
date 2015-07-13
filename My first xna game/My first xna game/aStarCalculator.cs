@@ -60,7 +60,7 @@ namespace My_first_xna_game
                 nodesList[i].passable = map.CheckTilePassability(i % map.width, i / map.width);
                 nodesList[i].heuristic = FindHeuristicValue(nodesList[i], destination);
                 nodesList[i].parent = null;
-                Text text = new Text(Game.content.Load<SpriteFont>("Fonts\\medival small"), nodesList[i].position * Tile.size, Color.White * 0.2f, nodesList[i].heuristic.ToString());
+                Text text = new Text(Game.content.Load<SpriteFont>("Fonts\\medival small"), nodesList[i].position * Tile.size, Color.White, nodesList[i].heuristic.ToString());
                 heuristicTextList.Add(text);
             }
 

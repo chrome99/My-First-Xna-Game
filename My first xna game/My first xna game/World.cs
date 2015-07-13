@@ -66,7 +66,7 @@ namespace My_first_xna_game
                 {
                     camera.effect.Parameters["lightMask"].SetValue(camera.lightsTarget);
 
-                    camera.effect.Parameters["active"].SetValue(true);
+                    camera.effect.Parameters["active"].SetValue(false);
                     camera.effect.CurrentTechnique.Passes[0].Apply();
                     spriteBatch.Draw(camera.renderTarget, Vector2.Zero, Color.White);
                     spriteBatch.End();
