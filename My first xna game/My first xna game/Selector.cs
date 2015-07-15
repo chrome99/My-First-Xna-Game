@@ -9,6 +9,9 @@ namespace My_first_xna_game
 {
     public class Selector : WindowItem
     {
+        public delegate void HandleItemChoice();
+
+        public HandleItemChoice handleItemChoiceFunction;
         public static Rectangle selectorRect = new Rectangle(128, 64, 32, 32);
         public WindowItem currentTarget;
         public int currentTargetNum;
@@ -25,14 +28,16 @@ namespace My_first_xna_game
         // TODO: Remove this
         private bool opacityMaxed = false;
 
+        public bool confirmKeyReleased = false;
         private bool upKeyReleased = false;
         private bool downKeyReleased = false;
         private bool leftKeyReleased = false;
         private bool rightKeyReleased = false;
 
-        public Selector(Window source, Player player, List<WindowItem> targets, Vector2 size, int layout, int itemsInRow = 0)
+        public Selector(Player player, List<WindowItem> targets, HandleItemChoice handleItemChoiceFunction, Vector2 size, int layout, int itemsInRow = 0, Window source = null)
             : base(source, true)
         {
+            this.handleItemChoiceFunction = handleItemChoiceFunction;
             this.size = size;
             this.layout = layout;
             this.itemsInRow = itemsInRow;
@@ -41,7 +46,14 @@ namespace My_first_xna_game
 
             customSize = size == new Vector2();
 
-            texture = source.texture;
+            if (source == null)
+            {
+                texture = Game.content.Load<Texture2D>("Textures\\Windows\\windowskin");
+            }
+            else
+            {
+                texture = source.texture;
+            }
             opacity = 30f;
             WindowDepth = Game.WindowDepth.windowsSelector;
         }
@@ -122,6 +134,18 @@ namespace My_first_xna_game
             {
                 //use default keys
             }
+
+            //confirm
+            if (newState.IsKeyDown(player.kbKeys.attack) && confirmKeyReleased)
+            {
+                handleItemChoiceFunction();
+                confirmKeyReleased = false;
+            }
+            else if (!oldState.IsKeyDown(player.kbKeys.attack))
+            {
+                confirmKeyReleased = true;
+            }
+
             //right
             if (newState.IsKeyDown(player.kbKeys.mvRight) && rightKeyReleased)
             {

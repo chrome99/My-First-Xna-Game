@@ -18,7 +18,7 @@ namespace My_first_xna_game
         private bool debugParent;
         private bool debugMovmentCost;
 
-        public aStarCalculator(Map map, bool debugHeuristic = false, bool debugMovmentCost = false, bool debugParent = true)
+        public aStarCalculator(Map map, bool debugHeuristic = false, bool debugMovmentCost = false, bool debugParent = false)
         {
             this.map = map;
             this.debugHeuristic = debugHeuristic;

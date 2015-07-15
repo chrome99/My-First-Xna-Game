@@ -10,6 +10,8 @@ namespace My_first_xna_game
 {
     public class Player : Hostile
     {
+        private bool debugAStar = false;
+
         public Camera camera;
         public PlayerKeys kbKeys;
 
@@ -690,7 +692,7 @@ namespace My_first_xna_game
                 menuKeyReleased = true;
             }
 
-            if (shop.alive || msg.alive || menu.alive || chooseSkill.alive || forceMoving)
+            if (shop.alive || msg.alive || menu.alive || chooseSkill.alive || switchSkillDisplay.alive || forceMoving)
             {
                 return;
             }
@@ -798,18 +800,11 @@ namespace My_first_xna_game
                 //switch skill (if running button is pressed and use skill button released)
                 if (!useSkillKeyReleased)
                 {
-                    if (switchSkillDisplay.alive)
+                    if (playerRunning)
                     {
-                        switchSkillDisplay.Dispose();
+                        SwitchSkill();
                     }
-                    else
-                    {
-                        if (playerRunning)
-                        {
-                            SwitchSkill();
-                        }
-                        switchSkillMenuTimer.Reset(false);
-                    }
+                    switchSkillMenuTimer.Reset(false);
                 }
 
                 useSkillKeyReleased = true;
@@ -1001,26 +996,29 @@ namespace My_first_xna_game
             return false;
         }
 
-        bool toggleDebugAStar = false;
-        Vector2 lastPosition;
+        private bool DebugAStarToggleSetGet = false;
+        private Vector2 AStarDebugLastPosition;
         private void Attack()
         {
-            if (toggleDebugAStar)
+            if (debugAStar)
             {
-                List<Vector2> way = movementManager.WayTo(new Vector2(core.X, core.Y), lastPosition);
-                //movementManager.HighlightWayTo(new Vector2(core.X, core.Y), lastPosition);
-                foreach (Vector2 node in way)
+                if (DebugAStarToggleSetGet)
                 {
-                    destinationsList.Add(node);
+                    List<Vector2> way = movementManager.WayTo(new Vector2(core.X, core.Y), AStarDebugLastPosition);
+                    movementManager.HighlightWayTo(new Vector2(core.X, core.Y), AStarDebugLastPosition);
+                    foreach (Vector2 node in way)
+                    {
+                        destinationsList.Add(node);
+                    }
+                    DebugAStarToggleSetGet = false;
                 }
-                toggleDebugAStar = false;
+                else
+                {
+                    AStarDebugLastPosition = new Vector2(core.X, core.Y);
+                    DebugAStarToggleSetGet = true;
+                }
+                return;
             }
-            else
-            {
-                lastPosition = new Vector2(core.X, core.Y);
-                toggleDebugAStar = true;
-            }
-            return;
             for (int counter = 0; counter < equipmentList.Count; counter++)
             {
                 Weapon weapon = equipmentList[counter] as Weapon;

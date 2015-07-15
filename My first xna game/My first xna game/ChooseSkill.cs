@@ -14,8 +14,6 @@ namespace My_first_xna_game
         private Player player;
         private SkillBranch currentBranch;
 
-        private bool confirmKeyReleased = false;
-
         public ChooseSkill(Player player)
         {
             this.player = player;
@@ -67,7 +65,7 @@ namespace My_first_xna_game
                 text.position.Y += i * text.bounds.Height + 10;
             }
 
-            selector = new Selector(window, player, new List<WindowItem>() { skillText1, skillText2 }, new Vector2(), 10, 2);
+            selector = new Selector(player, new List<WindowItem>() { skillText1, skillText2 }, HandleItemChoice, new Vector2(), 10, 2, window);
         }
 
         public void Update(GameTime gameTime, KeyboardState newState, KeyboardState oldState)
@@ -76,33 +74,23 @@ namespace My_first_xna_game
 
             window.Update(gameTime);
             window.UpdateSelectorAndTextBox(newState, oldState, gameTime);
-
-            UpdateInput(newState, oldState);
         }
 
-        public void UpdateInput(KeyboardState newState, KeyboardState oldState)
+        private void HandleItemChoice()
         {
-            if (newState.IsKeyDown(player.kbKeys.attack) && confirmKeyReleased)
+            if (selector.currentTargetNum == 1)
             {
-                if (selector.currentTargetNum == 1)
-                {
-                    player.LearnSkill(currentBranch.skill2);
-                    player.AddStats(currentBranch.changeStats2);
-                    alive = false;
-                }
-                else
-                {
-                    player.LearnSkill(currentBranch.skill1);
-                    player.AddStats(currentBranch.changeStats1);
-                    alive = false;
-                }
-                player.holdUpdateInput = true;
-                confirmKeyReleased = false;
+                player.LearnSkill(currentBranch.skill2);
+                player.AddStats(currentBranch.changeStats2);
+                alive = false;
             }
-            else if (!oldState.IsKeyDown(player.kbKeys.attack))
+            else
             {
-                confirmKeyReleased = true;
+                player.LearnSkill(currentBranch.skill1);
+                player.AddStats(currentBranch.changeStats1);
+                alive = false;
             }
+            player.holdUpdateInput = true;
         }
 
         public void Draw(SpriteBatch spriteBatch)

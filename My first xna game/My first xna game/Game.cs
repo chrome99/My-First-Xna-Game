@@ -16,7 +16,6 @@ namespace My_first_xna_game
     {
         /*
          TODO:
-         * round raduis for enemies
          * better AI for enemies
          * switch skill hud
          * 
@@ -51,6 +50,7 @@ namespace My_first_xna_game
          * redstone
          
          BUGS:
+         * confirm selector bug
          * fix too much stat changes in skill tree at choose skill
          * fix boat bug
          * order update anyway in sprite and in hostile

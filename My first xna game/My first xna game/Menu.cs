@@ -13,7 +13,6 @@ namespace My_first_xna_game
         private Player player;
         private Inventory inventory;
         private EquipmentMenu equipment;
-        private bool confirmKeyReleased = false;
 
         public Menu(Map map, Player player)
         {
@@ -27,7 +26,7 @@ namespace My_first_xna_game
             Text saveText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Save", null, new Vector2(2, 5));
             Text loadText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Load", null, new Vector2(2, 5));
             Text exitText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Exit", null, new Vector2(2, 5));
-            choice = new Choice(map, player.bounds, player, new List<WindowItem> { returnText, inventoryText, equipmentText, saveText, loadText, exitText }, Choice.Arrangement.column);
+            choice = new Choice(map, player.bounds, player, new List<WindowItem> { returnText, inventoryText, equipmentText, saveText, loadText, exitText }, HandleChoice, Choice.Arrangement.column);
         }
 
         public void Kill()
@@ -56,52 +55,41 @@ namespace My_first_xna_game
             inventory.Update(newState, oldState, gameTime);
             equipment.Update(newState, oldState, gameTime);
             choice.Update(newState, oldState, gameTime);
-
-            UpdateInput(newState, oldState);
         }
 
-        private void UpdateInput(KeyboardState newState, KeyboardState oldState)
+        private void HandleChoice()
         {
-            if (!choice.alive) { return; }
-            if (newState.IsKeyDown(player.kbKeys.attack) && confirmKeyReleased)
+            Game.content.Load<SoundEffect>("Audio\\Waves\\confirm").Play();
+            switch (choice.currentTargetNum)
             {
-                Game.content.Load<SoundEffect>("Audio\\Waves\\confirm").Play();
-                switch (choice.currentTargetNum)
-                {
-                    case 0: //Return
-                        alive = false;
-                        player.holdUpdateInput = true;
-                        return;
+                case 0: //Return
+                    alive = false;
+                    player.holdUpdateInput = true;
+                    return;
 
-                    case 1: //Inventory
-                        choice.alive = false;
-                        inventory.Revive();
-                        break;
+                case 1: //Inventory
+                    choice.alive = false;
+                    inventory.Revive();
+                    break;
 
-                    case 2: //Equipment
-                        choice.alive = false;
-                        equipment.Revive();
-                        break;
+                case 2: //Equipment
+                    choice.alive = false;
+                    equipment.Revive();
+                    break;
 
-                    case 3: //Save
-                        Game.InitiateSave();
-                        alive = false;
-                        break;
+                case 3: //Save
+                    Game.InitiateSave();
+                    alive = false;
+                    break;
 
-                    case 4: //Load
-                        Game.InitiateLoad();
-                        alive = false;
-                        break;
+                case 4: //Load
+                    Game.InitiateLoad();
+                    alive = false;
+                    break;
 
-                    case 5: //Exit
-                        Game.endGame = true;
-                        break;
-                }
-                confirmKeyReleased = false;
-            }
-            else if (!oldState.IsKeyDown(player.kbKeys.attack))
-            {
-                confirmKeyReleased = true;
+                case 5: //Exit
+                    Game.endGame = true;
+                    break;
             }
         }
 

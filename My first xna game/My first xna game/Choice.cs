@@ -9,6 +9,7 @@ namespace My_first_xna_game
     public class Choice//todo: private
     {
         public enum Arrangement { line, column, square }
+        public Selector.HandleItemChoice handleChoice;
         private List<WindowItem> optionsList;
         public bool alive = true;
         private Player player;
@@ -27,9 +28,10 @@ namespace My_first_xna_game
             set { selector.currentTargetNum = value; }
         }
 
-        public Choice(Map map, Rectangle sourcePosition, Player player, List<WindowItem> optionsList, Arrangement arrangement = Arrangement.square, bool playerCollision = false)
+        public Choice(Map map, Rectangle sourcePosition, Player player, List<WindowItem> optionsList, Selector.HandleItemChoice handleChoice, Arrangement arrangement = Arrangement.square, bool playerCollision = false)
         {
             //intialize variables
+            this.handleChoice = handleChoice;
             this.optionsList = optionsList;
             this.player = player;
 
@@ -117,7 +119,7 @@ namespace My_first_xna_game
             window = new Window(map, Game.content.Load<Texture2D>("Textures\\Windows\\windowskin"), Vector2.Zero, (int)windowSize.X, (int)windowSize.Y, windowPlayer);
             window.SetWindowAbove(sourcePosition);
 
-            selector = new Selector(window, player, optionsList, biggestOptionSize, 0, newRow);
+            selector = new Selector(player, optionsList, handleChoice, biggestOptionSize, 0, newRow, window);
 
             foreach (WindowItem option in this.optionsList)
             {

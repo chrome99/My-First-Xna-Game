@@ -11,16 +11,22 @@ namespace My_first_xna_game
         public bool active = false;
         Player player;
         List<Picture> picturesList;
+        Selector selector;
 
         public SwitchSkillDisplay(Map map, Player player)
         {
             this.player = player;
             picturesList = new List<Picture>();
+            List<WindowItem> picturesListAsWindowItems = new List<WindowItem>();
 
             for (int i = 0; i < 5; i++)
             {
-                picturesList.Add(new Picture(Item.IconSet, Vector2.Zero, null));
+                Picture picture = new Picture(Item.IconSet, Vector2.Zero, null);
+                picturesList.Add(picture);
+                picturesListAsWindowItems.Add(picture);
             }
+
+            selector = new Selector(player, picturesListAsWindowItems, HandleItemChoice, new Vector2(Item.size), 0, 5, null);
 
             Kill();
         }
@@ -68,6 +74,7 @@ namespace My_first_xna_game
         public void Update(GameTime gameTime, KeyboardState newState, KeyboardState oldState)
         {
             if (!alive) { return; }
+            selector.UpdateSelector(newState, oldState, gameTime);
 
             if (picturesList[0].opacity == 0)
             {
@@ -76,14 +83,20 @@ namespace My_first_xna_game
 
             for (int i = 0; i < picturesList.Count; i++)
             {
-                picturesList[i].position = new Vector2(player.position.X + ((i - 2) * 50), player.position.Y - 50);
+                //picturesList[i].position = new Vector2(player.position.X + ((i - 2) * 50), player.position.Y - 50);
                 picturesList[i].UpdateFade();
             }
+        }
+
+        private void HandleItemChoice()
+        {
+            
         }
 
         public void Draw(SpriteBatch spriteBatch, Rectangle offsetRect)
         {
             if (!alive) { return; }
+            selector.DrawWithoutSource(spriteBatch, offsetRect);
 
             foreach (Picture picture in picturesList)
             {

@@ -16,7 +16,6 @@ namespace My_first_xna_game
         public Selector selector; //TODO PRIVATE
         public List<Text> amountTexts = new List<Text>();
         protected Player player;
-        protected bool useKeyReleased = false;
         protected Actor sourcePack;
         //private Vector2 savedWindowPosition; //effects
         //private bool positionMaxed = false; //effects
@@ -76,7 +75,7 @@ namespace My_first_xna_game
             pack.representation = this;
             pack.CreateItems(this, window);
             SortItems();
-            selector = new Selector(window, player, window.itemsList, new Vector2(Item.size + spacing, Item.size + spacing), spacing / 2, margin);
+            selector = new Selector(player, window.itemsList, HandleItemChoice, new Vector2(Item.size + spacing, Item.size + spacing), spacing / 2, margin, window);
             if (pack.items.Count == 0)
             {
                 selector.visible = false;
@@ -138,7 +137,7 @@ namespace My_first_xna_game
 
         public void Revive()
         {
-            useKeyReleased = false;
+            selector.confirmKeyReleased = false;
             setWindowPosition();
             DeleteWindowItems();
             CreateWindowItems();
@@ -215,31 +214,10 @@ namespace My_first_xna_game
                     positionMaxed = false;
                 }
             }*/
-
-            if (selector.visible)
-            {
-                UpdateInput(newState, oldState);
-            }
         }
 
         protected virtual void UpdateBuyInventory() { }
         protected virtual void UpdateShopInventory() { }
-
-        protected void UpdateInput(KeyboardState newState, KeyboardState oldState)
-        {
-
-            if (newState.IsKeyDown(player.kbKeys.attack) && useKeyReleased)
-            {
-                HandleItemChoice();
-
-                useKeyReleased = false;
-            }
-            else if (!oldState.IsKeyDown(player.kbKeys.attack))
-            {
-                useKeyReleased = true;
-            }
-
-        }
 
         protected virtual void HandleItemChoice()
         {

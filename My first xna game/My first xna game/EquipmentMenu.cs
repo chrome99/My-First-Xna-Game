@@ -20,14 +20,13 @@ namespace My_first_xna_game
         private Picture rightHand;
 
         private int chosenBodyPart;
-        private bool useKeyReleased = false;
         private int subUnEquipedOpacity = 30;
 
         public EquipmentMenu(Map map, Player player)
         {
             this.player = player;
 
-            armorInventory = new ChoiceInventory(map, player, HandleItemChoice, Inventory.Side.none);
+            armorInventory = new ChoiceInventory(map, player, HandleArmorInventoryChoice, Inventory.Side.none);
             armorInventory.Kill();
 
             window = new Window(map, Game.content.Load<Texture2D>("Textures\\Windows\\windowskin"), Vector2.Zero, 140, 220, null);
@@ -43,7 +42,7 @@ namespace My_first_xna_game
 
             rightHand = new Picture(Item.IconSet, new Vector2(78, 32 * 2 + 10), window);
 
-            selector = new Selector(window, player, window.itemsList, new Vector2(32, 32), 3, 1);
+            selector = new Selector(player, window.itemsList, HandleEquipmentChoice, new Vector2(32, 32), 3, 1, window);
 
             DrawTemplate();
         }
@@ -123,7 +122,7 @@ namespace My_first_xna_game
             }
         }
 
-        private void HandleItemChoice(Item item)
+        private void HandleArmorInventoryChoice(Item item)
         {
             Picture chosenBodyPartPicture = window.itemsList[chosenBodyPart] as Picture;
 
@@ -193,7 +192,7 @@ namespace My_first_xna_game
 
         public void Revive()
         {
-            useKeyReleased = false;
+            selector.confirmKeyReleased = false;
             selector.currentTargetNum = 0;
             window.SetWindowLeft(player.bounds);
             DrawTemplate();
@@ -230,53 +229,37 @@ namespace My_first_xna_game
                     selector.itemsInRow = 3;
                     break;
             }
-
-            UpdateInput(newState, oldState);
         }
 
-        private void UpdateInput(KeyboardState newState, KeyboardState oldState)
+        private void HandleEquipmentChoice()
         {
-
-            if (newState.IsKeyDown(player.kbKeys.attack) && useKeyReleased)
+            Game.content.Load<SoundEffect>("Audio\\Waves\\confirm").Play();
+            chosenBodyPart = selector.currentTargetNum;
+            switch (chosenBodyPart)
             {
-                if (selector.active)
-                {
-                    Game.content.Load<SoundEffect>("Audio\\Waves\\confirm").Play();
-                    chosenBodyPart = selector.currentTargetNum;
-                    switch (chosenBodyPart)
-                    {
-                        case 0: //head
-                            armorInventory.filter = Inventory.Filter.head;
-                            break;
+                case 0: //head
+                    armorInventory.filter = Inventory.Filter.head;
+                    break;
 
-                        case 1: //body
-                            armorInventory.filter = Inventory.Filter.body;
-                            break;
+                case 1: //body
+                    armorInventory.filter = Inventory.Filter.body;
+                    break;
 
-                        case 2: //left hand
-                            armorInventory.filter = Inventory.Filter.weapon;
-                            break;
+                case 2: //left hand
+                    armorInventory.filter = Inventory.Filter.weapon;
+                    break;
 
-                        case 3: //shoes
-                            armorInventory.filter = Inventory.Filter.shoes;
-                            break;
+                case 3: //shoes
+                    armorInventory.filter = Inventory.Filter.shoes;
+                    break;
 
-                        case 4: //right hand
-                            armorInventory.filter = Inventory.Filter.weapon;
-                            break;
-                    }
-                    armorInventory.SetWindowPosition(new Vector2(window.position.X + window.width + 30, window.position.Y));
-                    armorInventory.Revive();
-                    selector.active = false;
-                    useKeyReleased = false;
-                }
-
+                case 4: //right hand
+                    armorInventory.filter = Inventory.Filter.weapon;
+                    break;
             }
-            else if (!oldState.IsKeyDown(player.kbKeys.attack))
-            {
-                useKeyReleased = true;
-            }
-
+            armorInventory.SetWindowPosition(new Vector2(window.position.X + window.width + 30, window.position.Y));
+            armorInventory.Revive();
+            selector.active = false;
         }
 
         public void Draw(SpriteBatch spriteBatch, Rectangle offsetRect)

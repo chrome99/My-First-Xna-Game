@@ -18,7 +18,6 @@ namespace My_first_xna_game
         private Text exitText;
         private Player player;
         public Actor merchant; // todo: private
-        private bool confirmKeyReleased = false;
 
         public Shop() { }
 
@@ -42,7 +41,7 @@ namespace My_first_xna_game
             sellText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Sell", null, new Vector2(2, 5));
             exitText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Talk", null, new Vector2(2, 5));
             tallkText = new Text(Game.content.Load<SpriteFont>("Fonts\\medival1"), Vector2.Zero, Color.White, "Exit", null, new Vector2(2, 5));
-            choice = new Choice(map, merchant.bounds, player, new List<WindowItem> { buyText, sellText, tallkText, exitText }, Choice.Arrangement.square, true);
+            choice = new Choice(map, merchant.bounds, player, new List<WindowItem> { buyText, sellText, tallkText, exitText }, HandleChoice, Choice.Arrangement.square, true);
         }
 
         public void setPlayerWindowPosition()
@@ -67,44 +66,33 @@ namespace My_first_xna_game
             choice.Update(newState, oldState, gameTime);
             buyInventory.Update(newState, oldState, gameTime);
             sellInventory.Update(newState, oldState, gameTime);
-
-            UpdateInput(newState, oldState);
         }
 
-        private void UpdateInput(KeyboardState newState, KeyboardState oldState)
+        private void HandleChoice()
         {
-            if (!choice.alive) { return; }
-            if (newState.IsKeyDown(player.kbKeys.attack) && confirmKeyReleased)
+            Game.content.Load<SoundEffect>("Audio\\Waves\\confirm").Play();
+            switch (choice.currentTargetNum)
             {
-                Game.content.Load<SoundEffect>("Audio\\Waves\\confirm").Play();
-                switch (choice.currentTargetNum)
-                {
-                    case 0: //Buy
-                        choice.alive = false;
-                        buyInventory.Revive();
-                        break;
+                case 0: //Buy
+                    choice.alive = false;
+                    buyInventory.Revive();
+                    break;
 
-                    case 1: //Sel
-                        choice.alive = false;
-                        sellInventory.Revive();
-                        break;
+                case 1: //Sel
+                    choice.alive = false;
+                    sellInventory.Revive();
+                    break;
 
-                    case 2: //Exit
+                case 2: //Exit
 
-                        Kill();
-                        player.holdUpdateInput = true;
-                        break;
+                    Kill();
+                    player.holdUpdateInput = true;
+                    break;
 
-                    case 3: //Talk
-                        choice.alive = false;
-                        player.MessageWindow(merchant, "I've got some fine merchandise today.", true, false, ReturnToMenu);
-                        break;
-                }
-                confirmKeyReleased = false;
-            }
-            else if (!oldState.IsKeyDown(player.kbKeys.attack))
-            {
-                confirmKeyReleased = true;
+                case 3: //Talk
+                    choice.alive = false;
+                    player.MessageWindow(merchant, "I've got some fine merchandise today.", true, false, ReturnToMenu);
+                    break;
             }
         }
         public void ReturnToMenu()
