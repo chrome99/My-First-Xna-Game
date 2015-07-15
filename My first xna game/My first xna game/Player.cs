@@ -1008,7 +1008,7 @@ namespace My_first_xna_game
             if (toggleDebugAStar)
             {
                 List<Vector2> way = movementManager.WayTo(new Vector2(core.X, core.Y), lastPosition);
-                movementManager.HighlightWayTo(new Vector2(core.X, core.Y), lastPosition);
+                //movementManager.HighlightWayTo(new Vector2(core.X, core.Y), lastPosition);
                 foreach (Vector2 node in way)
                 {
                     destinationsList.Add(node);

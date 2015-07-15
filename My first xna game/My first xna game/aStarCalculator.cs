@@ -12,15 +12,19 @@ namespace My_first_xna_game
         private List<aStarNode> openList;
         private List<aStarNode> closedList;
         private List<Text> heuristicTextList = new List<Text>();
+        private List<Text> movementCostTextList = new List<Text>();
         private List<Picture> parentImageList = new List<Picture>();
         private bool debugHeuristic;
         private bool debugParent;
+        private bool debugMovmentCost;
 
-        public aStarCalculator(Map map, bool debugHeuristic = false, bool debugParent = false)
+        public aStarCalculator(Map map, bool debugHeuristic = false, bool debugMovmentCost = false, bool debugParent = true)
         {
             this.map = map;
             this.debugHeuristic = debugHeuristic;
             this.debugParent = debugParent;
+            this.debugMovmentCost = debugMovmentCost;
+
             nodesList = new List<aStarNode>();
             for (int x = 0; x < map.width; x++)
             {
@@ -48,6 +52,10 @@ namespace My_first_xna_game
             {
                 heuristicTextList.Clear();
             }
+            if (debugMovmentCost)
+            {
+                movementCostTextList.Clear();
+            }
             if (debugParent)
             {
                 parentImageList.Clear();
@@ -59,44 +67,31 @@ namespace My_first_xna_game
                 nodesList[i].position.Y = i / map.width;
                 nodesList[i].passable = map.CheckTilePassability(i % map.width, i / map.width);
                 nodesList[i].heuristic = FindHeuristicValue(nodesList[i], destination);
+                nodesList[i].movementCost = 0;
                 nodesList[i].parent = null;
-                Text text = new Text(Game.content.Load<SpriteFont>("Fonts\\medival small"), nodesList[i].position * Tile.size, Color.White, nodesList[i].heuristic.ToString());
-                heuristicTextList.Add(text);
+                if (debugHeuristic)
+                {
+                    Text text = new Text(Game.content.Load<SpriteFont>("Fonts\\Debug1 small"), nodesList[i].position * Tile.size + new Vector2(20, 20), Color.White, nodesList[i].heuristic.ToString());
+                    heuristicTextList.Add(text);
+                }
             }
 
             aStarNode startingNode = nodesList[(int)(startingPosition.Y * map.width + startingPosition.X)];
-            startingNode.movementCost = 0;
             startingNode.parent = null;
             closedList.Add(startingNode);
 
-            List<aStarNode> mamamia2 = GetStarNodes(startingNode, diagonal);
-            foreach (aStarNode node in mamamia2)
+            foreach (aStarNode node in GetStarNodes(startingNode, diagonal))
             {
                 openList.Add(node);
             }
 
             aStarNode result = null;
-            int smallestValue = openList[0].nodeValue;
-            for (int i = 0; i < openList.Count; i++)
-            {
-                openList[i].nodeValue = openList[i].heuristic + openList[i].movementCost;
-                if (openList[i].nodeValue < smallestValue)
-                {
-                    smallestValue = openList[i].nodeValue;
-                }
-            }
-
-            openList.Sort(delegate(aStarNode x, aStarNode y)
-            {
-                if (x.nodeValue == y.nodeValue) return 0;
-                else if (x.nodeValue < y.nodeValue) return -1;
-                else return 1;
-            });
 
             for (int i = 0; i < openList.Count; )
             {
+                openList.Sort(CompareAStarNode);
                 aStarNode node = openList[i];
-                if (node.heuristic == 1)
+                if (node.heuristic == 10)
                 {
                     result = node;
                     break;
@@ -111,35 +106,44 @@ namespace My_first_xna_game
                     }
                 }
             }
-            foreach (aStarNode node in nodesList)
+            if (debugMovmentCost || debugParent)
             {
-                if (node.parent != null)
+                foreach (aStarNode node in nodesList)
                 {
-                    Picture pic = new Picture(Game.content.Load<Texture2D>("Textures\\Spritesheets\\system arrow"), node.position * Tile.size, null);
-                    int setDrawingRectY = 0;
-                    int setDrawingRectX = 0;
-                    if (node.parent.position.X < node.position.X)
+                    if (node.movementCost != 0 && debugMovmentCost)
                     {
-                        setDrawingRectY = 1;
-                        setDrawingRectX = 1;
+                        Text text = new Text(Game.content.Load<SpriteFont>("Fonts\\Debug1 small"), node.position * Tile.size, Color.Gold, node.movementCost.ToString());
+                        movementCostTextList.Add(text);
                     }
-                    if (node.parent.position.X > node.position.X)
+                    if (node.parent != null && debugParent)
                     {
-                        setDrawingRectY = 2;
-                        setDrawingRectX = 2;
+                        Picture pic = new Picture(Game.content.Load<Texture2D>("Textures\\Spritesheets\\system arrow"), node.position * Tile.size, null);
+                        int setDrawingRectY = 0;
+                        int setDrawingRectX = 0;
+                        if (node.parent.position.X < node.position.X)
+                        {
+                            setDrawingRectY = 1;
+                            setDrawingRectX = 1;
+                        }
+                        if (node.parent.position.X > node.position.X)
+                        {
+                            setDrawingRectY = 2;
+                            setDrawingRectX = 2;
+                        }
+                        if (node.parent.position.Y > node.position.Y)
+                        {
+                            setDrawingRectY = 0;
+                        }
+                        if (node.parent.position.Y < node.position.Y)
+                        {
+                            setDrawingRectY = 3;
+                        }
+                        pic.drawingRect = new Rectangle(Tile.size * setDrawingRectX, Tile.size * setDrawingRectY, Tile.size, Tile.size);
+                        parentImageList.Add(pic);
                     }
-                    if (node.parent.position.Y > node.position.Y)
-                    {
-                        setDrawingRectY = 0;
-                    }
-                    if (node.parent.position.Y < node.position.Y)
-                    {
-                        setDrawingRectY = 3;
-                    }
-                    pic.drawingRect = new Rectangle(Tile.size * setDrawingRectX, Tile.size * setDrawingRectY, Tile.size, Tile.size);
-                    parentImageList.Add(pic);
                 }
             }
+
             List<Vector2> path = new List<Vector2>();
             path.Add(destination * Tile.size);
             TranslateNodeToVector2(result, path);
@@ -150,6 +154,13 @@ namespace My_first_xna_game
             path.Reverse();
 
             return path;
+        }
+
+        private int CompareAStarNode(aStarNode x, aStarNode y)
+        {
+            if (x.nodeValue == y.nodeValue) return 0;
+            else if (x.nodeValue < y.nodeValue) return -1;
+            else return 1;
         }
 
         private void TranslateNodeToVector2(aStarNode node, List<Vector2> path)
@@ -188,7 +199,7 @@ namespace My_first_xna_game
             }
             else
             {
-                return result;
+                return result * 10;
             }
         }
 
@@ -208,11 +219,10 @@ namespace My_first_xna_game
                 leftNode = nodesList[index];
                 if (leftNode.passable)
                 {
-                    leftNode.movementCost = 10;
                     if (!openList.Contains(leftNode) && !closedList.Contains(leftNode) && leftNode.parent == null)
                     {
                         leftNode.parent = starCenter;
-                        leftNode.movementCost += leftNode.parent.movementCost;
+                        leftNode.movementCost = 10 + leftNode.parent.movementCost;
                     }
                     result.Add(leftNode);
                 }
@@ -225,11 +235,10 @@ namespace My_first_xna_game
                 rightNode = nodesList[index];
                 if (rightNode.passable)
                 {
-                    rightNode.movementCost = 10;
                     if (!openList.Contains(rightNode) && !closedList.Contains(rightNode) && rightNode.parent == null)
                     {
                         rightNode.parent = starCenter;
-                        rightNode.movementCost += rightNode.parent.movementCost;
+                        rightNode.movementCost = 10 + rightNode.parent.movementCost;
                     }
                     result.Add(rightNode);
                 }
@@ -242,11 +251,10 @@ namespace My_first_xna_game
                 upNode = nodesList[index];
                 if (upNode.passable)
                 {
-                    upNode.movementCost = 10;
                     if (!openList.Contains(upNode) && !closedList.Contains(upNode) && upNode.parent == null)
                     {
                         upNode.parent = starCenter;
-                        upNode.movementCost += upNode.parent.movementCost;
+                        upNode.movementCost = 10 + upNode.parent.movementCost;
                     }
                     result.Add(upNode);
                 }
@@ -259,11 +267,10 @@ namespace My_first_xna_game
                 downNode = nodesList[index];
                 if (downNode.passable)
                 {
-                    downNode.movementCost = 10;
                     if (!openList.Contains(downNode) && !closedList.Contains(downNode) && downNode.parent == null)
                     {
                         downNode.parent = starCenter;
-                        downNode.movementCost += downNode.parent.movementCost;
+                        downNode.movementCost = 10 + downNode.parent.movementCost;
                     }
                     result.Add(downNode);
                 }
@@ -281,11 +288,10 @@ namespace My_first_xna_game
                 leftUpNode = nodesList[index];
                 if (leftUpNode.passable && checkDiagonals(leftNode, upNode))
                 {
-                    leftUpNode.movementCost = 14;
                     if (!openList.Contains(leftUpNode) && !closedList.Contains(leftUpNode) && leftUpNode.parent == null)
                     {
                         leftUpNode.parent = starCenter;
-                        leftUpNode.movementCost += leftUpNode.parent.movementCost;
+                        leftUpNode.movementCost = 14 + leftUpNode.parent.movementCost;
                     }
                     result.Add(leftUpNode);
                 }
@@ -298,11 +304,10 @@ namespace My_first_xna_game
                 rightUpNode = nodesList[index];
                 if (rightUpNode.passable && checkDiagonals(rightNode, upNode))
                 {
-                    rightUpNode.movementCost = 14;
                     if (!openList.Contains(rightUpNode) && !closedList.Contains(rightUpNode) && rightUpNode.parent == null)
                     {
                         rightUpNode.parent = starCenter;
-                        rightUpNode.movementCost += rightUpNode.parent.movementCost;
+                        rightUpNode.movementCost = 14 + rightUpNode.parent.movementCost;
                     }
                     result.Add(rightUpNode);
                 }
@@ -315,11 +320,10 @@ namespace My_first_xna_game
                 leftDownNode = nodesList[index];
                 if (leftDownNode.passable && checkDiagonals(leftNode, downNode))
                 {
-                    leftDownNode.movementCost = 14;
                     if (!openList.Contains(leftDownNode) && !closedList.Contains(leftDownNode) && leftDownNode.parent == null)
                     {
                         leftDownNode.parent = starCenter;
-                        leftDownNode.movementCost += leftDownNode.parent.movementCost;
+                        leftDownNode.movementCost = 14 + leftDownNode.parent.movementCost;
                     }
                     result.Add(leftDownNode);
                 }
@@ -332,11 +336,10 @@ namespace My_first_xna_game
                 rightDownNode = nodesList[index];
                 if (rightDownNode.passable && checkDiagonals(rightNode, downNode))
                 {
-                    rightDownNode.movementCost = 14;
                     if (!openList.Contains(rightDownNode) && !closedList.Contains(rightDownNode) && rightDownNode.parent == null)
                     {
                         rightDownNode.parent = starCenter;
-                        rightDownNode.movementCost += rightDownNode.parent.movementCost;
+                        rightDownNode.movementCost = 14 + rightDownNode.parent.movementCost;
                     }
                     result.Add(rightDownNode);
                 }
@@ -392,6 +395,14 @@ namespace My_first_xna_game
                 }
             }
 
+            if (debugMovmentCost)
+            {
+                foreach (Text text in movementCostTextList)
+                {
+                    text.DrawWithoutSource(spriteBatch, offsetRect);
+                }
+            }
+
             if (debugParent)
             {
                 foreach (Picture picture in parentImageList)
@@ -409,7 +420,10 @@ namespace My_first_xna_game
 
         public int heuristic; //h value
         public int movementCost; //g value
-        public int nodeValue; //f value
+        public int nodeValue
+        {
+            get { return heuristic + movementCost; }
+        }
         public aStarNode parent; //parent
     }
 }

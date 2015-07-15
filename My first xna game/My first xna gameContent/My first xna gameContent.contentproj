@@ -216,6 +216,12 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
+    <Compile Include="Fonts\Debug1 small.spritefont">
+      <SubType>Designer</SubType>
+      <Name>Debug1 small</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
     <None Include="Maps\classic.tmx">
       <Name>classic</Name>
     </None>
