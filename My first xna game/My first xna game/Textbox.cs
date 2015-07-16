@@ -8,6 +8,19 @@ namespace My_first_xna_game
     {
         public delegate void HandleText(string input);
         private HandleText handleTextFunction;
+        private bool active = true;
+        public bool Active
+        {
+            get { return active; }
+            set
+            {
+                if (value == false)
+                {
+                    cursor.text = "";
+                }
+                active = value;
+            }
+        }
 
         private Window box;
         private SpriteFont font;
@@ -43,6 +56,7 @@ namespace My_first_xna_game
             this.handleTextFunction = handleTextFunction;
 
             box = new Window(player.map, Game.content.Load<Texture2D>("Textures\\Windows\\windowskin"), position, (int)size.X, (int)size.Y);
+            box.WindowDepth = Game.WindowDepth.windowsInWindows;
             font = Game.content.Load<SpriteFont>("Fonts\\Debug1");
             input = new Text(font, Vector2.Zero, Color.Black, InputString, box);
             cursor = new Text(font, Vector2.Zero, Color.Black, "_", box);
@@ -56,6 +70,7 @@ namespace My_first_xna_game
 
         public void UpdateTextbox(GameTime gameTime, KeyboardState newState, KeyboardState oldState)
         {
+            if (!Active) { return; }
             box.Update(gameTime);
             UpdateCursorAnimation();
 

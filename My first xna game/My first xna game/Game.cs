@@ -16,6 +16,7 @@ namespace My_first_xna_game
     {
         /*
          TODO:
+         * options
          * better AI for enemies
          * switch skill hud
          * 
@@ -30,8 +31,6 @@ namespace My_first_xna_game
          * dust, smoke, fire, better light, partical shader, and realistic water shaders
          * shadows
          * effects
-         * core collision
-         * options
          * gamemodes (deathmach, last man standing, tag, ctf, king of the hill, ring of fire(sumo), hot potato, gameMaster / gameVillan, find the tresure)
          * trade
          * pvp menu
@@ -66,7 +65,7 @@ namespace My_first_xna_game
         SpriteBatch spriteBatch;
         KeyboardState oldState;
 
-        public enum WindowDepth { GUIFront, windowsSelector, windowsDataFront, windowsData, windowDataShadow, windows }
+        public enum WindowDepth { GUIFront, windowsSelector, windowsDataFront, windowsData, windowDataShadow, windowsInWindows, windows }
         public enum MapDepth { below, player, above }
 
         public static WindowDepth FloatToWindowDepth(float type)

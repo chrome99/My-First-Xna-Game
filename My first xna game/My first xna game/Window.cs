@@ -14,7 +14,7 @@ namespace My_first_xna_game
         public bool offsetRect = true;
         public int width;
         public int height;
-        public Window source;
+        //private Window source; todo: figure out if windows should have window sons
 
         public Game.WindowDepth WindowDepth
         {
@@ -170,12 +170,12 @@ namespace My_first_xna_game
         private Rectangle GetDrawingRect(Rectangle offsetRect)
         {
             Rectangle newPosition = bounds;
-            if (source != null)
+            /*if (source != null)
             {
                 Vector2 calculatedPosition = position + source.position + source.thickness;
                 newPosition.X = (int)calculatedPosition.X;
                 newPosition.Y = (int)calculatedPosition.Y;
-            }
+            }*/
             newPosition.X = newPosition.X - offsetRect.X;
             newPosition.Y = newPosition.Y - offsetRect.Y;
             return newPosition;
