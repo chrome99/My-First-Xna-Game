@@ -6,10 +6,12 @@ namespace My_first_xna_game
 {
     public class Enemy : Hostile
     {
+        private enum EnemyIA { chill, search, hunt };
+        private EnemyIA enemyIA = EnemyIA.chill;
         public List<Hostile> hostilesList;
         private Hostile currentTarget;
-        private bool huntMode = false;
         public int radiusSize = 5;
+        private Timer reConstructWayToTargetTimer = new Timer(500f, true);
 
         public Rectangle raduis
         {
@@ -32,34 +34,45 @@ namespace My_first_xna_game
              * hunt mode: the enemy hunts his pray until his pray dies or runs away.
             */
 
-            if (huntMode)
+            switch (enemyIA)
             {
-                MoveToTarget(currentTarget);
-                if (!raduis.Intersects(currentTarget.core) || !currentTarget.alive)
-                {
-                    huntMode = false;
-                }
-            }
-            else
-            {
-                int targetsNotInRaduis = 0;
-                foreach (Hostile target in hostilesList)
-                {
-                    if (raduis.Intersects(target.core) && target.alive)
+                case EnemyIA.hunt:
+                    if (reConstructWayToTargetTimer.result)
                     {
-                        currentTarget = target;
-                        huntMode = true;
+                        MoveToTarget(currentTarget);
+                        reConstructWayToTargetTimer.Reset();
                     }
-                    else
+                    if (!raduis.Intersects(currentTarget.core) || !currentTarget.alive)
                     {
-                        targetsNotInRaduis++;
+                        enemyIA = EnemyIA.chill;
+                        destinationsList.Clear();
                     }
-                }
-                if (targetsNotInRaduis == hostilesList.Count)
-                {
-                    huntMode = false;
-                }
-                autoMovement = MovementManager.Auto.random;
+                    break;
+
+                case EnemyIA.search:
+
+                    break;
+
+                case EnemyIA.chill:
+                    int targetsNotInRaduis = 0;
+                    foreach (Hostile target in hostilesList)
+                    {
+                        if (raduis.Intersects(target.core) && target.alive)
+                        {
+                            currentTarget = target;
+                            enemyIA = EnemyIA.hunt;
+                        }
+                        else
+                        {
+                            targetsNotInRaduis++;
+                        }
+                    }
+                    if (targetsNotInRaduis == hostilesList.Count)
+                    {
+                        enemyIA = EnemyIA.chill;
+                    }
+                    autoMovement = MovementManager.Auto.random;
+                    break;
             }
 
         }
@@ -67,8 +80,16 @@ namespace My_first_xna_game
         {
             MovingState = MovementManager.MovingState.walking;
             autoMovement = MovementManager.Auto.off;
-            direction = MovementManager.DirectionToGameObject(this, target);
-            movementManager.MoveActor(this, direction, (int)speed);
+            movementManager.HighlightWayTo(new Vector2(core.X, core.Y), new Vector2(target.core.X, target.core.Y), raduis);
+            List<Vector2> way = movementManager.WayTo(new Vector2(core.X, core.Y), new Vector2(target.core.X, target.core.Y), raduis);
+            if (way != null)
+            {
+                destinationsList = way;
+            }
+            //MovingState = MovementManager.MovingState.walking;
+            //autoMovement = MovementManager.Auto.off;
+            //direction = MovementManager.DirectionToGameObject(this, target);
+            //movementManager.MoveActor(this, direction, (int)speed);
         }
     }
 }

@@ -28,6 +28,7 @@ namespace My_first_xna_game
             movementManager = new MovementManager(map);
 
             wolf = new Enemy(Content.Load<Texture2D>("Textures\\Spritesheets\\wolf"), new Vector2(25 * 32, 16 * 32));
+            wolf.speed = 2;
             wolf.stats.maxHealth = 16;
             wolf.stats.health = 16;
             wolf.stats.maxMana = 16;
@@ -38,8 +39,10 @@ namespace My_first_xna_game
             wolf.stats.agility = 1;
             wolf.stats.exp = 5;
             wolf.Cooldown = 750f;
+            wolf.core = new Rectangle(7, 30, 18, 16);
 
             wolf2 = new Enemy(Content.Load<Texture2D>("Textures\\Spritesheets\\wolf"), new Vector2(30 * 32, 16 * 32));
+            wolf2.speed = 2;
             wolf2.stats.maxHealth = 16;
             wolf2.stats.health = 16;
             wolf2.stats.maxMana = 16;
@@ -50,6 +53,7 @@ namespace My_first_xna_game
             wolf2.stats.agility = 1;
             wolf2.stats.exp = 7;
             wolf2.Cooldown = 750f;
+            wolf2.core = new Rectangle(7, 30, 18, 16);
 
             npc = new Actor(Content.Load<Texture2D>("Textures\\Spritesheets\\mage"), new Vector2(22 * 32, 18 * 32));
             npc.pack = new Pack(npc);

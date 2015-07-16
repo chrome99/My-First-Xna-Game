@@ -27,14 +27,15 @@ namespace My_first_xna_game
             cal = new aStarCalculator(map);
         }
 
-        public List<Vector2> WayTo(Vector2 startingPoint, Vector2 destination, bool diagonal = true)
+        public List<Vector2> WayTo(Vector2 startingPoint, Vector2 destination, Rectangle searchRect = new Rectangle(), bool diagonal = true)
         {
-            return cal.FindWayTo(startingPoint, destination, diagonal);
+            return cal.FindWayTo(startingPoint, destination, diagonal, searchRect);
         }
 
-        public void HighlightWayTo(Vector2 startingPoint, Vector2 destination, bool diagonal = true)
+        public void HighlightWayTo(Vector2 startingPoint, Vector2 destination, Rectangle searchRect = new Rectangle(), bool diagonal = true)
         {
-            List<Vector2> way = cal.FindWayTo(startingPoint, destination, diagonal);
+            List<Vector2> way = cal.FindWayTo(startingPoint, destination, diagonal, searchRect);
+            if (way == null) { return; }
 
             //remove old highlights
             map.RemoveTagObjects("debug highlightWay");

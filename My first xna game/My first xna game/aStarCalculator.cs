@@ -41,7 +41,7 @@ namespace My_first_xna_game
             closedList = new List<aStarNode>();
         }
 
-        public List<Vector2> FindWayTo(Vector2 startingPosition, Vector2 destination, bool diagonal)
+        public List<Vector2> FindWayTo(Vector2 startingPosition, Vector2 destination, bool diagonal, Rectangle searchRect)
         {
             startingPosition = new Vector2((int)(startingPosition / Tile.size).X, (int)(startingPosition / Tile.size).Y);
             destination = new Vector2((int)(destination / Tile.size).X, (int)(destination / Tile.size).Y);
@@ -61,14 +61,19 @@ namespace My_first_xna_game
                 parentImageList.Clear();
             }
 
+            Rectangle freshRect = new Rectangle();
             for (int i = 0; i < nodesList.Count; i++)
             {
                 nodesList[i].position.X = i % map.width;
                 nodesList[i].position.Y = i / map.width;
-                nodesList[i].passable = map.CheckTilePassability(i % map.width, i / map.width);
+                //nodesList[i].passable = map.CheckTilePassability(i % map.width, i / map.width);
                 nodesList[i].heuristic = FindHeuristicValue(nodesList[i], destination);
                 nodesList[i].movementCost = 0;
                 nodesList[i].parent = null;
+                if (searchRect != freshRect)
+                {
+                    nodesList[i].inRect = new Rectangle((int)nodesList[i].position.X * Tile.size, (int)nodesList[i].position.Y * Tile.size, Tile.size, Tile.size).Intersects(searchRect);
+                }
                 if (debugHeuristic)
                 {
                     Text text = new Text(Game.content.Load<SpriteFont>("Fonts\\Debug1 small"), nodesList[i].position * Tile.size + new Vector2(20, 20), Color.White, nodesList[i].heuristic.ToString());
@@ -143,7 +148,27 @@ namespace My_first_xna_game
                     }
                 }
             }
-
+            if (result == null)
+            {
+                if (searchRect != freshRect)
+                {
+                    int smallestHeuristic = closedList[0].heuristic;
+                    aStarNode smallestHeuristicNode = null;
+                    for (int i = 1; i < closedList.Count; i++)
+                    {
+                        if (closedList[i].heuristic < smallestHeuristic)
+                        {
+                            smallestHeuristic = closedList[i].heuristic;
+                            smallestHeuristicNode = closedList[i];
+                        }
+                    }
+                    result = smallestHeuristicNode;
+                }
+                else
+                {
+                    return null;
+                }
+            }
             List<Vector2> path = new List<Vector2>();
             path.Add(destination * Tile.size);
             TranslateNodeToVector2(result, path);
@@ -210,14 +235,12 @@ namespace My_first_xna_game
             int starCenterIndex = nodesList.IndexOf(starCenter);
             int nodesListCount = nodesList.Count;
 
-            aStarNode asd = nodesList.Find(x => !x.passable);
-
             int index = starCenterIndex - 1;
             aStarNode leftNode = null;
             if (index > -1 && index < nodesListCount)
             {
                 leftNode = nodesList[index];
-                if (leftNode.passable)
+                if (leftNode.passable && leftNode.inRect)
                 {
                     if (!openList.Contains(leftNode) && !closedList.Contains(leftNode) && leftNode.parent == null)
                     {
@@ -233,7 +256,7 @@ namespace My_first_xna_game
             if (index > -1 && index < nodesListCount)
             {
                 rightNode = nodesList[index];
-                if (rightNode.passable)
+                if (rightNode.passable && rightNode.inRect)
                 {
                     if (!openList.Contains(rightNode) && !closedList.Contains(rightNode) && rightNode.parent == null)
                     {
@@ -249,7 +272,7 @@ namespace My_first_xna_game
             if (index > -1 && index < nodesListCount)
             {
                 upNode = nodesList[index];
-                if (upNode.passable)
+                if (upNode.passable && upNode.inRect)
                 {
                     if (!openList.Contains(upNode) && !closedList.Contains(upNode) && upNode.parent == null)
                     {
@@ -265,7 +288,7 @@ namespace My_first_xna_game
             if (index > -1 && index < nodesListCount)
             {
                 downNode = nodesList[index];
-                if (downNode.passable)
+                if (downNode.passable && downNode.inRect)
                 {
                     if (!openList.Contains(downNode) && !closedList.Contains(downNode) && downNode.parent == null)
                     {
@@ -286,7 +309,7 @@ namespace My_first_xna_game
             if (index > -1 && index < nodesListCount)
             {
                 leftUpNode = nodesList[index];
-                if (leftUpNode.passable && checkDiagonals(leftNode, upNode))
+                if (leftUpNode.passable && leftUpNode.inRect && checkDiagonals(leftNode, upNode))
                 {
                     if (!openList.Contains(leftUpNode) && !closedList.Contains(leftUpNode) && leftUpNode.parent == null)
                     {
@@ -302,7 +325,7 @@ namespace My_first_xna_game
             if (index > -1 && index < nodesListCount)
             {
                 rightUpNode = nodesList[index];
-                if (rightUpNode.passable && checkDiagonals(rightNode, upNode))
+                if (rightUpNode.passable && rightUpNode.inRect && checkDiagonals(rightNode, upNode))
                 {
                     if (!openList.Contains(rightUpNode) && !closedList.Contains(rightUpNode) && rightUpNode.parent == null)
                     {
@@ -318,7 +341,7 @@ namespace My_first_xna_game
             if (index > -1 && index < nodesListCount)
             {
                 leftDownNode = nodesList[index];
-                if (leftDownNode.passable && checkDiagonals(leftNode, downNode))
+                if (leftDownNode.passable && leftDownNode.inRect && checkDiagonals(leftNode, downNode))
                 {
                     if (!openList.Contains(leftDownNode) && !closedList.Contains(leftDownNode) && leftDownNode.parent == null)
                     {
@@ -334,7 +357,7 @@ namespace My_first_xna_game
             if (index > -1 && index < nodesListCount)
             {
                 rightDownNode = nodesList[index];
-                if (rightDownNode.passable && checkDiagonals(rightNode, downNode))
+                if (rightDownNode.passable && rightDownNode.inRect && checkDiagonals(rightNode, downNode))
                 {
                     if (!openList.Contains(rightDownNode) && !closedList.Contains(rightDownNode) && rightDownNode.parent == null)
                     {
@@ -417,6 +440,7 @@ namespace My_first_xna_game
     {
         public Vector2 position;
         public bool passable = false;
+        public bool inRect = true;
 
         public int heuristic; //h value
         public int movementCost; //g value
