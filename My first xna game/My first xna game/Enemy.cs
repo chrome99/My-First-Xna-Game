@@ -6,8 +6,8 @@ namespace My_first_xna_game
 {
     public class Enemy : Hostile
     {
-        private enum EnemyIA { chill, search, hunt };
-        private EnemyIA enemyIA = EnemyIA.chill;
+        private enum EnemyAI { chill, search, hunt };
+        private EnemyAI enemyIA = EnemyAI.chill;
         public List<Hostile> hostilesList;
         private Hostile currentTarget;
         public int radiusSize = 5;
@@ -36,7 +36,7 @@ namespace My_first_xna_game
 
             switch (enemyIA)
             {
-                case EnemyIA.hunt:
+                case EnemyAI.hunt:
                     if (reConstructWayToTargetTimer.result)
                     {
                         MoveToTarget(currentTarget);
@@ -44,23 +44,23 @@ namespace My_first_xna_game
                     }
                     if (!raduis.Intersects(currentTarget.core) || !currentTarget.alive)
                     {
-                        enemyIA = EnemyIA.chill;
+                        enemyIA = EnemyAI.chill;
                         destinationsList.Clear();
                     }
                     break;
 
-                case EnemyIA.search:
+                case EnemyAI.search:
 
                     break;
 
-                case EnemyIA.chill:
+                case EnemyAI.chill:
                     int targetsNotInRaduis = 0;
                     foreach (Hostile target in hostilesList)
                     {
                         if (raduis.Intersects(target.core) && target.alive)
                         {
                             currentTarget = target;
-                            enemyIA = EnemyIA.hunt;
+                            enemyIA = EnemyAI.hunt;
                         }
                         else
                         {
@@ -69,7 +69,7 @@ namespace My_first_xna_game
                     }
                     if (targetsNotInRaduis == hostilesList.Count)
                     {
-                        enemyIA = EnemyIA.chill;
+                        enemyIA = EnemyAI.chill;
                     }
                     autoMovement = MovementManager.Auto.random;
                     break;
