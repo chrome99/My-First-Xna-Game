@@ -56,12 +56,27 @@ namespace My_first_xna_game
             {
                 camera.CatchDraw(spriteBatch);
             }
+
+            Vector3 screenScalingFactor;
+            if (Game.strechToFitResultion)
+            {
+                float horScaling = (float)Game.graphics.GraphicsDevice.PresentationParameters.BackBufferWidth / Game.worldRect.Width;
+                float verScaling = (float)Game.graphics.GraphicsDevice.PresentationParameters.BackBufferHeight / Game.worldRect.Height;
+                screenScalingFactor = new Vector3(horScaling, verScaling, 1);
+            }
+            else
+            {
+                screenScalingFactor = new Vector3(1, 1, 1);
+            }
             foreach(Camera camera in cameraList)
             {
+                Matrix cameraTransform = Matrix.CreateScale(screenScalingFactor.X * camera.scale.X, screenScalingFactor.Y * camera.scale.Y, screenScalingFactor.Z);
+
                 //draw camera and lighting
                 graphicsDeviceManager.GraphicsDevice.SetRenderTarget(null);
                 graphicsDeviceManager.GraphicsDevice.Viewport = camera.viewport;
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, camera.transform);
+
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, cameraTransform);
                 if (camera.renderTarget != null)
                 {
                     camera.effect.Parameters["lightMask"].SetValue(camera.lightsTarget);
@@ -71,7 +86,7 @@ namespace My_first_xna_game
                     spriteBatch.Draw(camera.renderTarget, Vector2.Zero, Color.White);
                     spriteBatch.End();
 
-                    spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, camera.transform);
+                    spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, cameraTransform);
                     camera.DrawWindows(spriteBatch);
 
 
@@ -92,17 +107,26 @@ namespace My_first_xna_game
 
             
             //split
-            graphicsDeviceManager.GraphicsDevice.Viewport = new Viewport(Game.worldRect);
+            Viewport allScreenViewport;
+            if (Game.strechToFitResultion)
+            {
+                allScreenViewport = new Viewport(0, 0, Game.graphics.GraphicsDevice.PresentationParameters.BackBufferWidth, Game.graphics.GraphicsDevice.PresentationParameters.BackBufferHeight);
+            }
+            else
+            {
+                allScreenViewport = new Viewport(Game.worldRect);
+            }
+            graphicsDeviceManager.GraphicsDevice.Viewport = allScreenViewport;
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
             //vertical line
             spriteBatch.Draw(Game.content.Load<Texture2D>("Textures\\Sprites\\white dot"),
-                new Rectangle(Game.worldRect.Width / 2 - 1, 0, 2, Game.worldRect.Height),
+                new Rectangle(allScreenViewport.Width / 2 - 1, 0, 2, allScreenViewport.Height),
                 null, Color.Black);
 
             //horizontal line
             spriteBatch.Draw(Game.content.Load<Texture2D>("Textures\\Sprites\\white dot"),
-                new Rectangle(0, Game.worldRect.Height / 2 - 1, Game.worldRect.Width, 3),
+                new Rectangle(0, allScreenViewport.Height / 2 - 1, allScreenViewport.Width, 3),
                 null, Color.Black);
 
             spriteBatch.End();
