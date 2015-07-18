@@ -8,28 +8,28 @@ namespace My_first_xna_game
 {
     public class World : Scene
     {
-        private List<Camera> cameraList;
+        public List<Camera> cameraList;
         private List<Map> mapsList = new List<Map>();
 
         public World(GraphicsDeviceManager graphicsDeviceManager, Camera camera)
             : base(graphicsDeviceManager)
         {
             cameraList.Add(camera);
-            IntializeMapsList();
+            UpdateMapsList();
         }
 
         public World(GraphicsDeviceManager graphicsDeviceManager, List<Camera> cameraList)
             : base(graphicsDeviceManager)
         {
             this.cameraList = cameraList;
-            IntializeMapsList();
+            UpdateMapsList();
         }
 
-        private void IntializeMapsList()
+        public void UpdateMapsList()
         {
             foreach(Camera camera in cameraList)
             {
-                if (!mapsList.Contains(camera.player.map))
+                if (!mapsList.Contains(camera.player.map) && camera.player.map != null)
                 {
                     mapsList.Add(camera.player.map);
                 }

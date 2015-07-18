@@ -39,7 +39,7 @@ namespace My_first_xna_game
             player1Stats.agility = 1;
             player1Stats.exp = 0;
             player1Stats.level = 1;
-
+            
             player1 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\starlord"), new Vector2(250f, 260f), player1Keys, player1Stats);
             player1.gold = 25;
             player1.core = new Rectangle(7, 30, 18, 16);

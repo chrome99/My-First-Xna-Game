@@ -27,11 +27,6 @@ namespace My_first_xna_game
         private bool keyUpReleased;
         private bool keyConfirmReleased;
 
-        private Camera camera1;
-        private Camera camera2;
-        private Camera camera3;
-        private Camera camera4;
-
         public Title(GraphicsDeviceManager graphicsDeviceManager)
             : base(graphicsDeviceManager)
         {
@@ -198,15 +193,11 @@ namespace My_first_xna_game
                         MapCollection.tower.AddObject(PlayerCollection.player2);
                         MapCollection.tower.AddObject(PlayerCollection.player3);
                         MapCollection.tower.AddObject(PlayerCollection.player4);
-                        
 
-                        camera1 = new Camera(graphicsDeviceManager, new Rectangle(0, 0, 960, 540), PlayerCollection.player1, PlayerCollection.player1);
-                        camera2 = new Camera(graphicsDeviceManager, new Rectangle(0, 540, 960, 540), PlayerCollection.player2, PlayerCollection.player2);
-                        camera3 = new Camera(graphicsDeviceManager, new Rectangle(960, 0, 960, 540), PlayerCollection.player3, PlayerCollection.player3);
-                        camera4 = new Camera(graphicsDeviceManager, new Rectangle(960, 540, 960, 540), PlayerCollection.player4, PlayerCollection.player4);
+                        SceneCollection.world.UpdateMapsList();
 
                         //set scene to map
-                        Game.scene = new World(graphicsDeviceManager, new List<Camera> { camera1, camera2, camera3, camera4 });
+                        Game.scene = SceneCollection.world;
                         break;
 
                     case 1:
@@ -218,13 +209,8 @@ namespace My_first_xna_game
                         //Load Players Data
                         Game.InitiateLoad();
 
-                        camera1 = new Camera(graphicsDeviceManager, new Rectangle(0, 0, 960, 540), PlayerCollection.player1, PlayerCollection.player1);
-                        camera2 = new Camera(graphicsDeviceManager, new Rectangle(0, 540, 960, 540), PlayerCollection.player2, PlayerCollection.player2);
-                        camera3 = new Camera(graphicsDeviceManager, new Rectangle(960, 0, 960, 540), PlayerCollection.player3, PlayerCollection.player3);
-                        camera4 = new Camera(graphicsDeviceManager, new Rectangle(960, 540, 960, 540), PlayerCollection.player4, PlayerCollection.player4);
-
                         //set scene to map
-                        Game.scene = new World(graphicsDeviceManager, new List<Camera> { camera1, camera2, camera3, camera4 });
+                        Game.scene = SceneCollection.world;
                         break;
 
                     case 2:

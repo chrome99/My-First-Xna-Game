@@ -83,7 +83,52 @@ namespace My_first_xna_game
             return (float)type / 1000;
         }
 
-        // public static Rectangle worldRect;
+        public static void ChangeResolution(int width, int height)
+        {
+            for (int i = 0; i < SceneCollection.world.cameraList.Count; i++)
+            {
+                Camera camera = SceneCollection.world.cameraList[i];
+
+                switch (i)
+                {
+                    case 0:
+                        camera.viewport.X = 0;
+                        camera.viewport.Y = 0;
+                        break;
+
+                    case 1:
+                        camera.viewport.X = width / 2;
+                        camera.viewport.Y = 0;
+                        break;
+
+                    case 2:
+                        camera.viewport.X = 0;
+                        camera.viewport.Y = height / 2;
+                        break;
+
+                    case 3:
+                        camera.viewport.X = width / 2;
+                        camera.viewport.Y = height / 2;
+                        break;
+                }
+
+                camera.viewport.Width = width / 2;
+                camera.viewport.Height = height / 2;
+
+                camera.screenRect.X = camera.viewport.X;
+                camera.screenRect.Y = camera.viewport.Y;
+                camera.screenRect.Width = camera.viewport.Width;
+                camera.screenRect.Height = camera.viewport.Height;
+            }
+
+
+            worldRect.Width = width;
+            worldRect.Height = height;
+            graphics.PreferredBackBufferWidth = width;
+            graphics.PreferredBackBufferHeight = height;
+            graphics.ApplyChanges();
+        }
+
         public static Scene scene;
 
         // Timer list
@@ -198,7 +243,7 @@ namespace My_first_xna_game
         protected override void Initialize()
         {
             content = Content;
-            scene = new Title(graphics);
+            scene = SceneCollection.title;
 
             // Initialize keyboard (old) state
             oldState = Keyboard.GetState();
