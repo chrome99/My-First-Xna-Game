@@ -198,23 +198,12 @@ namespace My_first_xna_game
                         MapCollection.tower.AddObject(PlayerCollection.player2);
                         MapCollection.tower.AddObject(PlayerCollection.player3);
                         MapCollection.tower.AddObject(PlayerCollection.player4);
+                        
 
-                        int screenWidth;
-                        int screenHeight;
-                        if (Game.strechToFitResultion)
-                        {
-                            screenWidth = Game.graphics.GraphicsDevice.PresentationParameters.BackBufferWidth / 2;
-                            screenHeight = Game.graphics.GraphicsDevice.PresentationParameters.BackBufferHeight / 2;
-                        }
-                        else
-                        {
-                            screenWidth = Game.worldRect.Width / 2;
-                            screenHeight = Game.worldRect.Height / 2;
-                        }
-                        camera1 = new Camera(graphicsDeviceManager, new Rectangle(0, 0, screenWidth, screenHeight), PlayerCollection.player1, PlayerCollection.player1);
-                        camera2 = new Camera(graphicsDeviceManager, new Rectangle(0, screenHeight, screenWidth, screenHeight), PlayerCollection.player2, PlayerCollection.player2);
-                        camera3 = new Camera(graphicsDeviceManager, new Rectangle(screenWidth, 0, screenWidth, screenHeight), PlayerCollection.player3, PlayerCollection.player3);
-                        camera4 = new Camera(graphicsDeviceManager, new Rectangle(screenWidth, screenHeight, screenWidth, screenHeight), PlayerCollection.player4, PlayerCollection.player4);
+                        camera1 = new Camera(graphicsDeviceManager, new Rectangle(0, 0, 960, 540), PlayerCollection.player1, PlayerCollection.player1);
+                        camera2 = new Camera(graphicsDeviceManager, new Rectangle(0, 540, 960, 540), PlayerCollection.player2, PlayerCollection.player2);
+                        camera3 = new Camera(graphicsDeviceManager, new Rectangle(960, 0, 960, 540), PlayerCollection.player3, PlayerCollection.player3);
+                        camera4 = new Camera(graphicsDeviceManager, new Rectangle(960, 540, 960, 540), PlayerCollection.player4, PlayerCollection.player4);
 
                         //set scene to map
                         Game.scene = new World(graphicsDeviceManager, new List<Camera> { camera1, camera2, camera3, camera4 });

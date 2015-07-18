@@ -12,11 +12,12 @@ namespace My_first_xna_game
         public Viewport viewport;
         public Viewport minimapViewport;
 
+        public Matrix transform;
         public Matrix minimapTransform;
         public RenderTarget2D renderTarget;
         public Effect effect;
         public RenderTarget2D lightsTarget;
-        public Vector2 scale = new Vector2(1, 1);
+        private Vector2 scale = new Vector2(1, 1);
         private Vector2 minimapScale = new Vector2(0.2f, 0.2f);
 
         public GameObject cameraLightspot;
@@ -38,6 +39,9 @@ namespace My_first_xna_game
             float minimapRectWidth = screenRect.Width * minimapScale.X;
             float minimapRectHeight = screenRect.Height * minimapScale.Y;
             minimapViewport = new Viewport(new Rectangle(screenRect.X, screenRect.Y, (int)minimapRectWidth, (int)minimapRectHeight));
+
+
+            transform = Matrix.CreateScale(new Vector3(scale.X, scale.Y, 0)) * Matrix.CreateTranslation(new Vector3(0, 0, 0));
             minimapTransform = Matrix.CreateScale(new Vector3(minimapScale.X, minimapScale.Y, 0)) * Matrix.CreateTranslation(new Vector3(0, 0, 0));
 
             renderTarget = new RenderTarget2D(graphicsDeviceManager.GraphicsDevice, Game.worldRect.Width, Game.worldRect.Height);

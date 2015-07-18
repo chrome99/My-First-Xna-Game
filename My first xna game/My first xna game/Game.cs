@@ -65,8 +65,6 @@ namespace My_first_xna_game
         SpriteBatch spriteBatch;
         KeyboardState oldState;
 
-        public const bool strechToFitResultion = false;
-
         public enum WindowDepth { GUIFront, windowsSelector, windowsDataFront, windowsData, windowDataShadow, windowsInWindows, windows }
         public enum MapDepth { below, player, above }
 
@@ -96,7 +94,7 @@ namespace My_first_xna_game
 
         // TODO: Is this needed?
         public static ContentManager content;
-        public static Rectangle worldRect = new Rectangle(0, 0, 1280, 768);
+        public static Rectangle worldRect = new Rectangle(0, 0, 1920, 1080);
 
         private static StorageDevice storageDevice;
         private const string storageName = "myStorage";
@@ -191,20 +189,9 @@ namespace My_first_xna_game
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = true;
-            int screenWidth, screenHeight;
-            if (strechToFitResultion)
-            {
-                screenWidth = worldRect.Width;
-                screenHeight = worldRect.Height;
-            }
-            else
-            {
-                screenWidth = 1920;
-                screenHeight = 1080;
-            }
-            graphics.PreferredBackBufferWidth = screenWidth;
-            graphics.PreferredBackBufferHeight = screenHeight;
+            graphics.IsFullScreen = false;
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.PreferredBackBufferWidth = 1920;
             Content.RootDirectory = "Content";
         }
 
