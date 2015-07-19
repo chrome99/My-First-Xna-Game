@@ -36,7 +36,7 @@ namespace My_first_xna_game
         }
 
         public float originalOpacityState;
-        public float opacity = 100f;
+        public float opacity = 100;
         public bool sourceCanDrawThis = true; //TODO: SRSLY?
         private bool fade = false;
         private bool fadeBack = false;

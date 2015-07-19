@@ -53,63 +53,63 @@ namespace My_first_xna_game
 
             if (player.equipment.head == null)
             {
-                head.drawingRect = ItemCollection.hat.getRect;
+                head.fileDrawingRect = ItemCollection.hat.getRect;
                 head.opacity = subUnEquipedOpacity;
             }
             else
             {
-                head.drawingRect = player.equipment.head.getRect;
+                head.fileDrawingRect = player.equipment.head.getRect;
             }
 
             if (player.equipment.body == null)
             {
-                body.drawingRect = ItemCollection.shirt.getRect;
+                body.fileDrawingRect = ItemCollection.shirt.getRect;
                 body.opacity = subUnEquipedOpacity;
             }
             else
             {
-                body.drawingRect = player.equipment.body.getRect;
+                body.fileDrawingRect = player.equipment.body.getRect;
             }
 
             if (player.equipment.shoes == null)
             {
-                shoes.drawingRect = ItemCollection.leatherShoes.getRect;
+                shoes.fileDrawingRect = ItemCollection.leatherShoes.getRect;
                 shoes.opacity = subUnEquipedOpacity;
             }
             else
             {
-                shoes.drawingRect = player.equipment.shoes.getRect;
+                shoes.fileDrawingRect = player.equipment.shoes.getRect;
             }
 
             if (player.equipment.leftHand == null)
             {
-                leftHand.drawingRect = ItemCollection.ironSword.getRect;
+                leftHand.fileDrawingRect = ItemCollection.ironSword.getRect;
                 leftHand.opacity = subUnEquipedOpacity;
             }
             else if (player.equipment.leftHand.armorType == Armor.ArmorType.oneHanded)
             {
-                leftHand.drawingRect = player.equipment.leftHand.getRect;
+                leftHand.fileDrawingRect = player.equipment.leftHand.getRect;
             }
             else
             {
-                leftHand.drawingRect = player.equipment.leftHand.getRect;
+                leftHand.fileDrawingRect = player.equipment.leftHand.getRect;
                 twoHandedWeapon = true;
             }
             if (!twoHandedWeapon)
             {
                 if (player.equipment.rightHand == null)
                 {
-                    rightHand.drawingRect = ItemCollection.ironSword.getRect;
+                    rightHand.fileDrawingRect = ItemCollection.ironSword.getRect;
                     rightHand.opacity = subUnEquipedOpacity;
                 }
                 else
                 {
-                    rightHand.drawingRect = player.equipment.rightHand.getRect;
+                    rightHand.fileDrawingRect = player.equipment.rightHand.getRect;
                 }
             }
             else
             {
-                rightHand.drawingRect = new Rectangle(0, 0, 0, 0);
+                rightHand.fileDrawingRect = new Rectangle(0, 0, 0, 0);
             }
         }
 
@@ -135,9 +135,9 @@ namespace My_first_xna_game
                 }
                 if (player.leftHandOrRightHand())
                 {
-                    leftHand.drawingRect = item.getRect;
+                    leftHand.fileDrawingRect = item.getRect;
                     leftHand.opacity = 100;
-                    rightHand.drawingRect = ItemCollection.ironSword.getRect;
+                    rightHand.fileDrawingRect = ItemCollection.ironSword.getRect;
                     rightHand.opacity = subUnEquipedOpacity;
                 }
                 else
@@ -146,7 +146,7 @@ namespace My_first_xna_game
                     {
                         return;
                     }
-                    rightHand.drawingRect = item.getRect;
+                    rightHand.fileDrawingRect = item.getRect;
                     rightHand.opacity = 100;
                 }
             }
@@ -156,14 +156,14 @@ namespace My_first_xna_game
                 {
                     return;
                 }
-                leftHand.drawingRect = item.getRect;
+                leftHand.fileDrawingRect = item.getRect;
                 leftHand.opacity = 100;
-                rightHand.drawingRect = new Rectangle(0, 0, 0, 0);
+                rightHand.fileDrawingRect = new Rectangle(0, 0, 0, 0);
             }
             else
             {
                 if (player.checkIfEquiped(armor) == 1) { return; }
-                chosenBodyPartPicture.drawingRect = item.getRect;
+                chosenBodyPartPicture.fileDrawingRect = item.getRect;
                 chosenBodyPartPicture.opacity = 100;
             }
 

@@ -143,7 +143,7 @@ namespace My_first_xna_game
                         {
                             setDrawingRectY = 3;
                         }
-                        pic.drawingRect = new Rectangle(Tile.size * setDrawingRectX, Tile.size * setDrawingRectY, Tile.size, Tile.size);
+                        pic.fileDrawingRect = new Rectangle(Tile.size * setDrawingRectX, Tile.size * setDrawingRectY, Tile.size, Tile.size);
                         parentImageList.Add(pic);
                     }
                 }

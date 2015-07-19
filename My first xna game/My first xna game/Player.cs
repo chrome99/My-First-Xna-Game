@@ -11,6 +11,8 @@ namespace My_first_xna_game
     public class Player : Hostile
     {
         private bool debugAStar = false;
+        private bool debugConceptArt = true;
+        private Picture debugConceptArtPic = new Picture(Game.content.Load<Texture2D>("Textures\\ConceptArt\\livenglow"), Vector2.Zero, null) { drawingBoundaries = new Vector2(400, 200) };
 
         public Camera camera;
         public PlayerKeys kbKeys;
@@ -1000,6 +1002,23 @@ namespace My_first_xna_game
         private Vector2 AStarDebugLastPosition;
         private void Attack()
         {
+            if (debugConceptArt)
+            {
+                if (debugConceptArtPic.visible == false)
+                {
+                    debugConceptArtPic.visible = true;
+                    debugConceptArtPic.opacity = 100;
+                }
+                else if (debugConceptArtPic.opacity == 100)
+                {
+                    debugConceptArtPic.opacity = 50;
+                }
+                else if (debugConceptArtPic.opacity == 50)
+                {
+                    debugConceptArtPic.visible = false;
+                }
+                return;
+            }
             if (debugAStar)
             {
                 if (DebugAStarToggleSetGet)
@@ -1111,6 +1130,10 @@ namespace My_first_xna_game
 
         public void DrawPlayerItems(SpriteBatch spriteBatch, Rectangle offsetRect)
         {
+            if (debugConceptArt)
+            {
+                debugConceptArtPic.DrawWithoutSource(spriteBatch, new Rectangle());
+            }
             shop.Draw(spriteBatch, offsetRect);
             menu.Draw(spriteBatch, offsetRect);
             msg.Draw(spriteBatch, offsetRect);

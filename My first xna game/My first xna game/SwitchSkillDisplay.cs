@@ -62,7 +62,7 @@ namespace My_first_xna_game
             {
                 Picture picture = picturesList[picturesCounter];
                 picture.position = new Vector2(player.position.X + ((picturesCounter - 2) * 50), player.position.Y - 50);
-                picture.drawingRect = player.skillsList[skillCounter].getRect;
+                picture.fileDrawingRect = player.skillsList[skillCounter].getRect;
                 picture.opacity = 1;
                 picture.FadeBack(100);
 

@@ -5,7 +5,8 @@ namespace My_first_xna_game
 {
     public class Picture : WindowItem
     {
-        public Rectangle? drawingRect = null;
+        public Rectangle? fileDrawingRect = null;
+        public Vector2 drawingBoundaries = Vector2.Zero;
         public Texture2D texture;
         public float rotation = 0f;
 
@@ -25,7 +26,7 @@ namespace My_first_xna_game
         {
             if (visible)
             {
-                spriteBatch.Draw(texture, GetDrawingPosition(windowPosition), drawingRect, Color.White * drawingOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
+                spriteBatch.Draw(texture, GetDrawingPosition(windowPosition), fileDrawingRect, Color.White * drawingOpacity, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
             }
         }
 
@@ -33,7 +34,16 @@ namespace My_first_xna_game
         {
             if (visible)
             {
-                spriteBatch.Draw(texture, GetDrawingPositionWithoutSource(offsetRect), drawingRect, Color.White * drawingOpacity, rotation, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
+                if (drawingBoundaries != Vector2.Zero)
+                {
+                    Vector2 drawingPosition = GetDrawingPositionWithoutSource(offsetRect);
+                    Rectangle drawingRect = new Rectangle((int)drawingPosition.X, (int)drawingPosition.Y, (int)drawingBoundaries.X, (int)drawingBoundaries.Y);
+                    spriteBatch.Draw(texture, drawingRect, fileDrawingRect, Color.White * drawingOpacity, rotation, Vector2.Zero, SpriteEffects.None, depth);
+                }
+                else
+                {
+                    spriteBatch.Draw(texture, GetDrawingPositionWithoutSource(offsetRect), fileDrawingRect, Color.White * drawingOpacity, rotation, Vector2.Zero, 1.0f, SpriteEffects.None, depth);
+                }
             }
         }
     }
