@@ -122,7 +122,9 @@
     <Compile Include="CommandLine.cs" />
     <Compile Include="EquipmentMenu.cs" />
     <Compile Include="HostileHUD.cs" />
+    <Compile Include="Light.cs" />
     <Compile Include="LightSource.cs" />
+    <Compile Include="LightStructure.cs" />
     <Compile Include="MapCollection.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Message.cs" />

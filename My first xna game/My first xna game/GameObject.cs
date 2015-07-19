@@ -19,10 +19,10 @@ namespace My_first_xna_game
         public MovementManager.Direction view;
         public bool alive = true;
 
-        private LightSource lightSource;
-        public LightSource getLightSource
+        private Light light;
+        public Light getLightSource
         {
-            get { return lightSource; }
+            get { return light; }
         }
 
         public MovementManager movementManager;
@@ -72,10 +72,11 @@ namespace My_first_xna_game
             canCollide = true;
             alive = true;
         }
-
-        public void AddLight(int level, Color color, int opacity = 100)
+        //int level, Color color, int opacity = 100
+        public void AddLight(Light light)
         {
-            lightSource = new LightSource(this, level, opacity, color);
+            this.light = light;
+            light.source = this;
         }
 
         public void Update(GameTime gameTime)

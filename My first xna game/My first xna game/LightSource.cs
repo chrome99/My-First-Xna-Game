@@ -3,42 +3,36 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace My_first_xna_game
 {
-    public class LightSource
+    public class LightSource : Light
     {
-        private static Texture2D texture = Game.content.Load<Texture2D>("Textures\\Sprites\\lightmask");
-        private GameObject source;
         private int defaultRaduis;
         private float raduis;
         private float raduisAnimationDifference;
         private bool subbedLevel = false;
         private Color color;
+        public Vector2 position;
         private int opacity;
         private Rectangle lightRect
         {
             get
             {
-                Rectangle result = new Rectangle((int)source.position.X + source.bounds.Width / 2 - (int)raduis / 2, (int)source.position.Y + source.bounds.Width / 2 - (int)raduis / 2, (int)raduis, (int)raduis);
-                return result;
+                return new Rectangle((int)source.position.X + (int)position.X + source.bounds.Width / 2 - (int)raduis / 2, (int)source.position.Y + (int)position.Y + source.bounds.Width / 2 - (int)raduis / 2, (int)raduis, (int)raduis); ;
             }
         }
 
-        public LightSource(GameObject source, int raduis, int opacity, Color color)
+        public LightSource(int raduis, Color color, int opacity = 100)
         {
-            this.source = source;
             this.raduis = raduis;
             this.opacity = opacity;
             this.color = color;
+
+            position = Vector2.Zero;
 
             defaultRaduis = raduis;
             raduisAnimationDifference = raduis - defaultRaduis * 0.9f;
         }
 
-        public void SetSource(GameObject source)
-        {
-            this.source = source;
-        }
-
-        public void Update()
+        public override void Update()
         {
             if (!subbedLevel)
             {
@@ -64,14 +58,14 @@ namespace My_first_xna_game
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, Rectangle offsetRect)
+        public override void Draw(SpriteBatch spriteBatch, Rectangle offsetRect)
         {
             if (source.alive)
             {
                 Rectangle drawingRect = lightRect;
                 drawingRect.X -= offsetRect.X;
                 drawingRect.Y -= offsetRect.Y;
-                spriteBatch.Draw(texture, drawingRect, color * (opacity / 100f));
+                spriteBatch.Draw(Light.texture, drawingRect, color * (opacity / 100f));
             }
         }
     }

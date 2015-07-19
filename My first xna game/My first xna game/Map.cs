@@ -8,7 +8,7 @@ namespace My_first_xna_game
 {
     public class Map
     {
-        public List<LightSource> lightsList = new List<LightSource>();
+        public List<Light> lightsList = new List<Light>();
         public List<Hostile> hostilesList = new List<Hostile>();
         public List<GameObject> gameObjectList = new List<GameObject>();
         private TileMap tileMap;
@@ -392,9 +392,9 @@ namespace My_first_xna_game
 
         public void DrawLights(SpriteBatch spriteBatch, Camera camera)
         {
-            foreach(LightSource lightSource in lightsList)
+            foreach(Light light in lightsList)
             {
-                lightSource.Draw(spriteBatch, camera.mapRect);
+                light.Draw(spriteBatch, camera.mapRect);
             }
         }
 

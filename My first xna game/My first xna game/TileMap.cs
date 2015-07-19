@@ -274,7 +274,7 @@ namespace My_first_xna_game
 
             if (debugTileset)
             {
-                collisionObject.AddLight(70, Color.White);
+                collisionObject.AddLight(new LightSource(70, Color.White));
             }
 
             if (tmxObject != null)

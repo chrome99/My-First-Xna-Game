@@ -85,7 +85,7 @@ namespace My_first_xna_game
 
             if (projectileData.lit)
             {
-                projectile.AddLight(projectileData.lightLevel, projectileData.lightColor, projectileData.lightOpacity);
+                projectile.AddLight(new LightSource(projectileData.lightLevel, projectileData.lightColor, projectileData.lightOpacity));
             }
 
             projectile.passable = true;

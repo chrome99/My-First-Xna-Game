@@ -43,6 +43,20 @@ namespace My_first_xna_game
             player1 = new Player(Game.content.Load<Texture2D>("Textures\\Spritesheets\\starlord"), new Vector2(250f, 260f), player1Keys, player1Stats);
             player1.gold = 25;
             player1.core = new Rectangle(7, 30, 18, 16);
+            Color color = Color.OrangeRed;
+            int raduis = 60;
+            LightSource light1 = new LightSource(raduis, color);
+            LightSource light2 = new LightSource(raduis, color);
+            LightSource light3 = new LightSource(raduis, color);
+            LightSource light4 = new LightSource(raduis, color);
+            LightSource light5 = new LightSource(raduis, color);
+            light1.position = new Vector2(32, 0);
+            light2.position = new Vector2(-32, 0);
+            light3.position = new Vector2(0, 0);
+            light4.position = new Vector2(0, 32);
+            light5.position = new Vector2(0, -32);
+
+            player1.AddLight(new LightStructure(player1, new List<LightSource>() { light1, light2, light3, light4, light5 }));
 
 
             player1.pack.AddItem(new List<Item> {

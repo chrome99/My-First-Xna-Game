@@ -43,7 +43,7 @@ namespace My_first_xna_game
             //highlight destination
             GameObject light = new GameObject(way[way.Count-1]);
             light.passable = true;
-            light.AddLight(32, Color.Gold);
+            light.AddLight(new LightSource(32, Color.Gold));
             light.tags.Add("debug highlightWay");
             map.AddObject(light);
             way.Remove(way[way.Count - 1]);
@@ -55,7 +55,7 @@ namespace My_first_xna_game
                 light = new GameObject(nodes);
                 light.passable = true;
                 light.tags.Add("debug highlightWay");
-                light.AddLight(32, Color.Red);
+                light.AddLight(new LightSource(32, Color.Red));
                 map.AddObject(light);
             }
         }
