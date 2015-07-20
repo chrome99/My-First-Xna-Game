@@ -14,6 +14,7 @@ namespace My_first_xna_game
         public bool offsetRect = true;
         public int width;
         public int height;
+        private WindowSprite windowSprite;
         //private Window source; todo: figure out if windows should have window sons
 
         public Game.WindowDepth WindowDepth
@@ -40,6 +41,8 @@ namespace My_first_xna_game
             this.width = width;
             this.height = height;
             this.player = player;
+
+            windowSprite = new WindowSprite(width, height, texture);
 
             WindowDepth = Game.WindowDepth.windows;
 
@@ -167,17 +170,11 @@ namespace My_first_xna_game
             position.Y = side.Y;
         }
 
-        private Rectangle GetDrawingRect(Rectangle offsetRect)
+        private Vector2 GetDrawingPosition(Rectangle offsetRect)
         {
-            Rectangle newPosition = bounds;
-            /*if (source != null)
-            {
-                Vector2 calculatedPosition = position + source.position + source.thickness;
-                newPosition.X = (int)calculatedPosition.X;
-                newPosition.Y = (int)calculatedPosition.Y;
-            }*/
-            newPosition.X = newPosition.X - offsetRect.X;
-            newPosition.Y = newPosition.Y - offsetRect.Y;
+            Vector2 newPosition = position;
+            newPosition.X -= offsetRect.X;
+            newPosition.Y -= offsetRect.Y;
             return newPosition;
         }
 
@@ -186,18 +183,18 @@ namespace My_first_xna_game
             if (visible && alive)
             {
                 //draw window
-                Rectangle drawingPosition = GetDrawingRect(offsetRect);
+                Vector2 drawingPosition = GetDrawingPosition(offsetRect);
 
-                spriteBatch.Draw(texture, drawingPosition, windowRect, Color.White * drawingOpacity, 0f, Vector2.Zero, SpriteEffects.None, depth);
+                windowSprite.Draw(spriteBatch, drawingPosition, drawingOpacity, depth);
 
                 //draw items
                 foreach (WindowItem item in itemsList)
                 {
-                    item.Draw(spriteBatch, new Vector2(drawingPosition.X, drawingPosition.Y));
+                    item.Draw(spriteBatch, drawingPosition);
                 }
                 foreach (WindowItem item in hiddenItemsList)
                 {
-                    item.Draw(spriteBatch, new Vector2(drawingPosition.X, drawingPosition.Y));
+                    item.Draw(spriteBatch, drawingPosition);
                 }
             }
         }

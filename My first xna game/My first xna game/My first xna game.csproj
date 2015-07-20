@@ -181,6 +181,7 @@
     <Compile Include="Window.cs" />
     <Compile Include="WindowItem.cs" />
     <Compile Include="Picture.cs" />
+    <Compile Include="WindowSprite.cs" />
     <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -42,7 +42,7 @@ namespace My_first_xna_game
             Rectangle newRect = newgame.bounds;
             newRect.Y += newRect.Height - 30;
             newRect.Height = 20;
-            cursorParticals = new ParticalManager(ParticalManager.ParticalsMovement.xy, 100, newRect, new Vector2(10, 10), 0, 4, Color.Orange, Color.OrangeRed, 50, 25);
+            cursorParticals = new ParticalManager(ParticalManager.ParticalsMovement.xy, 1000, newRect, new Vector2(10, 10), 0, 4, Color.Black, Color.OrangeRed, 50, 25);
 
             music = Game.content.Load<Song>("Audio\\Themes\\title theme");
 
@@ -231,14 +231,16 @@ namespace My_first_xna_game
         {
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
-            background.DrawWithoutSource(spriteBatch, new Rectangle());//nana
+            background.DrawWithoutSource(spriteBatch, new Rectangle());
 
+            newgame.DrawWithoutSource(spriteBatch, new Rectangle());
+            loadgame.DrawWithoutSource(spriteBatch, new Rectangle());
+            quit.DrawWithoutSource(spriteBatch, new Rectangle());
+            spriteBatch.End();
+
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
             backgroundParticals.Draw(spriteBatch);
             cursorParticals.Draw(spriteBatch);
-
-            newgame.DrawWithoutSource(spriteBatch, new Rectangle());//nana
-            loadgame.DrawWithoutSource(spriteBatch, new Rectangle());//nana
-            quit.DrawWithoutSource(spriteBatch, new Rectangle());//nana
 
 
 

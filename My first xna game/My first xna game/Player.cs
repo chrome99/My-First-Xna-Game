@@ -11,7 +11,7 @@ namespace My_first_xna_game
     public class Player : Hostile
     {
         private bool debugAStar = false;
-        private bool debugConceptArt = true;
+        private bool debugConceptArt = false;
         private Picture debugConceptArtPic = new Picture(Game.content.Load<Texture2D>("Textures\\ConceptArt\\livenglow"), Vector2.Zero, null) { drawingBoundaries = new Vector2(400, 200) };
 
         public Camera camera;

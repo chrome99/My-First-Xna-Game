@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="Castle" tilewidth="32" tileheight="32">
+  <image source="../Textures/Tilesets/Castle.png" trans="ffffff" width="512" height="512"/>
+ </tileset>
+ <tileset firstgid="257" name="Grassland" tilewidth="32" tileheight="32">
+  <image source="../Textures/Tilesets/Grassland.png" trans="ffffff" width="256" height="576"/>
+ </tileset>
+ <tileset firstgid="401" name="Water" tilewidth="32" tileheight="32">
+  <image source="../Textures/Tilesets/Water.png" trans="ffffff" width="384" height="128"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="200" height="200">
+  <data encoding="base64" compression="zlib">
+   eJzt3TEOwjAQRcHk/jfhlBQ0CPgGKVmHtaaYIp0LP8faxvu+bTsAAAAAAEx0e/L6/erqtUKl0d7/xdXrhypH29AHqzqjDX2worPa0Acr0gZk+oBMH5DpAzJdwJg+INMFfKcNyHQBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMC/8QYdZN4xhXfewIZjHWiElVS1oBG6m92GPuhEG/DZFf8OjdDF2ftaH6yk6szXBiuoPOv1QXfV9yBt0F1lI/qgs+q5kz7obMZMVh90NbsPjdBN9SxWH3RWOYM136W7yr2rD8j0AZk+YEwfkOkDMm1Apg/I3K9gTB8wpg8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeLgDNX6zjQ==
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="200" height="200">
+  <data encoding="base64" compression="zlib">
+   eJzt2dFpAkEUBdBpwMQSrCElWIJFxCqiNhC1gURrMkk/PtEhsuyIuOCOeA7cH5H79R7LY1ICAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4JJB5CXy1shrZNhDD9TkPTKO7CI/kd/I3+m3UQ89UJM8122Z9tADNbEfUJbn+iMyi8wji/Q/29fK/2/rsR88KvsBZXk/PiPLyCqyTrfvR1uP/eBRnd8N35FN6n5/dOmBmpRu6lu/H117oCb2A8ryPd2c53xf37sHamI/oMx+QJn9gLL8XtGc6/x+ce8eqMlXOr5XTBo5vF9se+gBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAntcecMFb/A==
+  </data>
+ </layer>
+ <layer name="Tile Layer 3" width="200" height="200">
+  <data encoding="base64" compression="zlib">
+   eJztzslJBFEYhdEOQhMxCI1C7QQcYnAIwHEnOHZIKujKsUFXzkvvshEReiHvtzwHPqgq3rtUrwcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP/PSlpNa2m9wA5UsZE201baTjtpt+EOVHKQDtNROk4nadBwB4C/4ypdp5t0W2AHKnlKz+klvRbYgWou0uXI+8QYdyd/2IEueEiPhXagspkxzk7/2l9Ae3sjz/sFdqCC2TT3zff51G+wA5UspMU09aWltNxgBwAA6LbTdJbOi29CC3fpPg2Lb0ILb+k9fRTfBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALrtExQlQ+s=
+  </data>
+ </layer>
+ <layer name="Tile Layer 4 *opacity*" width="200" height="200" opacity="0.9">
+  <data encoding="base64" compression="zlib">
+   eJzt1VEJACAUBMGHkYxg/1BWOPyTm4HNsDMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/GCFQaMTBo12GDTyDwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA3F8bdBzE=
+  </data>
+ </layer>
+</map>
