@@ -93,16 +93,16 @@ namespace My_first_xna_game
     class WindowTile
     {
         public static Rectangle left = new Rectangle(0, 32, 32, 32);
-        public static Rectangle right = new Rectangle(96, 32, 32, 32);
+        public static Rectangle right = new Rectangle(64, 32, 32, 32);
         public static Rectangle up = new Rectangle(32, 0, 32, 32);
-        public static Rectangle down = new Rectangle(32, 96, 32, 32);
+        public static Rectangle down = new Rectangle(32, 64, 32, 32);
 
         public static Rectangle middle = new Rectangle(32, 32, 32, 32);
 
         public static Rectangle leftUpCorner = new Rectangle(0, 0, 32, 32);
-        public static Rectangle leftDownCorner = new Rectangle(0, 96, 32, 32);
-        public static Rectangle rightUpCorner = new Rectangle(96, 0, 32, 32);
-        public static Rectangle rightDownCorner = new Rectangle(96, 96, 32, 32);
+        public static Rectangle leftDownCorner = new Rectangle(0, 64, 32, 32);
+        public static Rectangle rightUpCorner = new Rectangle(64, 0, 32, 32);
+        public static Rectangle rightDownCorner = new Rectangle(64, 64, 32, 32);
 
         public const int size = 32;
 
