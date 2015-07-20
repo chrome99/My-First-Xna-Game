@@ -49,6 +49,7 @@ namespace My_first_xna_game
          * redstone
          
          BUGS:
+         * change texture in window (you can change without the function which will cause bugs)
          * confirm selector bug
          * fix too much stat changes in skill tree at choose skill
          * fix boat bug

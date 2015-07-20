@@ -52,6 +52,16 @@ namespace My_first_xna_game
             passable = true;
         }
 
+        public void ChangeTexture(Texture2D texture2D)
+        {
+            windowSprite = new WindowSprite(width, height, texture2D);
+        }
+
+        public void Resize(int width, int height)
+        {
+            windowSprite = new WindowSprite(width, height, texture);
+        }
+
         private Vector2 GetWindowCenter(Rectangle positionBounds)
         {
             //set center
