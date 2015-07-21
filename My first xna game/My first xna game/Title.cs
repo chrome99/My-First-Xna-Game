@@ -27,6 +27,8 @@ namespace My_first_xna_game
         private bool keyUpReleased;
         private bool keyConfirmReleased;
 
+        Fire fire;
+
         public Title(GraphicsDeviceManager graphicsDeviceManager)
             : base(graphicsDeviceManager)
         {
@@ -38,11 +40,12 @@ namespace My_first_xna_game
             quit = new Text(Game.content.Load<SpriteFont>("Fonts\\medival big"), new Vector2(80f, 850f), Color.Orange, "Quit", null, new Vector2(20, 20));
 
             backgroundParticals = new ParticalManager(ParticalManager.ParticalsMovement.xy, 100, Game.worldRect, new Vector2(6, 6), 0, 1, Color.Yellow, Color.WhiteSmoke, 100, 0);
+            fire = new Fire(new Rectangle(50, 50, 400, 400));
 
             Rectangle newRect = newgame.bounds;
             newRect.Y += newRect.Height - 30;
             newRect.Height = 20;
-            cursorParticals = new ParticalManager(ParticalManager.ParticalsMovement.xy, 1000, newRect, new Vector2(10, 10), 0, 4, Color.Black, Color.OrangeRed, 50, 25);
+            cursorParticals = new ParticalManager(ParticalManager.ParticalsMovement.xy, 1000, newRect, new Vector2(40, 40), 0, 4, Color.Black, Color.OrangeRed, 50, 25);
 
             music = Game.content.Load<Song>("Audio\\Themes\\title theme");
 
@@ -55,8 +58,9 @@ namespace My_first_xna_game
         {
             UpdateInput(newState, oldState);
 
-            backgroundParticals.Update();
-            cursorParticals.Update();
+            //backgroundParticals.Update();
+            //cursorParticals.Update();
+            fire.Update();
 
             switch (title)
             {
@@ -239,11 +243,9 @@ namespace My_first_xna_game
             spriteBatch.End();
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-            backgroundParticals.Draw(spriteBatch);
-            cursorParticals.Draw(spriteBatch);
-
-
-
+            //backgroundParticals.Draw(spriteBatch);
+            //cursorParticals.Draw(spriteBatch);
+            fire.Draw(spriteBatch);
             spriteBatch.End();
         }
     }
