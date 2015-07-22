@@ -74,54 +74,45 @@ namespace My_first_xna_game
             }
         }*/
 
-        private bool GoTo(Vector2 destination)
+        public bool SimulateGoTo(Vector2 startingPoint, Vector2 destination, out Vector2 result)
         {
-            if (((rect.X - destination.X >= 0 && rect.X - destination.X < speed) || (rect.X - destination.X <= 0 && rect.X - destination.X > speed * -1))
-                && ((rect.Y - destination.Y >= 0 && rect.Y - destination.Y < speed) || (rect.Y - destination.Y <= 0 && rect.Y - destination.Y > speed * -1)))
+            result.X = startingPoint.X;
+            result.Y = startingPoint.Y;
+
+            if (((startingPoint.X - destination.X >= 0 && startingPoint.X - destination.X < speed) || (startingPoint.X - destination.X <= 0 && startingPoint.X - destination.X > speed * -1))
+                && ((startingPoint.Y - destination.Y >= 0 && startingPoint.Y - destination.Y < speed) || (startingPoint.Y - destination.Y <= 0 && startingPoint.Y - destination.Y > speed * -1)))
             {
                 return false;
             }
 
-            if (rect.X < destination.X)
+            if (startingPoint.X < destination.X)
             {
-                rect.X += speed;
+                result.X += speed;
             }
-            if (rect.X > destination.X)
+            if (startingPoint.X > destination.X)
             {
-                rect.X -= speed;
+                result.X -= speed;
             }
 
-            if (rect.Y < destination.Y)
+            if (startingPoint.Y < destination.Y)
             {
-                rect.Y += speed;
+                result.Y += speed;
             }
-            if (rect.Y > destination.Y)
+            if (startingPoint.Y > destination.Y)
             {
-                rect.Y -= speed;
+                result.Y -= speed;
             }
 
             return true;
         }
 
-        public void GoTo(Rectangle rect)
+        private bool GoTo(Vector2 destination)
         {
-            if (this.rect.X < rect.X)
-            {
-                this.rect.X += speed;
-            }
-            if (this.rect.X + this.rect.Width > rect.X + rect.Width)
-            {
-                this.rect.X -= speed;
-            }
-
-            if (this.rect.Y < rect.Y)
-            {
-                this.rect.Y += speed;
-            }
-            if (this.rect.Y + this.rect.Height > rect.Y + rect.Height)
-            {
-                this.rect.Y -= speed;
-            }
+            Vector2 wayResult;
+            bool functionResult = SimulateGoTo(new Vector2(rect.X, rect.Y), destination, out wayResult);
+            rect.X = (int)wayResult.X;
+            rect.Y = (int)wayResult.Y;
+            return functionResult;
         }
 
         public void Draw(SpriteBatch spriteBatch)

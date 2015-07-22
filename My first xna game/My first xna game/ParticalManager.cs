@@ -90,6 +90,7 @@ namespace My_first_xna_game
 
         public void AddHole(Rectangle holeRect)
         {
+            //if ()
             holeRect.X += rect.X;
             holeRect.Y += rect.Y;
             holesList.Add(holeRect);
@@ -115,15 +116,65 @@ namespace My_first_xna_game
         {
             foreach (Partical snake in snakes)
             {
-                Vector2 startingPoint = new Vector2(rect.X + random.Next(rect.Width), rect.Y + random.Next(rect.Height));
-                snake.destinationsList.Clear();
-                AddDestinationAndAvoidHoles(snake, startingPoint);
-                AddDestinationAndAvoidHoles(snake, startingPoint);
-                AddDestinationAndAvoidHoles(snake, startingPoint);
+                while (true)
+                {
+                    Vector2 startingPoint = GetRandomDestination();
+                    snake.rect.X = (int)startingPoint.X;
+                    snake.rect.Y = (int)startingPoint.Y;
+                    if (!CheckForParticalCollision(new Rectangle((int)startingPoint.X, (int)startingPoint.Y, snake.rect.Width, snake.rect.Height)))
+                    {
+                        snake.destinationsList.Clear();
+                        AddDestinationAndAvoidHoles(snake, startingPoint);
+                        AddDestinationAndAvoidHoles(snake, startingPoint);
+                        snake.destinationsList.Add(startingPoint);
+                        break;
+                    }
+                }
             }
         }
 
         private void AddDestinationAndAvoidHoles(Partical partical, Vector2 startingPoint)
+        {
+            while (true)
+            {
+                Vector2 randomDestination = GetRandomDestination(startingPoint);
+                bool intersects = false;
+                foreach (Vector2 node in GetParticalWayTo(partical, randomDestination))
+                {
+                    Rectangle particalRect = new Rectangle((int)node.X, (int)node.Y, partical.rect.Width, partical.rect.Height);
+                    intersects = CheckForParticalCollision(particalRect);
+                    if (intersects)
+                    {
+                        break;
+                    }
+                }
+
+                if (!intersects)
+                {
+                    partical.destinationsList.Add(randomDestination);
+                    break;
+                }
+            }
+        }
+
+        private bool CheckForParticalCollision(Rectangle particalRect)
+        {
+            foreach (Rectangle hole in holesList)
+            {
+                if (particalRect.Intersects(hole))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private Vector2 GetRandomDestination()
+        {
+            return new Vector2(rect.X + random.Next(rect.Width), rect.Y + random.Next(rect.Height));
+        }
+
+        private Vector2 GetRandomDestination(Vector2 startingPoint)
         {
             Vector2 randomDestination;
             switch (particalsMovement)
@@ -144,20 +195,27 @@ namespace My_first_xna_game
                     randomDestination = Vector2.Zero;
                     break;
             }
-            Rectangle particalRect = new Rectangle((int)randomDestination.X, (int)randomDestination.Y, partical.rect.Width, partical.rect.Height);
-            bool dosentIntersect = true;
-            foreach (Rectangle hole in holesList)
+            return randomDestination;
+        }
+
+        private List<Vector2> GetParticalWayTo(Partical partical, Vector2 destination)
+        {
+            List<Vector2> way = new List<Vector2>();
+            way.Add(new Vector2(partical.rect.X, partical.rect.Y));
+            Vector2 node;
+            while (true)
             {
-                if (particalRect.Intersects(hole))
+                node = way[way.Count - 1];
+                if (partical.SimulateGoTo(node, destination, out node))
                 {
-                    dosentIntersect = false;
-                    AddDestinationAndAvoidHoles(partical, startingPoint);
+                    way.Add(node);
+                }
+                else
+                {
+                    break;
                 }
             }
-            if (dosentIntersect)
-            {
-                partical.destinationsList.Add(randomDestination);
-            }
+            return way;
         }
 
         private int RandomColor(int seed)
