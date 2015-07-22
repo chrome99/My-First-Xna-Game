@@ -12,7 +12,7 @@ namespace My_first_xna_game
 
         public Fire(Rectangle rect)
         {
-            flame = new ParticalManager(ParticalManager.ParticalsMovement.xy, (rect.Width * rect.Height) / 75, rect, new Vector2(1, 1), 20, 10, Color.Red, Color.OrangeRed, 50, 25);
+            flame = new ParticalManager(ParticalManager.ParticalsMovement.xy, (rect.Width * rect.Height) / 100, rect, new Vector2(30, 70), 20, 10, Color.Red, Color.OrangeRed, 50, 25);
             hole = new Rectangle(0, 0, 350, 350);
             timer = new Timer(3000f);
         }

@@ -98,8 +98,9 @@ namespace My_first_xna_game
 
         public bool RemoveHole(Rectangle holeRect)
         {
-            bool result = holesList.Remove(holeRect);
-            if (result)
+            holeRect.X += rect.X;
+            holeRect.Y += rect.Y;
+            if (holesList.Remove(holeRect))
             {
                 UpdateHolesList();
                 return true;
