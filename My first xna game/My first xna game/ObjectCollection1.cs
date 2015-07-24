@@ -70,7 +70,7 @@ namespace My_first_xna_game
 
             boat = new Vehicle(Content.Load<Texture2D>("Textures\\Spritesheets\\boat"), new Vector2(33.5f * 32, 30 * 32), new List<string>() { "water" }, new List<string>() { "grass" });
             boat.ShowAnimation = true;
-            movementManager.TurnActor(boat, MovementManager.Direction.left);
+            movementManager.TurnSpritesheet(boat, MovementManager.Direction.left);
 
             holdBox = new Sprite(Content.Load<Texture2D>("Textures\\Sprites\\box1"), new Vector2(20 * 32, 30 * 32));
             holdBox.collisionFunction = HoldBoxCollision;
@@ -193,7 +193,7 @@ namespace My_first_xna_game
             {
                 if (player.Shop(npc))
                 {
-                    movementManager.TurnActor(npc, MovementManager.OppositeDirection(player.direction));
+                    movementManager.TurnSpritesheet(npc, MovementManager.OppositeDirection(player.direction));
                     //movementManager.Knockback(player, MovementManager.Direction.left, 100);
                     //player.MessageWindow(npc2.bounds, new List<string> {"the great king wants to see you. \n no, he dosent.", "asd"}, true);
                     //player.MessageWindow(npc2.bounds, "the king wants to see you. \n no, he dosent.", true);

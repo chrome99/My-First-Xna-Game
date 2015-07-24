@@ -46,7 +46,10 @@ namespace My_first_xna_game
             startingPosition = new Vector2((int)(startingPosition / Tile.size).X, (int)(startingPosition / Tile.size).Y);
             destination = new Vector2((int)(destination / Tile.size).X, (int)(destination / Tile.size).Y);
 
-            if (startingPosition == destination) { return null; }
+            if (startingPosition == destination)
+            {
+                return null;
+            }
 
             if (debugHeuristic)
             {
@@ -67,7 +70,7 @@ namespace My_first_xna_game
                 nodesList[i].position.X = i % map.width;
                 nodesList[i].position.Y = i / map.width;
                 //nodesList[i].passable = map.CheckTilePassability(i % map.width, i / map.width);
-                nodesList[i].heuristic = FindHeuristicValue(nodesList[i], destination);
+                nodesList[i].heuristic = FindHeuristicValue(nodesList[i].position, destination);
                 nodesList[i].movementCost = 0;
                 nodesList[i].parent = null;
                 if (searchRect != freshRect)
@@ -197,25 +200,25 @@ namespace My_first_xna_game
             }
         }
 
-        private int FindHeuristicValue(aStarNode node, Vector2 destination)
+        public static int FindHeuristicValue(Vector2 nodePosition, Vector2 destination)
         {
             int result = 0;
-            if (node.position.X < destination.X)
+            if (nodePosition.X < destination.X)
             {
-                result += (int)(destination.X - node.position.X);
+                result += (int)(destination.X - nodePosition.X);
             }
-            else if (node.position.X > destination.X)
+            else if (nodePosition.X > destination.X)
             {
-                result += (int)(node.position.X - destination.X);
+                result += (int)(nodePosition.X - destination.X);
             }
 
-            if (node.position.Y < destination.Y)
+            if (nodePosition.Y < destination.Y)
             {
-                result += (int)(destination.Y - node.position.Y);
+                result += (int)(destination.Y - nodePosition.Y);
             }
-            else if (node.position.Y > destination.Y)
+            else if (nodePosition.Y > destination.Y)
             {
-                result += (int)(node.position.Y - destination.Y);
+                result += (int)(nodePosition.Y - destination.Y);
             }
 
             if (result == 0)

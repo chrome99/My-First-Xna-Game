@@ -21,7 +21,8 @@ namespace My_first_xna_game
                 speed = 5,
                 strength = 2,
                 sourceDamage = false,
-                exploading = false
+                exploading = false,
+                movingState = Projectile.MovingState.homing
             });
 
         public static ProjectileSkill ballOfDestruction2 = new ProjectileSkill(Game.content.Load<Texture2D>("Textures\\SkillsPictures\\fire"),

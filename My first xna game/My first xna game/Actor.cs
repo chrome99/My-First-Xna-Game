@@ -28,10 +28,7 @@ namespace My_first_xna_game
         }
 
         public MovementManager.Auto autoMovement;
-        public MovementManager.Direction direction = MovementManager.Direction.down;
 
-        // TODO: Bad name. enableMovement is a name for a function. bool should be more like 'moving'
-        public bool enableMovement = true;
         private Timer movementTimer = new Timer(10f);
         private Timer walkingTimer = new Timer(1000f);
         public int timesMoved = 0;
@@ -76,7 +73,7 @@ namespace My_first_xna_game
                     if (movementTimer.result && walkingTimer.result)
                     {
                         MovingState = MovementManager.MovingState.walking;
-                        movementManager.MoveActor(this, direction, (int)speed);
+                        movementManager.MoveSpritesheet(this, direction, (int)speed);
                         timesMoved++;
                         movementTimer.counter = 0f;
                     }
@@ -96,11 +93,6 @@ namespace My_first_xna_game
         }
 
         protected virtual void UpdateHostile() { }
-
-        protected override void move(MovementManager.Direction direction, int speed)
-        {
-            movementManager.MoveActor(this, direction, speed);
-        }
 
         public void push(GameObject gameObject)
         {

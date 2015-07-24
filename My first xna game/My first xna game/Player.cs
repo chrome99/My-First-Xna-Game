@@ -10,6 +10,7 @@ namespace My_first_xna_game
 {
     public class Player : Hostile
     {
+
         private bool debugAStar = false;
         private bool debugConceptArt = false;
         private Picture debugConceptArtPic = new Picture(Game.content.Load<Texture2D>("Textures\\ConceptArt\\livenglow"), Vector2.Zero, null) { drawingBoundaries = new Vector2(400, 200) };
@@ -866,7 +867,7 @@ namespace My_first_xna_game
                     mvLeftKeyReleased = false;
                 }
 
-                playerMoving = movementManager.MoveActor(this, MovementManager.Direction.left, (int)speed);
+                playerMoving = movementManager.MoveSpritesheet(this, MovementManager.Direction.left, (int)speed);
             }
             else if (!oldState.IsKeyDown(kbKeys.mvLeft))
             {
@@ -891,7 +892,7 @@ namespace My_first_xna_game
                     mvRightKeyReleased = false;
                 }
 
-                playerMoving = movementManager.MoveActor(this, MovementManager.Direction.right, (int)speed);
+                playerMoving = movementManager.MoveSpritesheet(this, MovementManager.Direction.right, (int)speed);
             }
             else if (!oldState.IsKeyDown(kbKeys.mvRight))
             {
@@ -916,7 +917,7 @@ namespace My_first_xna_game
                     mvUpKeyReleased = false;
                 }
 
-                playerMoving = movementManager.MoveActor(this, MovementManager.Direction.up, (int)speed);
+                playerMoving = movementManager.MoveSpritesheet(this, MovementManager.Direction.up, (int)speed);
             }
             else if (!oldState.IsKeyDown(kbKeys.mvUp))
             {
@@ -941,7 +942,7 @@ namespace My_first_xna_game
                     mvDownKeyReleased = false;
                 }
 
-                playerMoving = movementManager.MoveActor(this, MovementManager.Direction.down, (int)speed);
+                playerMoving = movementManager.MoveSpritesheet(this, MovementManager.Direction.down, (int)speed);
             }
             else if (!oldState.IsKeyDown(kbKeys.mvDown))
             {

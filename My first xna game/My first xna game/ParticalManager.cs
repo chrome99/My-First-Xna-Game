@@ -90,7 +90,6 @@ namespace My_first_xna_game
 
         public void AddHole(Rectangle holeRect)
         {
-            //if ()
             holeRect.X += rect.X;
             holeRect.Y += rect.Y;
             holesList.Add(holeRect);

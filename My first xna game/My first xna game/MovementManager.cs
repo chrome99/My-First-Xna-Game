@@ -231,25 +231,25 @@ namespace My_first_xna_game
             return vector;
         }
 
-        public void TurnActor(Actor actor, Direction direction)
+        public void TurnSpritesheet(Spritesheet spritesheet, Direction direction)
         {
-            actor.view = direction;
-            actor.direction = direction;
-            actor.StartAnimation(direction, false);
+            spritesheet.view = direction;
+            spritesheet.direction = direction;
+            spritesheet.StartAnimation(direction, false);
         }
-        public bool MoveActor(Actor actor, Direction direction, int speed, bool turn = true)
+        public bool MoveSpritesheet(Spritesheet spritesheet, Direction direction, int speed, bool turn = true)
         {
             //if actor moving
-            if (actor.enableMovement)
+            if (spritesheet.enableMovement)
             {
                 if (turn)
                 {
-                    TurnActor(actor, direction);
+                    TurnSpritesheet(spritesheet, direction);
                 }
-                if (!CollisionCheck(actor, MoveRectangle(actor.core, direction, speed)))
+                if (!CollisionCheck(spritesheet, MoveRectangle(spritesheet.core, direction, speed)))
                 {
-                    Vector2 destination = MoveVector(actor.position, speed, actor.direction);
-                    Player player = actor as Player;
+                    Vector2 destination = MoveVector(spritesheet.position, speed, spritesheet.direction);
+                    Player player = spritesheet as Player;
                     if (player != null)
                     {
                         if (player.impassableTilesTag != null && !player.passable)
@@ -277,9 +277,9 @@ namespace My_first_xna_game
                             }
                         }
                     }
-                    actor.StartAnimation(direction);
-                    actor.position = destination;
-                    actor.FixOutsideCollision();
+                    spritesheet.StartAnimation(direction);
+                    spritesheet.position = destination;
+                    spritesheet.FixOutsideCollision();
                     return true;
                 }
              }

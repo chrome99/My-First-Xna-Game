@@ -5,6 +5,9 @@ namespace My_first_xna_game
 {
     public class Spritesheet : Sprite
     {
+        // TODO: Bad name. enableMovement is a name for a function. bool should be more like 'moving'
+        public bool enableMovement = true;
+
         private bool showAnimation = false;
         public bool ShowAnimation
         {
@@ -18,6 +21,7 @@ namespace My_first_xna_game
         protected float interval = 200f;
         private int currentFrameX = 0;
         private int currentFrameY = 0;
+        public MovementManager.Direction direction = MovementManager.Direction.down;
 
         public Spritesheet(Texture2D texture, Vector2 position)
             : base(texture, position)
@@ -86,6 +90,11 @@ namespace My_first_xna_game
         protected virtual void UpdateProjectile() { }
         protected virtual void UpdatePlayer(GameTime gameTime) { }
         protected virtual void UpdateActor() { }
+
+        protected override void move(MovementManager.Direction direction, int speed)
+        {
+            movementManager.MoveSpritesheet(this, direction, speed);
+        }
 
         public void StartAnimation(MovementManager.Direction Direction, bool showAnimation = true)
         {

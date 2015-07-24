@@ -16,14 +16,13 @@ namespace My_first_xna_game
     {
         /*
          TODO:
+         * visable healing
          * options
          * better AI for enemies
          * switch skill hud
          * 
          * fps
-         * visable healing
          * guns
-         * homing spells
          * ray casting
          * 
          * enemy type / id (bee, wolf, eater of worlds)
