@@ -14,19 +14,19 @@ namespace My_first_xna_game
 
         static PlayerCollection()
         {
-            Player.PlayerKeys player1Keys;
-            player1Keys.attack = Keys.J;
-            player1Keys.jump = Keys.K;
-            player1Keys.defend = Keys.L;
-            player1Keys.mvLeft = Keys.A;
-            player1Keys.mvRight = Keys.D;
-            player1Keys.mvUp = Keys.W;
-            player1Keys.mvDown = Keys.S;
-            player1Keys.opMenu = Keys.Escape;
-            player1Keys.run = Keys.LeftShift;
-            player1Keys.opDebug = Keys.F2;
-            player1Keys.opCommand = Keys.F3;
-            player1Keys.useSkill = Keys.R;
+            PlayerKeys player1Keys = new PlayerKeys();
+            player1Keys.attack.key = Keys.J;
+            player1Keys.jump.key = Keys.K;
+            player1Keys.defend.key = Keys.L;
+            player1Keys.mvLeft.key = Keys.A;
+            player1Keys.mvRight.key = Keys.D;
+            player1Keys.mvUp.key = Keys.W;
+            player1Keys.mvDown.key = Keys.S;
+            player1Keys.opMenu.key = Keys.Escape;
+            player1Keys.run.key = Keys.LeftShift;
+            player1Keys.opDebug.key = Keys.F2;
+            player1Keys.opCommand.key = Keys.F3;
+            player1Keys.useSkill.key = Keys.R;
 
             Hostile.Stats player1Stats;
             player1Stats.maxHealth = 26;
@@ -66,19 +66,19 @@ namespace My_first_xna_game
             });
 
             //intialize player
-            Player.PlayerKeys player2Keys;
-            player2Keys.attack = Keys.Home;
-            player2Keys.jump = Keys.Home;
-            player2Keys.defend = Keys.Home;
-            player2Keys.mvLeft = Keys.Home;
-            player2Keys.mvRight = Keys.Home;
-            player2Keys.mvUp = Keys.Home;
-            player2Keys.mvDown = Keys.Home;
-            player2Keys.opMenu = Keys.Home;
-            player2Keys.run = Keys.Home;
-            player2Keys.opDebug = Keys.Home;
-            player2Keys.opCommand = Keys.Home;
-            player2Keys.useSkill = Keys.Home;
+            PlayerKeys player2Keys = new PlayerKeys();
+            player2Keys.attack.key = Keys.Home;
+            player2Keys.jump.key = Keys.Home;
+            player2Keys.defend.key = Keys.Home;
+            player2Keys.mvLeft.key = Keys.Home;
+            player2Keys.mvRight.key = Keys.Home;
+            player2Keys.mvUp.key = Keys.Home;
+            player2Keys.mvDown.key = Keys.Home;
+            player2Keys.opMenu.key = Keys.Home;
+            player2Keys.run.key = Keys.Home;
+            player2Keys.opDebug.key = Keys.Home;
+            player2Keys.opCommand.key = Keys.Home;
+            player2Keys.useSkill.key = Keys.Home;
 
 
             Hostile.Stats player2Stats;
@@ -97,19 +97,19 @@ namespace My_first_xna_game
             player2.gold = 25;
 
             //intialize player
-            Player.PlayerKeys player3Keys;
-            player3Keys.attack = Keys.Home;
-            player3Keys.jump = Keys.Home;
-            player3Keys.defend = Keys.Home;
-            player3Keys.mvLeft = Keys.Home;
-            player3Keys.mvRight = Keys.Home;
-            player3Keys.mvUp = Keys.Home;
-            player3Keys.mvDown = Keys.Home;
-            player3Keys.opMenu = Keys.Home;
-            player3Keys.run = Keys.Home;
-            player3Keys.opDebug = Keys.Home;
-            player3Keys.opCommand = Keys.Home;
-            player3Keys.useSkill = Keys.Home;
+            PlayerKeys player3Keys = new PlayerKeys();
+            player3Keys.attack.key = Keys.Home;
+            player3Keys.jump.key = Keys.Home;
+            player3Keys.defend.key = Keys.Home;
+            player3Keys.mvLeft.key = Keys.Home;
+            player3Keys.mvRight.key = Keys.Home;
+            player3Keys.mvUp.key = Keys.Home;
+            player3Keys.mvDown.key = Keys.Home;
+            player3Keys.opMenu.key = Keys.Home;
+            player3Keys.run.key = Keys.Home;
+            player3Keys.opDebug.key = Keys.Home;
+            player3Keys.opCommand.key = Keys.Home;
+            player3Keys.useSkill.key = Keys.Home;
 
             Hostile.Stats player3Stats;
             player3Stats.maxHealth = 16;
@@ -127,19 +127,19 @@ namespace My_first_xna_game
             player3.gold = 25;
 
             //intialize player
-            Player.PlayerKeys player4Keys;
-            player4Keys.attack = Keys.Home;
-            player4Keys.jump = Keys.Home;
-            player4Keys.defend = Keys.Home;
-            player4Keys.mvLeft = Keys.Home;
-            player4Keys.mvRight = Keys.Home;
-            player4Keys.mvUp = Keys.Home;
-            player4Keys.mvDown = Keys.Home;
-            player4Keys.opMenu = Keys.Home;
-            player4Keys.run = Keys.Home;
-            player4Keys.opDebug = Keys.Home;
-            player4Keys.opCommand = Keys.Home;
-            player4Keys.useSkill = Keys.Home;
+            PlayerKeys player4Keys = new PlayerKeys();
+            player4Keys.attack.key = Keys.Home;
+            player4Keys.jump.key = Keys.Home;
+            player4Keys.defend.key = Keys.Home;
+            player4Keys.mvLeft.key = Keys.Home;
+            player4Keys.mvRight.key = Keys.Home;
+            player4Keys.mvUp.key = Keys.Home;
+            player4Keys.mvDown.key = Keys.Home;
+            player4Keys.opMenu.key = Keys.Home;
+            player4Keys.run.key = Keys.Home;
+            player4Keys.opDebug.key = Keys.Home;
+            player4Keys.opCommand.key = Keys.Home;
+            player4Keys.useSkill.key = Keys.Home;
 
             Hostile.Stats player4Stats;
             player4Stats.maxHealth = 16;

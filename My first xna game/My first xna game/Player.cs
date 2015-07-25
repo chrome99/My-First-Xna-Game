@@ -103,22 +103,6 @@ namespace My_first_xna_game
 
         public List<int> collisionsList = new List<int>();
 
-        public struct PlayerKeys
-        {
-            public Keys mvUp;
-            public Keys mvDown;
-            public Keys mvLeft;
-            public Keys mvRight;
-            public Keys attack;
-            public Keys jump;
-            public Keys defend;
-            public Keys run;
-            public Keys opMenu;
-            public Keys opDebug;
-            public Keys opCommand;
-            public Keys useSkill;
-        }
-
         public bool msgAlive
         {
             get { return msg.alive; }
@@ -639,12 +623,12 @@ namespace My_first_xna_game
         protected void UpdateInput(KeyboardState newState, KeyboardState oldState)
         {
             //command line
-            if (newState.IsKeyDown(kbKeys.opCommand) && commandKeyReleased)
+            if (newState.IsKeyDown(kbKeys.opCommand.key) && commandKeyReleased)
             {
                 commandLine.alive = !commandLine.alive;
                 commandKeyReleased = false;
             }
-            else if (!oldState.IsKeyDown(kbKeys.opCommand))
+            else if (!oldState.IsKeyDown(kbKeys.opCommand.key))
             {
                 commandKeyReleased = true;
             }
@@ -670,7 +654,7 @@ namespace My_first_xna_game
             }
 
             //cancal things, and open menu when can
-            if (newState.IsKeyDown(kbKeys.opMenu) && menuKeyReleased)
+            if (newState.IsKeyDown(kbKeys.opMenu.key) && menuKeyReleased)
             {
                 if (msg.alive)
                 {
@@ -690,7 +674,7 @@ namespace My_first_xna_game
 
                 menuKeyReleased = false;
             }
-            else if (!oldState.IsKeyDown(kbKeys.opMenu))
+            else if (!oldState.IsKeyDown(kbKeys.opMenu.key))
             {
                 menuKeyReleased = true;
             }
@@ -701,7 +685,7 @@ namespace My_first_xna_game
             }
             Combo combo;
             // -Update player speed state
-            if (newState.IsKeyDown(kbKeys.run) && enableRunning)
+            if (newState.IsKeyDown(kbKeys.run.key) && enableRunning)
             {
                 playerRunning = true;
             }
@@ -711,7 +695,7 @@ namespace My_first_xna_game
             }
 
             //if pressed attack
-            if (newState.IsKeyDown(kbKeys.attack) && attackKeyReleased)
+            if (newState.IsKeyDown(kbKeys.attack.key) && attackKeyReleased)
             {
                 comboTimer.Reset();
                 if (comboKeysList.Count == 3)
@@ -734,7 +718,7 @@ namespace My_first_xna_game
                 }
                 attackKeyReleased = false;
             }
-            else if (!oldState.IsKeyDown(kbKeys.attack))
+            else if (!oldState.IsKeyDown(kbKeys.attack.key))
             {
                 attackKeyReleased = true;
             }
@@ -746,7 +730,7 @@ namespace My_first_xna_game
             if (vehicle != null) { return; }
 
             //jump
-            if (newState.IsKeyDown(kbKeys.jump) && jumpKeyReleased)
+            if (newState.IsKeyDown(kbKeys.jump.key) && jumpKeyReleased)
             {
                 comboTimer.Reset();
                 if (comboKeysList.Count == 3)
@@ -757,13 +741,13 @@ namespace My_first_xna_game
                 Jump();
                 jumpKeyReleased = false;
             }
-            else if (!oldState.IsKeyDown(kbKeys.jump))
+            else if (!oldState.IsKeyDown(kbKeys.jump.key))
             {
                 jumpKeyReleased = true;
             }
 
             //defend
-            if (newState.IsKeyDown(kbKeys.defend) && defendKeyReleased)
+            if (newState.IsKeyDown(kbKeys.defend.key) && defendKeyReleased)
             {
                 comboTimer.Reset();
                 if (comboKeysList.Count == 3)
@@ -774,13 +758,13 @@ namespace My_first_xna_game
                 Defend();
                 defendKeyReleased = false;
             }
-            else if (!oldState.IsKeyDown(kbKeys.defend))
+            else if (!oldState.IsKeyDown(kbKeys.defend.key))
             {
                 defendKeyReleased = true;
             }
 
             //use skill
-            if (newState.IsKeyDown(kbKeys.useSkill) && useSkillKeyReleased)
+            if (newState.IsKeyDown(kbKeys.useSkill.key) && useSkillKeyReleased)
             {
 
                 //if the player is about to switch skill(holding running button) don't use skill
@@ -798,7 +782,7 @@ namespace My_first_xna_game
 
                 useSkillKeyReleased = false;
             }
-            else if (!oldState.IsKeyDown(kbKeys.useSkill))
+            else if (!oldState.IsKeyDown(kbKeys.useSkill.key))
             {
                 //switch skill (if running button is pressed and use skill button released)
                 if (!useSkillKeyReleased)
@@ -854,7 +838,7 @@ namespace My_first_xna_game
             releasedKeysCount = 0;
 
             // if pressed left
-            if (newState.IsKeyDown(kbKeys.mvLeft))
+            if (newState.IsKeyDown(kbKeys.mvLeft.key))
             {
                 if (mvLeftKeyReleased)
                 {
@@ -869,7 +853,7 @@ namespace My_first_xna_game
 
                 playerMoving = movementManager.MoveSpritesheet(this, MovementManager.Direction.left, (int)speed);
             }
-            else if (!oldState.IsKeyDown(kbKeys.mvLeft))
+            else if (!oldState.IsKeyDown(kbKeys.mvLeft.key))
             {
                 mvLeftKeyReleased = true;
             }
@@ -879,7 +863,7 @@ namespace My_first_xna_game
             }
 
             // if pressed right
-            if (newState.IsKeyDown(kbKeys.mvRight))
+            if (newState.IsKeyDown(kbKeys.mvRight.key))
             {
                 if (mvRightKeyReleased)
                 {
@@ -894,7 +878,7 @@ namespace My_first_xna_game
 
                 playerMoving = movementManager.MoveSpritesheet(this, MovementManager.Direction.right, (int)speed);
             }
-            else if (!oldState.IsKeyDown(kbKeys.mvRight))
+            else if (!oldState.IsKeyDown(kbKeys.mvRight.key))
             {
                 mvRightKeyReleased = true;
             }
@@ -904,7 +888,7 @@ namespace My_first_xna_game
             }
 
             // if pressed up
-            if (newState.IsKeyDown(kbKeys.mvUp))
+            if (newState.IsKeyDown(kbKeys.mvUp.key))
             {
                 if (mvUpKeyReleased)
                 {
@@ -919,7 +903,7 @@ namespace My_first_xna_game
 
                 playerMoving = movementManager.MoveSpritesheet(this, MovementManager.Direction.up, (int)speed);
             }
-            else if (!oldState.IsKeyDown(kbKeys.mvUp))
+            else if (!oldState.IsKeyDown(kbKeys.mvUp.key))
             {
                 mvUpKeyReleased = true;
             }
@@ -929,7 +913,7 @@ namespace My_first_xna_game
             }
 
             // if pressed down
-            if (newState.IsKeyDown(kbKeys.mvDown))
+            if (newState.IsKeyDown(kbKeys.mvDown.key))
             {
                 if (mvDownKeyReleased)
                 {
@@ -944,7 +928,7 @@ namespace My_first_xna_game
 
                 playerMoving = movementManager.MoveSpritesheet(this, MovementManager.Direction.down, (int)speed);
             }
-            else if (!oldState.IsKeyDown(kbKeys.mvDown))
+            else if (!oldState.IsKeyDown(kbKeys.mvDown.key))
             {
                 mvDownKeyReleased = true;
             }
@@ -1143,6 +1127,47 @@ namespace My_first_xna_game
             debug.Draw(spriteBatch);
             chooseSkill.Draw(spriteBatch);
             commandLine.Draw(spriteBatch);
+        }
+    }
+
+    public class PlayerKeys
+    {
+        public FirmKey mvUp = new FirmKey();
+        public FirmKey mvDown = new FirmKey();
+        public FirmKey mvLeft = new FirmKey();
+        public FirmKey mvRight = new FirmKey();
+        public FirmKey attack = new FirmKey();
+        public FirmKey jump = new FirmKey();
+        public FirmKey defend = new FirmKey();
+        public FirmKey run = new FirmKey();
+        public FirmKey opMenu = new FirmKey();
+        public FirmKey opDebug = new FirmKey();
+        public FirmKey opCommand = new FirmKey();
+        public FirmKey useSkill = new FirmKey();
+
+        public List<FirmKey> list;
+
+        public PlayerKeys()
+        {
+            mvUp.name = "Move Up";
+            mvDown.name = "Move Down";
+            mvLeft.name = "Move Left";
+            mvRight.name = "Move Right";
+            attack.name = "Attack";
+            jump.name = "Jump";
+            defend.name = "Defend";
+            run.name = "Run";
+            opMenu.name = "Menu / Cancel";
+            opDebug.name = "Debug";
+            opCommand.name = "Command Line";
+            useSkill.name = "Use Skill";
+
+            list = new List<FirmKey>()
+            {
+                mvUp, mvDown, mvLeft, mvRight,
+                attack, jump, defend, run, useSkill,
+                opMenu, opDebug, opCommand,
+            };
         }
     }
 }

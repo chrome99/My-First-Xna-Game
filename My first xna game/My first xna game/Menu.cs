@@ -123,8 +123,10 @@ namespace My_first_xna_game
             else if (options.alive)
             {
                 Game.content.Load<SoundEffect>("Audio\\Waves\\cancel").Play();
-                options.Kill();
-                choice.alive = true;
+                if (options.HandleMenuButtonPress())
+                {
+                    choice.alive = true;
+                }
                 return;
             }
             else if (alive)

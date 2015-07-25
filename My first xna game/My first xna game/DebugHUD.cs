@@ -36,7 +36,7 @@ namespace My_first_xna_game
 
         public void UpdateInput(KeyboardState newState, KeyboardState oldState)
         {
-            if (newState.IsKeyDown(player.kbKeys.opDebug) && keyReleased)
+            if (newState.IsKeyDown(player.kbKeys.opDebug.key) && keyReleased)
             {
                 if (alive)
                 {
@@ -48,7 +48,7 @@ namespace My_first_xna_game
                 }
                 keyReleased = false;
             }
-            else if (!oldState.IsKeyDown(player.kbKeys.opDebug))
+            else if (!oldState.IsKeyDown(player.kbKeys.opDebug.key))
             {
                 keyReleased = true;
             }

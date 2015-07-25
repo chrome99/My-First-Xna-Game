@@ -372,4 +372,10 @@ namespace My_first_xna_game
             base.Draw(gameTime);
         }
     }
+
+    public class FirmKey
+    {
+        public Keys key;
+        public string name;
+    }
 }

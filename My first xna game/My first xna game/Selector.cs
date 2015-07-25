@@ -74,25 +74,32 @@ namespace My_first_xna_game
             if (targets.Count == 0)
             {
                 visible = false;
+                active = false;
+                return;
             }
-            if (!visible) { return; }
 
-            UpdateCurrentTarget();
-
-            if (!opacityMaxed)
+            if (visible || active)
             {
-                opacity += 0.5f;
-                if (opacity >= 50f)
+                UpdateCurrentTarget();
+            }
+
+            if (visible)
+            {
+                if (!opacityMaxed)
                 {
-                    opacityMaxed = true;
+                    opacity += 0.5f;
+                    if (opacity >= 50f)
+                    {
+                        opacityMaxed = true;
+                    }
                 }
-            }
-            if (opacityMaxed)
-            {
-                opacity -= 0.5f;
-                if (opacity <= 30f)
+                if (opacityMaxed)
                 {
-                    opacityMaxed = false;
+                    opacity -= 0.5f;
+                    if (opacity <= 30f)
+                    {
+                        opacityMaxed = false;
+                    }
                 }
             }
 
@@ -136,18 +143,18 @@ namespace My_first_xna_game
             }
 
             //confirm
-            if (newState.IsKeyDown(player.kbKeys.attack) && confirmKeyReleased)
+            if (newState.IsKeyDown(player.kbKeys.attack.key) && confirmKeyReleased)
             {
                 handleItemChoiceFunction();
                 confirmKeyReleased = false;
             }
-            else if (!oldState.IsKeyDown(player.kbKeys.attack))
+            else if (!oldState.IsKeyDown(player.kbKeys.attack.key))
             {
                 confirmKeyReleased = true;
             }
 
             //right
-            if (newState.IsKeyDown(player.kbKeys.mvRight) && rightKeyReleased)
+            if (newState.IsKeyDown(player.kbKeys.mvRight.key) && rightKeyReleased)
             {
                 if (currentTargetNum < targets.Count - 1)
                 {
@@ -157,13 +164,13 @@ namespace My_first_xna_game
 
                 rightKeyReleased = false;
             }
-            else if (!oldState.IsKeyDown(player.kbKeys.mvRight))
+            else if (!oldState.IsKeyDown(player.kbKeys.mvRight.key))
             {
                 rightKeyReleased = true;
             }
 
             //left
-            if (newState.IsKeyDown(player.kbKeys.mvLeft) && leftKeyReleased)
+            if (newState.IsKeyDown(player.kbKeys.mvLeft.key) && leftKeyReleased)
             {
                 if (currentTargetNum > 0)
                 {
@@ -173,7 +180,7 @@ namespace My_first_xna_game
 
                 leftKeyReleased = false;
             }
-            else if (!oldState.IsKeyDown(player.kbKeys.mvLeft))
+            else if (!oldState.IsKeyDown(player.kbKeys.mvLeft.key))
             {
                 leftKeyReleased = true;
             }
@@ -182,27 +189,27 @@ namespace My_first_xna_game
             if (itemsInRow == 0) { return; }
 
             //up
-            if (newState.IsKeyDown(player.kbKeys.mvUp) && upKeyReleased)
+            if (newState.IsKeyDown(player.kbKeys.mvUp.key) && upKeyReleased)
             {
                 Game.content.Load<SoundEffect>("Audio\\Waves\\select").Play();
                 currentTargetNum = (int)MathHelper.Clamp(currentTargetNum - itemsInRow, 0, targets.Count - 1);
 
                 upKeyReleased = false;
             }
-            else if (!oldState.IsKeyDown(player.kbKeys.mvUp))
+            else if (!oldState.IsKeyDown(player.kbKeys.mvUp.key))
             {
                 upKeyReleased = true;
             }
 
             //down
-            if (newState.IsKeyDown(player.kbKeys.mvDown) && downKeyReleased)
+            if (newState.IsKeyDown(player.kbKeys.mvDown.key) && downKeyReleased)
             {
                 Game.content.Load<SoundEffect>("Audio\\Waves\\select").Play();
                 currentTargetNum = (int)MathHelper.Clamp(currentTargetNum + itemsInRow, 0, targets.Count - 1);
 
                 downKeyReleased = false;
             }
-            else if (!oldState.IsKeyDown(player.kbKeys.mvDown))
+            else if (!oldState.IsKeyDown(player.kbKeys.mvDown.key))
             {
                 downKeyReleased = true;
             }

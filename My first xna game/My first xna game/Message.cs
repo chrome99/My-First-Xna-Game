@@ -103,7 +103,7 @@ namespace My_first_xna_game
 
         private void UpdateInput(KeyboardState newState, KeyboardState oldState)
         {
-            if (newState.IsKeyDown(player.kbKeys.attack) && useKeyReleased)
+            if (newState.IsKeyDown(player.kbKeys.attack.key) && useKeyReleased)
             {
                 Game.content.Load<SoundEffect>("Audio\\Waves\\confirm").Play();
                 if (dialog == null)
@@ -137,7 +137,7 @@ namespace My_first_xna_game
                 useKeyReleased = false;
 
             }
-            else if (!oldState.IsKeyDown(player.kbKeys.attack) && notFromShop)
+            else if (!oldState.IsKeyDown(player.kbKeys.attack.key) && notFromShop)
             {
                 useKeyReleased = true;
             }

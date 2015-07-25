@@ -22,6 +22,18 @@ namespace My_first_xna_game
         private Vector2 spacing;
         private int newRow;
 
+        public bool Active
+        {
+            get { return selector.active; }
+            set { selector.active = value; }
+        }
+
+        public bool SelectorVisible
+        {
+            get { return selector.visible; }
+            set { selector.visible = value; }
+        }
+
         public int currentTargetNum
         {
             get { return selector.currentTargetNum; }
@@ -139,7 +151,7 @@ namespace My_first_xna_game
             window.UpdateSelectorAndTextBox(newState, oldState, gameTime);
             
 
-            if (selector.visible)
+            if (selector.active)
             {
                 UpdateInput(newState, oldState);
             }
@@ -147,7 +159,7 @@ namespace My_first_xna_game
 
         protected void UpdateInput(KeyboardState newState, KeyboardState oldState)
         {
-            if (newState.IsKeyDown(player.kbKeys.opMenu) && confirmKeyReleased)
+            if (newState.IsKeyDown(player.kbKeys.opMenu.key) && confirmKeyReleased)
             {
                 alive = false;
             }
