@@ -5,6 +5,8 @@
 
 This is a 2D action RPG built using XNA in Visual Studio 2013 with C#. The game features real-time combat, inventory, an interactive shop, and AI-driven enemy behavior.
 
+https://github.com/user-attachments/assets/c2721724-b415-4a91-8acc-b06932b081b7
+
 ## Features
 - **Combat System:** Throwing wolves at your enemies, and defensive moves (blocking and dodging).
 - **AI & Pathfinding:** Implements an A* pathfinding algorithm for enemy movement.
