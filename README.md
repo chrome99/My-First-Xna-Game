@@ -3,7 +3,7 @@
   <h1>My First XNA Game</h1>
 </div>
 
-This is a 2D action RPG built using XNA in Visual Studio 2013 with C#. The game features real-time combat, inventory, an interactive shop, and AI-driven enemy behavior.
+This is a 2D action RPG built back in 2015, using XNA in Visual Studio 2013 with C#. The game features real-time combat, inventory, an interactive shop, and AI-driven enemy behavior.
 
 https://github.com/user-attachments/assets/c2721724-b415-4a91-8acc-b06932b081b7
 
